@@ -20,8 +20,8 @@
             "type": "system"
         },
         {
-            "name": "",
-            "manifest": "https://path/to/module"
+            "name": "Turn Alert",
+            "manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Turn-Alert/master/module.json"
         }
     ],
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
