@@ -1,0 +1,32 @@
+{
+	"name": "ffg-star-wars-enhancements",
+	"title": "FFG Star Wars Enhancements",
+	"description": "A collection of enhancements for the amazing FFG Star Wars system",
+	"authors": [
+		{
+			"name": "Wrycu"
+		},
+		{
+			"name": "x0d0a"
+		}
+	],
+	"version": "0.0.1",
+	"minimumCoreVersion": "0.7.9",
+	"compatibleCoreVersion":"0.7.9",
+	"dependencies": [
+		{
+			"name": "starwarsffg",
+			"type": "system"
+		},
+		{
+			"name": "",
+			"manifest": "https://path/to/module"
+		}
+	],
+	"url": "https://github.com/wrycu/StarWarsFFG_Enhancements",
+	"manifest": "https://github.com/wrycu/StarWarsFFG_Enhancements/module.json",
+	"download": "",
+	"scripts": [
+		"scripts/example.js"
+	]
+}
