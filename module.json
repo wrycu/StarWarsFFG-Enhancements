@@ -17,10 +17,12 @@
     "dependencies": [
         {
             "name": "starwarsffg",
-            "type": "system"
+            "type": "system",
+            "manifest": "https://raw.githubusercontent.com/StarWarsFoundryVTT/StarWarsFFG/master/system.json"
         },
         {
             "name": "Turn Alert",
+            "type": "module",
             "manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Turn-Alert/master/module.json"
         }
     ],
