@@ -1,4 +1,5 @@
 {
+	"type": "module",
 	"name": "ffg-star-wars-enhancements",
 	"title": "FFG Star Wars Enhancements",
 	"description": "A collection of enhancements for the amazing FFG Star Wars system",
@@ -25,7 +26,6 @@
 	],
 	"url": "https://github.com/wrycu/StarWarsFFG_Enhancements",
 	"manifest": "https://github.com/wrycu/StarWarsFFG-Enhancements/blob/main/module.json",
-	"download": "",
 	"scripts": [
 		"scripts/example.js"
 	]
