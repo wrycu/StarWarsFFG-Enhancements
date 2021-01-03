@@ -24,7 +24,7 @@
 		}
 	],
 	"url": "https://github.com/wrycu/StarWarsFFG_Enhancements",
-	"manifest": "https://github.com/wrycu/StarWarsFFG_Enhancements/module.json",
+	"manifest": "https://github.com/wrycu/StarWarsFFG-Enhancements/blob/main/module.json",
 	"download": "",
 	"scripts": [
 		"scripts/example.js"
