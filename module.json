@@ -14,18 +14,6 @@
     "version": "0.0.1",
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
-    "dependencies": [
-        {
-            "name": "starwarsffg",
-            "type": "system",
-            "manifest": "https://raw.githubusercontent.com/StarWarsFoundryVTT/StarWarsFFG/master/system.json"
-        },
-        {
-            "name": "turnAlert",
-            "type": "module",
-            "manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Turn-Alert/master/module.json"
-        }
-    ],
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/dev.zip",
