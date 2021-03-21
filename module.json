@@ -29,6 +29,8 @@
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/main.zip",
+    "license": "LICENSE",
+    "readme": "README.md",
     "scripts": [
         "scripts/example.js"
     ]
