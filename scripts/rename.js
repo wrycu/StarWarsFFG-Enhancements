@@ -1,19 +1,26 @@
-Hooks.once('ready', () => {
+export function rename_actors() {
     if(!game.modules.get('lib-wrapper')?.active && game.user.isGM)
-        ui.notifications.error("Module XYZ requires the 'libWrapper' module. Please install and activate it.");
+        ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
     else {
         libWrapper.register(
             'ffg-star-wars-enhancements',
             'Combat.prototype.createEmbeddedEntity',
             async function (wrapped, ...args) {
-                if (args[0] === 'Combatant') {
+                if (args[0] === 'Combatant' && game.settings.get("ffg-star-wars-enhancements", "auto-rename-actors")) {
                     // create the combatant normally
                     var created_data = await wrapped(args[0], args[1]);
 
                     // iterate over the combatants and update each one
-                    for (i = 0; i < args[1].length; i++) {
-                        var update_data = {
-                            '_id': created_data[i]['_id'],
+                    for (var i = 0; i < args[1].length; i++) {
+                        if (Array.isArray(created_data)) {
+                            var update_data = {
+                                '_id': created_data[i]['_id'],
+                            }
+                        }
+                        else {
+                            var update_data = {
+                                '_id': created_data['_id'],
+                            }
                         }
 
                         // check the disposition and update the name and image
@@ -31,7 +38,9 @@ Hooks.once('ready', () => {
                         game.combat.updateEmbeddedEntity("Combatant", update_data, {temporary: true});
                     }
                 }
+                else
+                    await wrapped(args[0], args[1]);
             }
         )
     }
-});
+}
