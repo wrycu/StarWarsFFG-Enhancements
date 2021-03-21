@@ -24,12 +24,18 @@
             "name": "turnAlert",
             "type": "module",
             "manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Turn-Alert/master/module.json"
+        },
+        {
+            "name": "lib-wrapper",
+            "type": "module",
+            "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
         }
     ],
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/dev/module-dev.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/dev.zip",
     "scripts": [
-        "scripts/example.js"
+        "scripts/example.js",
+        "scripts/combat_rename.js"
     ]
 }
