@@ -31,7 +31,7 @@
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/main.zip",
     "license": "LICENSE",
     "readme": "README.md",
-    "scripts": [
-        "scripts/example.js"
+    "esmodules": [
+        "ffg-star-wars-enhancements.js"
     ]
 }
