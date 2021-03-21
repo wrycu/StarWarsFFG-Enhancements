@@ -34,8 +34,9 @@
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/dev/module-dev.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/dev.zip",
-    "scripts": [
-        "scripts/example.js",
-        "scripts/combat_rename.js"
+    "license": "LICENSE",
+    "readme": "README.md",
+    "esmodules": [
+        "ffg-star-wars-enhancements.js"
     ]
 }
