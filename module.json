@@ -31,6 +31,7 @@
             "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
         }
     ],
+    "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/main.zip",

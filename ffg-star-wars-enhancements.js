@@ -1,10 +1,11 @@
-import { registerSettings } from './scripts/settings.js'
-import { rename_actors } from './scripts/rename.js'
+import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
+import { init as rename_init, rename_actors } from './scripts/rename.js'
 
 Hooks.once('init', async function() {
 	console.log('ffg-star-wars-enhancements | Initializing')
 
-	registerSettings()
+	rename_init()
+    opening_crawl_init();
 
 	console.log('ffg-star-wars-enhancements | Initializing finished')
 });
@@ -12,4 +13,5 @@ Hooks.once('init', async function() {
 Hooks.once('ready', () => {
 	/* register functions for functionality here */
 	rename_actors();
+    opening_crawl_ready();
 });

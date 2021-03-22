@@ -1,3 +1,13 @@
+export function init() {
+    game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
+        name: "Auto-rename combat actors",
+        hint: "Tokens with a friendly disposition will be named to NPC; tokens with any other disposition will be set to NPC",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true,
+    });
+}
 export function rename_actors() {
     if(!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
         ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
