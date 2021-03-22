@@ -4,7 +4,8 @@ font included in this project.
 
 | Temporarium | Free alternative to the font used by FFG books. |
 | Star Jedi | Font used for the word "Star Wars" to emulate the logo. |
-| SW Crawl Title and SW Crawl Body | Used for the title and body of the opening crawl. |
+| SW Crawl Title | Used for the opening crawl title. |
+| News Cycle | Used for the opening crawl body. |
 | Aurek Besh | Galactic basic font. |
 
 See the
@@ -28,7 +29,7 @@ See Temporarium-FONTLOG.txt for additional details.
 
 See `Star Jedi font guide Word97.doc` for additional details.
 
-### SWCrawlTitle and SWCrawlBody
+### SWCrawlTitle
 
 | Author | Matt Pfingsten |
 | Year | 2002 |
@@ -42,3 +43,10 @@ See each of their respective `*Readme.rtfs` for additional details.
 | License | [Freeware](https://www.fontspace.com/aurek-besh-font-f9639) |
 
 See `Aurek-Besh font guide Word97.doc` for additional details.
+
+### News Cycle
+| Author | Nathan Willis |
+| Year | 2010-2011 |
+| License | OFL |
+
+See `NewsCycle-OFL.txt` for additional details.
