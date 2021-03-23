@@ -33,10 +33,6 @@ export function init() {
     });
 }
 
-function socket_listener(data) {
-    console.log('ffg-star-wars-enhancements | socket', data);
-}
-
 class OpeningCrawlApplication extends Application {
     constructor(options) {
       super({}, options);
@@ -66,13 +62,32 @@ class OpeningCrawlApplication extends Application {
 }
 
 export function ready() {
+    console.log("ffg-star-wars-enhancements | opening-crawl | ready");
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
+
+    // TODO: Remove this testing code
+    //launch_opening_crawl();
 }
 
 export function launch_opening_crawl() {
-    game.socket.emit('module.ffg-star-wars-enhancements', {
-        type: "opening-crawl",
-    });
     console.log("ffg-star-wars-enhancements | opening-crawl | launching");
-    console.log("ffg-star-wars-enhancements | opening-crawl | launched");
+    let data = {
+        type: "opening-crawl",
+        episode: "Episode X",
+        title: "Testing Begins",
+        body: [
+            "This is a testing message for verifying the opening-crawl is working as configured.",
+            "Pay no mind to the body of this message other than that it is being included.",
+            "This messaging will be replaced with the journal entry once available.",
+        ],
+        image: null,
+    }
+    game.socket.emit('module.ffg-star-wars-enhancements', data);
+    socket_listener(data);
+    console.log("ffg-star-wars-enhancements | opening-crawl | event emmitted");
+}
+
+function socket_listener(data) {
+    console.log('ffg-star-wars-enhancements | socket', data);
+    new OpeningCrawlApplication().render(true);
 }
