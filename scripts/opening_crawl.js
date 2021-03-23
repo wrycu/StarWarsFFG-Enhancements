@@ -37,6 +37,34 @@ function socket_listener(data) {
     console.log('ffg-star-wars-enhancements | socket', data);
 }
 
+class OpeningCrawlApplication extends Application {
+    constructor(options) {
+      super({}, options);
+    }
+  
+    static get defaultOptions() {
+      return mergeObject(super.defaultOptions, {
+        template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
+        id: "ffg-star-wars-enhancements-opening-crawl",
+        title: "Opening Crawl",
+        minimizable: false,
+        editable: false,
+        resizable: true,
+        popOut: true,
+        shareable: false,
+        top: 0,
+        left: 0,
+        width: 4096,
+        height: 2160,
+      });
+    }
+
+    activateListeners(html) {
+        console.log('ffg-star-wars-enhancements | opening-crawl | active listeners');
+        super.activateListeners(html);
+    }
+}
+
 export function ready() {
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
 }
