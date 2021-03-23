@@ -39,5 +39,8 @@
     "readme": "README.md",
     "esmodules": [
         "ffg-star-wars-enhancements.js"
+    ],
+    "styles": [
+        "styles/opening_crawl.css"
     ]
 }
