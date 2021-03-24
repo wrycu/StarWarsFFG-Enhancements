@@ -1,37 +1,43 @@
-<audio class="themeAudio" preload="auto">
-    <source src="theme.ogg" type="audio/ogg">
-    <source src="theme.mp3" type="audio/mpeg">
-</audio>
 <div class="ffg-star-wars-enhancements">
+    {{#if music}}
+    <audio preload="auto" src="{{music}}"></audio>
+    {{/if}}
     <div class="backgroundSpace"> 
-        <img src="pan-image.png"/> 
+        {{#if image}}
+        <img src="{{image}}"/> 
+        {{/if}}
     </div> 
     <div class="animation"> 
         <div class="introBackground"> 
             <div class="intro noselect">
-                A long time ago in a galaxy far,
+                {{localize "ffg-star-wars-enhancements.opening-crawl.intro-1"}}
                 <br>
-                far away....
+                {{localize "ffg-star-wars-enhancements.opening-crawl.intro-2"}}
             </div> 
         </div> 
         <div class="verticalWrapper"> 
             <div class="logo noselect"> 
-                <img class="logoDefault logoSub" src="logo.svg" style="display: block;">
+                {{#if logo}}
+                <img class="logoDefault logoSub" src="{{logo}}" style="display: block;">
+                {{else}}
                 <div class="logoSub logoText"> 
                     <div>STAR</div><div>WARS</div> 
-                </div> 
+                </div>
+                {{/if}}
             </div> 
         </div> 
         <div class="titles noselect"> 
             <div> 
                 <p class="episode tcenter">
-                    Episode Error
+                    {{episode}}
                 </p> 
                 <p class="title tcenter SWFont">
-                    Something went wrong
+                    {{title}}
                 </p> 
                 <div class="text">
-                    <p>The FFG Star Wars Enhancements module failed to render the opening crawl correctly.</p>
+                    {{#each body as |text|}}
+                    <p>{{text}}</p>
+                    {{/each}}
                 </div> 
             </div> 
         </div> 

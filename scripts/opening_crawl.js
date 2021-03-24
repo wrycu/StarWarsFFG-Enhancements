@@ -34,8 +34,9 @@ export function init() {
 }
 
 class OpeningCrawlApplication extends Application {
-    constructor(options) {
+    constructor(data, options) {
       super({}, options);
+      this.data = data;
     }
   
     static get defaultOptions() {
@@ -55,9 +56,31 @@ class OpeningCrawlApplication extends Application {
       });
     }
 
+    getData() {
+        return this.data;
+    }
+
     activateListeners(html) {
         console.log('ffg-star-wars-enhancements | opening-crawl | active listeners');
         super.activateListeners(html);
+
+        // TODO: Better integrate with Foundry's audio engine. Right now this
+        // plays at max volume, which is potentially not cool.
+
+        // When the audio tag exist, hide the HTML until the audio file is
+        // loaded. Once it's loaded, redisplay the HTML to retrigger the
+        // animation.
+        let audios = html.find('audio');
+        if (audios.length) {
+            let audio = audios[0];
+
+            html[0].style.display = "none";
+            audio.oncanplaythrough = () => {
+                html[0].style.display = "block";
+                audio.play();
+            };
+            audio.load();
+        }
     }
 }
 
@@ -80,7 +103,9 @@ export function launch_opening_crawl() {
             "Pay no mind to the body of this message other than that it is being included.",
             "This messaging will be replaced with the journal entry once available.",
         ],
+        logo: null,
         image: null,
+        music: null,
     }
     game.socket.emit('module.ffg-star-wars-enhancements', data);
     socket_listener(data);
@@ -89,5 +114,5 @@ export function launch_opening_crawl() {
 
 function socket_listener(data) {
     console.log('ffg-star-wars-enhancements | socket', data);
-    new OpeningCrawlApplication().render(true);
+    new OpeningCrawlApplication(data).render(true);
 }
