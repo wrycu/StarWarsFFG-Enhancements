@@ -118,23 +118,69 @@ export function ready() {
 }
 
 /**
+ * Parse the contents of a journal into the parts of the Opening Crawl into an
+ * object.
+ * @param {JournalEntry} journal 
+ * @returns {object|null}
+ */
+function parse_journal(journal) {
+    let journal_html = $("<div/>").append($(journal.data.content));
+
+    let episode_html = journal_html.find("h1");
+    let title_html = journal_html.find("h2");
+
+    if (episode_html.length == 0) {
+        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-episode'));
+        return null;
+    }
+    if (title_html.length == 0) {
+        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-title'));
+        return null;
+    }
+
+    var image = null;
+    let image_html = journal_html.find("p>img");
+    if (image_html.length) {
+        image = image_html.attr("src");
+        // Once the image has been extracted, remove the parent paragraph.
+        journal_html.find("p>img").parent().remove();
+    } else {
+        console.log("ffg-star-wars-enhancements | opening-crawl | no image to pan to found in journal");
+    }
+
+    let body = journal_html.find("p").map(function()  {
+        return $(this).text();
+    });
+
+    if (body.length == 0) {
+        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-body'));
+        return null;
+    }
+
+    return {
+        episode: episode_html.text(),
+        title: title_html.text(),
+        body: body,
+        image: image,
+    }
+}
+
+/**
  * Launch the opening crawl.
  */
 export function launch_opening_crawl() {
     console.log("ffg-star-wars-enhancements | opening-crawl | launching");
-    let data = {
+
+    let journal = game.journal.getName("Session I");
+
+    var data = parse_journal(journal);
+    if (!data) { return; }
+
+    data = mergeObject(data, {
         type: "opening-crawl",
-        episode: "Episode X",
-        title: "Testing Begins",
-        body: [
-            "This is a testing message for verifying the opening-crawl is working as configured.",
-            "Pay no mind to the body of this message other than that it is being included.",
-            "This messaging will be replaced with the journal entry once available.",
-        ],
         logo: null,
-        image: null,
         music: null,
-    }
+    });
     game.socket.emit('module.ffg-star-wars-enhancements', data);
     socket_listener(data);
     console.log("ffg-star-wars-enhancements | opening-crawl | event emmitted");
@@ -148,5 +194,7 @@ export function launch_opening_crawl() {
  */
 function socket_listener(data) {
     console.log('ffg-star-wars-enhancements | socket', data);
-    new OpeningCrawlApplication(data).render(true);
+    if (data.type == "opening-crawl") {
+        new OpeningCrawlApplication(data).render(true);
+    }
 }
