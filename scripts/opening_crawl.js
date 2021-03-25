@@ -162,8 +162,8 @@ export function launch_opening_crawl() {
 
     data = mergeObject(data, {
         type: "opening-crawl",
-        logo: null,
-        music: null,
+        logo: game.settings.get('ffg-star-wars-enhancements', 'title-crawl-logo'),
+        music: game.settings.get('ffg-star-wars-enhancements', 'title-crawl-music'),
     });
     game.socket.emit('module.ffg-star-wars-enhancements', data);
     socket_listener(data);
