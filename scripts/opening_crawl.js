@@ -1,3 +1,6 @@
+/**
+ * Register settings used by the opening crawl.
+ */
 export function init() {
     game.settings.register("ffg-star-wars-enhancements", "title-crawl-audio", {
         name: "Star Wars opening crawl music",
@@ -33,12 +36,23 @@ export function init() {
     });
 }
 
+/**
+ * Application that displays the Opening Crawl.
+ */
 class OpeningCrawlApplication extends Application {
+    /**
+     * @param {object} data object to provide the opening crawl template
+     * @param {object} options additional options for the application
+     */
     constructor(data, options) {
       super({}, options);
       this.data = data;
     }
-  
+ 
+    /**
+     * Configure a "full" screen with minimal controls that will display the
+     * Opening Crawl.
+     */
     static get defaultOptions() {
       return mergeObject(super.defaultOptions, {
         template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
@@ -56,10 +70,18 @@ class OpeningCrawlApplication extends Application {
       });
     }
 
+    /**
+     * Provide the data object for the template.
+     * @returns object provided to the constructor
+     */
     getData() {
         return this.data;
     }
 
+    /**
+     * Listener that times the audio playing the audio with the opening crawl.
+     * @param {jQuery} html 
+     */
     activateListeners(html) {
         console.log('ffg-star-wars-enhancements | opening-crawl | active listeners');
         super.activateListeners(html);
@@ -84,6 +106,9 @@ class OpeningCrawlApplication extends Application {
     }
 }
 
+/**
+ * Ready handler that listens on the ffg-star-wars-enhancements socket.
+ */
 export function ready() {
     console.log("ffg-star-wars-enhancements | opening-crawl | ready");
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
@@ -92,6 +117,9 @@ export function ready() {
     //launch_opening_crawl();
 }
 
+/**
+ * Launch the opening crawl.
+ */
 export function launch_opening_crawl() {
     console.log("ffg-star-wars-enhancements | opening-crawl | launching");
     let data = {
@@ -112,6 +140,12 @@ export function launch_opening_crawl() {
     console.log("ffg-star-wars-enhancements | opening-crawl | event emmitted");
 }
 
+/**
+ * Listener for the ffg-star-wars-enhancements socket that launches the
+ * OpeningCrawlApplication if the message type is "opening-crawl"
+ * 
+ * @param {object} data object passed to OpeningCrawlApplication
+ */
 function socket_listener(data) {
     console.log('ffg-star-wars-enhancements | socket', data);
     new OpeningCrawlApplication(data).render(true);
