@@ -234,3 +234,19 @@ class OpeningCrawlSelectApplication extends FormApplication {
         console.log("ffg-star-wars-enhancements | opening-crawl | journal selection complete");
     }
 }
+
+export function create_opening_crawl() {
+    let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
+
+    let folder = game.folders.getName(folder_name);
+    if (!folder) {
+        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
+        throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
+    }
+    let data = {
+        "name": "Episode X",
+        "folder": folder.id,
+        "content": "<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><p><img src=\"modules/ffg-star-wars-enhancements/artwork/planet.png\"/></p>",
+    };
+    JournalEntry.create(data).then(journal => {journal.sheet.render(true)});
+}
