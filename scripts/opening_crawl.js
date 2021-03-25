@@ -2,9 +2,9 @@
  * Register settings used by the opening crawl.
  */
 export function init() {
-    game.settings.register("ffg-star-wars-enhancements", "title-crawl-audio", {
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-audio'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-audio-hint'),
+    game.settings.register("ffg-star-wars-enhancements", "title-crawl-music", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-music'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-music-hint'),
         scope: "world",
         config: true,
         type: String,
