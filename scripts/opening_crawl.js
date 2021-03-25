@@ -2,6 +2,14 @@
  * Register settings used by the opening crawl.
  */
 export function init() {
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-folder", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder-hint'),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+    });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music", {
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
@@ -189,12 +197,12 @@ class OpeningCrawlSelectApplication extends FormApplication {
       });
     }
     getData() {
-        let folder_name = "Opening Crawls";
+        let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
 
         let folder = game.folders.getName(folder_name);
         if (!folder) {
             ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
-            return;
+            throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
         }
         let journals = folder.content.map(journal => {
             return {
