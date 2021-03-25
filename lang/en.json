@@ -14,10 +14,10 @@
   "ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint": "Provide an alternative logo for the opening crawl. The default logo uses a copyright safe font.",
   "ffg-star-wars-enhancements.opening-crawl.intro-1": "A long time ago in a galaxy far,",
   "ffg-star-wars-enhancements.opening-crawl.intro-2": "far away....",
-  "ffg-star-wars-enhancements.opening-crawl.missing-episode": "Unable to find episode in journal",
-  "ffg-star-wars-enhancements.opening-crawl.missing-title": "Unable to find title in journal",
-  "ffg-star-wars-enhancements.opening-crawl.missing-body": "Unable to find body in journal",
-  "ffg-star-wars-enhancements.opening-crawl.missing-folder": "Unable to find opening crawl folder",
-  "ffg-star-wars-enhancements.opening-crawl.select-joural": "Select an opening crawl",
-  "ffg-star-wars-enhancements.opening-crawl.launch": "launch"
+  "ffg-star-wars-enhancements.opening-crawl.missing-episode": "Unable to find episode (h1 tag) in journal.",
+  "ffg-star-wars-enhancements.opening-crawl.missing-title": "Unable to find title (h2 tag) in journal.",
+  "ffg-star-wars-enhancements.opening-crawl.missing-body": "Unable to find body (paragraphs) in journal.",
+  "ffg-star-wars-enhancements.opening-crawl.missing-folder": "Unable to open opening crawl journal folder. Check the ffg-star-wars-enhancements module settings.",
+  "ffg-star-wars-enhancements.opening-crawl.select-joural": "Select an opening crawl: ",
+  "ffg-star-wars-enhancements.opening-crawl.launch": "Launch"
 }
