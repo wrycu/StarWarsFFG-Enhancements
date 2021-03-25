@@ -1,9 +1,7 @@
 export function init() {
     game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
-        name: "Auto-rename combat actors",
-        hint: "Tokens with a friendly disposition will be named to NPC; tokens with any other disposition will be set to NPC",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.rename-auto'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.rename-auto-hint'),
+        name: game.i18n.localize('ffg-star-wars-enhancements.rename.auto'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.rename.auto-hint'),
         scope: "world",
         config: true,
         type: Boolean,
