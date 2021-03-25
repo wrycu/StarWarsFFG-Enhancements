@@ -1,0 +1,13 @@
+<form>
+    <fieldset>
+        <legend>{{folder_name}}</legend>
+        <label>{{localize "ffg-star-wars-enhancements.opening-crawl.select-joural"}} 
+            <select name="journal_id">
+                {{#each journals as |journal|}}
+                <option value="{{journal.id}}">{{journal.name}}</option>
+                {{/each}}
+            </select>
+        </label>
+        <input type="submit" value="{{localize "ffg-star-wars-enhancements.opening-crawl.launch"}}" />
+    </fieldset>
+</form>
