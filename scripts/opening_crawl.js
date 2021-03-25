@@ -139,7 +139,7 @@ function parse_journal(journal) {
 
     let body = journal_html.find("p").map(function()  {
         return $(this).text();
-    });
+    }).toArray();
 
     if (body.length == 0) {
         ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-body'));
