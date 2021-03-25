@@ -9,5 +9,8 @@
   "ffg-star-wars-enhancements.opening-crawl.intro-2": "far away....",
   "ffg-star-wars-enhancements.opening-crawl.missing-episode": "Unable to find episode in journal",
   "ffg-star-wars-enhancements.opening-crawl.missing-title": "Unable to find title in journal",
-  "ffg-star-wars-enhancements.opening-crawl.missing-body": "Unable to find body in journal"
+  "ffg-star-wars-enhancements.opening-crawl.missing-body": "Unable to find body in journal",
+  "ffg-star-wars-enhancements.opening-crawl.missing-folder": "Unable to find opening crawl folder",
+  "ffg-star-wars-enhancements.opening-crawl.select-joural": "Select an opening crawl",
+  "ffg-star-wars-enhancements.opening-crawl.launch": "launch"
 }

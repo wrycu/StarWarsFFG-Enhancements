@@ -98,7 +98,7 @@ export function ready() {
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
 
     // TODO: Remove this testing code
-    //launch_opening_crawl();
+    //new OpeningCrawlSelectApplication().render(true);
 }
 
 /**
@@ -151,14 +151,10 @@ function parse_journal(journal) {
 
 /**
  * Launch the opening crawl.
+ * @param {object} data
  */
-export function launch_opening_crawl() {
+export function launch_opening_crawl(data) {
     console.log("ffg-star-wars-enhancements | opening-crawl | launching");
-
-    let journal = game.journal.getName("Session I");
-
-    var data = parse_journal(journal);
-    if (!data) { return; }
 
     data = mergeObject(data, {
         type: "opening-crawl",
@@ -180,5 +176,53 @@ function socket_listener(data) {
     console.log('ffg-star-wars-enhancements | socket', data);
     if (data.type == "opening-crawl") {
         new OpeningCrawlApplication(data).render(true);
+    }
+}
+
+
+class OpeningCrawlSelectApplication extends FormApplication {
+    static get defaultOptions() {
+      return mergeObject(super.defaultOptions, {
+        template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
+        id: "ffg-star-wars-enhancements-opening-crawl-select",
+        title: "Select an Opening Crawl",
+      });
+    }
+    getData() {
+        let folder_name = "Opening Crawls";
+
+        let folder = game.folders.getName(folder_name);
+        if (!folder) {
+            ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
+            return;
+        }
+        let journals = folder.content.map(journal => {
+            return {
+                id: journal.data._id,
+                name: journal.data.name,
+            }
+        });
+
+        return {
+            folder_name: folder_name,
+            journals: journals,
+        };
+    }
+    _updateObject(event, data) {
+        console.log("ffg-star-wars-enhancements | opening-crawl | journal selected");
+        let journal = game.journal.get(data.journal_id);
+        if (!journal) {
+            console.log("ffg-star-wars-enhancements | opening-crawl | failed to open journal after selection");
+            return;
+        }
+
+        var data = parse_journal(journal);
+        if (!data) {
+            console.log("ffg-star-wars-enhancements | opening-crawl | failed to parse journal");
+            return;
+        }
+
+        launch_opening_crawl(data);
+        console.log("ffg-star-wars-enhancements | opening-crawl | journal selection complete");
     }
 }
