@@ -58,7 +58,7 @@
 	--intro-ending-delay: calc((86s + var(--extra-time)) * var(--time-factor));
 }
 
-.ffg-star-wars-enhancements {
+.ffg-star-wars-enhancements-opening-crawl {
 	position: relative;
 	margin: 0;
 	width: 100%;
@@ -75,7 +75,7 @@
 	font-variant-ligatures: none;
 }
 
-.ffg-star-wars-enhancements .verticalWrapper {
+.ffg-star-wars-enhancements-opening-crawl .verticalWrapper {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -87,7 +87,7 @@
 	height: 100%;
 }
 
-.ffg-star-wars-enhancements .introBackground {
+.ffg-star-wars-enhancements-opening-crawl .introBackground {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -101,7 +101,7 @@
 	animation: introBackgroundAnimation var(--intro-background-duration);
 }
 
-.ffg-star-wars-enhancements .introBackground .intro {
+.ffg-star-wars-enhancements-opening-crawl .introBackground .intro {
 	padding-right: 5%;
 	padding-left: 5%;
 	color: #4bd5ee;
@@ -112,7 +112,7 @@
 	animation: introTextAnimation var(--intro-text-duration) ease-out var(--intro-text-delay);
 }
 
-.ffg-star-wars-enhancements .logo {
+.ffg-star-wars-enhancements-opening-crawl .logo {
 	position: static;
 	text-align: center;
 	font-family: StarJedi;
@@ -122,11 +122,11 @@
 	animation: logoAnimation var(--intro-logo-duration) cubic-bezier(0.11, 0.6, 0.48, 0.88) var(--intro-logo-delay);
 }
 
-.ffg-star-wars-enhancements .logo .logoSub {
+.ffg-star-wars-enhancements-opening-crawl .logo .logoSub {
 	width: 100%;
 }
 
-.ffg-star-wars-enhancements .logo .logoText {
+.ffg-star-wars-enhancements-opening-crawl .logo .logoText {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -137,11 +137,11 @@
 	letter-spacing: normal;
 }
 
-.ffg-star-wars-enhancements .logo .logoText div {
+.ffg-star-wars-enhancements-opening-crawl .logo .logoText div {
 	white-space: nowrap;
 }
 
-.ffg-star-wars-enhancements .titles {
+.ffg-star-wars-enhancements-opening-crawl .titles {
 	position: absolute;
 	top: auto;
 	bottom: 0;
@@ -157,36 +157,36 @@
 	transform: perspective(300px) rotateX(25deg);
 }
 
-.ffg-star-wars-enhancements .titles > div {
+.ffg-star-wars-enhancements-opening-crawl .titles > div {
 	position: absolute;
 	top: 100%;
 	width: 100%;
 	animation: titlesAnimation var(--intro-crawl-duration) linear var(--intro-crawl-delay) forwards;
 }
 
-.ffg-star-wars-enhancements .titles > div > p {
+.ffg-star-wars-enhancements-opening-crawl .titles > div > p {
 	margin: 1.35em 0 1.85em 0;
 	line-height: 1.35em;
 	backface-visibility: hidden;
 }
 
-.ffg-star-wars-enhancements .titles > div .tcenter {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .tcenter {
 	margin: 1.35em 0 -1em 0;
 	text-align: center;
 }
 
-.ffg-star-wars-enhancements .titles > div .episode {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .episode {
 	margin-bottom: -2em;
 }
 
-.ffg-star-wars-enhancements .titles > div .title {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .title {
 	transform: scaleY(2);
 	margin-top: 3.5em;
 	margin-bottom: 1.6em;
 	text-transform: uppercase;
 }
 
-.ffg-star-wars-enhancements .titles > div .SWFont {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .SWFont {
 	margin-top: 1.35em;
 	margin-bottom: -0.1em;
 	transform: scaleY(1);
@@ -196,15 +196,15 @@
 	text-transform: lowercase;
 }
 
-.ffg-star-wars-enhancements .titles > div .text {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .text {
 	line-height: 1.4em;
 }
 
-.ffg-star-wars-enhancements .titles > div .text p {
+.ffg-star-wars-enhancements-opening-crawl .titles > div .text p {
 	margin: 1em 0;
 }
 
-.ffg-star-wars-enhancements .backgroundSpace {
+.ffg-star-wars-enhancements-opening-crawl .backgroundSpace {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -213,18 +213,18 @@
 	background: url("/modules/ffg-star-wars-enhancements/artwork/stars.png") repeat;
 }
 
-.ffg-star-wars-enhancements .backgroundSpace img {
+.ffg-star-wars-enhancements-opening-crawl .backgroundSpace img {
 	position: absolute;
 	bottom: 1300px;
 	right: 0;
 }
 
 
-.ffg-star-wars-enhancements {
+.ffg-star-wars-enhancements-opening-crawl {
 	display: initial;
 }
 
-.ffg-star-wars-enhancements .backgroundSpace {
+.ffg-star-wars-enhancements-opening-crawl .backgroundSpace {
 	animation: scrolldown var(--intro-ending-duration) var(--intro-ending-delay) forwards;
 }
 
