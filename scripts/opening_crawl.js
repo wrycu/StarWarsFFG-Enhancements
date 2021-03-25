@@ -3,36 +3,20 @@
  */
 export function init() {
     game.settings.register("ffg-star-wars-enhancements", "title-crawl-audio", {
-        name: "Star Wars opening crawl music",
-        hint: "Provide music to play during the opening crawl. The crawl is timed with the original audio with 8-9 seconds of silence.",
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-audio'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-audio-hint'),
         scope: "world",
         config: true,
         type: String,
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "title-crawl-logo", {
-        name: "Star Wars opening crawl logo",
-        hint: "Provide an alternative logo for the opening crawl. The default logo uses a copyright safe font.",
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-logo'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-logo-hint'),
         scope: "world",
         config: true,
         type: String,
         default: "",
-    });
-    game.settings.register("ffg-star-wars-enhancements", "title-crawl-contents", {
-        name: "Star Wars opening crawl contents",
-        hint: "Contents of the opening crawl.",
-        scope: "world",
-        config: false,
-        type: String,
-        default: "",
-    });
-    game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
-        name: "Auto-rename combat actors",
-        hint: "Tokens with a friendly disposition will be named to NPC; tokens with any other disposition will be set to NPC",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: true,
     });
 }
 
