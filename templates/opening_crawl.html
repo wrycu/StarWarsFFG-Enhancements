@@ -2,44 +2,44 @@
     {{#if music}}
     <audio preload="auto" src="{{music}}"></audio>
     {{/if}}
-    <div class="backgroundSpace"> 
+    <div class="backgroundSpace">
         {{#if image}}
-        <img src="{{image}}"/> 
+        <img src="{{image}}"/>
         {{/if}}
-    </div> 
-    <div class="animation"> 
-        <div class="introBackground"> 
+    </div>
+    <div class="animation">
+        <div class="introBackground">
             <div class="intro noselect">
                 {{localize "ffg-star-wars-enhancements.opening-crawl.intro-1"}}
                 <br>
                 {{localize "ffg-star-wars-enhancements.opening-crawl.intro-2"}}
-            </div> 
-        </div> 
-        <div class="verticalWrapper"> 
-            <div class="logo noselect"> 
+            </div>
+        </div>
+        <div class="verticalWrapper">
+            <div class="logo noselect">
                 {{#if logo}}
                 <img class="logoDefault logoSub" src="{{logo}}" style="display: block;">
                 {{else}}
-                <div class="logoSub logoText"> 
-                    <div>STAR</div><div>WARS</div> 
+                <div class="logoSub logoText">
+                    <div>STAR</div><div>WARS</div>
                 </div>
                 {{/if}}
-            </div> 
-        </div> 
-        <div class="titles noselect"> 
-            <div> 
+            </div>
+        </div>
+        <div class="titles noselect">
+            <div>
                 <p class="episode tcenter">
                     {{episode}}
-                </p> 
+                </p>
                 <p class="title tcenter SWFont">
                     {{title}}
-                </p> 
+                </p>
                 <div class="text">
                     {{#each body as |text|}}
                     <p>{{text}}</p>
                     {{/each}}
-                </div> 
-            </div> 
-        </div> 
-    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
