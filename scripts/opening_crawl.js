@@ -49,7 +49,7 @@ class OpeningCrawlApplication extends Application {
       return mergeObject(super.defaultOptions, {
         template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
         id: "ffg-star-wars-enhancements-opening-crawl",
-        title: "Opening Crawl",
+        title: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title'),
         minimizable: false,
         editable: false,
         resizable: true,
@@ -104,9 +104,6 @@ class OpeningCrawlApplication extends Application {
 export function ready() {
     console.log("ffg-star-wars-enhancements | opening-crawl | ready");
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
-
-    // TODO: Remove this testing code
-    //new OpeningCrawlSelectApplication().render(true);
 }
 
 /**
@@ -187,13 +184,16 @@ function socket_listener(data) {
     }
 }
 
+export function select_opening_crawl() {
+    new OpeningCrawlSelectApplication().render(true);
+}
 
 class OpeningCrawlSelectApplication extends FormApplication {
     static get defaultOptions() {
       return mergeObject(super.defaultOptions, {
         template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
         id: "ffg-star-wars-enhancements-opening-crawl-select",
-        title: "Select an Opening Crawl",
+        title: game.i18n.localize('ffg-star-wars-enhancements.controls.opening-crawl.title'),
       });
     }
     getData() {

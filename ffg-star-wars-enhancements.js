@@ -1,4 +1,4 @@
-import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
+import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 
 Hooks.once('init', async function() {
@@ -14,4 +14,26 @@ Hooks.once('ready', () => {
 	/* register functions for functionality here */
 	rename_actors();
     opening_crawl_ready();
+});
+
+Hooks.on("getSceneControlButtons", (controls) => {
+	if (game.user.isGM) {
+		controls.push({
+			name: game.i18n.localize("ffg-star-wars-enhancements.controls.name"),
+			title: game.i18n.localize("ffg-star-wars-enhancements.controls.title"),
+			layer: "ControlsLayer",
+			icon: "fa fa-jedi",
+			tools: [
+				{
+					name: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.name"),
+					title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
+					icon: "fas fa-journal-whills",
+					button: true,
+					onClick: () => {
+						select_opening_crawl();
+					},
+				}
+			]
+		});
+	}
 });
