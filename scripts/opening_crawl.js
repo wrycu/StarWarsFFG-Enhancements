@@ -2,17 +2,17 @@
  * Register settings used by the opening crawl.
  */
 export function init() {
-    game.settings.register("ffg-star-wars-enhancements", "title-crawl-music", {
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-music'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-music-hint'),
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
         scope: "world",
         config: true,
         type: String,
         default: "",
     });
-    game.settings.register("ffg-star-wars-enhancements", "title-crawl-logo", {
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-logo'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title-crawl-logo-hint'),
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
         scope: "world",
         config: true,
         type: String,
@@ -158,8 +158,8 @@ export function launch_opening_crawl(data) {
 
     data = mergeObject(data, {
         type: "opening-crawl",
-        logo: game.settings.get('ffg-star-wars-enhancements', 'title-crawl-logo'),
-        music: game.settings.get('ffg-star-wars-enhancements', 'title-crawl-music'),
+        logo: game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-logo'),
+        music: game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-music'),
     });
     game.socket.emit('module.ffg-star-wars-enhancements', data);
     socket_listener(data);
