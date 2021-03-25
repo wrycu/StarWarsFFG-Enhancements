@@ -1,95 +1,95 @@
 export function init () {
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
-        name: "Attack animation for Brawl",
-        hint: "Animation file for Brawl attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
-        name: "Attack sound for Brawl",
-        hint: "Sound file for Brawl attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
         scope: "world",
         config: true,
         type: String,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
-        name: "Attack animation for Lightsaber",
-        hint: "Animation file for Lightsaber attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
-        name: "Attack sound for Lightsaber",
-        hint: "Sound file for Lightsaber attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
         scope: "world",
         config: true,
         type: String,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
-        name: "Attack animation for Melee",
-        hint: "Animation file for Melee attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
-        name: "Attack sound for Melee",
-        hint: "Sound file for Melee attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
         scope: "world",
         config: true,
         type: String,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
-        name: "Attack animation for Gunnery",
-        hint: "Animation file for Gunnery attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
-        name: "Attack sound for Gunnery",
-        hint: "Sound file for Gunnery attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
         scope: "world",
         config: true,
         type: String,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
-        name: "Attack animation for Ranged: Heavy",
-        hint: "Animation file for Ranged: Heavy attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
-        name: "Attack sound for Ranged: Heavy",
-        hint: "Sound file for Ranged: Heavy attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
         scope: "world",
         config: true,
         type: String,
         default: '',
     })
         game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
-        name: "Attack animation for Ranged: Light",
-        hint: "Animation file for Ranged: Light attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
         config: true,
         type: String,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
-        name: "Attack sound for Ranged: Light",
-        hint: "Sound file for Ranged: Light attacks",
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
         scope: "world",
         config: true,
         type: String,
