@@ -3,6 +3,13 @@
     "name": "ffg-star-wars-enhancements",
     "title": "FFG Star Wars Enhancements",
     "description": "A collection of enhancements for the amazing FFG Star Wars system",
+    "languages": [
+        {
+        "lang": "en",
+        "name": "English",
+        "path": "lang/en.json"
+        }
+    ],
     "authors": [
         {
             "name": "Wrycu"
@@ -31,6 +38,7 @@
             "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
         }
     ],
+    "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/main.zip",
@@ -38,5 +46,8 @@
     "readme": "README.md",
     "esmodules": [
         "ffg-star-wars-enhancements.js"
+    ],
+    "styles": [
+        "styles/opening_crawl.css"
     ]
 }

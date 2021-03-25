@@ -1,3 +1,13 @@
+export function init() {
+    game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.rename.auto'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.rename.auto-hint'),
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true,
+    });
+}
 export function rename_actors() {
     if(!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
         ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
