@@ -1,10 +1,11 @@
+import { setting_image, setting_audio } from './settings.js'
 export function init () {
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
@@ -12,7 +13,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
@@ -20,7 +21,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
@@ -28,7 +29,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
@@ -36,7 +37,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
@@ -44,7 +45,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
@@ -52,7 +53,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
@@ -60,7 +61,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
@@ -68,7 +69,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
@@ -76,7 +77,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
         game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
@@ -84,7 +85,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
@@ -92,7 +93,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: '',
     })
 }
