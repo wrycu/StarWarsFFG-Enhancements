@@ -1,3 +1,4 @@
+import { setting_image, setting_audio } from './settings.js'
 /**
  * Register settings used by the opening crawl.
  */
@@ -15,7 +16,7 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
@@ -23,7 +24,7 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: "",
     });
 }
