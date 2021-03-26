@@ -1,3 +1,4 @@
+import { init as settings_init } from './scripts/settings.js'
 import { init as attack_animation_init, attack_animation } from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl, create_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
@@ -5,6 +6,8 @@ import { init as rename_init, rename_actors } from './scripts/rename.js'
 Hooks.once('init', async function() {
 	console.log('ffg-star-wars-enhancements | Initializing')
 
+	settings_init()
+	rename_init()
 	rename_init();
 	attack_animation_init();
     opening_crawl_init();

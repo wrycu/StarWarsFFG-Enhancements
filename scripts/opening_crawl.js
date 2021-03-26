@@ -1,3 +1,4 @@
+import { setting_image, setting_audio } from './settings.js'
 /**
  * Register settings used by the opening crawl.
  */
@@ -15,7 +16,7 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_audio,
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
@@ -23,7 +24,7 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
         scope: "world",
         config: true,
-        type: String,
+        type: setting_image,
         default: "",
     });
 }
@@ -71,6 +72,20 @@ class OpeningCrawlApplication extends Application {
     }
 
     /**
+     * Play this.data.music using the Playlist volume.
+     * @param {function} callback callback to execute once playback has started
+     */
+    play_music(callback) {
+        let volume = game.settings.get("core", "globalPlaylistVolume");
+        this.howl = game.audio.create({src: this.data.music, preload:true, volume:volume})
+        this.howl.once("load", () => {
+            this.howl.play();
+            callback();
+        });
+        this.howl.load();
+    }
+
+    /**
      * Listener that times the audio playing the audio with the opening crawl.
      * @param {jQuery} html 
      */
@@ -78,23 +93,35 @@ class OpeningCrawlApplication extends Application {
         console.log('ffg-star-wars-enhancements | opening-crawl | active listeners');
         super.activateListeners(html);
 
-        // TODO: Better integrate with Foundry's audio engine. Right now this
-        // plays at max volume, which is potentially not cool.
-
-        // When the audio tag exist, hide the HTML until the audio file is
+        // When music is configured, hide the HTML until the audio loaded is
         // loaded. Once it's loaded, redisplay the HTML to retrigger the
         // animation.
-        let audios = html.find('audio');
-        if (audios.length) {
-            let audio = audios[0];
+        if (this.data.music) {
+            function start_animation() {
+                html[0].style.display = "block"; 
+            }
 
             html[0].style.display = "none";
-            audio.oncanplaythrough = () => {
-                html[0].style.display = "block";
-                audio.play();
-            };
-            audio.load();
+
+            // Audio cannot autoplay in a window that the user has not
+            // interacted with. The audio helper will queue up sounds until the
+            // user interacts with the window. If we don't wait for the user to
+            // interact with the window, the music will start delayed.
+            if (game.audio.locked) {
+                game.audio.pending.push(() => {
+                    this.play_music(start_animation);
+                });
+            } else {
+                this.play_music(start_animation);
+            }
         }
+    }
+
+    close() {
+        if (this.howl) {
+            this.howl.stop();
+        }
+        return super.close();
     }
 }
 
@@ -190,11 +217,11 @@ export function select_opening_crawl() {
 
 class OpeningCrawlSelectApplication extends FormApplication {
     static get defaultOptions() {
-      return mergeObject(super.defaultOptions, {
-        template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
-        id: "ffg-star-wars-enhancements-opening-crawl-select",
-        title: game.i18n.localize('ffg-star-wars-enhancements.controls.opening-crawl.title'),
-      });
+        return mergeObject(super.defaultOptions, {
+            template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
+            id: "ffg-star-wars-enhancements-opening-crawl-select",
+            title: game.i18n.localize('ffg-star-wars-enhancements.controls.opening-crawl.title'),
+        });
     }
     getData() {
         let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
