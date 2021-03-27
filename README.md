@@ -21,4 +21,4 @@ This module is designed to supplement the
 
 ## Contributing
 
-See (CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
