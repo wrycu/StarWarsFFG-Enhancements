@@ -1,5 +1,8 @@
 # Contributing Guidelines
 
+**Don't** include assets whose license or copyright conflict with this
+project's MIT license.
+
 **Do** follow [git best practices][1] wherever possible.
 
 **Do** feel free to pester the project maintainers about the PR if it
