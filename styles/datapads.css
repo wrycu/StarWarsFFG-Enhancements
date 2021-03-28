@@ -1,0 +1,132 @@
+@font-face {
+    font-family: Temporarium;
+    src: url("/modules/ffg-star-wars-enhancements/fonts/Temporarium.otf");
+}
+@font-face {
+    font-family: AurekBesh;
+    src: url("/modules/ffg-star-wars-enhancements/fonts/Aurek-Besh.ttf");
+}
+@font-face {
+    font-family: AnakinMono;
+    src: url("/modules/ffg-star-wars-enhancements/fonts/anakinmono.ttf");
+}
+
+.swdatapad {
+    background-image: url('/modules/ffg-star-wars-enhancements/artwork/datapad-template-700w.png');
+    background-repeat: no-repeat;
+    width: 700px;
+    min-height: 1000px;
+    display: block;
+    padding: 75px 50px;
+    color: #d0faff;
+    font-size: 18px;
+    font-family: Temporarium;
+}
+.swdatapad table {
+    font-size: 12px
+}
+
+.swdatapad-wanted {
+    background-image: url('/modules/ffg-star-wars-enhancements/artwork/datapad-template-wanted-700w.png');
+    background-repeat: no-repeat;
+    width: 700px;
+    min-height: 1000px;
+    display: block;
+    padding: 65px 65px;
+    color: #d0faff;
+    font-size: 18px;
+    font-family: Temporarium;
+    color: #02e3dd;
+}
+
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+/* Strip the text to look like a terminal */
+.swdatapad-wanted>* {
+    color: transparent;
+    background-color: #02e3dd;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        #02e3dd,
+        #02e3dd 2px,
+        #01bbb7 2px,
+        #01bbb7 4px
+    );
+}
+
+/* Float images and tint them with the stripe effect */
+.swdatapad-wanted .image-float {
+    float: right;
+    border-left: solid 10px #000000;
+    filter: sepia(100%) saturate(300%) brightness(60%) hue-rotate(130deg);
+}
+.swdatapad-wanted .image-float:after {
+    content:'';
+    position:absolute;
+    left:0; top:0;
+    width:100%; height:100%;
+    display:inline-block;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(2,227,221,0.25),
+        rgba(2,227,221,0.35) 2px,
+        rgba(1,187,183,0.55) 2px,
+        rgba(1,187,183,0.55) 4px
+    );
+}
+
+
+.swdatapad-wanted h1 {
+    font-family: AurekBesh;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border-bottom: 2px solid #02e3dd;
+    border-top: 2px solid #02e3dd;
+}
+.swdatapad-wanted h2 {
+    font-family: AnakinMono;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 2px solid #02e3dd;
+}
+.swdatapad-wanted h3 {
+    margin-right: 0.5em;
+    font-family: AnakinMono;
+    font-weight: bold;
+    font-size: 16px;
+}
+.swdatapad-wanted p {
+    font-size: 14px;
+    margin-bottom: 1em;
+}
+.swdatapad-wanted .credits {
+    font-family: AurekBesh;
+}
+
+.swdatapad-wanted table {
+    font-size: 14px;
+    border-bottom: 2px solid #02e3dd;
+    border-top: 2px solid #02e3dd;
+}
+.swdatapad-wanted tr:first-child>* {
+    padding-top: 1em;
+}
+.swdatapad-wanted tr:last-child>* {
+    padding-bottom: 1em;
+}
+.swdatapad-wanted table tr:nth-child(2n) {
+    background-color: inherit;
+}
+.swdatapad-wanted table td, .swdatapad-wanted table th {
+    padding: 0.2em 0;
+    line-height: 1.5em;
+    text-align: left;
+    vertical-align: top;
+}

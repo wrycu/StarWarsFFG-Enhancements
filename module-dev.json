@@ -41,6 +41,7 @@
         "ffg-star-wars-enhancements.js"
     ],
     "styles": [
-        "styles/opening_crawl.css"
+        "styles/opening_crawl.css",
+        "styles/datapads.css"
     ]
 }
