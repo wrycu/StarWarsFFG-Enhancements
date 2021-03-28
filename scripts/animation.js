@@ -178,7 +178,7 @@ export function attack_animation() {
                 let wrapped_data = wrapped(...args);
                 // todo: based on dice results, we could have the animation miss
                 log('attack_animation', 'Playing the attack animation');
-                play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file']);
+                play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file'], skill);
                 return wrapped_data
             }
             else {
@@ -191,11 +191,15 @@ export function attack_animation() {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
-async function play_animation(animation_file, sound_file) {
+async function play_animation(animation_file, sound_file, skill) {
     const tokens = canvas.tokens.controlled;
     var arrayLength = game.user.targets.size;
     for (var i = 0; i < arrayLength; i++) {
-        var num_shots = Math.floor((Math.random() * 6) + 1);
+        if (['Melee', 'Brawl', 'Lightsaber'].indexOf(skill) > -1) {
+            var num_shots = 1;
+        } else {
+            var num_shots = Math.floor((Math.random() * 6) + 1);
+        }
         for (var x = 0; x < num_shots; x++) {
             let ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
 
