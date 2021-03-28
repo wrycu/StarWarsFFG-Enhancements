@@ -1,4 +1,6 @@
 import { setting_image, setting_audio } from './settings.js'
+import { log_msg as log } from './util.js'
+
 export function init () {
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
@@ -102,14 +104,17 @@ export function attack_animation() {
     var error = false;
     /* check for the required modules */
     if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
+        log('attack_animation', 'libWrapper was not loaded. Not attempting attack animation');
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'libWrapper' module. Please install and activate it.");
         error = true;
     }
     if (!game.modules.get('fxmaster')?.active && game.user.isGM) {
+        log('attack_animation', 'fxmaster was not loaded. Not attempting attack animation');
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'FXMaster' module. Please install and activate it.");
         error = true;
     }
     if (!game.modules.get('JB2A_DnD5e')?.active && game.user.isGM) {
+        log('attack_animation', 'JB2A was not loaded. Not attempting attack animation');
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'jb2a' module. Please install and activate it.");
         error = true;
     }
@@ -126,6 +131,7 @@ export function attack_animation() {
         'ffg-star-wars-enhancements',
         'game.ffg.RollFFG.prototype.toMessage',
         function (wrapped, ...args) {
+            log('attack_animation', 'Detected FFG dice roll, checking to see if this is a combat skill');
             let skill = args[0]['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
             let combat_skills = {
                 /* melee animations */
@@ -156,19 +162,22 @@ export function attack_animation() {
                 },
             };
             if (skill in combat_skills) {
-                // combat skill
+                log('attack_animation', 'Determined that ' + skill + ') is a combat skill');
                 /* check if things are configured for us to continue */
                 if (game.user.targets.size === 0) {
-                    ui.notifications.warn('You must target at least one token as a target');
+                    ui.notifications.warn('You must target at least one token as a target or disable attack animations');
+                    log('attack_animation', 'Aborted attack animation because there were no targets selected');
                     return wrapped(...args);
                 }
 
                 if (canvas.tokens.controlled.length === 0) {
-                    ui.notifications.warn("Please select the attacker");
+                    ui.notifications.warn("Please select the attacker or disable attack animations");
+                    log('attack_animation', 'Aborted attack animation because no source targets were selected');
                     return wrapped(...args);
                 }
                 let wrapped_data = wrapped(...args);
                 // todo: based on dice results, we could have the animation miss
+                log('attack_animation', 'Playing the attack animation');
                 play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file']);
                 return wrapped_data
             }

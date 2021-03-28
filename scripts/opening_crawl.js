@@ -1,4 +1,5 @@
 import { setting_image, setting_audio } from './settings.js'
+import { log_msg as log } from './util.js'
 /**
  * Register settings used by the opening crawl.
  */
@@ -41,7 +42,7 @@ class OpeningCrawlApplication extends Application {
       super({}, options);
       this.data = data;
     }
- 
+
     /**
      * Configure a "full" screen with minimal controls that will display the
      * Opening Crawl.
@@ -87,10 +88,10 @@ class OpeningCrawlApplication extends Application {
 
     /**
      * Listener that times the audio playing the audio with the opening crawl.
-     * @param {jQuery} html 
+     * @param {jQuery} html
      */
     activateListeners(html) {
-        console.log('ffg-star-wars-enhancements | opening-crawl | active listeners');
+        log('opening-crawl', 'active listeners');
         super.activateListeners(html);
 
         // When music is configured, hide the HTML until the audio loaded is
@@ -98,7 +99,7 @@ class OpeningCrawlApplication extends Application {
         // animation.
         if (this.data.music) {
             function start_animation() {
-                html[0].style.display = "block"; 
+                html[0].style.display = "block";
             }
 
             html[0].style.display = "none";
@@ -129,14 +130,14 @@ class OpeningCrawlApplication extends Application {
  * Ready handler that listens on the ffg-star-wars-enhancements socket.
  */
 export function ready() {
-    console.log("ffg-star-wars-enhancements | opening-crawl | ready");
+    log('opening-crawl', 'ready');
     game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
 }
 
 /**
  * Parse the contents of a journal into the parts of the Opening Crawl into an
  * object.
- * @param {JournalEntry} journal 
+ * @param {JournalEntry} journal
  * @returns {object|null}
  */
 function parse_journal(journal) {
@@ -161,7 +162,7 @@ function parse_journal(journal) {
         // Once the image has been extracted, remove the parent paragraph.
         journal_html.find("p>img").parent().remove();
     } else {
-        console.log("ffg-star-wars-enhancements | opening-crawl | no image to pan to found in journal");
+        log('opening-crawl', 'no image to pan to found in journal');
     }
 
     let body = journal_html.find("p").map(function()  {
@@ -186,7 +187,7 @@ function parse_journal(journal) {
  * @param {object} data
  */
 export function launch_opening_crawl(data) {
-    console.log("ffg-star-wars-enhancements | opening-crawl | launching");
+    log('opening-crawl', 'launching');
 
     data = mergeObject(data, {
         type: "opening-crawl",
@@ -195,17 +196,17 @@ export function launch_opening_crawl(data) {
     });
     game.socket.emit('module.ffg-star-wars-enhancements', data);
     socket_listener(data);
-    console.log("ffg-star-wars-enhancements | opening-crawl | event emmitted");
+    log('opening-crawl', 'event emmitted');
 }
 
 /**
  * Listener for the ffg-star-wars-enhancements socket that launches the
  * OpeningCrawlApplication if the message type is "opening-crawl"
- * 
+ *
  * @param {object} data object passed to OpeningCrawlApplication
  */
 function socket_listener(data) {
-    console.log('ffg-star-wars-enhancements | socket', data);
+    log('socket', data);
     if (data.type == "opening-crawl") {
         new OpeningCrawlApplication(data).render(true);
     }
@@ -237,7 +238,7 @@ class OpeningCrawlSelectApplication extends FormApplication {
         };
     }
     _updateObject(event, data) {
-        console.log("ffg-star-wars-enhancements | opening-crawl | select | journal selected");
+        log('opening-crawl', 'select | journal selected');
 
         if (event.submitter.className == "create") {
             create_opening_crawl();
@@ -246,18 +247,18 @@ class OpeningCrawlSelectApplication extends FormApplication {
 
         let journal = game.journal.get(data.journal_id);
         if (!journal) {
-            console.log("ffg-star-wars-enhancements | opening-crawl | select | failed to open journal after selection");
+            log('opening-crawl', 'select | failed to open journal after selection');
             return;
         }
 
         var data = parse_journal(journal);
         if (!data) {
-            console.log("ffg-star-wars-enhancements | opening-crawl | select | failed to parse journal");
+            log('opening-crawl', 'select | failed to parse journal');
             return;
         }
 
         launch_opening_crawl(data);
-        console.log("ffg-star-wars-enhancements | opening-crawl | select | journal selection complete");
+        log('opening-crawl', 'select | journal selection complete');
     }
 }
 

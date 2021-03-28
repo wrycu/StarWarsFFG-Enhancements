@@ -1,3 +1,5 @@
+import { log_msg as log } from './util.js'
+
 export function init() {
     game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
         name: game.i18n.localize('ffg-star-wars-enhancements.rename.auto'),
@@ -8,8 +10,10 @@ export function init() {
         default: true,
     });
 }
+
 export function rename_actors() {
     if(!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
+        log('attack_rename', 'Not renaming actors because libWrapper is nor installed and active');
         ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
         return;
     }
@@ -18,6 +22,7 @@ export function rename_actors() {
         'Combat.prototype.createEmbeddedEntity',
         async function (wrapped, ...args) {
             if (args[0] === 'Combatant' && game.settings.get("ffg-star-wars-enhancements", "auto-rename-actors")) {
+                log('attack_rename', 'Found combatant(s) being added to combat');
                 // create the combatant normally
                 var created_data = await wrapped(args[0], args[1]);
 
@@ -34,6 +39,7 @@ export function rename_actors() {
                         }
                     }
 
+                    log('attack_rename', 'Searching for combatant "' + update_data['_id'] + '" in combat');
                     for (var x in game.combat.data.combatants) {
                         // check the disposition and update the name and image
                         // this is done as a second (different) call because we want to update the information on a temporary basis
@@ -49,10 +55,12 @@ export function rename_actors() {
                             }
                         }
                     }
+                    log('attack_rename', 'Renaming token');
                     game.combat.updateEmbeddedEntity("Combatant", update_data, {temporary: true});
                 }
             }
             else {
+                log('attack_rename', 'Detected combatant being added to combat, but feature is disabled. Aborting.');
                 await wrapped(args[0], args[1]);
             }
         }

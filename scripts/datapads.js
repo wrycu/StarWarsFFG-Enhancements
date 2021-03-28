@@ -1,3 +1,4 @@
+import { log_msg as log } from './util.js'
 
 export async function create_datapad_journal() {
     const templates = {
@@ -31,7 +32,7 @@ export async function create_datapad_journal() {
                 label: game.i18n.localize('ffg-star-wars-enhancements.datapads.create'),
                 callback: (html) => {
                     let template = html.find('[name="template"]').val();
-                    console.log('ffg-star-wars-enhancements | template', template)
+                    log('template', template);
 
                     let data = {
                         "name": template,
