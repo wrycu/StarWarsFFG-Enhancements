@@ -125,10 +125,7 @@ export function attack_animation() {
     libWrapper.register(
         'ffg-star-wars-enhancements',
         'game.ffg.RollFFG.prototype.toMessage',
-        async function (wrapped, ...args) {
-            // todo: improve logging
-            console.log(...args)
-            console.log(this)
+        function (wrapped, ...args) {
             let skill = args[0]['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
             let combat_skills = {
                 /* melee animations */
@@ -159,28 +156,25 @@ export function attack_animation() {
                 },
             };
             if (skill in combat_skills) {
-                console.log("This is a combat skill")
+                // combat skill
                 /* check if things are configured for us to continue */
                 if (game.user.targets.size === 0) {
                     ui.notifications.warn('You must target at least one token as a target');
-                    await wrapped(...args);
-                    return;
+                    return wrapped(...args);
                 }
 
                 if (canvas.tokens.controlled.length === 0) {
                     ui.notifications.warn("Please select the attacker");
-                    await wrapped(...args);
-                    return;
+                    return wrapped(...args);
                 }
-                await wrapped(...args);
+                let wrapped_data = wrapped(...args);
                 // todo: based on dice results, we could have the animation miss
-                await play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file']);
+                play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file']);
+                return wrapped_data
             }
             else {
-                console.log("This is NOT a combat skill")
-                console.log(skill)
                 // not a combat skill; ignore it
-                await wrapped(...args);
+                return wrapped(...args);
             }
         }
     )
