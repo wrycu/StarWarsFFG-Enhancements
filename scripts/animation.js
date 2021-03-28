@@ -174,7 +174,7 @@ export function attack_animation() {
                 }
                 await wrapped(...args);
                 // todo: based on dice results, we could have the animation miss
-                await Cast(combat_skills[skill]['animation_file'], combat_skills[skill]['animation_file'])
+                await play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['animation_file']);
             }
             else {
                 console.log("This is NOT a combat skill")
@@ -188,57 +188,32 @@ export function attack_animation() {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
-async function Cast(animation_file, sound_file) {
-    //var myStringArray = Array.from(game.user.targets)[0];
+async function play_animation(animation_file, sound_file) {
+    const tokens = canvas.tokens.controlled;
     var arrayLength = game.user.targets.size;
     for (var i = 0; i < arrayLength; i++) {
-        let mainTarget = Array.from(game.user.targets)[i];
-        let myToken = canvas.tokens.controlled [0];
+        var num_shots = Math.floor((Math.random() * 6) + 1);
+        for (var x = 0; x < num_shots; x++) {
+            let ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
 
-        let ray = new Ray(myToken.center, mainTarget.center);
-        let anDeg = -(ray.angle * 57.3);
-        let anDist = ray.distance;
-
-        let anFileSize = 600;
-        let anchorX = 0.2;
-        switch(true){
-            case (anDist<=600):
-                anFileSize = 600;
-                anchorX = 0.2;
-                break;
-            case (anDist>1200):
-                anFileSize = 1800;
-                anchorX = 0.091;
-                break;
-            default:
-                anFileSize = 1200;
-                anchorX = 0.125;
-                break;
-        }
-
-        let anFile = animation_file;
-
-        let anScale = anDist / anFileSize;
-        let anScaleY = anDist <= 600 ? 0.9  : anScale;
-
-        let spellAnim =
-        {
-            file: anFile,
-            position: myToken.center,
-            anchor: {
-                x: anchorX,
-                y: 0.5
-            },
-            angle: anDeg,
-            scale: {
-                x: anScale,
-                y: anScaleY
+            let animation_config = {
+                position: tokens[0].center,
+                file: animation_file,
+                anchor: {
+                    x: 0.125,
+                    y: 0.5,
+                },
+                angle: -(ray.angle * 57.3),
+                scale: {
+                    x: ray.distance / 1200,
+                    y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
+                },
             }
-        };
-
-        canvas.fxmaster.playVideo(spellAnim);
-        game.socket.emit('module.fxmaster', spellAnim);
-        //AudioHelper.play({src: "Audio/Soundboard/Saber_Attack_1.mp3", volume: .5, autoplay: true, loop: false}, true);
-        await sleepNow(500)
+            canvas.fxmaster.playVideo(animation_config);
+            game.socket.emit('module.fxmaster', animation_config);
+            //AudioHelper.play({src: sound_file, volume: .5, autoplay: true, loop: false}, true);
+            await sleepNow(250)
+        }
     }
+    await sleepNow(500)
 }
