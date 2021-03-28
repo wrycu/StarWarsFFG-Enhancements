@@ -34,18 +34,21 @@ export function rename_actors() {
                         }
                     }
 
-                    // check the disposition and update the name and image
-                    // this is done as a second (different) call because we want to update the information on a temporary basis
-                    // and we can't specify part of the data is temporary
-                    if (game.actors.tokens[args[1][i]['tokenId']].token?.data?.disposition === TOKEN_DISPOSITIONS['FRIENDLY']) {
-                        update_data['name'] = 'PC';
-                        update_data['img'] = 'systems/starwarsffg/images/dice/starwars/lightside.png';
+                    for (var x in game.combat.data.combatants) {
+                        // check the disposition and update the name and image
+                        // this is done as a second (different) call because we want to update the information on a temporary basis
+                        // and we can't specify part of the data is temporary
+                        if(game.combat.data.combatants[x]['_id'] == update_data['_id']) {
+                            if (game.combat.data.combatants[x].token.disposition === TOKEN_DISPOSITIONS['FRIENDLY']) {
+                                update_data['name'] = 'PC';
+                                update_data['img'] = 'systems/starwarsffg/images/dice/starwars/lightside.png';
+                            }
+                            else {
+                                update_data['name'] = 'NPC';
+                                update_data['img'] = 'systems/starwarsffg/images/dice/starwars/darkside.png';
+                            }
+                        }
                     }
-                    else {
-                        update_data['name'] = 'NPC';
-                        update_data['img'] = 'systems/starwarsffg/images/dice/starwars/darkside.png';
-                    }
-
                     game.combat.updateEmbeddedEntity("Combatant", update_data, {temporary: true});
                 }
             }
