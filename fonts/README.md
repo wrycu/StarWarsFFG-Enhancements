@@ -37,6 +37,13 @@ See `Star Jedi font guide Word97.doc` for additional details.
 
 See each of their respective `*Readme.rtfs` for additional details.
 
+### AnakinMono
+| Author | opipik |
+| Year | 2013 |
+| License | Create Commons Attribution Share Alike license |
+
+See `anakinmono-read me.txt` for additional details.
+
 ### Aurek Besh
 | Author | Boba Fonts |
 | Year | 1998 |
