@@ -52,5 +52,11 @@
   "ffg-star-wars-enhancements.opening-crawl.joural": "Journal",
   "ffg-star-wars-enhancements.opening-crawl.new": "New",
   "ffg-star-wars-enhancements.opening-crawl.create-journal": "Create Journal",
-  "ffg-star-wars-enhancements.opening-crawl.launch": "Launch"
+  "ffg-star-wars-enhancements.opening-crawl.launch": "Launch",
+  "ffg-star-wars-enhancements.datapads.datapad-template": "Datapad Template",
+  "ffg-star-wars-enhancements.datapads.datapad": "Datapad",
+  "ffg-star-wars-enhancements.datapads.bounty": "Bounty",
+  "ffg-star-wars-enhancements.datapads.title": "Create Datapad",
+  "ffg-star-wars-enhancements.datapads.cancel": "Cancel",
+  "ffg-star-wars-enhancements.datapads.create": "Create"
 }

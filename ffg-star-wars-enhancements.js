@@ -2,6 +2,7 @@ import { init as settings_init } from './scripts/settings.js'
 import { init as attack_animation_init, attack_animation } from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
+import { create_datapad_journal } from './scripts/datapads.js'
 
 Hooks.once('init', async function() {
 	console.log('ffg-star-wars-enhancements | Initializing')
@@ -44,6 +45,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					icon: "fas fa-book-medical",
 					button: true,
 					onClick: () => {
+						create_datapad_journal();
 					},
 				},
 			]
