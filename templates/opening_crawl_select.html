@@ -1,13 +1,20 @@
 <form>
-    <fieldset>
-        <legend>{{folder_name}}</legend>
-        <label>{{localize "ffg-star-wars-enhancements.opening-crawl.select-joural"}} 
+    <h2>{{localize "ffg-star-wars-enhancements.opening-crawl.new"}}</h2>
+    <button type="submit" class="create" value="create"><i class="fas fa-plus"></i>{{localize "ffg-star-wars-enhancements.opening-crawl.create-journal"}}</button>
+    {{#if journals}}
+    <h2 style="margin-top: 1em">{{localize "ffg-star-wars-enhancements.opening-crawl.launch"}}</h2>
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.opening-crawl.joural"}}</label>
+        <div class="form-fields">
             <select name="journal_id">
                 {{#each journals as |journal|}}
                 <option value="{{journal.id}}">{{journal.name}}</option>
                 {{/each}}
             </select>
-        </label>
-        <input type="submit" value="{{localize "ffg-star-wars-enhancements.opening-crawl.launch"}}" />
-    </fieldset>
+        </div>
+    </div>
+    <button type="submit"><i class="fas fa-rocket"></i>{{localize "ffg-star-wars-enhancements.opening-crawl.launch"}}</button>
+    {{else}}
+    <p>{{localize "ffg-star-wars-enhancements.opening-crawl.missing-journals"}}</p>
+    {{/if}}
 </form>

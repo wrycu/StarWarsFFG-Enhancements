@@ -9,7 +9,7 @@ export function init() {
         scope: "world",
         config: true,
         type: String,
-        default: "",
+        default: "Opening Crawls",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music", {
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music'),
@@ -223,14 +223,8 @@ class OpeningCrawlSelectApplication extends FormApplication {
             title: game.i18n.localize('ffg-star-wars-enhancements.controls.opening-crawl.title'),
         });
     }
-    getData() {
-        let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
-
-        let folder = game.folders.getName(folder_name);
-        if (!folder) {
-            ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
-            throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
-        }
+    async getData() {
+        let folder = await get_journal_folder();
         let journals = folder.content.map(journal => {
             return {
                 id: journal.data._id,
@@ -239,37 +233,64 @@ class OpeningCrawlSelectApplication extends FormApplication {
         });
 
         return {
-            folder_name: folder_name,
             journals: journals,
         };
     }
     _updateObject(event, data) {
-        console.log("ffg-star-wars-enhancements | opening-crawl | journal selected");
+        console.log("ffg-star-wars-enhancements | opening-crawl | select | journal selected");
+
+        if (event.submitter.className == "create") {
+            create_opening_crawl();
+            return;
+        }
+
         let journal = game.journal.get(data.journal_id);
         if (!journal) {
-            console.log("ffg-star-wars-enhancements | opening-crawl | failed to open journal after selection");
+            console.log("ffg-star-wars-enhancements | opening-crawl | select | failed to open journal after selection");
             return;
         }
 
         var data = parse_journal(journal);
         if (!data) {
-            console.log("ffg-star-wars-enhancements | opening-crawl | failed to parse journal");
+            console.log("ffg-star-wars-enhancements | opening-crawl | select | failed to parse journal");
             return;
         }
 
         launch_opening_crawl(data);
-        console.log("ffg-star-wars-enhancements | opening-crawl | journal selection complete");
+        console.log("ffg-star-wars-enhancements | opening-crawl | select | journal selection complete");
     }
 }
 
-export function create_opening_crawl() {
+/**
+ * Get the opening crawls journal folder.
+ */
+async function get_journal_folder() {
     let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
 
     let folder = game.folders.getName(folder_name);
     if (!folder) {
-        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
-        throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
+        let missing_folder = game.i18n.format('ffg-star-wars-enhancements.opening-crawl.create-folder', {folder: folder_name});
+        let confirmation = await Dialog.confirm({
+            title: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title'),
+            content: `<p>${missing_folder}</p>`,
+        });
+        if (confirmation) {
+            folder = await Folder.create({
+                name: folder_name,
+                type: "JournalEntry",
+                parent: 0,
+            });
+
+        } else {
+            ui.notifications.error(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
+            throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
+        }
     }
+    return folder;
+}
+
+export async function create_opening_crawl() {
+    let folder = await get_journal_folder();
     let data = {
         "name": "Episode X",
         "folder": folder.id,
