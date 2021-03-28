@@ -14,7 +14,7 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation'),
@@ -30,7 +30,7 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation'),
@@ -46,7 +46,7 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation'),
@@ -62,7 +62,7 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
     })
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation'),
@@ -78,9 +78,9 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
     })
-        game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
+    game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
@@ -94,7 +94,7 @@ export function init () {
         scope: "world",
         config: true,
         type: setting_audio,
-        default: '',
+        default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     })
 }
 
@@ -134,28 +134,28 @@ export function attack_animation() {
                 /* melee animations */
                 'Brawl': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-sound"),
                 },
                 'Lightsaber': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
                 },
                 'Melee': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-sound"),
                 },
                 /* ranged animations */
                 'Gunnery': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-sound"),
                 },
                 'Ranged: Heavy': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound"),
                 },
                 'Ranged: Light': {
                     'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
-                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
+                    'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
                 },
             };
             if (skill in combat_skills) {
@@ -174,7 +174,7 @@ export function attack_animation() {
                 }
                 await wrapped(...args);
                 // todo: based on dice results, we could have the animation miss
-                await play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['animation_file']);
+                await play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file']);
             }
             else {
                 console.log("This is NOT a combat skill")
@@ -211,7 +211,7 @@ async function play_animation(animation_file, sound_file) {
             }
             canvas.fxmaster.playVideo(animation_config);
             game.socket.emit('module.fxmaster', animation_config);
-            //AudioHelper.play({src: sound_file, volume: .5, autoplay: true, loop: false}, true);
+            AudioHelper.play({src: sound_file, volume: .3, autoplay: true, loop: false}, true);
             await sleepNow(250)
         }
     }
