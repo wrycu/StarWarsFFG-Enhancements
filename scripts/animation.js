@@ -183,6 +183,17 @@ export function attack_animation() {
             }
             else {
                 // not a combat skill; ignore it
+                /*
+                var text = '<a class="inline-roll inline-result" title="Spend results" data-roll="';
+                var text = text + '%7B%22class%22%3A%22RollFFG%22%2c%22dice%22%3A%5B%5D%2c%22formula%22%3A%222d12%20+%203d4%22%2c%22terms%22%3A%5B%7B%22class%22%3A%22RollFFG%22%2c%22number%22%3A2%2c%22faces%22%3A8%2c%22modifiers%22%3A%5B%5D%2c%22options%22%3A%7B%7D%2c%22results%22%3A%5B%7B%22result%22%3A%22%5Bad%5D%22%2c%22active%22%3Atrue%7D%2c%7B%22result%22%3A%22s%22%2c%22active%22%3Atrue%7D%5D%7D%2c%22+%22%2c%7B%22class%22%3A%22Die%22%2c%22number%22%3A3%2c%22faces%22%3A4%2c%22modifiers%22%3A%5B%5D%2c%22options%22%3A%7B%7D%2c%22results%22%3A%5B%7B%22result%22%3A3%2c%22active%22%3Atrue%7D%2c%7B%22result%22%3A2%2c%22active%22%3Atrue%7D%2c%7B%22result%22%3A4%2c%22active%22%3Atrue%7D%5D%7D%5D%2c%22results%22%3A%5B15%2c%22+%22%2c9%5D%2c%22total%22%3A24%2c%22ffg%22%3A%7B%22success%22%3A0%2c%22failure%22%3A0%2c%22advantage%22%3A0%2c%22threat%22%3A0%2c%22triumph%22%3A0%2c%22despair%22%3A0%2c%22light%22%3A0%2c%22dark%22%3A0%7D%2c%22hasFFG%22%3Afalse%2c%22hasStandard%22%3Atrue%2c%22data%22%3A%7B%7D%2c%22addedResults%22%3A%5B%5D%7D';
+                var text = text + '"><i class="fas fa-dice-d20"></i> Spend [ad]</a>';
+                 */
+                var text = '<button class="effg-die-result">Spend [ad]</button>';
+                const messageData = {
+                  type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                  content: text,
+                };
+                ChatMessage.create(messageData);
                 return wrapped(...args);
             }
         }
