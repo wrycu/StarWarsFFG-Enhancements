@@ -49,6 +49,7 @@
     ],
     "styles": [
         "styles/opening_crawl.css",
-        "styles/datapads.css"
+        "styles/datapads.css",
+        "styles/spend_die_result.css"
     ]
 }
