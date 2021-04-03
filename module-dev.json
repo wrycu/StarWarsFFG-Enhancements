@@ -49,8 +49,8 @@
         {
             "name": "ffg-sw-enhanced-community-macros",
             "label": "eFFG.CommunityMacros",
-            "system": "starwarsffg",
-            "path": "./packs/communitymacros.db",
+            "module": "ffg-star-wars-enhancements",
+            "path": "packs/communitymacros.db",
             "entity": "Macro"
         }
     ]
