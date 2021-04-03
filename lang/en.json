@@ -5,6 +5,8 @@
   "ffg-star-wars-enhancements.controls.opening-crawl.title": "Launch an opening crawl",
   "ffg-star-wars-enhancements.controls.new-opening-crawl.name": "new-opening-crawl",
   "ffg-star-wars-enhancements.controls.new-opening-crawl.title": "Create a new opening crawl",
+  "ffg-star-wars-enhancements.attack-animation.enable": "Enable attack animations",
+  "ffg-star-wars-enhancements.attack-animation.enable-hint": "Will play an animation and audio file on attack",
   "ffg-star-wars-enhancements.attack-animation.brawl-animation": "Attack animation for Brawl",
   "ffg-star-wars-enhancements.attack-animation.brawl-animation-hint": "Animation file for Brawl attacks",
   "ffg-star-wars-enhancements.attack-animation.brawl-sound": "Attack sound for Brawl",

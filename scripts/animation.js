@@ -2,6 +2,14 @@ import { setting_image, setting_audio } from './settings.js'
 import { log_msg as log } from './util.js'
 
 export function init () {
+    game.settings.register("ffg-star-wars-enhancements", "attack-animation-enable", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable-hint'),
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true,
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
@@ -9,7 +17,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
@@ -17,7 +25,7 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
@@ -25,7 +33,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
@@ -33,7 +41,7 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
@@ -41,7 +49,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
@@ -49,7 +57,7 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
@@ -57,7 +65,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
@@ -65,7 +73,7 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
@@ -73,7 +81,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
@@ -81,7 +89,7 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
@@ -89,7 +97,7 @@ export function init () {
         config: true,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
-    })
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
@@ -97,10 +105,13 @@ export function init () {
         config: true,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
-    })
+    });
 }
 
 export function attack_animation(...args) {
+    if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
+        return args;
+    }
     var error = false;
     /* check for the required modules */
     if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
