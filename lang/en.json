@@ -58,5 +58,7 @@
   "ffg-star-wars-enhancements.datapads.bounty": "Bounty",
   "ffg-star-wars-enhancements.datapads.title": "Create Datapad",
   "ffg-star-wars-enhancements.datapads.cancel": "Cancel",
-  "ffg-star-wars-enhancements.datapads.create": "Create"
+  "ffg-star-wars-enhancements.datapads.create": "Create",
+  "ffg-star-wars-enhancements.dice-helper": "Enable Dice Helper",
+  "ffg-star-wars-enhancements.dice-helper-hint": "Adds a button in the chat to suggest ways to spend combat dice results"
 }
