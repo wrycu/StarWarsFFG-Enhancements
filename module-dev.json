@@ -44,5 +44,14 @@
         "styles/opening_crawl.css",
         "styles/datapads.css",
         "styles/dice_helper.css"
+    ],
+    "packs": [
+        {
+            "name": "ffg-sw-enhanced-community-macros",
+            "label": "eFFG.CommunityMacros",
+            "system": "starwarsffg",
+            "path": "./packs/communitymacros.db",
+            "entity": "Macro"
+        }
     ]
 }
