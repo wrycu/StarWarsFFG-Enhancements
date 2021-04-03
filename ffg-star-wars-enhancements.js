@@ -56,8 +56,8 @@ Hooks.once('init', async function() {
 Hooks.once('ready', () => {
     /* register functionality here */
     rename_actors();
-
     opening_crawl_ready();
+    register_hooks();
     dice_helper();
 });
 
@@ -97,8 +97,12 @@ function register_hooks() {
         'ffg-star-wars-enhancements',
         'game.ffg.RollFFG.prototype.toMessage',
         function (wrapped, ...args) {
-            attack_animation();
-            return wrapped(...args);
+            /*
+                we may want to monkeypatch a different function in the future. this location doesn't seem to have access
+                to the actual weapon in use. I'm not sure if we actually care yet, but worth considering.
+             */
+            var data = attack_animation(...args);
+            return wrapped(...data);
         }
     )
 }
