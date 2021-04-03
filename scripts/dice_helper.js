@@ -49,28 +49,44 @@ export function dice_helper() {
                 await dice_helper_clicked(messageData)
             });
             if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
-                log('dice_helper', 'Detected relevant die roll');
-                var data = {
-                    'advantage': app.roll.ffg.advantage,
-                    'triumph': app.roll.ffg.triumph,
-                    'threat': app.roll.ffg.threat,
-                    'despair': app.roll.ffg.despair,
-                };
-                if (data['advantage'] > 0 || data['triumph'] > 0 || data['threat'] > 0 || data['despair'] > 0) {
-                   log('dice_helper', 'Die roll had relevant results, generating new message');
-                    var msg = {
-                        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-                        'content': '<button class="effg-die-result" ' +
-                            'data-ad="' + data['advantage'] + '" ' +
-                            'data-tr="' + data['triumph'] + '" ' +
-                            'data-th="' + data['threat'] + '" ' +
-                            'data-de="' + data['despair'] + '"' +
-                            '>Help spending results!</button>',
+                let combat_skills = [
+                    /* melee animations */
+                    'Brawl',
+                    'Lightsaber',
+                    'Melee',
+                    /* ranged animations */
+                    'Gunnery',
+                    'Ranged: Heavy',
+                    'Ranged: Light',
+                ];
+
+                let skill = messageData['message']['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
+                if (combat_skills.indexOf(skill) >= 0) {
+                    log('dice_helper', 'Detected relevant die roll');
+                    var data = {
+                        'advantage': app.roll.ffg.advantage,
+                        'triumph': app.roll.ffg.triumph,
+                        'threat': app.roll.ffg.threat,
+                        'despair': app.roll.ffg.despair,
                     };
-                    log('dice_helper', 'New message content: ' + msg['content']);
-                    ChatMessage.create(msg);
+                    if (data['advantage'] > 0 || data['triumph'] > 0 || data['threat'] > 0 || data['despair'] > 0) {
+                       log('dice_helper', 'Die roll had relevant results, generating new message');
+                        var msg = {
+                            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                            'content': '<button class="effg-die-result" ' +
+                                'data-ad="' + data['advantage'] + '" ' +
+                                'data-tr="' + data['triumph'] + '" ' +
+                                'data-th="' + data['threat'] + '" ' +
+                                'data-de="' + data['despair'] + '"' +
+                                '>Help spending results!</button>',
+                        };
+                        log('dice_helper', 'New message content: ' + msg['content']);
+                        ChatMessage.create(msg);
+                    } else {
+                        log('dice_helper', 'Die roll didn\'t have relevant results, skipping');
+                    }
                 } else {
-                    log('dice_helper', 'Die roll didn\'t have relevant results, skipping');
+                    log('dice_helper', 'Detected non-combat die roll, skipping');
                 }
             } else {
                 log('dice_helper', 'Detected relevant die roll but the message has already been modified; ignoring');
