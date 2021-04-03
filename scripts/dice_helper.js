@@ -29,11 +29,10 @@ async function dice_helper_clicked(object) {
     log('dice_helper', 'Detected button click; converting to results');
     var data = determine_data(object.message.content);
     log('dice_helper', JSON.stringify(data));
+    var msg = new ChatMessage(object.message);
     object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(data);
     object.message.id = object.message._id;
-    var msg = new ChatMessage(object.message);
-    // TODO: this only updates the rendered message, not the logged message (a refresh will delete it)
-    ui.chat.updateMessage(msg);
+    msg.update(object.message);
     log('dice_helper', 'Updated the message');
 }
 
@@ -46,11 +45,10 @@ export function dice_helper() {
         we can probably overcome that, but it requires a bunch more work and who has time for that?!
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
-            // TODO: this only updates the rendered message, not the logged message (a refresh will delete it)
             html.on("click", ".effg-die-result", async function () {
                 await dice_helper_clicked(messageData)
             });
-            if (app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
+            if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
                 log('dice_helper', 'Detected relevant die roll');
                 var data = {
                     'advantage': app.roll.ffg.advantage,
