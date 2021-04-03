@@ -13,29 +13,6 @@ export function dice_helper_init() {
     log('dice_helper', 'Initialized');
 }
 
-function determine_data(incoming_data) {
-    var match = incoming_data.match('.*data-ad=\"([0-9])+\" data-tr=\"([0-9])+\" data-th=\"([0-9])+\" data-de=\"([0-9])+\".*');
-    var outgoing_data = {
-        'advantage': match[1],
-        'triumph': match[2],
-        'threat': match[3],
-        'despair': match[4],
-    };
-
-    return outgoing_data;
-}
-
-async function dice_helper_clicked(object) {
-    log('dice_helper', 'Detected button click; converting to results');
-    var data = determine_data(object.message.content);
-    log('dice_helper', JSON.stringify(data));
-    var msg = new ChatMessage(object.message);
-    object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(data);
-    object.message.id = object.message._id;
-    msg.update(object.message);
-    log('dice_helper', 'Updated the message');
-}
-
 export function dice_helper() {
     Hooks.on("renderChatMessage", (app, html, messageData) => {
         /*
@@ -93,4 +70,35 @@ export function dice_helper() {
             }
         }
     });
+}
+
+async function dice_helper_clicked(object) {
+    /**
+     * update the content of the "help me spend results" button based on results of the dice roll
+     *
+     * @param {object} ChatMessage object passed in by the hook we're listened to
+     */
+    log('dice_helper', 'Detected button click; converting to results');
+    var data = determine_data(object.message.content);
+    log('dice_helper', JSON.stringify(data));
+    var msg = new ChatMessage(object.message);
+    object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(data);
+    object.message.id = object.message._id;
+    msg.update(object.message);
+    log('dice_helper', 'Updated the message');
+}
+
+function determine_data(incoming_data) {
+    /**
+     * read the button metadata to determine results from the associated dice roll
+     *
+     * @param {incoming_data} html created by dice_helper
+     */
+    var match = incoming_data.match('.*data-ad=\"([0-9])+\" data-tr=\"([0-9])+\" data-th=\"([0-9])+\" data-de=\"([0-9])+\".*');
+    return {
+        'advantage': match[1],
+        'triumph': match[2],
+        'threat': match[3],
+        'despair': match[4],
+    };
 }
