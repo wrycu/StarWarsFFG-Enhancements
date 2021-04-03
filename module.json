@@ -59,6 +59,13 @@
             "module": "ffg-star-wars-enhancements",
             "path": "packs/communitymacros.db",
             "entity": "Macro"
+        },
+         {
+            "name": "ffg-sw-enhanced-cantina-patrons",
+            "label": "eFFG.CantinaPatrons",
+            "path": "packs/cantinapatrons.db",
+            "module": "ffg-star-wars-enhancements",
+            "entity": "RollTable"
         }
     ]
 }
