@@ -4,14 +4,14 @@ import { init as attack_animation_init, attack_animation } from './scripts/anima
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
-import { dice_helper_init, dice_helper } from './scripts/dice_helper.js'
+import { init as dice_helper_init, dice_helper } from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 
 Hooks.once('init', async function() {
 	log('base_module', 'Initializing');
 
-	settings_init()
-	rename_init()
+	settings_init();
+	rename_init();
 	attack_animation_init();
     opening_crawl_init();
     dice_helper_init();

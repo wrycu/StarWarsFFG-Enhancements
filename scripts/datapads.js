@@ -4,7 +4,7 @@ export async function create_datapad_journal() {
     const templates = {
         "datapad": '<div class="swdatapad"><p></p></div>',
         "bounty": (await getTemplate('modules/ffg-star-wars-enhancements/templates/datapads_bounty.html'))(),
-    }
+    };
 
     const datapad_template = game.i18n.localize('ffg-star-wars-enhancements.datapads.datapad-template');
     const datapad = game.i18n.localize('ffg-star-wars-enhancements.datapads.datapad');
@@ -46,5 +46,5 @@ export async function create_datapad_journal() {
         },
         default: 'create',
         close: () => {}
-        }).render(true)
-    }
+    }).render(true)
+}

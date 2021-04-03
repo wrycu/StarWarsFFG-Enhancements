@@ -1,6 +1,7 @@
 import { log_msg as log } from './util.js'
 
 export function init() {
+    log('attack_rename', 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors", {
         name: game.i18n.localize('ffg-star-wars-enhancements.rename.auto'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.rename.auto-hint'),
@@ -9,6 +10,7 @@ export function init() {
         type: Boolean,
         default: true,
     });
+    log('attack_rename', 'Initialized');
 }
 
 export function rename_actors(created_data, ...args) {
@@ -32,7 +34,7 @@ export function rename_actors(created_data, ...args) {
                 // check the disposition and update the name and image
                 // this is done as a second (different) call because we want to update the information on a temporary basis
                 // and we can't specify part of the data is temporary
-                if(game.combat.data.combatants[x]['_id'] == update_data['_id']) {
+                if (game.combat.data.combatants[x]['_id'] == update_data['_id']) {
                     if (game.combat.data.combatants[x].token.disposition === TOKEN_DISPOSITIONS['FRIENDLY']) {
                         update_data['name'] = 'PC';
                         update_data['img'] = 'systems/starwarsffg/images/dice/starwars/lightside.png';

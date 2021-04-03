@@ -1,6 +1,6 @@
 import {log_msg as log} from "./util.js";
 
-export function dice_helper_init() {
+export function init() {
     log('dice_helper', 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "dice-helper", {
         name: game.i18n.localize('ffg-star-wars-enhancements.dice-helper'),
@@ -23,7 +23,7 @@ export function dice_helper() {
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(messageData)
+                await dice_helper_clicked(messageData);
             });
             if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
                 let combat_skills = [

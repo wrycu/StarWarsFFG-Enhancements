@@ -1,9 +1,11 @@
 import { setting_image, setting_audio } from './settings.js'
 import { log_msg as log } from './util.js'
+
 /**
  * Register settings used by the opening crawl.
  */
 export function init() {
+    log('opening-crawl', 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-folder", {
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder-hint'),
@@ -28,6 +30,7 @@ export function init() {
         type: setting_image,
         default: "",
     });
+    log('opening-crawl', 'Initialized');
 }
 
 /**
@@ -41,7 +44,7 @@ class OpeningCrawlApplication extends Application {
     constructor(data, options) {
       super({}, options);
       this.data = data;
-    }
+    };
 
     /**
      * Configure a "full" screen with minimal controls that will display the
@@ -179,7 +182,7 @@ function parse_journal(journal) {
         title: title_html.text(),
         body: body,
         image: image,
-    }
+    };
 }
 
 /**

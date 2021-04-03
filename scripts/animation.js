@@ -2,6 +2,7 @@ import { setting_image, setting_audio } from './settings.js'
 import { log_msg as log } from './util.js'
 
 export function init () {
+    log('attack_animation', 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-enable", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable-hint'),
@@ -106,6 +107,7 @@ export function init () {
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
+    log('attack_animation', 'Initialized');
 }
 
 export function attack_animation(...args) {
@@ -114,11 +116,6 @@ export function attack_animation(...args) {
     }
     var error = false;
     /* check for the required modules */
-    if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
-        log('attack_animation', 'libWrapper was not loaded. Not attempting attack animation');
-        ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'libWrapper' module. Please install and activate it.");
-        error = true;
-    }
     if (!game.modules.get('fxmaster')?.active && game.user.isGM) {
         log('attack_animation', 'fxmaster was not loaded. Not attempting attack animation');
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'FXMaster' module. Please install and activate it.");
@@ -129,7 +126,6 @@ export function attack_animation(...args) {
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'jb2a' module. Please install and activate it.");
         error = true;
     }
-
     if (error) {
         return args;
     }
@@ -189,7 +185,7 @@ export function attack_animation(...args) {
     }
 }
 
-const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 async function play_animation(animation_file, sound_file, skill) {
     const tokens = canvas.tokens.controlled;
@@ -215,7 +211,7 @@ async function play_animation(animation_file, sound_file, skill) {
                     x: ray.distance / 1200,
                     y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
                 },
-            }
+            };
             canvas.fxmaster.playVideo(animation_config);
             game.socket.emit('module.fxmaster', animation_config);
             AudioHelper.play({src: sound_file, volume: .3, autoplay: true, loop: false}, true);
