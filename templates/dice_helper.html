@@ -1,31 +1,44 @@
 Some <b>ideas</b> for spending results (on a successful attack):<br>
 {{#iff advantage '>' 0}}
-    [ad] &gt;= critical rating / [tr]:Aapply a critical injury<br>
-    [ad]: Recover one strain<br>
-    [ad]: +[bo] to <i>next</i> allied character's next check<br>
+    [ad] &gt;= critical rating: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-1'}}<br>
+    [ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-2'}}<br>
+    [ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-3'}}<br>
 {{/iff}}
 {{#iff advantage '>' 1}}
-    [ad][ad]: Perform immediate free maneuver<br>
-    [ad][ad]: +[se] to target's next check<br>
-    [ad][ad]: + [bo] to <i>any</i> allied character's next check<br>
+    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-1'}}<br>
+    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-2'}}<br>
+    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-3'}}<br>
 {{/iff}}
 {{#iff advantage '>' 2}}
-    [ad][ad][ad]: Negate target's defensive bonuses until next round<br>
-    [ad][ad][ad]: Ignore environmental penalty until end of next turn<br>
-    [ad][ad][ad]: Target is disabled instead of suffering wounds/strain<br>
-    [ad][ad][ad]: +1 melee or ranged defense until end of next round<br>
-    [ad][ad][ad]: Target drops weapon they're wielding<br>
+    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-1'}}<br>
+    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-2'}}<br>
+    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-3'}}<br>
+    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-4'}}<br>
+    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-5'}}<br>
 {{/iff}}
 {{#iff triumph '>' 0}}
-    [tr]: Upgrade difficulty of target's next check<br>
-    [tr]: Upgrade ability of any allied character's next check<br>
+    [tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-1tr-1'}}<br>
+    [tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-2tr-2'}}<br>
 {{/iff}}
 {{#iff triumph '>' 1}}
-    [tr][tr]: Destroy a piece of equipment carried by target<br>
+    [tr][tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-2tr-1'}}<br>
+{{/iff}}
+{{#iff threat '>' 0}}
+    [th]: {{localize 'ffg-star-wars-enhancements.dice-helper-1th-1'}}<br>
+    [th]: {{localize 'ffg-star-wars-enhancements.dice-helper-1th-2'}}<br>
+{{/iff}}
+{{#iff threat '>' 1}}
+    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-1'}}<br>
+    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-2'}}<br>
+    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-3'}}<br>
+{{/iff}}
+{{#iff threat '>' 2}}
+    [th][th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-3th-1'}}<br>
+    [th][th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-3th-2'}}<br>
 {{/iff}}
 {{#iff despair '>' 0}}
-    [de]: Ranged attack hits character engaged with target<br>
-    [de]: Ranged weapon runs out of ammo<br>
-    [de]: Upgrade difficulty of any allied character's next check<br>
-    [de]: Tool / weapon being used is damaged<br>
+    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-1'}}<br>
+    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-2'}}<br>
+    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-3'}}<br>
+    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-4'}}<br>
 {{/iff}}

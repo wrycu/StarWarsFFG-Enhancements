@@ -48,6 +48,11 @@ Hooks.once('init', async function() {
             return opts.inverse(this);
         }
     });
+    Handlebars.registerHelper('localize',
+        function(str){
+            return game.i18n.localize(str);
+        }
+    );
     log('base_module', 'Done registering helpers');
 
 	log('base_module', 'Initializing finished');
