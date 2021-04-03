@@ -1,6 +1,7 @@
 import {log_msg as log} from "./util.js";
 
 export function dice_helper_init() {
+    log('dice_helper', 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "dice-helper", {
         name: game.i18n.localize('ffg-star-wars-enhancements.dice-helper'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.dice-helper-hint'),
@@ -9,6 +10,7 @@ export function dice_helper_init() {
         type: Boolean,
         default: true
     });
+    log('dice_helper', 'Initialized');
 }
 
 function determine_data(incoming_data) {
@@ -24,14 +26,15 @@ function determine_data(incoming_data) {
 }
 
 async function dice_helper_clicked(object) {
-    console.log("HUGE SUCCESS")
-    console.log(object)
+    log('dice_helper', 'Detected button click; converting to results');
     var data = determine_data(object.message.content);
+    log('dice_helper', JSON.stringify(data));
     object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(data);
     object.message.id = object.message._id;
     var msg = new ChatMessage(object.message);
     // TODO: this only updates the rendered message, not the logged message (a refresh will delete it)
     ui.chat.updateMessage(msg);
+    log('dice_helper', 'Updated the message');
 }
 
 export function dice_helper() {
@@ -47,12 +50,8 @@ export function dice_helper() {
             html.on("click", ".effg-die-result", async function () {
                 await dice_helper_clicked(messageData)
             });
-            console.log("DICE HELPER")
-            console.log(app)
-            console.log(html)
-            console.log(messageData)
             if (app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
-                console.log("PARSING")
+                log('dice_helper', 'Detected relevant die roll');
                 var data = {
                     'advantage': app.roll.ffg.advantage,
                     'triumph': app.roll.ffg.triumph,
@@ -60,6 +59,7 @@ export function dice_helper() {
                     'despair': app.roll.ffg.despair,
                 };
                 if (data['advantage'] > 0 || data['triumph'] > 0 || data['threat'] > 0 || data['despair'] > 0) {
+                   log('dice_helper', 'Die roll had relevant results, generating new message');
                     var msg = {
                         type: CONST.CHAT_MESSAGE_TYPES.OTHER,
                         'content': '<button class="effg-die-result" ' +
@@ -69,10 +69,13 @@ export function dice_helper() {
                             'data-de="' + data['despair'] + '"' +
                             '>Help spending results!</button>',
                     };
+                    log('dice_helper', 'New message content: ' + msg['content']);
                     ChatMessage.create(msg);
+                } else {
+                    log('dice_helper', 'Die roll didn\'t have relevant results, skipping');
                 }
             } else {
-                console.log("refusing to run because it's already been modified")
+                log('dice_helper', 'Detected relevant die roll but the message has already been modified; ignoring');
             }
         }
     });
