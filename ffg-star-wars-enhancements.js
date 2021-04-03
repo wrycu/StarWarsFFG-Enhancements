@@ -5,6 +5,7 @@ import { init as opening_crawl_init, ready as opening_crawl_ready, select_openin
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
 import { dice_helper_init, dice_helper } from './scripts/dice_helper.js'
+import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 
 Hooks.once('init', async function() {
 	log('base_module', 'Initializing');
@@ -14,6 +15,7 @@ Hooks.once('init', async function() {
 	attack_animation_init();
     opening_crawl_init();
     dice_helper_init();
+    strain_reminder_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -53,8 +55,8 @@ Hooks.once('init', async function() {
             return game.i18n.localize(str);
         }
     );
-    log('base_module', 'Done registering helpers');
 
+    log('base_module', 'Done registering helpers');
 	log('base_module', 'Initializing finished');
 });
 
@@ -62,8 +64,8 @@ Hooks.once('ready', () => {
     /* register functionality here */
     rename_actors();
     opening_crawl_ready();
-    register_hooks();
     dice_helper();
+    register_hooks();
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {
@@ -117,11 +119,17 @@ function register_hooks() {
             /* do initial action which was requested */
             var created_data = await wrapped(args[0], args[1]);
             /* call the attack animation code */
-            if(!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
-                log('attack_rename', 'Not renaming actors because libWrapper is nor installed and active');
+            if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
+                log('attack_rename', 'Not renaming actors because libWrapper is not installed and active');
                 ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
             } else {
                 rename_actors(created_data, ...args);
+            }
+            if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
+                log('attack_rename', 'Not renaming actors because libWrapper is not installed and active');
+                ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
+            } else {
+                strain_reminder(created_data, ...args);
             }
             /* call the strain code */
         }

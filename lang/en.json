@@ -87,5 +87,7 @@
   "ffg-star-wars-enhancements.dice-helper-1de-1": "Ranged attack hits character engaged with target",
   "ffg-star-wars-enhancements.dice-helper-1de-2": "Ranged weapon runs out of ammo",
   "ffg-star-wars-enhancements.dice-helper-1de-3": "Upgrade difficulty of any allied character's next check",
-  "ffg-star-wars-enhancements.dice-helper-1de-4": "Tool / weapon being used is damaged"
+  "ffg-star-wars-enhancements.dice-helper-1de-4": "Tool / weapon being used is damaged",
+  "ffg-star-wars-enhancements.strain-reminder": "Enable strain combat reminder",
+  "ffg-star-wars-enhancements.strain-reminder-hint": "A message with the starting strain will be sent as each PC enters combat"
 }
