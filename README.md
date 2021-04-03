@@ -11,13 +11,14 @@ This module is designed to supplement the
 ## Enhancements
 ### Features
 * Launch a customizable Opening Crawl based upon the [Kassel Labs Star Wars Intro Creator](https://github.com/KasselLabs/StarWarsIntroCreator)
-* Create Journals with various Datapad templates
-* Provide support for automatic, configurable attack animations (with sounds!)
-* Automatically rename actors in combat (to generic "PC" and "NPC" slots)
+* Easily create Bounties and Datapada entries for showing players
+* Provides support for automatic, configurable attack animations (with sounds!)
+* Automatically renames actors in combat (to generic "PC" and "NPC" slots)
+* Provides tips on how to spend combat dice results
 
 ### Utilities
-* Include Star Wars-like fonts
-* Include the most common macros from the Wiki
+* Includes Star Wars-like fonts
+* Includes the most common macros from the Wiki
 
 ## Contributing
 
