@@ -5,9 +5,9 @@
     "description": "A collection of enhancements for the amazing FFG Star Wars system",
     "languages": [
         {
-        "lang": "en",
-        "name": "English",
-        "path": "lang/en.json"
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
         }
     ],
     "authors": [

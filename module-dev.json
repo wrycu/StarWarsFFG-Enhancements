@@ -3,6 +3,13 @@
     "name": "ffg-star-wars-enhancements",
     "title": "FFG Star Wars Enhancements",
     "description": "A collection of enhancements for the amazing FFG Star Wars system",
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
     "authors": [
         {
             "name": "Wrycu"
@@ -11,7 +18,7 @@
             "name": "x0d0a"
         }
     ],
-    "version": "0.0.2",
+    "version": "0.0.3",
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
     "dependencies": [
