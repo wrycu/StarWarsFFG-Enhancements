@@ -3,11 +3,19 @@ import { log_msg as log } from './util.js'
 
 export function init () {
     log('attack_animation', 'Initializing');
+    game.settings.registerMenu("ffg-star-wars-enhancements", "attack_animation_UISettings", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ui.name'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ui.hint'),
+        label: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ui.label'),
+        icon: "fas fa-cut",
+        type: attack_animation_UISettings,
+        restricted: true,
+    });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-enable", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: Boolean,
         default: true,
     });
@@ -15,7 +23,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
@@ -23,7 +31,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
     });
@@ -31,7 +39,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
@@ -39,7 +47,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
     });
@@ -47,7 +55,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     });
@@ -55,7 +63,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
     });
@@ -63,7 +71,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     });
@@ -71,7 +79,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
     });
@@ -79,7 +87,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     });
@@ -87,7 +95,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
     });
@@ -95,7 +103,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_image,
         default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     });
@@ -103,7 +111,7 @@ export function init () {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
         scope: "world",
-        config: true,
+        config: false,
         type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
@@ -219,4 +227,129 @@ async function play_animation(animation_file, sound_file, skill) {
         }
     }
     await sleepNow(500)
+}
+
+
+class attack_animation_UISettings extends FormApplication {
+    /** @override */
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "data-importer",
+            classes: ["starwarsffg", "data-import"],
+            title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
+            template: "modules/ffg-star-wars-enhancements/templates/settings_attack_animations.html",
+        });
+    }
+
+    getData(options) {
+        const gs = game.settings;
+        const canConfigure = game.user.can("SETTINGS_MODIFY");
+
+        const data = {
+            system: {title: game.system.data.title, menus: [], settings: []},
+        };
+
+        // Classify all settings
+        for (let setting of gs.settings.values()) {
+            // Exclude settings the user cannot change
+            if ((!setting.config && !setting.key.includes("attack-animation-")) || (!canConfigure && setting.scope !== "client")) continue;
+
+            // Update setting data
+            const s = duplicate(setting);
+            s.name = game.i18n.localize(s.name);
+            s.hint = game.i18n.localize(s.hint);
+            s.value = game.settings.get(s.module, s.key);
+            s.type = setting.type instanceof Function ? setting.type.name : "String";
+            s.isCheckbox = setting.type === Boolean;
+            s.isSelect = s.choices !== undefined;
+            s.isRange = setting.type === Number && s.range;
+            s.isFilePicker = setting.valueType === "FilePicker";
+
+            // Classify setting
+            const name = s.module;
+            if (s.key.includes("attack-animation-")) data.system.settings.push(s);
+        }
+
+        // Return data
+        return {
+            user: game.user,
+            canConfigure: canConfigure,
+            systemTitle: game.system.data.title,
+            data: data,
+        };
+    }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+        html.find(".submenu button").click(this._onClickSubmenu.bind(this));
+        html.find('button[name="reset"]').click(this._onResetDefaults.bind(this));
+        html.find("button.filepicker").click(this._onFilePicker.bind(this));
+    }
+
+    /**
+     * Handle activating the button to configure User Role permissions
+     * @param event {Event}   The initial button click event
+     * @private
+     */
+    _onClickSubmenu(event) {
+        event.preventDefault();
+        const menu = game.settings.menus.get(event.currentTarget.dataset.key);
+        if (!menu) return ui.notifications.error("No submenu found for the provided key");
+        const app = new menu.type();
+        return app.render(true);
+    }
+
+    /* -------------------------------------------- */
+
+    /**
+     * Handle button click to reset default settings
+     * @param event {Event}   The initial button click event
+     * @private
+     */
+    _onResetDefaults(event) {
+        event.preventDefault();
+        const button = event.currentTarget;
+        const form = button.form;
+        for (let [k, v] of game.settings.settings.entries()) {
+            if (!v.config) {
+                let input = form[k];
+                if (input && input.type === "checkbox") {
+                    input.checked = v.default;
+                }
+                else if (input) {
+                    input.value = v.default;
+                }
+            }
+        }
+    }
+
+    /* -------------------------------------------- */
+
+    _onFilePicker(event) {
+        event.preventDefault();
+
+        const fp = new FilePicker({
+            type: "image",
+            callback: (path) => {
+                $(event.currentTarget).prev().val(path);
+                //this._onSubmit(event);
+            },
+            top: this.position.top + 40,
+            left: this.position.left + 10,
+        });
+        return fp.browse();
+    }
+
+    /* -------------------------------------------- */
+
+    /** @override */
+    async _updateObject(event, formData) {
+        for (let [k, v] of Object.entries(flattenObject(formData))) {
+            let s = game.settings.settings.get(k);
+            let current = game.settings.get(s.module, s.key);
+            if (v !== current) {
+                await game.settings.set(s.module, s.key, v);
+            }
+        }
+    }
 }

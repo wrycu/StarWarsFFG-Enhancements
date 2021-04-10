@@ -1,6 +1,6 @@
 /**
  * Use this function as a setting's type to add a file-picker.
- * @param {object} val 
+ * @param {object} val
  * @returns val
  */
 export function setting_image(val) {
@@ -9,7 +9,7 @@ export function setting_image(val) {
 
 /**
  * Use this function as a setting's type to add a file-picker.
- * @param {object} val 
+ * @param {object} val
  * @returns val
  */
 export function setting_audio(val) {

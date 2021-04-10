@@ -1,0 +1,64 @@
+{{#*inline "settingPartial"}}
+<div class="form-group">
+    <label>
+    {{#iff this.type '==' 'setting_image'}}
+        <i class="fas fa-video"></i>
+    {{/iff}}
+    {{#iff this.type '==' 'setting_audio'}}
+        <i class="fas fa-volume-up"></i>
+    {{/iff}}
+        &nbsp;{{this.name}}
+    </label>
+    <div class="form-fields">
+    {{#if this.isCheckbox}}
+        <input data-dtype="Boolean" name="{{this.module}}.{{this.key}}" this.value}} type="checkbox" {{checked/>
+
+    {{else if this.isSelect}}
+        <select name="{{this.module}}.{{this.key}}">
+            {{#select this.value}} {{#each this.choices as |name k|}}
+            <option value="{{k}}">{{localize name}}</option>
+            {{/each}} {{/select}}
+        </select>
+
+    {{else if this.isRange}}
+        <input data-dtype="Number" max="{{ this.range.max }}" min="{{ this.range.min }}" name="{{this.module}}.{{this.key}}"
+               step="{{ this.range.step }}" type="range" value="{{ this.value }}"/>
+        <span class="range-value">{{this.value}}</span>
+
+    {{else if this.isFilePicker}}
+        <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
+        <button class="filepicker" type="button">...</button>
+    {{else}}
+        <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
+        {{#iff this.type '==' 'setting_image'}}
+            <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="image" type="button">
+                <i class="fas fa-file-import"></i>
+            </button>
+        {{/iff}}
+        {{#iff this.type '==' 'setting_audio'}}
+            <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="audio" type="button">
+                <i class="fas fa-file-import"></i>
+            </button>
+        {{/iff}}
+    {{/if}}
+    </div>
+
+    <p class="notes">{{this.hint}}</p>
+</div>
+{{/inline}}
+
+<form autocomplete="off" class="flexcol">
+    <section class="content" id="config-tabs">
+        <div class="settings-list">
+            <h2 class="module-header">{{ localize data.system.title }}</h2>
+            {{#each data.system.menus}} {{> menuPartial}} {{/each}} {{#each data.system.settings}} {{> settingPartial}}
+            {{else}}
+            <p class="notes">{{localize 'SETTINGS.None'}}</p>
+            {{/each}}
+        </div>
+    </section>
+    <footer class="sheet-footer flexrow">
+        <button name="submit" type="submit"><i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}</button>
+        <button name="reset" type="button"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
+    </footer>
+</form>
