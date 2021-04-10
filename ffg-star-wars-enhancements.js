@@ -119,19 +119,8 @@ function register_hooks() {
             /* do initial action which was requested */
             var created_data = await wrapped(args[0], args[1]);
             /* call the attack animation code */
-            if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
-                log('attack_rename', 'Not renaming actors because libWrapper is not installed and active');
-                ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
-            } else {
-                rename_actors(created_data, ...args);
-            }
-            if (!game.modules.get('lib-wrapper')?.active && game.user.isGM) {
-                log('attack_rename', 'Not renaming actors because libWrapper is not installed and active');
-                ui.notifications.error("FFG Star Wars Enhancements requires the 'libWrapper' module. Please install and activate it.");
-            } else {
-                strain_reminder(created_data, ...args);
-            }
-            /* call the strain code */
+            rename_actors(created_data, ...args);
+            strain_reminder(created_data, ...args);
         }
     );
 }
