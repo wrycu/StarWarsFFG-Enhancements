@@ -6,6 +6,7 @@ import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
 import { init as dice_helper_init, dice_helper } from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
+import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 
 Hooks.once('init', async function() {
 	log('base_module', 'Initializing');
@@ -16,6 +17,7 @@ Hooks.once('init', async function() {
     dice_helper_init();
     strain_reminder_init();
     opening_crawl_init();
+    talent_checker_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -65,6 +67,7 @@ Hooks.once('ready', () => {
     rename_actors();
     opening_crawl_ready();
     dice_helper();
+    talent_checker();
     register_hooks();
 });
 
