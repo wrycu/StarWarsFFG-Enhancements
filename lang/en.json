@@ -93,6 +93,8 @@
   "ffg-star-wars-enhancements.dice-helper-1de-4": "Tool / weapon being used is damaged",
   "ffg-star-wars-enhancements.strain-reminder": "Enable strain combat reminder",
   "ffg-star-wars-enhancements.strain-reminder-hint": "A message with the starting strain will be sent as each PC enters combat",
-  "ffg-star-wars-enhancements.talent-checker.enable": "Apply status for actors with the Adversary talent",
-  "ffg-star-wars-enhancements.talent-checker.enable-hint": "tbd idk"
+  "ffg-star-wars-enhancements.talent-checker.enable": "Enable talent checker",
+  "ffg-star-wars-enhancements.talent-checker.enable-hint": "Applies a status for tokens with the Adversary talent",
+  "ffg-star-wars-enhancements.talent-checker.status": "Status to apply",
+  "ffg-star-wars-enhancements.talent-checker.status-hint": "Image which will be auto-added to tokens with the Adversary talent"
 }

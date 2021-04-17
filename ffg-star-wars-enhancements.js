@@ -16,8 +16,8 @@ Hooks.once('init', async function() {
 	attack_animation_init();
     dice_helper_init();
     strain_reminder_init();
-    opening_crawl_init();
     talent_checker_init();
+    opening_crawl_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
