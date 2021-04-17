@@ -95,6 +95,9 @@
   "ffg-star-wars-enhancements.strain-reminder-hint": "A message with the starting strain will be sent as each PC enters combat",
   "ffg-star-wars-enhancements.talent-checker.enable": "Enable talent checker",
   "ffg-star-wars-enhancements.talent-checker.enable-hint": "Applies a status for tokens with the Adversary talent",
+  "ffg-star-wars-enhancements.talent-checker.title": "Talent Checker settings manager",
+  "ffg-star-wars-enhancements.talent-checker.conf": "Talent Checker settings",
+  "ffg-star-wars-enhancements.talent-checker.conf-hint": "Configure Adversary tracking",
   "ffg-star-wars-enhancements.talent-checker.status": "Status to apply",
   "ffg-star-wars-enhancements.talent-checker.status-hint": "Image which will be auto-added to tokens with the Adversary talent"
 }
