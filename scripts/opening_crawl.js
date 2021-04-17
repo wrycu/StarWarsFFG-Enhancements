@@ -107,17 +107,7 @@ class OpeningCrawlApplication extends Application {
 
             html[0].style.display = "none";
 
-            // Audio cannot autoplay in a window that the user has not
-            // interacted with. The audio helper will queue up sounds until the
-            // user interacts with the window. If we don't wait for the user to
-            // interact with the window, the music will start delayed.
-            if (game.audio.locked) {
-                game.audio.pending.push(() => {
-                    this.play_music(start_animation);
-                });
-            } else {
-                this.play_music(start_animation);
-            }
+            this.play_music(start_animation);
         }
     }
 
