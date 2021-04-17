@@ -1,5 +1,5 @@
 # StarWarsFFG_Enhancements
-Module intended to provide minor enhancements for the[StarWarsFFG FoundryVTT system](https://github.com/StarWarsFoundryVTT/StarWarsFFG).
+Module intended to provide minor enhancements for the [StarWarsFFG FoundryVTT system](https://github.com/StarWarsFoundryVTT/StarWarsFFG) without including any copyrighted content.
 
 ## Scope
 
@@ -24,3 +24,8 @@ This module is designed to supplement the
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### What about copyright?
+Creating a module like this is tricky - there's a fine line between helpful tweaks and straight-up including copyrighted assets. As such:
+* We specifically exclude any content to which we do not have rights
+* We provide licensing information for all third party assets we include
