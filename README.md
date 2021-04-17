@@ -15,6 +15,7 @@ This module is designed to supplement the
 * Provides support for automatic, configurable attack animations (with sounds!)
 * Automatically renames actors in combat (to generic "PC" and "NPC" slots)
 * Provides tips on how to spend combat dice results
+* AUtomatically adds a status to tokens which have the `Adversary` talent
 
 ### Utilities
 * Includes Star Wars-like fonts
