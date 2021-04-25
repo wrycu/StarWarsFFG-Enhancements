@@ -29,3 +29,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 Creating a module like this is tricky - there's a fine line between helpful tweaks and straight-up including copyrighted assets. As such:
 * We specifically exclude any content to which we do not have rights
 * We provide licensing information for all third party assets we include
+
+## Installation
+Installing the Dev branch (the only version currently available) requires using the manifest file from `module-dev.json`.  At the time of writing, this means you should install with a URL of `https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/dev/module-dev.json`.
