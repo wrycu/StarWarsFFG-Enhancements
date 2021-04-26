@@ -1,0 +1,34 @@
+
+    <h2>Store Inventory</h2>
+
+    <table border="1">
+    <tbody>
+    <tr>
+        <td>Image</td>
+        <td>Item</td>
+        <td>Type</td>
+        <td>Price</td>
+        <td>Roll Result</td>
+        <td>Action</td>
+    </tr>
+    {{#each inventory as |item|}}
+    <tr>
+        <td><img height="64" src="{{item.item.image}}" width="128"></td>
+        <td>
+            <a class="entity-link" data-id="{{item.item.id}}" data-pack="{{item.item.compendium}}" draggable="true">
+                {{item.item.name}}
+            </a>
+        </td>
+        <td>{{item.item.type}}</td>
+        <td>{{item.price}}</td>
+        <td>{{{item.roll}}}</td>
+        <td>
+            {{log 'hello' actors}}
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+    </table>
+
+
+
