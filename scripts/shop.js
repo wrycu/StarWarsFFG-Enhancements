@@ -72,8 +72,8 @@ class Shop {
         }
         this.shady = shady;
         this.compendiums = specialization_mapping[specialization];
-        this.min_items = min_items;
-        this.max_items = max_items;
+        this.min_items = parseInt(min_items);
+        this.max_items = parseInt(max_items);
         this.location_modifier = location_mapping[location];
         this.price_modifier = price_mapping[location_mapping[location]];
         this.actor_id = actor;
@@ -84,7 +84,7 @@ class Shop {
     async shop() {
         log(module_name, "Let's go shopping!");
         /* generate random number */
-        let generate_count = Math.floor((Math.random() * this.max_items) + this.min_items);
+        let generate_count = Math.floor((Math.random() * (this.max_items - this.min_items)) + this.min_items);
         log(module_name, "Our shop will have " + generate_count + " items (between " + this.min_items + " and " + this.max_items + ")");
         let index_galaxy = 0;
         let possible_items_raw = [];
