@@ -233,6 +233,10 @@ async function get_player_actors() {
     return pcs;
 }
 
+function send_item_to_user(...args) {
+    console.log(...args)
+}
+
 class ShopGenerator extends FormApplication {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -267,6 +271,9 @@ class ShopGenerator extends FormApplication {
                         label: "Don't show again",
                         callback: () => game.settings.set("JB2A_DnD5e", "runonlyonce", true)
                     },
+                    three: {
+                        callback: send_item_to_user
+                    }
                 },
             }, {
                 // options
