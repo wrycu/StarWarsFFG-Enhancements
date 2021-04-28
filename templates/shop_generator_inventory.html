@@ -15,6 +15,9 @@
 <tr>
     <td><img height="64" src="{{item.image}}" width="128"></td>
     <td>
+        {{#if item.restricted}}
+        <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
+        {{/if}}
         <a class="entity-link" data-id="{{item.id}}" data-pack="{{item.compendium}}" draggable="true">
             {{item.name}}
         </a>

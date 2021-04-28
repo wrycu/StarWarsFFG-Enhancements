@@ -36,23 +36,52 @@ class Shop {
          */
         log(module_name, 'Initializing shop object');
         let specialization_mapping = {
-            'general': [
-                'world.oggdudearmor',
-                'world.oggdudegear',
-                'world.oggdudeweapons',
-            ],
-            'armor': [
-                'world.oggdudearmor',
-            ],
-            'gear': [
-                'world.oggdudegear',
-            ],
-            'weapon': [
-                'world.oggdudeweapons',
-            ],
-            'nerf_herder': [
-                'world.oggdudegear',
-            ],
+            'general': {
+                'compendiums': [
+                    'world.oggdudearmor',
+                    'world.oggdudegear',
+                    'world.oggdudeweapons',
+                    'world.oggdudeitemattachments',
+                ],
+                'types': [
+                    'weapon',
+                    'gear',
+                    'armour',
+                    'itemattachment',
+                ],
+            },
+            'armor': {
+                'compendiums': [
+                    'world.oggdudearmor',
+                ],
+                'types': [
+                    'armour'
+                ],
+            },
+            'gear': {
+                'compendiums': [
+                    'world.oggdudegear',
+                ],
+                'types': [
+                    'gear',
+                ],
+            },
+            'weapon': {
+                'compendiums': [
+                    'world.oggdudeweapons',
+                ],
+                'types': [
+                    'weapon',
+                ],
+            },
+            'nerf_herder': {
+                'compendiums': [
+                    'world.oggdudegear',
+                ],
+                'types': [
+                    'gear',
+                ],
+            },
         };
         let location_mapping = {
             'minus_two': -2,
@@ -71,7 +100,8 @@ class Shop {
             4: 4,
         }
         this.shady = shady;
-        this.compendiums = specialization_mapping[specialization];
+        this.compendiums = specialization_mapping[specialization]['compendiums'];
+        this.item_types = specialization_mapping[specialization]['types'];
         this.min_items = parseInt(min_items);
         this.max_items = parseInt(max_items);
         this.location_modifier = location_mapping[location];
@@ -113,8 +143,12 @@ class Shop {
             log(module_name, "Randomly selected possible shop item. Name: " + possible_items_raw[possible_item_index]['item']['name'] + ", ID: " + possible_items_raw[possible_item_index]['item']['_id']);
             let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getEntity(possible_items_raw[possible_item_index]['item']['_id']);
             // check if it's OK
-            if (possible_item.data.data.rarity.isrestricted === true && this.shady === false){
+            if (possible_item.data.data.rarity.isrestricted === true && this.shady === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)");
+            } else if (this.item_types.includes(possible_item.data.type) === false) {
+                log(module_name, "Rejected item " + possible_item.name + " (item is not an accepted type for this kind of store)");
+            } else if (possible_item.data.type === 'itemattachment' && this.item_types.includes(possible_item.data.data.type) === false) {
+                log(module_name, "Rejected item " + possible_item.name + " (item is a mod for an item type not accepted for this kind of store)");
             } else {
                 // todo: also check if the type meets our requirements for the type of store
                 // path will be item.data.type
@@ -157,8 +191,9 @@ class Shop {
                             'image': possible_items_raw[possible_item_index]['item']['img'],
                             'type': possible_item.data.type,
                             'compendium': possible_items_raw[possible_item_index]['compendium'],
+                            'restricted': possible_item.data.data.rarity.isrestricted,
                         },
-                        'price': possible_item.data.data.price.adjusted * this.price_modifier,
+                        'price': parseInt(possible_item.data.data.price.value) * this.price_modifier,
                         'roll': result_string,
                         'dice_string': pool.renderDiceExpression(),
                     });
