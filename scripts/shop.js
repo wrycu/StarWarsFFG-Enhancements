@@ -3,7 +3,7 @@ import {log_msg as log} from "./util.js";
 let module_name = 'shop_generator';
 
 class Shop {
-    constructor(shady, specialization, min_items, max_items, location, actor) {
+    constructor(shady, specialization, min_items, max_items, location, actor, base_price) {
         /*
         Shop generator
         PURPOSE:
@@ -33,6 +33,7 @@ class Shop {
                  plus_three
                  plus_four
              actor: string - ID of the actor we should use to roll to see if items are in the shop or not
+             base_price: int - % price to report (100 is no change, 50 is half, 200 is double)
          */
         log(module_name, 'Initializing shop object');
         let specialization_mapping = {
@@ -107,6 +108,7 @@ class Shop {
         this.location_modifier = location_mapping[location];
         this.price_modifier = price_mapping[location_mapping[location]];
         this.actor_id = actor;
+        this.base_price = parseInt(base_price);
         log(module_name, 'Shop Initialized!');
         log(module_name, JSON.stringify(this));
     }
@@ -125,7 +127,7 @@ class Shop {
                 possible_items_raw.push({
                     'compendium': this.compendiums[i],
                     'item': compendium_items['index'][x],
-                })
+                });
             }
         }
         log(module_name, "Found " + possible_items_raw.length + " possible items for the shop, now selecting items");
@@ -134,7 +136,7 @@ class Shop {
         while (selected_items.length < generate_count) {
             /* check to see if it's even possible to create items up to our desired amount */
             if (possible_items_raw.length < selected_items) {
-                log(module_name, "Unable to find sufficient items - aborting with " + selected_items.length + " items in shop inventory")
+                log(module_name, "Unable to find sufficient items - aborting with " + selected_items.length + " items in shop inventory");
                 break;
             }
             /* look up the details and see if it makes the shop */
@@ -150,9 +152,7 @@ class Shop {
             } else if (possible_item.data.type === 'itemattachment' && this.item_types.includes(possible_item.data.data.type) === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is a mod for an item type not accepted for this kind of store)");
             } else {
-                // todo: also check if the type meets our requirements for the type of store
-                // path will be item.data.type
-
+                // the item is a fit for our shop, roll to see if the actor finds it or not
                 log(module_name, "Rolling to see if we find the item in the shop or not");
                 // make the check to see if we find the item
                 let difficulty = this.rarity_to_difficulty(possible_item.data.data.rarity.adjusted + this.location_modifier);
@@ -183,6 +183,7 @@ class Shop {
                     for (let i = 0; i<result['despair']; i++) {
                         result_string += '<span class="dietype starwars despair">y</span>';
                     }
+                    let price = (parseInt(possible_item.data.data.price.value) * this.price_modifier) * (this.base_price / 100);
                     log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
                     selected_items.push({
                         'item': {
@@ -193,7 +194,7 @@ class Shop {
                             'compendium': possible_items_raw[possible_item_index]['compendium'],
                             'restricted': possible_item.data.data.rarity.isrestricted,
                         },
-                        'price': parseInt(possible_item.data.data.price.value) * this.price_modifier,
+                        'price': price,
                         'roll': result_string,
                         'dice_string': pool.renderDiceExpression(),
                     });
@@ -287,11 +288,9 @@ class ShopGenerator extends FormApplication {
         };
     }
     async _updateObject(event, data) {
-        let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor']);
+        let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor'], data['shop_base_price']);
         let inventory = await myshop.shop();
         let actors = await get_player_actors();
-        console.log("timtimtim")
-        console.log(actors)
         let d = new Dialog(
             {
                 title: "Let's go shopping!",
@@ -301,14 +300,6 @@ class ShopGenerator extends FormApplication {
                         icon: '<i class="fas fa-clipboard-list"></i>',
                         label: "OK",
                     },
-                    two: {
-                        icon: '<i class="fas fa-clipboard-check"></i>',
-                        label: "Don't show again",
-                        callback: () => game.settings.set("JB2A_DnD5e", "runonlyonce", true)
-                    },
-                    three: {
-                        callback: send_item_to_user
-                    }
                 },
             }, {
                 // options

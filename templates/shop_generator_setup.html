@@ -3,10 +3,10 @@
     <div class="form-group">
         <label for="shop_type">Type of shop</label>
         <select id="shop_type" name="shop_type">
-            <option value="general">general</option>
+            <option selected value="general">general</option>
             <option value="armor">armor</option>
             <option value="gear">gear</option>
-            <option selected value="weapon">weapon</option>
+            <option value="weapon">weapon</option>
             <option value="nerf_herder">nerf_herder</option>
         </select>
     </div>
@@ -23,7 +23,7 @@
         <select id="shop_location" name="shop_location">
             <option value="minus_two">Primary Core world</option>
             <option value="minus_one">Other Core world, world on primary trade lane</option>
-            <option selected value="no_change">Colony or Inner Rim world, civilized world</option>
+            <option selected value="no_change">Colony, Inner Rim, or civilized world</option>
             <option value="plus_one">Mid Rim or recently settled world</option>
             <option value="plus_two">Outer Rim or Frontier world</option>
             <option value="plus_three">Wild Space world</option>
@@ -41,6 +41,10 @@
                 <option value="{{actor.id}}">{{actor.name}}</option>
             {{/each}}
         </select>
+    </div>
+    <div class="form-group">
+        <label for="shop_base_price">Base Price Percent</label>
+        <input id="shop_base_price" name="shop_base_price" placeholder="100" type="text" value="100">
     </div>
     <button class="create" type="submit" value="create"><i class="fas fa-plus"></i>Create Shop</button>
 </form>
