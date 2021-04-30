@@ -291,6 +291,11 @@ class ShopGenerator extends FormApplication {
         let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor'], data['shop_base_price']);
         let inventory = await myshop.shop();
         let actors = await get_player_actors();
+        /* send a chat message */
+        ChatMessage.create({
+            content: (await getTemplate('modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_chat.html'))({inventory: inventory, actors: actors})
+        });
+        /* create a dialog window */
         let d = new Dialog(
             {
                 title: "Let's go shopping!",

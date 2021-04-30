@@ -8,6 +8,7 @@ import { init as dice_helper_init, dice_helper } from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { open_shop_generator } from "./scripts/shop.js";
+import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
 
 Hooks.once('init', async function() {
 	log('base_module', 'Initializing');
@@ -19,6 +20,7 @@ Hooks.once('init', async function() {
     strain_reminder_init();
     talent_checker_init();
     opening_crawl_init();
+    shop_generator_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -67,6 +69,7 @@ Hooks.once('ready', () => {
     /* register functionality here */
     rename_actors();
     opening_crawl_ready();
+    shop_sheet_ready();
     dice_helper();
     talent_checker();
     register_hooks();

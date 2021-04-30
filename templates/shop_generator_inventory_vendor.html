@@ -1,0 +1,87 @@
+<form autocomplete="off" class="{{cssClass}} character">
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+        <div data-actor="{{actor._id}}" id="actor-id" style="display: none;"></div>
+        <div class="header-fields">
+            {{!-- Character Details Container --}}
+            <div class="container" style="flex-wrap: nowrap;">
+                <div class="profile-block">
+                    <div>
+                        <img class="profile-img" data-edit="img" height="100" src="{{actor.img}}" title="{{actor.name}}"
+                             width="100"/>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="header-name header-description-block">
+                        <div>
+                            <h2><input data-dtype="String" name="name" placeholder="{{localize 'SWFFG.Name'}}"
+                                       type="text" value="{{actor.name}}"/></h2>
+                        </div>
+                        <div class="table">
+                            <div class="row">
+                                <div>{{localize "SWFFG.Species"}}:</div>
+                                <div class="row-input">
+                                    {{#each actor.items as |item id|}} {{#iff item.type '==' 'species'}}
+                                    <div class="species-pill item" data-item-id="{{item._id}}">{{item.name}} <i
+                                            class="fas fa-times item-delete"></i></div>
+                                    {{/iff}}{{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {{!-- Sheet Body --}}
+    <section class="sheet-body" style="{{#if limited}}display:none;{{/if}}">
+
+
+        <h2>Store Inventory&nbsp;<a class="refresh"><i class="fas fa-redo"></i></a></h2>
+
+        <table border="1">
+            <tbody>
+            <tr>
+                <td>Image</td>
+                <td>Item</td>
+                <td>Type</td>
+                <td>Price</td>
+                <td>Roll Result</td>
+                <td>Buy Item</td>
+            </tr>
+            {{#inventory}}
+            <tr class="item" data-item-id="{{item.id}}" data-item-name="{{item.name}}" data-item-price="{{price}}">
+                <td><img height="64" src="{{item.image}}" width="128"></td>
+                <td>
+                    {{#if item.restricted}}
+                    <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
+                    {{/if}}
+                    <a class="entity-link" data-id="{{item.id}}" data-pack="{{item.compendium}}" draggable="true">
+                        {{item.name}}
+                    </a>
+                </td>
+                <td>{{item.type}}</td>
+                <td>{{price}}</td>
+                <td>{{{roll}}}</td>
+                <td>
+                    <a class="item-buy content"><i class="fas fa-dollar-sign"></i></a>
+                    <!--
+                    this section is non-functional as of now
+                    <select id="shop_actor" name="shop_actor">
+                        {{#each ../actors}}
+                                <option value="{{this.data.id}}">{{this.data.name}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="dialog"><div class="dialog-buttons">
+                        <button class="dialog-button three" data-button="three"><i class="fas fa-plus"></i>Send</button>
+                    </div></div>
+                    -->
+                </td>
+            </tr>
+            {{/inventory}}
+            </tbody>
+        </table>
+
+
+    </section>
+</form>

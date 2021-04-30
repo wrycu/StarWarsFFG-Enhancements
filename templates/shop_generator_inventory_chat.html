@@ -1,0 +1,26 @@
+<h2>
+  Store Inventory
+</h2>
+<table>
+    <tr>
+        <th>
+            Item
+        </th>
+        <th>
+            Cost
+        </th>
+    </tr>
+{{#inventory}}
+<tr>
+    <td>
+        {{#if item.restricted}}
+        <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
+        {{/if}}
+        <a class="entity-link" data-id="{{item.id}}" data-pack="{{item.compendium}}" draggable="true">
+            {{item.name}}
+        </a>
+    </td>
+    <td>{{price}}</td>
+</tr>
+{{/inventory}}
+</table>
