@@ -280,7 +280,7 @@ class ShopGenerator extends FormApplication {
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            template: "modules/ffg-star-wars-enhancements/templates/shop_generator_setup.html",
+            template: "modules/ffg-star-wars-enhancements/templates/shop/setup.html",
             id: "ffg-star-wars-enhancements-shop-generator-setup",
             title: "Shop Generator",
         });
@@ -341,16 +341,10 @@ class ShopGenerator extends FormApplication {
             to_delete,
         );
         // actually create the new items
-        let a = await vendor.createEmbeddedEntity(
+        await vendor.createEmbeddedEntity(
             "OwnedItem",
             to_create,
         );
-        return;
-
-        /* send a chat message */
-        ChatMessage.create({
-            content: (await getTemplate('modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_chat.html'))({inventory: inventory, actors: actors, actor_id: actor_id})
-        });
     }
 }
 

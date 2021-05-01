@@ -87,7 +87,7 @@ class Vendor extends ActorSheetFFGV2 {
 
         mergeObject(options, {
             classes: ["starwarsffg", "sheet", "actor", "v2", "ffg-sw-enhanced", "vendor"],
-            template: "modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_vendor.html",
+            template: "modules/ffg-star-wars-enhancements/templates/shop/inventory.html",
             //template: "systems/starwarsffg/templates/actors/ffg-character-sheet.html",
             width: 710,
             height: 650,
@@ -98,7 +98,7 @@ class Vendor extends ActorSheetFFGV2 {
     }
 
     get template() {
-        return "modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_vendor.html";
+        return "modules/ffg-star-wars-enhancements/templates/shop/inventory.html";
     }
 
     async getData() {
