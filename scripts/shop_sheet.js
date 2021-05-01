@@ -67,7 +67,7 @@ class Vendor extends ActorSheetFFGV2 {
             width: 710,
             height: 650,
             //tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "characteristics" }],
-            scrollY: [".tableWithHeader", ".tab", ".skillsGrid"],
+            scrollY: [".inventory", ".vendor_item"],
         });
         return options;
     }

@@ -1,0 +1,12 @@
+.vendor-inventory {
+    width: 350px;
+    height: 350px;
+    overflow-y: scroll;
+}
+
+.vendor-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}

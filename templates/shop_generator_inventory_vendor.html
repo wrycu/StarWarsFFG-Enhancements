@@ -35,57 +35,59 @@
     </header>
     {{!-- Sheet Body --}}
     <section class="sheet-body">
+        <style>
+            .inventory {
+                width: 100%;
+                height: 100%;
+                overflow-y: scroll;
+            }
 
+            .vendor_item {
+                display: flex;
+                justify-content: center;
+                height: calc(100% + 3.5rem);
+            }
+        </style>
 
         <h2>Store Inventory&nbsp;<a class="refresh"><i class="fas fa-redo"></i></a></h2>
-
-        <table border="1">
-            <tbody>
-            <tr>
-                <td>Image</td>
-                <td>Item</td>
-                <td>Type</td>
-                <td>Price</td>
-                <td>Roll Result</td>
-                <td>Buy Item</td>
-            </tr>
-            {{#inventory}}
-            <tr class="item" data-item-compendium="{{compendium}}" data-item-id="{{id}}" data-item-name="{{name}}" data-item-price="{{price}}" data-item-type="{{flagged}}">
-                <td><img height="64" src="{{image}}" width="128"></td>
-                <td>
-                    {{#if restricted}}
-                    <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
-                    {{/if}}
-                    {{#if flagged}}
-                    <a class="entity-link" data-id="{{id}}" data-pack="{{compendium}}" draggable="true">
-                        {{name}}
-                    </a>
-                    {{else}}
-                    <a class="entity-link" data-entity="Item" data-id="{{id}}" draggable="true">
-                        {{name}}
-                    </a>
-                    {{/if}}
-                </td>
-                <td>{{type}}</td>
-                <td>{{price}}</td>
-                <td>{{{roll}}}</td>
-                <td>
-                    <a class="item-buy content"><i class="fas fa-dollar-sign"></i></a>
-                    <!--
-                    this section is non-functional as of now
-                    <select id="shop_actor" name="shop_actor">
-                        {{#each ../actors}}
-                                <option value="{{this.data.id}}">{{this.data.name}}</option>
-                        {{/each}}
-                    </select>
-                    <div class="dialog"><div class="dialog-buttons">
-                        <button class="dialog-button three" data-button="three"><i class="fas fa-plus"></i>Send</button>
-                    </div></div>
-                    -->
-                </td>
-            </tr>
-            {{/inventory}}
-            </tbody>
-        </table>
+        <div class="inventory">
+            <table border="1"  class="vendor_item" >
+                <tbody>
+                <tr>
+                    <td>Image</td>
+                    <td>Item</td>
+                    <td>Type</td>
+                    <td>Price</td>
+                    <td>Roll Result</td>
+                    <td>Buy Item</td>
+                </tr>
+                {{#inventory}}
+                <tr class="item" data-item-compendium="{{compendium}}" data-item-id="{{id}}" data-item-name="{{name}}" data-item-price="{{price}}" data-item-type="{{flagged}}">
+                    <td><img height="64" src="{{image}}" width="128"></td>
+                    <td>
+                        {{#if restricted}}
+                        <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
+                        {{/if}}
+                        {{#if flagged}}
+                        <a class="entity-link" data-id="{{id}}" data-pack="{{compendium}}" draggable="true">
+                            {{name}}
+                        </a>
+                        {{else}}
+                        <a class="entity-link" data-entity="Item" data-id="{{id}}" draggable="true">
+                            {{name}}
+                        </a>
+                        {{/if}}
+                    </td>
+                    <td>{{type}}</td>
+                    <td>{{price}}</td>
+                    <td>{{{roll}}}</td>
+                    <td>
+                        <a class="item-buy content"><i class="fas fa-dollar-sign"></i></a>
+                    </td>
+                </tr>
+                {{/inventory}}
+                </tbody>
+            </table>
+        </div>
     </section>
 </form>
