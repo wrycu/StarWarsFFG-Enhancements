@@ -23,20 +23,45 @@ async function socket_listener(data) {
         /* is the packet meant for us? */
         if (game.user.id === data.gm_id) {
             console.log("yes, this packet is for us, time to start decoding")
-            console.log(data.seller_id)
-            console.log(data.item_id)
+            let buyer = game.actors.get(data.buyer_id);
+            let seller = game.actors.get(data.seller_id);
             if (data.compendium_item) {
                 console.log("Non-compendium item")
-                var item = await game.actors.get(data.seller_id).getEmbeddedEntity("OwnedItem", data.item_id);
+                var item = await seller.getEmbeddedEntity("OwnedItem", data.item_id);
             } else {
                 console.log("Compendium item")
                 var item = await game.packs.get(data.compendium).getEntity(data.item_id);
+                ChatMessage.create({
+                    content: (
+                        await getTemplate('modules/ffg-star-wars-enhancements/templates/shop/item_purchased.html')
+                    )({actor: buyer.name, item: item.name, vendor: seller.name, price: data.price})
+                });
             }
-            console.log(item)
-            await game.actors.get(data.buyer_id).createEmbeddedEntity("OwnedItem", item);
-            // todo: remove the item from the inventory
-            console.log("removing item from vendor")
-            await game.actors.get(data.seller_id).deleteEmbeddedEntity("OwnedItem", data.item_id);
+            // check to see if the buyer has enough credits to afford the item
+            if (buyer.data.data.stats.credits.value < parseInt(data.price)) {
+                console.log(buyer.name + " attempted to buy " + item.name + " but couldn't afford it!")
+                ChatMessage.create({
+                    content: '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.buyer_id + '">'
+                        + buyer.name + "</a> tried to buy " + item.name + " from "
+                        + '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.seller_id +  '">'
+                        + seller.name + "</a> but couldn't afford the price of " + data.price + " credits!",
+                });
+            } else {
+                console.log(item)
+                await buyer.createEmbeddedEntity("OwnedItem", item);
+                // todo: remove the item from the inventory
+                console.log("removing item from vendor")
+                await seller.deleteEmbeddedEntity("OwnedItem", data.item_id);
+                /* this doesn't seem to actually get reflected on the character sheet */
+                buyer.data.data.stats.credits.value -= parseInt(data.price);
+                ChatMessage.create({
+                    content: '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.buyer_id + '">'
+                        + buyer.name + "</a> bought " + item.name + " from " +
+                        '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.seller_id +  '">'
+                        + seller.name + "</a> for " + data.price + " credits! (make sure to deduct the credits from your sheet)",
+                });
+            }
+
         } else {
             console.log("rejected message as it isn't for us")
             console.log(game.user.id)
