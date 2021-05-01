@@ -88,10 +88,8 @@ class Vendor extends ActorSheetFFGV2 {
         mergeObject(options, {
             classes: ["starwarsffg", "sheet", "actor", "v2", "ffg-sw-enhanced", "vendor"],
             template: "modules/ffg-star-wars-enhancements/templates/shop/inventory.html",
-            //template: "systems/starwarsffg/templates/actors/ffg-character-sheet.html",
             width: 710,
             height: 650,
-            //tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "characteristics" }],
             scrollY: [".inventory", ".vendor_item"],
         });
         return options;
@@ -103,71 +101,7 @@ class Vendor extends ActorSheetFFGV2 {
 
     async getData() {
         const sheetData = super.getData();
-
-        // Prepare GM Settings
-        //this._prepareGMSettings(sheetData.actor);
-
-        // Prepare isGM attribute in sheet Data
-
-        //console.log("game.user: ", game.user);
-        //if (game.user.isGM) sheetData.isGM = true;
-        //else sheetData.isGM = false;
-        //console.log("sheetData.isGM: ", sheetData.isGM);
-        //console.log(this.actor);
-
-        /*
-        let lootsheettype = await this.actor.getFlag("lootsheetnpc5e", "lootsheettype");
-        if (!lootsheettype) await this.actor.setFlag("lootsheetnpc5e", "lootsheettype", "Loot");
-        lootsheettype = await this.actor.getFlag("lootsheetnpc5e", "lootsheettype");
-        */
-
-        /*
-        let priceModifier = 1.0;
-        if (lootsheettype === "Merchant") {
-            priceModifier = await this.actor.getFlag("lootsheetnpc5e", "priceModifier");
-            if (typeof priceModifier !== 'number') await this.actor.setFlag("lootsheetnpc5e", "priceModifier", 1.0);
-            priceModifier = await this.actor.getFlag("lootsheetnpc5e", "priceModifier");
-        }
-         */
-
-        /*
-        let totalWeight = 0;
-        this.actor.data.items.forEach((item)=>totalWeight += Math.round((item.data.quantity * item.data.weight * 100) / 100));
-
-        let totalPrice = 0;
-        this.actor.data.items.forEach((item)=>totalPrice += Math.round((item.data.quantity * item.data.price * priceModifier * 100) / 100));
-
-        let totalQuantity = 0;
-        this.actor.data.items.forEach((item)=>totalQuantity += Math.round((item.data.quantity * 100) / 100));
-
-        sheetData.lootsheettype = lootsheettype;
-        sheetData.totalItems = this.actor.data.items.length;
-        sheetData.totalWeight = totalWeight.toLocaleString('en');
-        sheetData.totalPrice = totalPrice.toLocaleString('en') + " gp";
-        sheetData.totalQuantity = totalQuantity;
-        sheetData.priceModifier = priceModifier;
-        sheetData.rolltables = game.tables.entities;
-        sheetData.lootCurrency = game.settings.get("lootsheetnpc5e", "lootCurrency");
-        sheetData.lootAll = game.settings.get("lootsheetnpc5e", "lootAll");
-        */
-        let store_inventory = [{"item":{"id":"PuZpoQ526x16hDGH","name":"Mon Calamari Spear Blaster (Spear)","image":"icons/svg/mystery-man.svg","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":1350,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"AK1zQdj959n4FM6E","name":"Jet Pack","image":"worlds/dev/images/packs/oggdudegear/GearJETPACK.png","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":4500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"QFKbITdF2LkE61ct","name":"Corellian Compound Bow (Stun)","image":"worlds/dev/images/packs/oggdudeweapons/WeaponCOMPBOWSTUN.png","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":200,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"NLvVkgtkA85pkImj","name":"Extra Reloads (Model 77 SmartTranq Rounds)","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"tVhsOOJMbcxqVxvA","name":"Dolina Ring Seeds","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":18000,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"g4UmqEiJAcKrkiAy","name":"Top-Loading Magazine","image":"/systems/starwarsffg/images/mod-weapon.png","type":"itemattachment","compendium":"world.oggdudeitemattachments"},"price":50,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"}];
-        //sheetData.inventory = store_inventory;
-        // Return data for rendering
-
         let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
-        console.log("getting sheet data")
-        if (vendor_data === undefined) {
-            /* TEMPORARY jump-starting functionality to provide initial data */
-            vendor_data = {
-                "Mon Calamari Spear Blaster (Spear)": {
-                    "price": 1350,
-                    "roll": "<span class=\"dietype starwars  success\">s</span><span class=\"dietype starwars  success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>",
-                    "dice_string": "6da+2dd",
-                },
-            };
-            this.entity.setFlag("ffg-star-wars-enhancements", "vendor-data", vendor_data);
-        }
-        console.log(vendor_data)
 
         console.log("GETTING DATA")
         console.log(this.entity.data.items)
@@ -218,14 +152,16 @@ class Vendor extends ActorSheetFFGV2 {
                 })
             }
         }
-        console.log(inventory_data)
-        sheetData.inventory = inventory_data;
+        let tmp_sheet_data = {
+            'inventory': inventory_data,
+            'meta': {
+                'is_gm': game.user.isGM,
+            },
+        }
+        console.log(tmp_sheet_data)
+        sheetData.inventory = tmp_sheet_data;
         return sheetData;
     }
-
-    /* -------------------------------------------- */
-    /*  Event Listeners and Handlers
-    /* -------------------------------------------- */
 
     /**
      * Activate event listeners using the prepared sheet HTML
@@ -235,31 +171,11 @@ class Vendor extends ActorSheetFFGV2 {
         super.activateListeners(html);
         // buy item
         html.find('.item-buy').click(ev => this._buyItem(ev));
+        // remove item from inventory
+        html.find('.item-remove').click(ev => this._remove_item(ev));
         // refresh inventory
         html.find('.refresh').click(ev => this._refresh_stock(ev));
     }
-
-    /* -------------------------------------------- */
-
-    /**
-     * Handle merchant settings change
-     * @private
-     */
-     async _merchantSettingChange(event, html) {
-
-    }
-
-     /* -------------------------------------------- */
-
-    /**
-     * Handle merchant inventory update
-     * @private
-     */
-     async _merchantInventoryUpdate(event, html) {
-
-    }
-
-        /* -------------------------------------------- */
 
     /**
      * Handle buy item
@@ -298,7 +214,6 @@ class Vendor extends ActorSheetFFGV2 {
 
         let item_id = await find_item_id(this.entity.id, item_name);
         console.log("(buy): detected buy attempt for item " + item_name + "; found ID: " + item_id)
-        //const item = this.actor.getEmbeddedEntity("OwnedItem", item_id);
 
         let buy_packet = {
             type: "buy",
@@ -314,6 +229,18 @@ class Vendor extends ActorSheetFFGV2 {
         console.log("sending buy packet")
         console.log(buy_packet)
         game.socket.emit('module.ffg-star-wars-enhancements', buy_packet);
+    }
+
+    /**
+     * Handle delete item
+     * @private
+     */
+    async _remove_item(event, all = 0) {
+        event.preventDefault();
+        console.log("remove item or something")
+        let item_name = $(event.currentTarget).parents(".item").attr("data-item-name");
+        let item_id = await find_item_id(this.entity.id, item_name);
+        await game.actors.get(this.entity.id).deleteEmbeddedEntity("OwnedItem", item_id);
     }
 
     async _refresh_stock(event, all = 0) {

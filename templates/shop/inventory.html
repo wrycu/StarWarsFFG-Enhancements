@@ -49,7 +49,7 @@
             }
         </style>
 
-        <h2>Store Inventory&nbsp;<a class="refresh"><i class="fas fa-redo"></i></a></h2>
+        <h2>Store Inventory&nbsp;{{#if inventory.meta.is_gm}}<a class="refresh"><i class="fas fa-redo"></i></a>{{/if}}</h2>
         <div class="inventory">
             <table border="1"  class="vendor_item" >
                 <tbody>
@@ -59,9 +59,15 @@
                     <td>Type</td>
                     <td>Price</td>
                     <td>Roll Result</td>
-                    <td>Buy Item</td>
+                    <td>
+                        {{#if ../inventory.meta.is_gm}}
+                        Delete Item
+                        {{else}}
+                        Buy Item
+                        {{/if}}
+                    </td>
                 </tr>
-                {{#inventory}}
+                {{#each inventory.inventory}}
                 <tr class="item" data-item-compendium="{{compendium}}" data-item-id="{{id}}" data-item-name="{{name}}" data-item-price="{{price}}" data-item-type="{{flagged}}">
                     <td><img height="64" src="{{image}}" width="128"></td>
                     <td>
@@ -82,10 +88,14 @@
                     <td>{{price}}</td>
                     <td>{{{roll}}}</td>
                     <td>
+                        {{#if ../inventory.meta.is_gm}}
+                        <a class="item-remove content"><i class="fas fa-trash-alt"></i></a>
+                        {{else}}
                         <a class="item-buy content"><i class="fas fa-dollar-sign"></i></a>
+                        {{/if}}
                     </td>
                 </tr>
-                {{/inventory}}
+                {{/each}}
                 </tbody>
             </table>
         </div>
