@@ -34,7 +34,7 @@
         </div>
     </header>
     {{!-- Sheet Body --}}
-    <section class="sheet-body" style="{{#if limited}}display:none;{{/if}}">
+    <section class="sheet-body">
 
 
         <h2>Store Inventory&nbsp;<a class="refresh"><i class="fas fa-redo"></i></a></h2>
@@ -50,17 +50,23 @@
                 <td>Buy Item</td>
             </tr>
             {{#inventory}}
-            <tr class="item" data-item-id="{{item.id}}" data-item-name="{{item.name}}" data-item-price="{{price}}">
-                <td><img height="64" src="{{item.image}}" width="128"></td>
+            <tr class="item" data-item-compendium="{{compendium}}" data-item-id="{{id}}" data-item-name="{{name}}" data-item-price="{{price}}" data-item-type="{{flagged}}">
+                <td><img height="64" src="{{image}}" width="128"></td>
                 <td>
-                    {{#if item.restricted}}
+                    {{#if restricted}}
                     <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
                     {{/if}}
-                    <a class="entity-link" data-id="{{item.id}}" data-pack="{{item.compendium}}" draggable="true">
-                        {{item.name}}
+                    {{#if flagged}}
+                    <a class="entity-link" data-id="{{id}}" data-pack="{{compendium}}" draggable="true">
+                        {{name}}
                     </a>
+                    {{else}}
+                    <a class="entity-link" data-entity="Item" data-id="{{id}}" draggable="true">
+                        {{name}}
+                    </a>
+                    {{/if}}
                 </td>
-                <td>{{item.type}}</td>
+                <td>{{type}}</td>
                 <td>{{price}}</td>
                 <td>{{{roll}}}</td>
                 <td>
@@ -81,7 +87,5 @@
             {{/inventory}}
             </tbody>
         </table>
-
-
     </section>
 </form>

@@ -274,6 +274,10 @@ function send_item_to_user(...args) {
 }
 
 class ShopGenerator extends FormApplication {
+    constructor(actor_id=null) {
+        super();
+        this.actor_id = actor_id;
+    }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/shop_generator_setup.html",
@@ -291,32 +295,66 @@ class ShopGenerator extends FormApplication {
         let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor'], data['shop_base_price']);
         let inventory = await myshop.shop();
         let actors = await get_player_actors();
+        //console.log("update object: actor_id: " + actor_id)
+
+        /* set the store data as a flag on the actor we got passed in (assuming one was) */
+        let actor_id = this.actor_id;
+        let vendor = game.actors.get(actor_id);
+        // modify the inventory format into the flag format
+        let flag_data = {}
+        // this is a different iteration than the one below because we trigger a data update on the lower one and
+        // we want the flag set before we trigger that
+        for (let x = 0; x < inventory.length; x++) {
+            let item = inventory[x];
+            console.log(item)
+            flag_data[item.item.name] = {
+                price: item.price,
+                roll: item.roll,
+                dice_string: item.dice_string,
+                image: item.item.image,
+                compendium: item.item.compendium,
+                flagged_id: item.item.id,
+            }
+        }
+        // set up to delete items from the vendor
+        let to_delete = [];
+        for (let x = 0; x < vendor.data.items.length; x++) {
+            to_delete.push(vendor.data.items[x]._id);
+        }
+
+
+
+        // set up to create the items for the vendor
+        let to_create = [];
+        for (let x = 0; x < inventory.length; x++) {
+            let item = inventory[x].item;
+            to_create.push(await game.packs.get(item.compendium).getEntity(item.id));
+        }
+
+        console.log("flag data")
+        console.log(flag_data)
+        // set the extended data as a flag
+        vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
+        // actually delete the old items
+        vendor.deleteEmbeddedEntity(
+            "OwnedItem",
+            to_delete,
+        );
+        // actually create the new items
+        let a = await vendor.createEmbeddedEntity(
+            "OwnedItem",
+            to_create,
+        );
+        return;
+
         /* send a chat message */
         ChatMessage.create({
-            content: (await getTemplate('modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_chat.html'))({inventory: inventory, actors: actors})
+            content: (await getTemplate('modules/ffg-star-wars-enhancements/templates/shop_generator_inventory_chat.html'))({inventory: inventory, actors: actors, actor_id: actor_id})
         });
-        /* create a dialog window */
-        let d = new Dialog(
-            {
-                title: "Let's go shopping!",
-                content: (await getTemplate('modules/ffg-star-wars-enhancements/templates/shop_generator_inventory.html'))({inventory: inventory, actors: actors}),
-                buttons: {
-                    one: {
-                        icon: '<i class="fas fa-clipboard-list"></i>',
-                        label: "OK",
-                    },
-                },
-            }, {
-                // options
-                width: 1024,
-                height: 768,
-            }
-        );
-        d.render(true);
-
     }
 }
 
-export function open_shop_generator() {
-    new ShopGenerator().render(true);
+export function open_shop_generator(actor_id=null) {
+    console.log("shop generator for " + actor_id)
+    new ShopGenerator(actor_id).render(true);
 }

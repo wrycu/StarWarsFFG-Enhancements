@@ -1,5 +1,6 @@
 import { ActorSheetFFGV2 } from "../../../systems/starwarsffg/modules/actors/actor-sheet-ffg-v2.js"
 import {log_msg as log} from "./util.js";
+import {open_shop_generator} from "./shop.js"
 
 export function init() {
     Actors.registerSheet("ffg", Vendor, {
@@ -24,7 +25,13 @@ async function socket_listener(data) {
             console.log("yes, this packet is for us, time to start decoding")
             console.log(data.seller_id)
             console.log(data.item_id)
-            let item = await game.actors.get(data.seller_id).getEmbeddedEntity("OwnedItem", data.item_id);
+            if (data.compendium_item) {
+                console.log("Non-compendium item")
+                var item = await game.actors.get(data.seller_id).getEmbeddedEntity("OwnedItem", data.item_id);
+            } else {
+                console.log("Compendium item")
+                var item = await game.packs.get(data.compendium).getEntity(data.item_id);
+            }
             console.log(item)
             await game.actors.get(data.buyer_id).createEmbeddedEntity("OwnedItem", item);
             // todo: remove the item from the inventory
@@ -119,8 +126,75 @@ class Vendor extends ActorSheetFFGV2 {
         sheetData.lootAll = game.settings.get("lootsheetnpc5e", "lootAll");
         */
         let store_inventory = [{"item":{"id":"PuZpoQ526x16hDGH","name":"Mon Calamari Spear Blaster (Spear)","image":"icons/svg/mystery-man.svg","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":1350,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"AK1zQdj959n4FM6E","name":"Jet Pack","image":"worlds/dev/images/packs/oggdudegear/GearJETPACK.png","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":4500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"QFKbITdF2LkE61ct","name":"Corellian Compound Bow (Stun)","image":"worlds/dev/images/packs/oggdudeweapons/WeaponCOMPBOWSTUN.png","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":200,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"NLvVkgtkA85pkImj","name":"Extra Reloads (Model 77 SmartTranq Rounds)","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"tVhsOOJMbcxqVxvA","name":"Dolina Ring Seeds","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":18000,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"g4UmqEiJAcKrkiAy","name":"Top-Loading Magazine","image":"/systems/starwarsffg/images/mod-weapon.png","type":"itemattachment","compendium":"world.oggdudeitemattachments"},"price":50,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"}];
-        sheetData.inventory = store_inventory;
+        //sheetData.inventory = store_inventory;
         // Return data for rendering
+
+        let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
+        console.log("getting sheet data")
+        if (vendor_data === undefined) {
+            /* TEMPORARY jump-starting functionality to provide initial data */
+            vendor_data = {
+                "Mon Calamari Spear Blaster (Spear)": {
+                    "price": 1350,
+                    "roll": "<span class=\"dietype starwars  success\">s</span><span class=\"dietype starwars  success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>",
+                    "dice_string": "6da+2dd",
+                },
+            };
+            this.entity.setFlag("ffg-star-wars-enhancements", "vendor-data", vendor_data);
+        }
+        console.log(vendor_data)
+
+        console.log("GETTING DATA")
+        console.log(this.entity.data.items)
+        let inventory_data = [];
+        for (let x = 0; x < this.entity.data.items.length; x++) {
+            /* merge the flag data with the inventory data so we can render it in the template */
+            let item = this.entity.data.items[x];
+            if (this.entity.data.items[x].name in vendor_data) {
+                let stupid_id = this.entity.getOwnedItem(item._id);
+                console.log(stupid_id)
+                console.log(stupid_id.id)
+                console.log("flagged item")
+                console.log(vendor_data[item.name].flagged_id)
+                console.log(item.flags.ffgTempId)
+                console.log({
+                    name: item.name,
+                    id: vendor_data[item.name].flagged_id,
+                    compendium: vendor_data[item.name].compendium,
+                    image: vendor_data[item.name].image,
+                    price: vendor_data[item.name].price,
+                    roll: vendor_data[item.name].roll,
+                    type: item.type,
+                    restricted: item.restricted,
+                })
+                inventory_data.push({
+                    name: item.name,
+                    id: vendor_data[item.name].flagged_id,
+                    compendium: vendor_data[item.name].compendium,
+                    image: vendor_data[item.name].image,
+                    price: vendor_data[item.name].price,
+                    roll: vendor_data[item.name].roll,
+                    type: item.type,
+                    restricted: item.restricted,
+                    flagged: true,
+                })
+            } else {
+                console.log("non-flagged item")
+                console.log(item)
+                inventory_data.push({
+                    name: item.name,
+                    id: item.flags.ffgTempId,
+                    image: item.img,
+                    price: "TBD", // todo: this needs to check the store settings and modify the item price by that
+                    roll: "Manually Added", // manually added item,
+                    type: item.type,
+                    restricted: item.data.rarity.isrestricted,
+                    flagged: false,
+                })
+            }
+        }
+        console.log(inventory_data)
+        sheetData.inventory = inventory_data;
         return sheetData;
     }
 
@@ -194,6 +268,8 @@ class Vendor extends ActorSheetFFGV2 {
 
         let item_name = $(event.currentTarget).parents(".item").attr("data-item-name");
         let item_price = $(event.currentTarget).parents(".item").attr("data-item-price");
+        let compendium_item = $(event.currentTarget).parents(".item").attr("data-item-type");
+        let compendium = $(event.currentTarget).parents(".item").attr("data-item-compendium");
 
         let item_id = await find_item_id(this.entity.id, item_name);
         console.log("(buy): detected buy attempt for item " + item_name + "; found ID: " + item_id)
@@ -207,27 +283,16 @@ class Vendor extends ActorSheetFFGV2 {
             item_id: item_id,
             quantity: 1,
             gm_id: target_gm.id,
+            compendium_item: compendium_item,
+            compendium: compendium,
         };
         console.log("sending buy packet")
+        console.log(buy_packet)
         game.socket.emit('module.ffg-star-wars-enhancements', buy_packet);
     }
 
     async _refresh_stock(event, all = 0) {
-        let store_inventory = [{"item":{"id":"PuZpoQ526x16hDGH","name":"Mon Calamari Spear Blaster (Spear)","image":"icons/svg/mystery-man.svg","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":1350,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"AK1zQdj959n4FM6E","name":"Jet Pack","image":"worlds/dev/images/packs/oggdudegear/GearJETPACK.png","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":4500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"QFKbITdF2LkE61ct","name":"Corellian Compound Bow (Stun)","image":"worlds/dev/images/packs/oggdudeweapons/WeaponCOMPBOWSTUN.png","type":"weapon","compendium":"world.oggdudeweapons","restricted":false},"price":200,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da+2dd"},{"item":{"id":"NLvVkgtkA85pkImj","name":"Extra Reloads (Model 77 SmartTranq Rounds)","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":500,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"tVhsOOJMbcxqVxvA","name":"Dolina Ring Seeds","image":"icons/svg/mystery-man.svg","type":"gear","compendium":"world.oggdudegear","restricted":false},"price":18000,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"},{"item":{"id":"g4UmqEiJAcKrkiAy","name":"Top-Loading Magazine","image":"/systems/starwarsffg/images/mod-weapon.png","type":"itemattachment","compendium":"world.oggdudeitemattachments"},"price":50,"roll":"<span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars success\">s</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span><span class=\"dietype starwars advantage\">a</span>","dice_string":"6da"}];
-        console.log("REFRESHING STOCK LULZ")
-        let vendor = game.actors.get(this.entity.id);
-        console.log(vendor)
-        // todo: see if we want to do this or if there's a better way to do it
-        // it's being done because the ID of an item changes once you create it on a person from a compendium
-
-        for (let x = 0; x < store_inventory.length; x++) {
-            console.log("checking to see if we need to create item #" + x)
-            let item = await game.packs.get(store_inventory[x].item.compendium).getEntity(store_inventory[x].item.id);
-            console.log(item)
-            if (vendor.getEmbeddedEntity("OwnedItem", item.id) === null) {
-                console.log("creating item " + item.name)
-                vendor.createEmbeddedEntity("OwnedItem", item);
-            }
-        }
+        log("refreshing stock for " + this.entity.id)
+        open_shop_generator(this.entity.id);
     }
 }
