@@ -18,7 +18,7 @@
             "name": "x0d0a"
         }
     ],
-    "version": "0.0.4",
+    "version": "0.1.0",
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
     "dependencies": [
