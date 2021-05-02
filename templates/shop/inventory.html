@@ -49,21 +49,21 @@
             }
         </style>
 
-        <h2>Store Inventory&nbsp;{{#if inventory.meta.is_gm}}<a class="refresh"><i class="fas fa-redo"></i></a>{{/if}}</h2>
+        <h2>{{localize "ffg-star-wars-enhancements.shop.html.inventory.header"}}&nbsp;{{#if inventory.meta.is_gm}}<a class="refresh"><i class="fas fa-redo"></i></a>{{/if}}</h2>
         <div class="inventory">
             <table border="1"  class="vendor_item" >
                 <tbody>
                 <tr>
-                    <td>Image</td>
-                    <td>Item</td>
-                    <td>Type</td>
-                    <td>Price</td>
-                    <td>Roll Result</td>
+                    <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.image"}}</td>
+                    <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.item"}}</td>
+                    <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.type"}}</td>
+                    <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.price"}}</td>
+                    <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.result"}}</td>
                     <td>
                         {{#if ../inventory.meta.is_gm}}
-                        Delete Item
+                        {{localize "ffg-star-wars-enhancements.shop.html.inventory.delete"}}
                         {{else}}
-                        Buy Item
+                        {{localize "ffg-star-wars-enhancements.shop.html.inventory.buy"}}
                         {{/if}}
                     </td>
                 </tr>
