@@ -123,12 +123,16 @@ class Shop {
         let possible_items_raw = [];
         /* build the raw item array */
         for (let i = 0; i < this.compendiums.length; i++) {
-            let compendium_items = await game.packs.get(this.compendiums[i]).getData();
-            for (let x = 0; x < compendium_items['index'].length; x++) {
-                possible_items_raw.push({
-                    'compendium': this.compendiums[i],
-                    'item': compendium_items['index'][x],
-                });
+            try {
+                let compendium_items = await game.packs.get(this.compendiums[i]).getData();
+                for (let x = 0; x < compendium_items['index'].length; x++) {
+                    possible_items_raw.push({
+                        'compendium': this.compendiums[i],
+                        'item': compendium_items['index'][x],
+                    });
+                }
+            } catch ( e ) {
+                log(module_name, "Unable to find compendium " + this.compendiums[i]);
             }
         }
         log(module_name, "Found " + possible_items_raw.length + " possible items for the shop, now selecting items");
