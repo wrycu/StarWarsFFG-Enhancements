@@ -332,10 +332,6 @@ class ShopGenerator extends FormApplication {
             to_create.push(await game.packs.get(item.compendium).getEntity(item.id));
         }
 
-        console.log("flag data")
-        console.log(flag_data)
-        // set the extended data as a flag
-        vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
         // actually delete the old items
         vendor.deleteEmbeddedEntity(
             "OwnedItem",
@@ -346,6 +342,36 @@ class ShopGenerator extends FormApplication {
             "OwnedItem",
             to_create,
         );
+
+        // set the extended data as a flag
+        console.log("flag data")
+        console.log(flag_data)
+        // add the price modifier so we can apply it to drag-and-dropped items
+        // we could actually save all shop settings here, but I am too lazy to do that atm
+        let location_mapping = {
+            'minus_two': -2,
+            'minus_one': -1,
+            'no_change': 0,
+            'plus_one': 1,
+            'plus_two': 2,
+            'plus_three': 3,
+            'plus_four': 4
+        };
+        let price_mapping = {
+            0: 1,
+            1: 1,
+            2: 2,
+            3: 3,
+            4: 4,
+        }
+        flag_data = {
+            'items': flag_data,
+            'meta': {
+                'base_price': parseInt(data['shop_base_price']),
+                'price_modifier': price_mapping[location_mapping[data['shop_location']]],
+            }
+        };
+        vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
     }
 }
 

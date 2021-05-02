@@ -102,6 +102,9 @@ export class Vendor extends ActorSheetFFGV2 {
     async getData() {
         const sheetData = super.getData();
         let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
+        // temporary to avoid having to refactor a bunch of code below
+        let vendor_meta_data = vendor_data['meta'];
+        vendor_data = vendor_data['items'];
 
         console.log("GETTING DATA")
         console.log(this.entity.data.items)
@@ -140,11 +143,12 @@ export class Vendor extends ActorSheetFFGV2 {
             } else {
                 console.log("non-flagged item")
                 console.log(item)
+                let price = (parseInt(item.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
                 inventory_data.push({
                     name: item.name,
                     id: item.flags.ffgTempId,
                     image: item.img,
-                    price: "TBD", // todo: this needs to check the store settings and modify the item price by that
+                    price: price,
                     roll: "Manually Added", // manually added item,
                     type: item.type,
                     restricted: item.data.rarity.isrestricted,
