@@ -11,11 +11,12 @@ This module is designed to supplement the
 ## Enhancements
 ### Features
 * Launch a customizable Opening Crawl based upon the [Kassel Labs Star Wars Intro Creator](https://github.com/KasselLabs/StarWarsIntroCreator)
+* A shop generator
 * Easily create Bounties and Datapada entries for showing players
 * Provides support for automatic, configurable attack animations (with sounds!)
 * Automatically renames actors in combat (to generic "PC" and "NPC" slots)
 * Provides tips on how to spend combat dice results
-* AUtomatically adds a status to tokens which have the `Adversary` talent
+* Automatically adds a status to tokens which have the `Adversary` talent
 
 ### Utilities
 * Includes Star Wars-like fonts
