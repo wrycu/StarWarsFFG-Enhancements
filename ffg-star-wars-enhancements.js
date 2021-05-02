@@ -7,7 +7,7 @@ import { create_datapad_journal } from './scripts/datapads.js'
 import { init as dice_helper_init, dice_helper } from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
-import { open_shop_generator } from "./scripts/shop.js";
+import { shop_creator } from "./scripts/shop.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
 
 Hooks.once('init', async function() {
@@ -107,7 +107,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					icon: "fas fa-shopping-cart",
 					button: true,
 					onClick: () => {
-						open_shop_generator();
+						shop_creator();
 					},
 				},
 			]

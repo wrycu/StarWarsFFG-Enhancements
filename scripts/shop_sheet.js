@@ -80,7 +80,7 @@ async function find_item_id(actor_id, item_name) {
     return null;
 }
 
-class Vendor extends ActorSheetFFGV2 {
+export class Vendor extends ActorSheetFFGV2 {
     /* based extensively on https://github.com/jopeek/fvtt-loot-sheet-npc-5e/blob/master/lootsheetnpc5e.js */
     static get defaultOptions() {
         const options = super.defaultOptions;

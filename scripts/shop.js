@@ -1,4 +1,5 @@
 import {log_msg as log} from "./util.js";
+import {Vendor} from "./shop_sheet.js";
 
 let module_name = 'shop_generator';
 
@@ -351,4 +352,42 @@ class ShopGenerator extends FormApplication {
 export function open_shop_generator(actor_id=null) {
     console.log("shop generator for " + actor_id)
     new ShopGenerator(actor_id).render(true);
+}
+
+class ShopCreator extends FormApplication {
+    constructor(actor_id=null) {
+        super();
+        this.actor_id = actor_id;
+    }
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            template: "modules/ffg-star-wars-enhancements/templates/shop/create.html",
+            id: "ffg-star-wars-enhancements-shop-generator-create",
+            title: "Shop Creator",
+        });
+    }
+    async getData() {
+        let actors = await get_player_actors();
+        return {
+            actors: actors,
+        };
+    }
+    async _updateObject(event, data) {
+        // ask for the name of the actor to create
+        // create it, logging the ID
+        // open the sheet and call open_shop_generator
+        let actor = await game.ffg.ActorFFG.create({
+            name: data['actor_name'],
+            type: 'character',
+        })
+        console.log(actor)
+        // swap the sheet type to vendor
+        // I'm not sure how to do it by default, but this seems reasonably fast
+        game.actors.get(actor.id).setFlag("core", "sheetClass", "ffg.Vendor")
+        new ShopGenerator(actor.id).render(true);
+    }
+}
+
+export async function shop_creator() {
+    new ShopCreator().render(true);
 }
