@@ -103,9 +103,18 @@ export class Vendor extends ActorSheetFFGV2 {
     async getData() {
         const sheetData = super.getData();
         let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
-        // temporary to avoid having to refactor a bunch of code below
-        let vendor_meta_data = vendor_data['meta'];
-        vendor_data = vendor_data['items'];
+        // validate that we got flag data before trying to index into it
+        if (vendor_data === undefined) {
+            var vendor_meta_data = {
+                'base_price': 100,
+                'price_modifier': 1,
+            };
+            vendor_data = {}
+        } else {
+            // temporary to avoid having to refactor a bunch of code below
+            var vendor_meta_data = vendor_data['meta'];
+            vendor_data = vendor_data['items'];
+        }
 
         let inventory_data = [];
         for (let x = 0; x < this.entity.data.items.length; x++) {

@@ -433,7 +433,7 @@ class ShopGenerator extends FormApplication {
 Helper function to render the ShopGenerator UI
  */
 export function open_shop_generator(actor_id=null) {
-    console.log("shop generator for " + actor_id)
+    log(module_name, "shop generator for " + actor_id);
     new ShopGenerator(actor_id).render(true);
 }
 
