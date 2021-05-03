@@ -339,6 +339,10 @@ class ShopGenerator extends FormApplication {
      */
     async _updateObject(event, data) {
         log(module_name, "Shop generation request started");
+        if (data['shop_actor'] === "") {
+            ui.notifications.warn("You must choose a player-owned character to populate the store");
+            return;
+        }
         let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor'], data['shop_base_price']);
         let inventory = await myshop.shop();
 
