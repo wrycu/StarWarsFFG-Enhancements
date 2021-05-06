@@ -347,7 +347,7 @@ class ShopGenerator extends FormApplication {
         let inventory = await myshop.shop();
 
         /* set the store data as a flag on the actor we got passed in (assuming one was) */
-        log(module_name, "Shop generation completed, preparing to update actor");
+        log(module_name, "Shop generation completed with " + inventory.length + " items, preparing to update actor");
         let actor_id = this.actor_id;
         let vendor = game.actors.get(actor_id);
         // modify the inventory format into the flag format
@@ -377,20 +377,6 @@ class ShopGenerator extends FormApplication {
             to_create.push(await game.packs.get(item.compendium).getEntity(item.id));
         }
 
-        // actually delete the old items
-        vendor.deleteEmbeddedEntity(
-            "OwnedItem",
-            to_delete,
-        );
-        // actually create the new items
-        await vendor.createEmbeddedEntity(
-            "OwnedItem",
-            to_create,
-        );
-
-        // set the extended data as a flag
-        log(module_name, "Setting flag data:");
-        log(module_name, flag_data);
         // add the price modifier so we can apply it to drag-and-dropped items
         // we could actually save all shop settings here, but I am too lazy to do that atm
         let location_mapping = {
@@ -411,10 +397,10 @@ class ShopGenerator extends FormApplication {
         }
 
         if (location_mapping[data['shop_location']] in price_mapping) {
-            this.price_modifier = price_mapping[location_mapping[data['shop_location']]];
+            var price_modifier = price_mapping[location_mapping[data['shop_location']]];
         } else {
             // you can't have negative numbers as keys for some weirdo reason reeee
-            this.price_modifier = 1;
+            var price_modifier = 1;
         }
 
         flag_data = {
@@ -424,8 +410,21 @@ class ShopGenerator extends FormApplication {
                 'price_modifier': price_modifier,
             }
         };
+        // set the extended data as a flag
+        log(module_name, "Setting flag data: " + JSON.stringify(flag_data));
         // actually set the flag data
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
+
+        // actually delete the old items
+        vendor.deleteEmbeddedEntity(
+            "OwnedItem",
+            to_delete,
+        );
+        // actually create the new items
+        await vendor.createEmbeddedEntity(
+            "OwnedItem",
+            to_create,
+        );
     }
 }
 
