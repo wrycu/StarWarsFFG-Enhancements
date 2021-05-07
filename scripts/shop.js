@@ -175,10 +175,10 @@ class Shop {
                 let difficulty = this.rarity_to_difficulty(possible_item.data.data.rarity.adjusted + this.location_modifier);
                 if (possible_item.data.data.rarity.isrestricted === true) {
                     // legal items use negotiation
-                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'negotiation');
+                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'streetwise');
                 } else {
                     // illegal items use streetwise
-                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'streetwise');
+                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'negotiation');
                 }
                 let result = new game.ffg.RollFFG(pool.renderDiceExpression()).roll().ffg;
 
