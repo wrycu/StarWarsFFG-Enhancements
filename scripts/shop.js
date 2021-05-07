@@ -208,7 +208,7 @@ class Shop {
                     let image_mapping = {
                         'gear': base_path + 'gym-bag.svg',
                         'weapon': base_path + 'bolter-gun.svg',
-                        'armor': base_path + 'breastplate.svg',
+                        'armour': base_path + 'breastplate.svg',
                     };
                     if (possible_items_raw[possible_item_index]['item']['img'] === "icons/svg/mystery-man.svg" && possible_item.data.type in image_mapping) {
                         var image = image_mapping[possible_item.data.type];
