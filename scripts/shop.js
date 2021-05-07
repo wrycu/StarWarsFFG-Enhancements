@@ -377,6 +377,7 @@ class ShopGenerator extends FormApplication {
                 image: item.item.image,
                 compendium: item.item.compendium,
                 flagged_id: item.item.id,
+                restricted: item.item.restricted,
             }
         }
         // set up to delete items from the vendor

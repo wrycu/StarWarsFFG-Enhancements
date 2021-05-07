@@ -133,7 +133,7 @@ export class Vendor extends ActorSheetFFGV2 {
                     price: vendor_data[item.name].price,
                     roll: vendor_data[item.name].roll,
                     type: item.type,
-                    restricted: item.restricted,
+                    restricted: vendor_data[item.name].restricted,
                     flagged: true,
                 })
             } else {
