@@ -104,7 +104,7 @@ export class Vendor extends ActorSheetFFGV2 {
         const sheetData = super.getData();
         let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
         // validate that we got flag data before trying to index into it
-        if (vendor_data === undefined) {
+        if (vendor_data === undefined || vendor_data === null) {
             var vendor_meta_data = {
                 'base_price': 100,
                 'price_modifier': 1,
@@ -115,6 +115,7 @@ export class Vendor extends ActorSheetFFGV2 {
             var vendor_meta_data = vendor_data['meta'];
             vendor_data = vendor_data['items'];
         }
+        log(module_name, "Retrieving data for " + this.entity.id);
 
         let inventory_data = [];
         for (let x = 0; x < this.entity.data.items.length; x++) {
@@ -122,8 +123,8 @@ export class Vendor extends ActorSheetFFGV2 {
             let item = this.entity.data.items[x];
             if (this.entity.data.items[x].name in vendor_data) {
                 log(module_name, "Detected item with flag data set");
-                log(module_name, item);
-                log(module_name, vendor_data[item.name]);
+                log(module_name, JSON.stringify(item));
+                log(module_name, JSON.stringify(vendor_data[item.name]));
                 inventory_data.push({
                     name: item.name,
                     id: vendor_data[item.name].flagged_id,
@@ -137,7 +138,7 @@ export class Vendor extends ActorSheetFFGV2 {
                 })
             } else {
                 log(module_name, "Detected item with NO flag data set");
-                log(module_name, item);
+                log(module_name, JSON.stringify(item));
                 // this was a drag-and-dropped item. figure out the price on the fly
                 let price = (parseInt(item.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
                 inventory_data.push({

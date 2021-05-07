@@ -202,6 +202,20 @@ class Shop {
                     for (let i = 0; i<result['despair']; i++) {
                         result_string += '<span class="dietype starwars despair">y</span>';
                     }
+
+                    // attempt to use a custom default image if one isn't set
+                    let base_path = 'modules/ffg-star-wars-enhancements/icons/';
+                    let image_mapping = {
+                        'gear': base_path + 'gym-bag.svg',
+                        'weapon': base_path + 'bolter-gun.svg',
+                        'armor': base_path + 'breastplate.svg',
+                    };
+                    if (possible_items_raw[possible_item_index]['item']['img'] === "icons/svg/mystery-man.svg" && possible_item.data.type in image_mapping) {
+                        var image = image_mapping[possible_item.data.type];
+                    } else {
+                        var image = possible_items_raw[possible_item_index]['item']['img'];
+                    }
+
                     // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
                     let price = (parseInt(possible_item.data.data.price.value) * this.price_modifier) * (this.base_price / 100);
                     log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
@@ -209,7 +223,7 @@ class Shop {
                         'item': {
                             'id': possible_item.id,
                             'name': possible_item.name,
-                            'image': possible_items_raw[possible_item_index]['item']['img'],
+                            'image': image,
                             'type': possible_item.data.type,
                             'compendium': possible_items_raw[possible_item_index]['compendium'],
                             'restricted': possible_item.data.data.rarity.isrestricted,
@@ -416,7 +430,7 @@ class ShopGenerator extends FormApplication {
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
         // actually delete the old items
-        vendor.deleteEmbeddedEntity(
+        await vendor.deleteEmbeddedEntity(
             "OwnedItem",
             to_delete,
         );
