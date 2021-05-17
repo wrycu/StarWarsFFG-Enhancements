@@ -19,7 +19,7 @@ This module is designed to supplement the
 * Automatically adds a status to tokens which have the `Adversary` talent
 
 ### Utilities
-* Includes Star Wars-like fonts
+* Includes (open source) Star Wars-like fonts
 * Includes the most common macros from the Wiki
 
 ## Contributing
