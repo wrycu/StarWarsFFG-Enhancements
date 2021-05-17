@@ -31,5 +31,8 @@ Creating a module like this is tricky - there's a fine line between helpful twea
 * We specifically exclude any content to which we do not have rights
 * We provide licensing information for all third party assets we include
 
+### A special thanks
+* A special thanks to `@Atreides`, `@StealthViper`, `@Space Ape 713`, `@Amera`, and `@Rysarian` for early testing and feedback / identifying bugs.
+
 ## Installation
 Installing the Dev branch (the only version currently available) requires using the manifest file from `module-dev.json`.  At the time of writing, this means you should install with a URL of `https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/dev/module-dev.json`.
