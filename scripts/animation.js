@@ -18,6 +18,7 @@ export function init () {
         config: false,
         type: Boolean,
         default: true,
+        onChange: (rule) => window.location.reload(),
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
@@ -118,6 +119,27 @@ export function init () {
     log('attack_animation', 'Initialized');
 }
 
+export function attack_animation_check() {
+    if (game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
+        if (!game.modules.get('JB2A_DnD5e')?.active && !game.modules.get('jb2a_patreon')?.active && game.user.isGM) {
+            log('attack_animation', 'JB2A (free or Patreon) is not loaded. Note that this module configures automatic attack animations, but these are disabled until you load either JB2A module');
+            let d = new Dialog({
+                title: "FFG Star Wars Enhancements",
+                content: "JB2A (free or Patreon) is not loaded.<br>This module supports automatic attack animations, but these are disabled until you load the JB2A (free or paid) module.<br>The animations have been disabled.",
+                buttons: {
+                    one: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: 'Ok',
+                    },
+                },
+                close: html => game.settings.set("ffg-star-wars-enhancements", "attack-animation-enable", false)
+            });
+            d.render(true);
+            log('attack_animation', 'Feature disabled - required modules are not loaded');
+        }
+    }
+}
+
 export function attack_animation(...args) {
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
         return args;
@@ -129,7 +151,7 @@ export function attack_animation(...args) {
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'FXMaster' module. Please install and activate it.");
         error = true;
     }
-    if (!game.modules.get('JB2A_DnD5e')?.active && game.user.isGM) {
+    if (!game.modules.get('JB2A_DnD5e')?.active && !game.modules.get('jb2a_patreon')?.active && game.user.isGM) {
         log('attack_animation', 'JB2A was not loaded. Not attempting attack animation');
         ui.notifications.error("FFG Star Wars Enhancements attack animations requires the 'jb2a' module. Please install and activate it.");
         error = true;
