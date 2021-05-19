@@ -1,5 +1,5 @@
 `0.1.8` - ?
-* Improve dependency management for JB2A patreaon module
+* Improve dependency management for JB2A Patreon module
 
 `0.1.7` - 2021-05-18
 * Initial alpha release
