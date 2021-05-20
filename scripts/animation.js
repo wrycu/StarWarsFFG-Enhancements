@@ -141,6 +141,10 @@ export function attack_animation_check() {
 }
 
 export function attack_animation(...args) {
+    // take our custom arg out of the array so we don't return it
+    var that = args[0];
+    args = args.splice(1);
+
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
         return args;
     }
@@ -161,6 +165,7 @@ export function attack_animation(...args) {
     }
 
     log('attack_animation', 'Detected FFG dice roll, checking to see if this is a combat skill');
+    let item_name = that.data.name;
     let skill = args[0]['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
     let combat_skills = {
         /* melee animations */
