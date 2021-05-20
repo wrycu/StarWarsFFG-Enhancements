@@ -28,13 +28,13 @@ export function dice_helper() {
             if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
                 let combat_skills = [
                     /* melee animations */
-                    'Brawl',
-                    'Lightsaber',
-                    'Melee',
+                    game.i18n.localize('SWFFG.SkillsNameBrawl'),
+                    game.i18n.localize('SWFFG.SkillsNameLightsaber'),
+                    game.i18n.localize('SWFFG.SkillsNameMelee'),
                     /* ranged animations */
-                    'Gunnery',
-                    'Ranged: Heavy',
-                    'Ranged: Light',
+                    game.i18n.localize('SWFFG.SkillsNameGunnery'),
+                    game.i18n.localize('SWFFG.SkillsNameRangedHeavy').replace(' ', ' '),
+                    game.i18n.localize('SWFFG.SkillsNameRangedLight').replace(' ', ' '),
                 ];
 
                 let skill = messageData['message']['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
