@@ -166,35 +166,42 @@ export function attack_animation(...args) {
 
     log('attack_animation', 'Detected FFG dice roll, checking to see if this is a combat skill');
     let item_name = that.data.name;
-    let skill = args[0]['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
-    let combat_skills = {
-        /* melee animations */
-        'Brawl': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-sound"),
-        },
-        'Lightsaber': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
-        },
-        'Melee': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-sound"),
-        },
-        /* ranged animations */
-        'Gunnery': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-sound"),
-        },
-        'Ranged: Heavy': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound"),
-        },
-        'Ranged: Light': {
-            'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
-            'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
-        },
+    let skill = args[0]['flavor'].replace(game.i18n.localize('SWFFG.Rolling') + ' ', '').replace('...', '').replace(' ', ' ');
+
+    let combat_skills = {};
+    /* melee animations */
+    // brawl
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameBrawl')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-sound"),
     };
+    // lightsaber
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameLightsaber')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
+    };
+    // melee
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameMelee')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-sound"),
+    };
+    /* ranged animations */
+    // gunnery
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameGunnery')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-sound"),
+    };
+    // ranged heavy
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameRangedHeavy').replace(' ', ' ')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound"),
+    };
+    // ranged light
+    combat_skills[game.i18n.localize('SWFFG.SkillsNameRangedLight').replace(' ', ' ')] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
+    };
+
     if (skill in combat_skills) {
         log('attack_animation', 'Determined that ' + skill + ') is a combat skill');
         /* check if things are configured for us to continue */
