@@ -143,6 +143,18 @@ export function attack_animation_check() {
 export function attack_animation(...args) {
     // take our custom arg out of the array so we don't return it
     var that = args[0];
+
+    // ignore me - this is the code to set the flag data. it doesn't belong here, but I've been testing reading the data with the code here
+    let the_item = game.actors.get("Q4xOvGh3KOzsFgSL").getOwnedItem("ipZKEH4r2MT8rZcP");
+    console.log(the_item)
+    let flag_data = {
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
+        animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
+    };
+    //the_item.setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
+    //console.log(the_item.getFlag("ffg-star-wars-enhancements", "attack-animation"))
+
+
     args = args.splice(1);
 
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
@@ -216,9 +228,24 @@ export function attack_animation(...args) {
             log('attack_animation', 'Aborted attack animation because no source targets were selected');
             return args;
         }
+
+        let actor_id = args[0]['speaker']['actor']['_id'];
+        let item_id = that['data']['_id'];
+        let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
+        let flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
+
+        /* check to see if there is custom stuff set for this item */
+        if (flag_data === undefined) {
+            var animation_file = combat_skills[skill]['animation_file'];
+            var sound_file = combat_skills[skill]['sound_file'];
+        } else {
+            var animation_file = flag_data['animation_file'];
+            var sound_file = flag_data['sound_file'];
+        }
+
         // todo: based on dice results, we could have the animation miss
-        log('attack_animation', 'Playing the attack animation');
-        play_animation(combat_skills[skill]['animation_file'], combat_skills[skill]['sound_file'], skill);
+        log('attack_animation', 'Playing the attack animation: ' + animation_file + ' / ' + sound_file);
+        play_animation(animation_file, sound_file, skill);
         return args;
     }
     else {
