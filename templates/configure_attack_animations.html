@@ -1,0 +1,84 @@
+<form autocomplete="off" class="{{cssClass}} character" style="width: 400px;">
+    <div class="form-group">
+        <label for="actor">Actor</label>
+        <select id="actor" name="actor">
+            {{#each actors as |actor|}}
+                <option value="{{actor.id}}">{{actor.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="item">Item</label>
+        <select id="item" name="item">
+        </select>
+    </div>
+    <div class="form-group">
+        <label><i class="fas fa-video"></i>&nbsp;Animation File</label>
+        <input data-dtype="setting_image" id="animation" name="animation_file" type="text" value="placeholder"/>
+        <button class="file-picker" data-target="animation_file" data-type="image" type="button">
+            <i class="fas fa-file-import"></i>
+        </button>
+    </div>
+    <div class="form-group">
+        <label><i class="fas fa-volume-up"></i>&nbsp;Sound File</label>
+        <input data-dtype="setting_audio" id="sound" name="sound_file" type="text" value="placeholder"/>
+        <button class="file-picker" data-target="sound_file" data-type="audio" type="button">
+                <i class="fas fa-file-import"></i>
+            </button>
+    </div>
+    <button class="create" type="submit" value="create"><i class="fas fa-save"></i>Set Custom Data</button>
+</form>
+
+<script>
+    $("#actor").on("change", update_items);
+    $("#item").on("change", update_data);
+    update_items();
+
+    function update_items(event) {
+        let items = {};
+        // todo: make this a global variable and reference it once
+        {{#each actors as |actor|}}
+            items["{{actor.id}}"] = [
+                {{#each actor.items as |item|}}
+                {
+                    'id': "{{item.id}}",
+                    'name': "{{item.name}}",
+                    'animation': "{{item.animation}}",
+                    'sound': "{{item.sound}}",
+                },
+                {{/each}}
+            ]
+        {{/each}}
+        let actor_id = $("#actor").val();
+        let html = '';
+        for (var x=0; x<items[actor_id].length; x++) {
+            html += '<option value="' + items[actor_id][x]['id'] + '">' + items[actor_id][x]['name'] + '</option>';
+        }
+        $("#item").html(html);
+        update_data();
+    }
+
+    function update_data(event) {
+        let items = {};
+        {{#each actors as |actor|}}
+            items["{{actor.id}}"] = [
+                {{#each actor.items as |item|}}
+                {
+                    'id': "{{item.id}}",
+                    'name': "{{item.name}}",
+                    'animation': "{{item.animation}}",
+                    'sound': "{{item.sound}}",
+                },
+                {{/each}}
+            ]
+        {{/each}}
+        let actor_id = $("#actor").val();
+        let item_id = $("#item").val();
+        for (var x=0; x<items[actor_id].length; x++) {
+            if (items[actor_id][x]['id'] === item_id) {
+                $("#animation").val(items[actor_id][x]['animation']);
+                $("#sound").val(items[actor_id][x]['sound']);
+            }
+        }
+    }
+</script>

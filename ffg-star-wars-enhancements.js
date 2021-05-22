@@ -1,6 +1,11 @@
 import { init as settings_init } from './scripts/settings.js'
 import { log_msg as log } from './scripts/util.js'
-import { init as attack_animation_init, attack_animation_check, attack_animation } from './scripts/animation.js'
+import {
+    init as attack_animation_init,
+    attack_animation_check,
+    attack_animation,
+    configure_attack_animation
+} from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
@@ -109,6 +114,15 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					button: true,
 					onClick: () => {
 						shop_creator();
+					},
+				},
+                {
+					name: "Attack Animation",
+					title: "Attack Animation",
+					icon: "fas fa-shopping-cart",
+					button: true,
+					onClick: () => {
+						configure_attack_animation();
 					},
 				},
 			]
