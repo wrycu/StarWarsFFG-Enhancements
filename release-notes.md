@@ -1,3 +1,6 @@
+`0.1.9` - 2021-05-23
+* Fix for attack animation breaking rolling all dice except in my test instance :0
+
 `0.1.8` - 2021-05-23
 * Added the ability to set attack animations per item ([#31](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/31))
 * Improve dependency management for JB2A Patreon module ([#27](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/27))
