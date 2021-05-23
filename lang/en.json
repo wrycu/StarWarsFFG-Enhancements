@@ -122,6 +122,8 @@
   "ffg-star-wars-enhancements.shop.html.inventory.result": "Roll Result",
   "ffg-star-wars-enhancements.shop.html.inventory.delete": "Delete Item",
   "ffg-star-wars-enhancements.shop.html.inventory.buy": "Buy Item",
+  "ffg-star-wars-enhancements.shop.html.scene.name": "Shop Generator",
+  "ffg-star-wars-enhancements.shop.html.scene.title": "Shop Generator",
   "ffg-star-wars-enhancements.shop.html.setup.header": "Store Setup",
   "ffg-star-wars-enhancements.shop.html.setup.type": "Type of shop",
   "ffg-star-wars-enhancements.shop.html.setup.type-label-general": "General",

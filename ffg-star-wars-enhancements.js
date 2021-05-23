@@ -108,8 +108,8 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					},
 				},
                 {
-					name: "Shop Generator",
-					title: "Shop Generator",
+					name: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.name"),
+					title: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.title"),
 					icon: "fas fa-shopping-cart",
 					button: true,
 					onClick: () => {
