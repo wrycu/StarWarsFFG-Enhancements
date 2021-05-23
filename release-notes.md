@@ -3,6 +3,7 @@
 * Improve dependency management for JB2A Patreon module ([#27](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/27))
 * Fix for attack animations only working on English version ([#34](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/34))
 * Fix for dice helper only working on English version ([#34](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/34))
+* Fix for shop generator button not being localized ([#36](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/36))
 
 `0.1.7` - 2021-05-18
 * Initial alpha release
