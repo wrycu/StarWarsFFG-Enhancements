@@ -461,8 +461,8 @@ class ConfigureAttackAnimation extends FormApplication {
                     let flag = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation")
                     if (flag === undefined) {
                         // set a default if it isn't
-                        var animation = '(global value)';
-                        var sound = '(global value)';
+                        var animation = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        var sound = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
                     } else {
                         // display the currently configured data if it exists
                         var animation = flag['animation_file'];
@@ -474,7 +474,7 @@ class ConfigureAttackAnimation extends FormApplication {
                         'name': items[i].name,
                         'animation': animation,
                         'sound': sound,
-                    })
+                    });
                 }
             }
             /* only add the actor if they have items to help reduce the number of items to search through */
@@ -498,8 +498,10 @@ class ConfigureAttackAnimation extends FormApplication {
 
     async _updateObject(event, data) {
         // todo: allow overwriting one part without overwriting both
-        if (data['animation_file'] === '(global value)' || data['sound_file'] === '(global value)') {
+        let global_value = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+        if (data['animation_file'] === global_value || data['sound_file'] === global_value) {
             // they didn't actually change anything
+            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-failure"))
             return;
         }
         let flag_data = {
@@ -507,8 +509,7 @@ class ConfigureAttackAnimation extends FormApplication {
             animation_file: data['animation_file'],
         };
         game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
-        // todo: add a ui notification
-        // todo: don't close the form when save is hit
+        ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-success"));
     }
 }
 

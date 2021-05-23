@@ -117,9 +117,9 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					},
 				},
                 {
-					name: "Attack Animation",
-					title: "Attack Animation",
-					icon: "fas fa-shopping-cart",
+					name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
+					title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
+					icon: "fas fa-bullseye",
 					button: true,
 					onClick: () => {
 						configure_attack_animation();
