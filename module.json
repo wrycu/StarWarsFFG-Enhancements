@@ -18,7 +18,7 @@
             "name": "x0d0a"
         }
     ],
-    "version": "0.1.7",
+    "version": "0.1.8",
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
     "dependencies": [
@@ -26,11 +26,6 @@
             "name": "starwarsffg",
             "type": "system",
             "manifest": "https://raw.githubusercontent.com/StarWarsFoundryVTT/StarWarsFFG/master/system.json"
-        },
-        {
-            "name": "JB2A_DnD5e",
-            "type": "module",
-            "manifest": "https://github.com/Jules-Bens-Aa/JB2A_DnD5e/releases/latest/download/module.json"
         },
         {
             "name": "fxmaster",

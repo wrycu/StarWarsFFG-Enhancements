@@ -1,6 +1,11 @@
 import { init as settings_init } from './scripts/settings.js'
 import { log_msg as log } from './scripts/util.js'
-import { init as attack_animation_init, attack_animation } from './scripts/animation.js'
+import {
+    init as attack_animation_init,
+    attack_animation_check,
+    attack_animation,
+    configure_attack_animation
+} from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
@@ -68,6 +73,7 @@ Hooks.once('init', async function() {
 Hooks.once('ready', () => {
     /* register functionality here */
     rename_actors();
+    attack_animation_check();
     opening_crawl_ready();
     shop_sheet_ready();
     dice_helper();
@@ -102,12 +108,21 @@ Hooks.on("getSceneControlButtons", (controls) => {
 					},
 				},
                 {
-					name: "Shop Generator",
-					title: "Shop Generator",
+					name: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.name"),
+					title: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.title"),
 					icon: "fas fa-shopping-cart",
 					button: true,
 					onClick: () => {
 						shop_creator();
+					},
+				},
+                {
+					name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
+					title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
+					icon: "fas fa-bullseye",
+					button: true,
+					onClick: () => {
+						configure_attack_animation();
 					},
 				},
 			]
@@ -124,7 +139,7 @@ function register_hooks() {
                 we may want to monkeypatch a different function in the future. this location doesn't seem to have access
                 to the actual weapon in use. I'm not sure if we actually care yet, but worth considering.
              */
-            var data = attack_animation(...args);
+            var data = attack_animation(this, ...args);
             return wrapped(...data);
         }
     );
