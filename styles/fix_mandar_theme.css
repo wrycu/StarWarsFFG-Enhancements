@@ -1,0 +1,3 @@
+.starwarsffg .header-fields .header-name input {
+    text-transform: lowercase !important;
+}
