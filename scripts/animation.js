@@ -145,18 +145,6 @@ export function attack_animation_check() {
 export function attack_animation(...args) {
     // take our custom arg out of the array so we don't return it
     let that = args[0];
-
-    // ignore me - this is the code to set the flag data. it doesn't belong here, but I've been testing reading the data with the code here
-    let the_item = game.actors.get("Q4xOvGh3KOzsFgSL").getOwnedItem("ipZKEH4r2MT8rZcP");
-    console.log(the_item)
-    let flag_data = {
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
-        animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
-    };
-    //the_item.setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
-    //console.log(the_item.getFlag("ffg-star-wars-enhancements", "attack-animation"))
-
-
     args = args.splice(1);
 
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
