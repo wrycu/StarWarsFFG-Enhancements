@@ -42,7 +42,7 @@
   "ffg-star-wars-enhancements.attack-animation.custom.button-title": "Attack Animation",
   "ffg-star-wars-enhancements.attack-animation.custom.button-name": "Attack Animation",
   "ffg-star-wars-enhancements.attack-animation.custom.notification-success": "Set custom animation data!",
-  "ffg-star-wars-enhancements.attack-animation.custom.notification-failure": "Values were not entered; nothing was changed.",
+  "ffg-star-wars-enhancements.attack-animation.custom.notification-unset": "Custom animation was removed",
   "ffg-star-wars-enhancements.attack-animation.custom.global": "(global value)",
   "ffg-star-wars-enhancements.controls.opening-crawl.title": "Opening Crawl",
   "ffg-star-wars-enhancements.controls.new-journal-template.name": "new-journal-template",

@@ -489,7 +489,8 @@ class ConfigureAttackAnimation extends FormApplication {
         let global_value = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
         if (data['animation_file'] === global_value || data['sound_file'] === global_value) {
             // they didn't actually change anything
-            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-failure"))
+            ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-unset"));
+            game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", undefined);
             return;
         }
         let flag_data = {
