@@ -37,7 +37,7 @@ export function dice_helper() {
                     game.i18n.localize('SWFFG.SkillsNameRangedLight').replace(' ', ' '),
                 ];
 
-                let skill = messageData['message']['flavor'].replace('Rolling ', '').replace('...', '').replace(' ', ' ');
+                let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
                 if (combat_skills.indexOf(skill) >= 0) {
                     log('dice_helper', 'Detected relevant die roll');
                     var data = {

@@ -1,5 +1,6 @@
 `0.1.10` - ?
 * Allow the removal of custom attack animations per item ([#39](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/39))
+* Fix for incomplete localization of dice spender (thanks `@prolice`!)
 
 `0.1.9` - 2021-05-23
 * Fix for attack animation breaking rolling all dice except in my test instance :0
