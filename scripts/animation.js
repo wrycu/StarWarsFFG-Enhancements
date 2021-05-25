@@ -221,10 +221,15 @@ export function attack_animation(...args) {
         let actor_id = args[0]['speaker']['actor']['_id'];
         let item_id = that['data']['_id'];
         let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
-        let flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
+        if (the_item !== null) {
+            var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
+        } else {
+            // rolled from the skill instead of an item
+            var flag_data = null;
+        }
 
         /* check to see if there is custom stuff set for this item */
-        if (flag_data === undefined) {
+        if (flag_data === undefined || flag_data === null) {
             // noinspection JSDuplicatedDeclaration
             var animation_file = combat_skills[skill]['animation_file'];
             // noinspection JSDuplicatedDeclaration
@@ -447,7 +452,7 @@ class ConfigureAttackAnimation extends FormApplication {
                 if (the_item.type === 'weapon') {
                     // read the flag data if it's present
                     let flag = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation")
-                    if (flag === undefined) {
+                    if (flag === undefined || flag === null) {
                         // set a default if it isn't
                         var animation = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
                         var sound = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");

@@ -3,6 +3,7 @@
 * Fix for incomplete localization of dice spender (thanks `@prolice`!)
 * Add French localization (thanks `@prolice`!)
     * Note that I don't speak French and this will require the community to be kept up-to-date 
+* Fix for attack animation breaking rolling from skill (@thanks `@prolice!`)
 
 `0.1.9` - 2021-05-23
 * Fix for attack animation breaking rolling all dice except in my test instance :0
