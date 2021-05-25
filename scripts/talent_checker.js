@@ -39,11 +39,22 @@ export function talent_checker() {
             for (let i=0; i < canvas.tokens.placeables.length; i++) {
                 let token = canvas.tokens.placeables[i];
                 log(module_name, 'Found token ' + token.data.name + '; searching for Adversary talent');
+                let adversary_count = 0;
                 for (let x=0; x < token.actor.data.items.length; x++) {
                     let item = token.actor.data.items[x];
                     if (item.type === 'talent' && item.name === 'Adversary') {
-                        log(module_name, 'Found Adversary talent on ' + token.data.name + '! Adding status');
-                        canvas.tokens.placeables[i].toggleEffect(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"), {'active': true});
+                        log(module_name, 'Found Adversary ' + item.data.ranks.current + ' on ' + token.data.name + '! Adding status');
+                        adversary_count+= 1;
+                        if (!window.EffectCounter) {
+                            // the user doesn't have status icon counters installed; they don't get a count
+                            canvas.tokens.placeables[i].toggleEffect(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"), {'active': true});
+                        } else {
+                            let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
+                            // create the effect counter
+                            let new_counter = new EffectCounter(item.data.ranks.current, icon_path, canvas.tokens.placeables[i]);
+                            // render it
+                            new_counter.update();
+                        }
                     }
                 }
             }
@@ -61,9 +72,20 @@ export function talent_checker() {
                     for (let i=0; i < actor.data.items.length; i++) {
                         let item = actor.data.items[i];
                         if (item.type === 'talent' && item.name === 'Adversary') {
-                            log(module_name, actor.name + ' has talent Adversary; adding status');
-                            token.id = token_id;
-                            token.effects.push(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                            log(module_name, actor.name + ' has talent Adversary ' + item.data.ranks.current + '; adding status');
+                            if (!window.EffectCounter) {
+                                // the user doesn't have status icon counters installed; they don't get a count
+                                token.id = token_id;
+                                token.effects.push(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                            } else {
+                                let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
+                                // convert the JSON blob into a Token object
+                                let the_token = new Token(token);
+                                // create the effect counter
+                                let new_counter = new EffectCounter(item.data.ranks.current, icon_path, the_token);
+                                // render it
+                                new_counter.update();
+                            }
                         }
                     }
                 }
