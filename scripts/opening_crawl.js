@@ -38,6 +38,22 @@ export function init() {
         type: Number,
         default: 0.0,
     });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-right", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right-hint'),
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 0,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-bottom", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom-hint'),
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 1300,
+    });
     log('opening-crawl', 'Initialized');
 }
 
@@ -80,7 +96,11 @@ class OpeningCrawlApplication extends Application {
      * @returns object provided to the constructor
      */
     getData() {
-        return this.data;
+        let data = this.data;
+        data.img = {};
+        data.img.bottom = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-bottom");
+        data.img.right = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-right");
+        return data;
     }
 
     /**
