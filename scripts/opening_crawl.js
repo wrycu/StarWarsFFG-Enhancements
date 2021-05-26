@@ -30,6 +30,14 @@ export function init() {
         type: setting_image,
         default: "",
     });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music-delay", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay-hint'),
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 0.0,
+    });
     log('opening-crawl', 'Initialized');
 }
 
@@ -82,9 +90,12 @@ class OpeningCrawlApplication extends Application {
     play_music(callback) {
         let volume = game.settings.get("core", "globalPlaylistVolume");
         this.howl = game.audio.create({src: this.data.music, preload:true, volume:volume})
-        this.howl.once("load", () => {
-            this.howl.play();
+        this.howl.once("load", async () => {
             callback();
+            await sleep(
+                game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay")
+            );
+            this.howl.play();
         });
         this.howl.load();
     }
@@ -291,4 +302,13 @@ export async function create_opening_crawl() {
         "content": "<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><p><img src=\"modules/ffg-star-wars-enhancements/artwork/planet.png\"/></p>",
     };
     JournalEntry.create(data).then(journal => {journal.sheet.render(true)});
+}
+
+/**
+ * Helper function to delay code execution by an arbitrary amount
+ * @param ms - number of MS to delay by
+ * @returns {Promise<unknown>}
+ */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

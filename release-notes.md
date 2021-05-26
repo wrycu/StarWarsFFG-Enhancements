@@ -1,5 +1,7 @@
 `0.1.10` - ?
 * Add count for Adversary status ([#40](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/40))
+* Intro crawl improvements ([#24](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/24))
+    * Add a setting for delay of music playback
 * Allow the removal of custom attack animations per item ([#39](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/39))
 * Fix for incomplete localization of dice spender (thanks `@prolice`!)
 * Add French localization (thanks `@prolice`!)
