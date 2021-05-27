@@ -8,6 +8,11 @@
             "lang": "en",
             "name": "English",
             "path": "lang/en.json"
+        },
+        {
+            "lang": "fr",
+            "name": "French (Community)",
+            "path": "lang/fr.json"
         }
     ],
     "authors": [
