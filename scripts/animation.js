@@ -5,6 +5,15 @@ import { log_msg as log } from './util.js'
 
 export function init () {
     log('attack_animation', 'Initializing');
+    console.log("heya")
+    console.log(game.modules.get('JB2A_DnD5e'))
+
+    if (game.modules.get('jb2a_patreon')) {
+        var base_path = 'modules/jb2a_patreon';
+    } else {
+        var base_path = 'modules/JB2A_DnD5e';
+    }
+
     game.settings.registerMenu("ffg-star-wars-enhancements", "attack_animation_UISettings", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ui.name'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ui.hint'),
@@ -28,7 +37,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound'),
@@ -44,7 +53,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound'),
@@ -60,7 +69,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound'),
@@ -76,7 +85,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound'),
@@ -92,7 +101,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound'),
@@ -108,7 +117,7 @@ export function init () {
         scope: "world",
         config: false,
         type: setting_image,
-        default: 'modules/JB2A_DnD5e/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
+        default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound'),
@@ -204,7 +213,7 @@ export function attack_animation(...args) {
     };
 
     if (skill in combat_skills) {
-        log('attack_animation', 'Determined that ' + skill + ') is a combat skill');
+        log('attack_animation', 'Determined that "' + skill + '" is a combat skill');
         /* check if things are configured for us to continue */
         if (game.user.targets.size === 0) {
             ui.notifications.warn('You must target at least one token as a target or disable attack animations');
@@ -230,11 +239,13 @@ export function attack_animation(...args) {
 
         /* check to see if there is custom stuff set for this item */
         if (flag_data === undefined || flag_data === null) {
+            log('attack_animation', 'Got animation from config');
             // noinspection JSDuplicatedDeclaration
             var animation_file = combat_skills[skill]['animation_file'];
             // noinspection JSDuplicatedDeclaration
             var sound_file = combat_skills[skill]['sound_file'];
         } else {
+            log('attack_animation', 'Got animation from flag data');
             // noinspection JSDuplicatedDeclaration
             var animation_file = flag_data['animation_file'];
             // noinspection JSDuplicatedDeclaration

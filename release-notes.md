@@ -3,11 +3,14 @@
 * Intro crawl improvements ([#24](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/24))
     * Add a setting for delay of music playback
     * Add settings for moving the image left/right and up/down
+    * Add setting for font size
+    * Move settings into a sub-menu
 * Allow the removal of custom attack animations per item ([#39](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/39))
 * Fix for incomplete localization of dice spender (thanks `@prolice`!)
 * Add French localization (thanks `@prolice`!)
     * Note that I don't speak French and this will require the community to be kept up-to-date 
 * Fix for attack animation breaking rolling from skill (@thanks `@prolice!`)
+* Fix for default attack animations when jb2a_patreon is loaded ([#42](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/42))
 
 `0.1.9` - 2021-05-23
 * Fix for attack animation breaking rolling all dice except in my test instance :0
