@@ -10,6 +10,14 @@ export function init() {
         type: Boolean,
         default: true
     });
+    game.settings.register("ffg-star-wars-enhancements", "dice-helper-data", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.dice-helper-data'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.dice-helper-data-hint'),
+        scope: "world",
+        config: true,
+        type: String,
+        default: true
+    });
     log('dice_helper', 'Initialized');
 }
 
@@ -38,33 +46,32 @@ export function dice_helper() {
                 ];
 
                 let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
-                if (combat_skills.indexOf(skill) >= 0) {
-                    log('dice_helper', 'Detected relevant die roll');
-                    var data = {
-                        'advantage': app.roll.ffg.advantage,
-                        'triumph': app.roll.ffg.triumph,
-                        'threat': app.roll.ffg.threat,
-                        'despair': app.roll.ffg.despair,
+                let roll_result = {
+                    'advantage': app.roll.ffg.advantage,
+                    'triumph': app.roll.ffg.triumph,
+                    'threat': app.roll.ffg.threat,
+                    'despair': app.roll.ffg.despair,
+                    'success': app.roll.ffg.success,
+                    'failure': app.roll.ffg.failure,
+                };
+                if (roll_result['advantage'] > 0 || roll_result['triumph'] > 0 || roll_result['threat'] > 0 || roll_result['despair'] > 0) {
+                    log('dice_helper', 'Die roll had relevant results, generating new message');
+                    var msg = {
+                        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                        'content': '<button class="effg-die-result" ' +
+                            'data-ad="' + roll_result['advantage'] + '" ' +
+                            'data-tr="' + roll_result['triumph'] + '" ' +
+                            'data-th="' + roll_result['threat'] + '" ' +
+                            'data-de="' + roll_result['despair'] + '" ' +
+                            'data-su="' + roll_result['success'] + '" ' +
+                            'data-fa="' + roll_result['failure'] + '" ' +
+                            'data-sk="' + skill + '"' +
+                            '>Help spending results!</button>',
                     };
-                    if (data['advantage'] > 0 || data['triumph'] > 0 || data['threat'] > 0 || data['despair'] > 0) {
-                       log('dice_helper', 'Die roll had relevant results, generating new message');
-                        var msg = {
-                            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-                            'content': '<button class="effg-die-result" ' +
-                                'data-ad="' + data['advantage'] + '" ' +
-                                'data-tr="' + data['triumph'] + '" ' +
-                                'data-th="' + data['threat'] + '" ' +
-                                'data-de="' + data['despair'] + '"' +
-                                '>Help spending results!</button>',
-                        };
-                        log('dice_helper', 'New message content: ' + msg['content']);
-                        ChatMessage.create(msg);
-                    } else {
-                        log('dice_helper', 'Die roll didn\'t have relevant results, skipping');
-                    }
-                } else {
-                    log('dice_helper', 'Detected non-combat die roll, skipping');
+                    log('dice_helper', 'New message content: ' + msg['content']);
+                    ChatMessage.create(msg);
                 }
+
             } else {
                 log('dice_helper', 'Detected relevant die roll but the message has already been modified; ignoring');
             }
@@ -81,8 +88,16 @@ async function dice_helper_clicked(object) {
     log('dice_helper', 'Detected button click; converting to results');
     var data = determine_data(object.message.content);
     log('dice_helper', JSON.stringify(data));
+
+    let skill = data['skill'];
+    let suggestions = await fetch_suggestions(data);
+
     var msg = new ChatMessage(object.message);
-    object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(data);
+    let context = {
+        suggestions: suggestions,
+        skill: skill,
+    };
+    object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(context);
     object.message.id = object.message._id;
     msg.update(object.message);
     log('dice_helper', 'Updated the message');
@@ -94,11 +109,47 @@ function determine_data(incoming_data) {
      *
      * @param {incoming_data} html created by dice_helper
      */
-    var match = incoming_data.match('.*data-ad=\"([0-9])+\" data-tr=\"([0-9])+\" data-th=\"([0-9])+\" data-de=\"([0-9])+\".*');
+    let data = $(incoming_data);
     return {
-        'advantage': match[1],
-        'triumph': match[2],
-        'threat': match[3],
-        'despair': match[4],
+        'ad': data.data('ad'),
+        'tr': data.data('tr'),
+        'th': data.data('th'),
+        'de': data.data('de'),
+        'su': data.data('su'),
+        'fa': data.data('fa'),
+        'skill': data.data('sk'),
     };
+}
+
+async function fetch_suggestions(results) {
+    let suggestion_categories = [
+        'su',
+        'fa',
+        'ad',
+        'th',
+        'tr',
+        'de',
+    ];
+
+    let skill = results['skill'].toLowerCase();
+
+    let data = await $.getJSON("modules/ffg-star-wars-enhancements/content/dice_helper.json");
+    // todo: handle localized skill names
+    if (!skill in data) {
+        // todo: update return data to match whatever we come up with
+        return [];
+    }
+    let suggestions = [];
+
+    for (var x=0; x < suggestion_categories.length; x++) {
+        let category = suggestion_categories[x];
+        let tmp_suggestions = data[skill][category].filter(suggestion => suggestion.required <= results[category]);
+        if (tmp_suggestions.length > 0) {
+            suggestions.push({
+                'category': category,
+                'suggestions': tmp_suggestions,
+            });
+        }
+    }
+    return suggestions;
 }

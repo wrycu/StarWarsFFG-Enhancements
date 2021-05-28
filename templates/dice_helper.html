@@ -1,44 +1,10 @@
-Some <b>ideas</b> for spending results (on a successful attack):<br>
-{{#iff advantage '>' 0}}
-    [ad] &gt;= critical rating: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-1'}}<br>
-    [ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-2'}}<br>
-    [ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-1ad-3'}}<br>
-{{/iff}}
-{{#iff advantage '>' 1}}
-    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-1'}}<br>
-    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-2'}}<br>
-    [ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-2ad-3'}}<br>
-{{/iff}}
-{{#iff advantage '>' 2}}
-    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-1'}}<br>
-    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-2'}}<br>
-    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-3'}}<br>
-    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-4'}}<br>
-    [ad][ad][ad]: {{localize 'ffg-star-wars-enhancements.dice-helper-3ad-5'}}<br>
-{{/iff}}
-{{#iff triumph '>' 0}}
-    [tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-1tr-1'}}<br>
-    [tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-1tr-2'}}<br>
-{{/iff}}
-{{#iff triumph '>' 1}}
-    [tr][tr]: {{localize 'ffg-star-wars-enhancements.dice-helper-2tr-1'}}<br>
-{{/iff}}
-{{#iff threat '>' 0}}
-    [th]: {{localize 'ffg-star-wars-enhancements.dice-helper-1th-1'}}<br>
-    [th]: {{localize 'ffg-star-wars-enhancements.dice-helper-1th-2'}}<br>
-{{/iff}}
-{{#iff threat '>' 1}}
-    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-1'}}<br>
-    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-2'}}<br>
-    [th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-2th-3'}}<br>
-{{/iff}}
-{{#iff threat '>' 2}}
-    [th][th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-3th-1'}}<br>
-    [th][th][th]: {{localize 'ffg-star-wars-enhancements.dice-helper-3th-2'}}<br>
-{{/iff}}
-{{#iff despair '>' 0}}
-    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-1'}}<br>
-    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-2'}}<br>
-    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-3'}}<br>
-    [de]: {{localize 'ffg-star-wars-enhancements.dice-helper-1de-4'}}<br>
-{{/iff}}
+Some <b>ideas</b> for spending results for <b>{{this.skill}}</b>:<br>
+
+{{#each this.suggestions}}
+    {{#each this.suggestions}}
+        {{log this.required}}
+        {{#times this.required}}[{{../this.category}}]{{/times}}
+        :&nbsp;
+        {{this.text}}<br>
+    {{/each}}
+{{/each}}

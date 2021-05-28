@@ -1,0 +1,674 @@
+{
+    "brawl": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    },
+    "melee": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    },
+    "lightsaber": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    },
+    "ranged: light": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    },
+    "ranged: heavy": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    },
+    "gunnery": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Apply a critical injury (based on critical rating of weapon)",
+                "required": 1
+            },
+            {
+                "text": "Recover one strain",
+                "required": 1
+            },
+            {
+                "text": "+[bo] to next allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Perform immediate free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[se] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to any allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Negate target's defensive bonuses until next round",
+                "required": 3
+            },
+            {
+                "text": "Ignore environmental penalty until end of next turn",
+                "required": 3
+            },
+            {
+                "text": "Target is disabled instead of suffering wounds/strain",
+                "required": 3
+            },
+            {
+                "text": "+1 melee or ranged defense until end of next round",
+                "required": 3
+            },
+            {
+                "text": "Target drops weapon they're wielding",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Upgrade difficulty of target's next check",
+                "required": 1
+            },
+            {
+                "text": "Upgrade ability of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Destroy a piece of equipment carried by target",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Suffer 1 strain",
+                "required": 1
+            },
+            {
+                "text": "Lose benefit of prior maneuver",
+                "required": 1
+            },
+            {
+                "text": "Opponent immediately performs one free maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] to target's next check",
+                "required": 2
+            },
+            {
+                "text": "[se] to active or allied character's next check",
+                "required": 2
+            },
+            {
+                "text": "Fall prone",
+                "required": 3
+            },
+            {
+                "text": "Initiative slot being used now last in initiative order",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Ranged attack hits character engaged with target",
+                "required": 1
+            },
+            {
+                "text": "Ranged weapon runs out of ammo",
+                "required": 1
+            },
+            {
+                "text": "Upgrade difficulty of any allied character's next check",
+                "required": 1
+            },
+            {
+                "text": "Tool / weapon being used is damaged",
+                "required": 1
+            }
+        ]
+    }
+}

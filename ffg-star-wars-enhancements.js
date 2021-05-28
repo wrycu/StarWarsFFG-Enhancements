@@ -65,6 +65,25 @@ Hooks.once('init', async function() {
             return game.i18n.localize(str);
         }
     );
+    Handlebars.registerHelper("times", function (times, opts) {
+        var out = "";
+        var i;
+        var data = {};
+
+        if ( times ) {
+            for ( i = 0; i < times; i += 1 ) {
+                data.index = i;
+                out += opts.fn(this, {
+                    data: data
+                });
+            }
+        } else {
+
+            out = opts.inverse(this);
+        }
+
+        return out;
+    });
 
     log('base_module', 'Done registering helpers');
 	log('base_module', 'Initializing finished');

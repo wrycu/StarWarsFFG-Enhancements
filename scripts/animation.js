@@ -5,8 +5,6 @@ import { log_msg as log } from './util.js'
 
 export function init () {
     log('attack_animation', 'Initializing');
-    console.log("heya")
-    console.log(game.modules.get('JB2A_DnD5e'))
 
     if (game.modules.get('jb2a_patreon')) {
         var base_path = 'modules/jb2a_patreon';
