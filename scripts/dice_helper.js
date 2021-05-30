@@ -1,7 +1,9 @@
 import {log_msg as log} from "./util.js";
 
+let feature_name = 'dice_helper';
+
 export function init() {
-    log('dice_helper', 'Initializing');
+    log(feature_name, 'Initializing');
     game.settings.register("ffg-star-wars-enhancements", "dice-helper", {
         name: game.i18n.localize('ffg-star-wars-enhancements.dice-helper'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.dice-helper-hint'),
@@ -16,9 +18,9 @@ export function init() {
         scope: "world",
         config: true,
         type: String,
-        default: true
+        default: "dice_helper"
     });
-    log('dice_helper', 'Initialized');
+    log(feature_name, 'Initialized');
 }
 
 export function dice_helper() {
@@ -34,17 +36,6 @@ export function dice_helper() {
                 await dice_helper_clicked(messageData);
             });
             if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
-                let combat_skills = [
-                    /* melee animations */
-                    game.i18n.localize('SWFFG.SkillsNameBrawl'),
-                    game.i18n.localize('SWFFG.SkillsNameLightsaber'),
-                    game.i18n.localize('SWFFG.SkillsNameMelee'),
-                    /* ranged animations */
-                    game.i18n.localize('SWFFG.SkillsNameGunnery'),
-                    game.i18n.localize('SWFFG.SkillsNameRangedHeavy').replace(' ', ' '),
-                    game.i18n.localize('SWFFG.SkillsNameRangedLight').replace(' ', ' '),
-                ];
-
                 let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
                 let roll_result = {
                     'advantage': app.roll.ffg.advantage,
@@ -55,7 +46,14 @@ export function dice_helper() {
                     'failure': app.roll.ffg.failure,
                 };
                 if (roll_result['advantage'] > 0 || roll_result['triumph'] > 0 || roll_result['threat'] > 0 || roll_result['despair'] > 0) {
-                    log('dice_helper', 'Die roll had relevant results, generating new message');
+                    log(feature_name, 'Die roll had relevant results, generating new message');
+
+                    // do we have a helper for this skill?
+                    let data = load_data();
+                    if (!is_supported_skill(skill.toLowerCase(), data)) {
+                        return;
+                    }
+
                     var msg = {
                         type: CONST.CHAT_MESSAGE_TYPES.OTHER,
                         'content': '<button class="effg-die-result" ' +
@@ -68,12 +66,12 @@ export function dice_helper() {
                             'data-sk="' + skill + '"' +
                             '>Help spending results!</button>',
                     };
-                    log('dice_helper', 'New message content: ' + msg['content']);
+                    log(feature_name, 'New message content: ' + msg['content']);
                     ChatMessage.create(msg);
                 }
 
             } else {
-                log('dice_helper', 'Detected relevant die roll but the message has already been modified; ignoring');
+                log(feature_name, 'Detected relevant die roll but the message has already been modified; ignoring');
             }
         }
     });
@@ -85,9 +83,9 @@ async function dice_helper_clicked(object) {
      *
      * @param {object} ChatMessage object passed in by the hook we're listened to
      */
-    log('dice_helper', 'Detected button click; converting to results');
+    log(feature_name, 'Detected button click; converting to results');
     var data = determine_data(object.message.content);
-    log('dice_helper', JSON.stringify(data));
+    log(feature_name, JSON.stringify(data));
 
     let skill = data['skill'];
     let suggestions = await fetch_suggestions(data);
@@ -100,7 +98,7 @@ async function dice_helper_clicked(object) {
     object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(context);
     object.message.id = object.message._id;
     msg.update(object.message);
-    log('dice_helper', 'Updated the message');
+    log(feature_name, 'Updated the message');
 }
 
 function determine_data(incoming_data) {
@@ -122,6 +120,7 @@ function determine_data(incoming_data) {
 }
 
 async function fetch_suggestions(results) {
+    // categories suggestions can exist for
     let suggestion_categories = [
         'su',
         'fa',
@@ -132,18 +131,21 @@ async function fetch_suggestions(results) {
     ];
 
     let skill = results['skill'].toLowerCase();
+    let data = load_data();
 
-    let data = await $.getJSON("modules/ffg-star-wars-enhancements/content/dice_helper.json");
-    // todo: handle localized skill names
-    if (!skill in data) {
-        // todo: update return data to match whatever we come up with
+    if (!is_supported_skill(skill, data)) {
+        // we don't have any suggestions for this skill
+        log(feature_name, "Not rendering suggestion; unable to find " + skill + " in " + JSON.stringify(data));
         return [];
     }
-    let suggestions = [];
 
-    for (var x=0; x < suggestion_categories.length; x++) {
+    // build out an array of the suggestions
+    let suggestions = [];
+    for (var x = 0; x < suggestion_categories.length; x++) {
         let category = suggestion_categories[x];
+        // build an array of the suggestions for the specific category we're looking at now
         let tmp_suggestions = data[skill][category].filter(suggestion => suggestion.required <= results[category]);
+        // only add the array if it's been populated
         if (tmp_suggestions.length > 0) {
             suggestions.push({
                 'category': category,
@@ -152,4 +154,75 @@ async function fetch_suggestions(results) {
         }
     }
     return suggestions;
+}
+
+function is_supported_skill(skill, data) {
+    /**
+     * read the button metadata to determine results from the associated dice roll
+     *
+     * @param {skill} string, lowercase, of the skill being checked for
+     * @param {data} JSON blob with the result helpers (from load_data())
+     * returns true/false
+     */
+    log(feature_name, "Checking if " + skill + " has any helpers");
+    return (skill in data);
+}
+
+function load_data() {
+    /**
+     * Load dice helper data from the Journal
+     * Returns a dict in the format of:
+     *  {
+     *      'cool': {
+     *          'su': [
+     *              {
+     *                  'text': 'pass the check',
+     *                  'required': 1,
+     *              },
+     *              ...
+     *          ],
+     *          ...
+     *      },
+     *      ...
+     *  }
+     */
+    let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
+    let journal = game.journal.filter(journal => journal.name === journal_name);
+
+    if (journal.length <= 0) {
+        ui.notification.warn("Failed to find journal - make sure it's created or something");
+        log(feature_name, "Unable to find journal with the name " + journal_name);
+        return {};
+    }
+    log(feature_name, "Found journal " + journal_name);
+    try {
+        let data = journal[0].data.content.replace('<p>', '').replace('</p>', '');
+        return JSON.parse(data.replace('\"', '"'));
+    } catch(err) {
+        ui.notification.warn("Dice helper: invalid data detected in journal");
+        return {};
+    }
+}
+
+export async function create_and_populate_journal() {
+    // if the feature is not enabled, don't do anything
+    console.log("checking status of journal")
+    if (!game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
+        return;
+    }
+
+    // otherwise check to see if the journal already exists
+    let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
+    let journal = game.journal.filter(journal => journal.name === journal_name);
+
+    if (journal.length === 0) {
+        // journal doesn't exist - create it
+        let suggestions = await $.getJSON("modules/ffg-star-wars-enhancements/content/dice_helper.json");
+
+        let data = {
+            "name": journal_name,
+            "content": JSON.stringify(suggestions),
+        };
+        JournalEntry.create(data);
+    }
 }

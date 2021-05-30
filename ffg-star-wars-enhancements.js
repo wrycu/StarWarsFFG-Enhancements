@@ -9,7 +9,11 @@ import {
 import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
 import { create_datapad_journal } from './scripts/datapads.js'
-import { init as dice_helper_init, dice_helper } from './scripts/dice_helper.js'
+import {
+    init as dice_helper_init,
+    dice_helper,
+    create_and_populate_journal as dice_helper_setup
+} from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { shop_creator } from "./scripts/shop.js";
@@ -98,6 +102,7 @@ Hooks.once('ready', () => {
     dice_helper();
     talent_checker();
     register_hooks();
+    dice_helper_setup();
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {
