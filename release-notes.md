@@ -11,6 +11,7 @@
     * Note that I don't speak French and this will require the community to be kept up-to-date 
 * Fix for attack animation breaking rolling from skill (@thanks `@prolice!`)
 * Fix for default attack animations when jb2a_patreon is loaded ([#42](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/42))
+* Add support for non-combat dice result spending ([#25](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/25))
 
 `0.1.9` - 2021-05-23
 * Fix for attack animation breaking rolling all dice except in my test instance :0
