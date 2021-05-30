@@ -1,4 +1,4 @@
-`0.1.10` - ?
+`0.1.10` - 2021-05-30
 * Add count for Adversary status ([#40](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/40))
 * Intro crawl improvements ([#24](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/24))
     * Add a setting for delay of music playback
