@@ -1,5 +1,6 @@
 `0.1.11` - ?
-* Fix for rolls of combat skills not from an item not working properly
+* Fix for rolls of combat skills not from an item not working properly ([#48](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/48))
+* Add attack animation reset button ([#45](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/45))
 
 `0.1.10` - 2021-05-30
 * Add count for Adversary status ([#40](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/40))

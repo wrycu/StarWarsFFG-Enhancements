@@ -507,13 +507,16 @@ class ConfigureAttackAnimation extends FormApplication {
 
     async _updateObject(event, data) {
         // todo: allow overwriting one part without overwriting both
+        log('attack_animation', 'Got animation change request ' + JSON.stringify(data));
         let global_value = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
         if (data['animation_file'] === global_value || data['sound_file'] === global_value) {
-            // they didn't actually change anything
+            log('attack_animation', 'Removing attack flag');
+            // remove the flag data so we can use the default value
             ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-unset"));
-            game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", undefined);
+            game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", null);
             return;
         }
+        log('attack_animation', 'Setting attack flag');
         let flag_data = {
             sound_file: data['sound_file'],
             animation_file: data['animation_file'],
