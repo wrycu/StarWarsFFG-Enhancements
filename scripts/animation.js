@@ -226,13 +226,20 @@ export function attack_animation(...args) {
         }
 
         let actor_id = args[0]['speaker']['actor']['_id'];
-        let item_id = that['data']['_id'];
-        let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
-        if (the_item !== null) {
-            var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
-        } else {
-            // rolled from the skill instead of an item
+
+        if (that['data'] === null) {
+            // this was a roll from a skill
             var flag_data = null;
+        } else {
+            // this was a roll from an item
+            let item_id = that['data']['_id'];
+            let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
+            if (the_item !== null) {
+                var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
+            } else {
+                // no custom data was set
+                var flag_data = null;
+            }
         }
 
         /* check to see if there is custom stuff set for this item */
