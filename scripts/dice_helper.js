@@ -35,7 +35,7 @@ export function dice_helper() {
             html.on("click", ".effg-die-result", async function () {
                 await dice_helper_clicked(messageData);
             });
-            if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search('Help spending results') === -1 || messageData.message.content.search('for spending results') === -1)) {
+            if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search(game.i18n.localize('ffg-star-wars-enhancements.dice-helper-button-text')) === -1 || messageData.message.content.search(game.i18n.localize('ffg-star-wars-enhancements.dice-helper-message-content-3')) === -1)) {
                 let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
                 let roll_result = {
                     'advantage': app.roll.ffg.advantage,
@@ -64,7 +64,7 @@ export function dice_helper() {
                             'data-su="' + roll_result['success'] + '" ' +
                             'data-fa="' + roll_result['failure'] + '" ' +
                             'data-sk="' + skill + '"' +
-                            '>Help spending results!</button>',
+                            '>' + game.i18n.localize('ffg-star-wars-enhancements.dice-helper-button-text') + '!</button>',
                     };
                     log(feature_name, 'New message content: ' + msg['content']);
                     ChatMessage.create(msg);

@@ -8,7 +8,7 @@ export function init () {
     game.settings.registerMenu("ffg-star-wars-enhancements", "talent_checker_UISettings", {
         name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.conf'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.conf-hint'),
-        label: "Open configuration",
+        label: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.ui.label'),
         icon: "fas fa-cut",
         type: talent_checker_UISettings,
         restricted: true,
