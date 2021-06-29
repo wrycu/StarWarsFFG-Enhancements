@@ -1,4 +1,6 @@
-`0.1.11` - ?
+`0.1.11` - 2021-06-29
+* Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))
+   * Thanks @Belgarath for translating to French and pointing out missing localizations
 * Fix for rolls of combat skills not from an item not working properly ([#48](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/48))
 * Add attack animation reset button ([#45](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/45))
 
