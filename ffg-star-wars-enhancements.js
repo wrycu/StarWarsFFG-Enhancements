@@ -113,7 +113,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 		controls.push({
 			name: game.i18n.localize("ffg-star-wars-enhancements.controls.name"),
 			title: game.i18n.localize("ffg-star-wars-enhancements.controls.title"),
-			layer: "ControlsLayer",
+			layer: "specials",
 			icon: "fa fa-jedi",
 			tools: [
 				{
