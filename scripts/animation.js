@@ -239,7 +239,7 @@ export function attack_animation(...args) {
 
         let actor_id = args[0]['speaker']['actor']['_id'];
 
-        if (that['data'] === null) {
+        if (that['data'] === null || jQuery.isEmptyObject(that['data'])) {
             // this was a roll from a skill
             var flag_data = null;
         } else {
@@ -463,13 +463,13 @@ class ConfigureAttackAnimation extends FormApplication {
 
     async getData() {
         // list of actors in the game
-        let tmp_actors = game.actors.entries;
+        let tmp_actors = game.actors.contents;
         // list of actors to pass to the formapplication
         let actors = [];
         /* step over all actors in the game */
         for (var x=0; x < tmp_actors.length; x++) {
             // pull items for the actor
-            var items = tmp_actors[x].data.items;
+            var items = tmp_actors[x].data.items.contents;
             // list of items to pass to the form application
             let tmp_items = [];
             /* step over all items so we can check if custom data is already set or not */
