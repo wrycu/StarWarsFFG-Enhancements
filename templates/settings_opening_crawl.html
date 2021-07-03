@@ -1,10 +1,11 @@
 {{#*inline "settingPartial"}}
 <div class="form-group">
     <label>
-    {{#iff this.type '==' 'setting_image'}}
+    {{#iff 'logo' 'in' this.key}}
+        <!-- todo: this should be an image icon, not a video icon -->
         <i class="fas fa-video"></i>
     {{/iff}}
-    {{#iff this.type '==' 'setting_audio'}}
+    {{#iff 'music' 'in' this.key}}
         <i class="fas fa-volume-up"></i>
     {{/iff}}
         &nbsp;{{this.name}}

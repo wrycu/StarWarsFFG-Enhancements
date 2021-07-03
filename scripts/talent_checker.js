@@ -26,7 +26,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.status-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: 'icons/svg/regen.svg',
     });
     log(module_name, 'Done initializing');

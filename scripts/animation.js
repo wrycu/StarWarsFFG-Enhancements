@@ -34,7 +34,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
@@ -42,7 +43,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
@@ -50,7 +52,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
@@ -58,7 +61,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
@@ -66,7 +70,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
@@ -74,7 +79,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
@@ -82,7 +88,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
@@ -90,7 +97,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
@@ -98,7 +106,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
@@ -106,7 +115,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
@@ -114,7 +124,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
@@ -122,7 +133,8 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
     log('attack_animation', 'Initialized');
@@ -298,7 +310,7 @@ async function play_animation(animation_file, sound_file, skill) {
                     y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
                 },
             };
-            canvas.fxmaster.playVideo(animation_config);
+            canvas.specials.playVideo(animation_config);
             game.socket.emit('module.fxmaster', animation_config);
             AudioHelper.play({src: sound_file, volume: .3, autoplay: true, loop: false}, true);
             await sleepNow(250)

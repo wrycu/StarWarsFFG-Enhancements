@@ -27,7 +27,8 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
         scope: "world",
         config: false,
-        type: setting_audio,
+        type: String,
+        valueType: "FilePicker",
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
@@ -35,7 +36,8 @@ export function init() {
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
         scope: "world",
         config: false,
-        type: setting_image,
+        type: String,
+        valueType: "FilePicker",
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music-delay", {
