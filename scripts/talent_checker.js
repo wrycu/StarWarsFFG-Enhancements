@@ -1,5 +1,4 @@
 import { log_msg as log } from './util.js'
-import { setting_image } from './settings.js'
 
 let module_name = 'talent_checker';
 
@@ -38,61 +37,70 @@ export function talent_checker() {
         if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
             log(module_name, 'Detected scene load; searching for actors with the Adversary talent');
             for (let i=0; i < canvas.tokens.placeables.length; i++) {
+                // begin javascript sucks
+                let actor = game.actors.get(canvas.tokens.placeables[i].actor.id);
                 let token = canvas.tokens.placeables[i];
-                log(module_name, 'Found token ' + token.data.name + '; searching for Adversary talent');
-                let adversary_count = 0;
-                for (let x=0; x < token.actor.data.items.length; x++) {
-                    let item = token.actor.data.items[x];
-                    if (item.type === 'talent' && item.name === 'Adversary') {
-                        log(module_name, 'Found Adversary ' + item.data.ranks.current + ' on ' + token.data.name + '! Adding status');
-                        adversary_count+= 1;
-                        if (!window.EffectCounter) {
-                            // the user doesn't have status icon counters installed; they don't get a count
-                            canvas.tokens.placeables[i].toggleEffect(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"), {'active': true});
-                        } else {
-                            let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
-                            // create the effect counter
-                            let new_counter = new EffectCounter(item.data.ranks.current, icon_path, canvas.tokens.placeables[i]);
-                            // render it
-                            new_counter.update();
-                        }
-                    }
-                }
+                log(module_name, 'Found token ' + actor.name + '; searching for Adversary talent');
+                // end javascript sucks
+                let ranks = get_ranks(actor);
+                update_status(token, ranks);
             }
         }
     });
 
     Hooks.on("createToken", (scene, token, ...args) => {
         if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
-            log(module_name, 'Detected token creation; looking for actor data');
-            let token_id = token._id;
-            for (let i=0; i < scene.data.tokens.length; i++) {
-                if (scene.data.tokens[i]._id === token_id) {
-                    let actor = game.actors.get(scene.data.tokens[i].actorId);
-                    log(module_name, 'Found actor ' + actor.name + '; looking for talent');
-                    for (let i=0; i < actor.data.items.length; i++) {
-                        let item = actor.data.items[i];
-                        if (item.type === 'talent' && item.name === 'Adversary') {
-                            log(module_name, actor.name + ' has talent Adversary ' + item.data.ranks.current + '; adding status');
-                            if (!window.EffectCounter) {
-                                // the user doesn't have status icon counters installed; they don't get a count
-                                token.id = token_id;
-                                token.effects.push(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
-                            } else {
-                                let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
-                                // convert the JSON blob into a Token object
-                                let the_token = new Token(token);
-                                // create the effect counter
-                                let new_counter = new EffectCounter(item.data.ranks.current, icon_path, the_token);
-                                // render it
-                                new_counter.update();
-                            }
-                        }
-                    }
-                }
-            }
+            let token_id = scene.data._id;
+            // begin javascript sucks
+            let actor_data = find_actor(token_id);
+            let actor = actor_data[0];
+            let token = actor_data[1];
+            // end javascript sucks
+            let ranks = get_ranks(actor);
+            update_status(token, ranks);
         }
     });
+}
+
+function find_actor(token_id) {
+    for (let i = 0; i < game.canvas.tokens.placeables.length; i++) {
+        if (game.canvas.tokens.placeables[i].id === token_id) {
+            return [game.actors.get(game.canvas.tokens.placeables[i].actor.id), game.canvas.tokens.placeables[i]];
+        }
+    }
+}
+
+function get_ranks(actor) {
+    let actor_items = actor.data.items.filter(item => item);
+    let ranks = 0;
+    for (let x=0; x < actor_items.length; x++) {
+        let item = actor_items[x];
+        if (item.type === 'talent' && item.name === 'Adversary') {
+            ranks += item.data.data.ranks.current;
+        }
+    }
+    log(module_name, 'Found ' + ranks + ' ranks of Adversary');
+    return ranks;
+}
+
+function update_status(token, ranks) {
+    if (ranks === 0) { return; }
+    let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
+
+    if (!window.EffectCounter) {
+        // the user doesn't have status icon counters installed; they don't get a count
+        log(module_name, 'Adding status to token');
+        token.toggleEffect(
+            icon_path,
+            {'active': true}
+        );
+    } else {
+        // create the effect counter
+        log(module_name, 'Adding status rank ' + ranks + ' to token');
+        let new_counter = new EffectCounter(ranks, icon_path, token);
+        // render it
+        new_counter.update();
+    }
 }
 
 class talent_checker_UISettings extends FormApplication {
