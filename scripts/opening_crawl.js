@@ -126,17 +126,17 @@ class OpeningCrawlApplication extends Application {
      * Play this.data.music using the Playlist volume.
      * @param {function} callback callback to execute once playback has started
      */
-    play_music(callback) {
+    async play_music(callback) {
         let volume = game.settings.get("core", "globalPlaylistVolume");
-        this.howl = game.audio.create({src: this.data.music, preload:true, volume:volume})
-        this.howl.once("load", async () => {
+        let audio_helper = game.audio;
+
+        audio_helper.preload(this.data.music).then( async (sound) => {
             callback();
-            await sleep(
-                game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay")
-            );
-            this.howl.play();
+            sound.play({
+                offset: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay") / 1000,
+                volume: volume
+            });
         });
-        this.howl.load();
     }
 
     /**
