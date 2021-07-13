@@ -35,7 +35,7 @@ export function dice_helper() {
             html.on("click", ".effg-die-result", async function () {
                 await dice_helper_clicked(messageData);
             });
-            if (game.user.isGM && app.roll && (messageData.message.content.search('Initiative') === -1 || messageData.message.content.search(game.i18n.localize('ffg-star-wars-enhancements.dice-helper-button-text')) === -1 || messageData.message.content.search(game.i18n.localize('ffg-star-wars-enhancements.dice-helper-message-content-3')) === -1)) {
+            if (is_roll(app, messageData) === true) {
                 let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
                 let roll_result = {
                     'advantage': app.roll.ffg.advantage,
@@ -75,6 +75,21 @@ export function dice_helper() {
             }
         }
     });
+}
+
+function is_roll(app, message_data) {
+    if (game.user.isGM && app.data.roll) {
+        if (message_data.message.content.search(
+                'Initiative'
+            ) === -1 || message_data.message.content.search(
+                game.i18n.localize('ffg-star-wars-enhancements.dice-helper-button-text')
+            ) === -1 || message_data.message.content.search(
+                game.i18n.localize('ffg-star-wars-enhancements.dice-helper-message-content-3')
+            ) === -1) {
+            return true;
+        }
+    }
+    return false;
 }
 
 async function dice_helper_clicked(object) {
