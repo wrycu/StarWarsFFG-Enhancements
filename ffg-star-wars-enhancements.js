@@ -98,7 +98,6 @@ Hooks.once('init', async function() {
 
 Hooks.once('ready', () => {
     /* register functionality here */
-    rename_actors();
     attack_animation_check();
     opening_crawl_ready();
     shop_sheet_ready();
@@ -157,6 +156,10 @@ Hooks.on("getSceneControlButtons", (controls) => {
 	}
 });
 
+Hooks.on("createCombatant", (combatant) => {
+    rename_actors(combatant);
+})
+
 function register_hooks() {
     libWrapper.register(
         'ffg-star-wars-enhancements',
@@ -172,12 +175,10 @@ function register_hooks() {
     );
     libWrapper.register(
         'ffg-star-wars-enhancements',
-        'Combat.prototype.createEmbeddedEntity',
+        'Combat.prototype.createCombatant',
         async function (wrapped, ...args) {
             /* do initial action which was requested */
             var created_data = await wrapped(args[0], args[1]);
-            /* call the attack animation code */
-            rename_actors(created_data, ...args);
             strain_reminder(created_data, ...args);
         }
     );
