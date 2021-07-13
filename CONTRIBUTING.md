@@ -20,4 +20,6 @@ includes changing the project version number, adding lines to the
 **Don't** open a new PR if changes are requested. Just push to the
 same branch and the PR will be updated.
 
+**Do** use `CONFIG.debug.hooks = True` to find applicable hooks
+
 [1]: https://deepsource.io/blog/git-best-practices/
