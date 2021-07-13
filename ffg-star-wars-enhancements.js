@@ -158,6 +158,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 
 Hooks.on("createCombatant", (combatant) => {
     rename_actors(combatant);
+    strain_reminder(combatant);
 })
 
 function register_hooks() {
@@ -171,15 +172,6 @@ function register_hooks() {
              */
             var data = attack_animation(this, ...args);
             return wrapped(...data);
-        }
-    );
-    libWrapper.register(
-        'ffg-star-wars-enhancements',
-        'Combat.prototype.createCombatant',
-        async function (wrapped, ...args) {
-            /* do initial action which was requested */
-            var created_data = await wrapped(args[0], args[1]);
-            strain_reminder(created_data, ...args);
         }
     );
 }
