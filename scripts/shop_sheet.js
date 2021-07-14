@@ -34,9 +34,9 @@ async function socket_listener(data) {
             let buyer = game.actors.get(data.buyer_id);
             let seller = game.actors.get(data.seller_id);
             if (data.compendium_item) {
-                var item = await seller.getEmbeddedEntity("OwnedItem", data.item_id);
+                var item = await seller.getEmbeddedDocument("Item", data.item_id);
             } else {
-                var item = await game.packs.get(data.compendium).getEntity(data.item_id);
+                var item = await game.packs.get(data.compendium).getDocument(data.item_id);
             }
             // check to see if the buyer has enough credits to afford the item
             if (buyer.data.data.stats.credits.value < parseInt(data.price)) {
@@ -47,8 +47,8 @@ async function socket_listener(data) {
                         + seller.name + "</a> but couldn't afford the price of " + data.price + " credits!",
                 });
             } else {
-                await buyer.createEmbeddedEntity("OwnedItem", item);
-                await seller.deleteEmbeddedEntity("OwnedItem", data.item_id);
+                await buyer.createEmbeddedDocuments("Item", [item.data]);
+                await seller.deleteEmbeddedDocuments("Item", [data.item_id]);
                 /* this doesn't seem to actually get reflected on the character sheet */
                 buyer.data.data.stats.credits.value -= parseInt(data.price);
                 ChatMessage.create({
@@ -70,9 +70,10 @@ Helper function to convert an item name to the item ID
  */
 async function find_item_id(actor_id, item_name) {
     let vendor = game.actors.get(actor_id);
-    for (let x = 0; x < vendor.data.items.length; x++) {
-        if (vendor.data.items[x].name === item_name) {
-            return vendor.data.items[x]._id;
+    let items = vendor.data.items.filter(item => item);
+    for (let x = 0; x < items.length; x++) {
+        if (items[x].name === item_name) {
+            return items[x].data._id;
         }
     }
     return null;
@@ -102,7 +103,7 @@ export class Vendor extends ActorSheetFFGV2 {
 
     async getData() {
         const sheetData = super.getData();
-        let vendor_data = this.entity.getFlag("ffg-star-wars-enhancements", "vendor-data");
+        let vendor_data = this.document.getFlag("ffg-star-wars-enhancements", "vendor-data");
         // validate that we got flag data before trying to index into it
         if (vendor_data === undefined || vendor_data === null) {
             var vendor_meta_data = {
@@ -115,13 +116,14 @@ export class Vendor extends ActorSheetFFGV2 {
             var vendor_meta_data = vendor_data['meta'];
             vendor_data = vendor_data['items'];
         }
-        log(module_name, "Retrieving data for " + this.entity.id);
+        log(module_name, "Retrieving data for " + this.document.id);
 
         let inventory_data = [];
-        for (let x = 0; x < this.entity.data.items.length; x++) {
+        let items = this.document.data.items.filter(item => item);
+        for (let x = 0; x < items.length; x++) {
             /* merge the flag data with the inventory data so we can render it in the template */
-            let item = this.entity.data.items[x];
-            if (this.entity.data.items[x].name in vendor_data) {
+            let item = items[x];
+            if (item.name in vendor_data) {
                 log(module_name, "Detected item with flag data set");
                 log(module_name, JSON.stringify(item));
                 log(module_name, JSON.stringify(vendor_data[item.name]));
@@ -140,15 +142,15 @@ export class Vendor extends ActorSheetFFGV2 {
                 log(module_name, "Detected item with NO flag data set");
                 log(module_name, JSON.stringify(item));
                 // this was a drag-and-dropped item. figure out the price on the fly
-                let price = (parseInt(item.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
+                let price = (parseInt(item.data.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
                 inventory_data.push({
                     name: item.name,
-                    id: item.flags.ffgTempId,
+                    id: item.data.flags.ffgTempId,
                     image: item.img,
                     price: price,
                     roll: "Manually Added",
                     type: item.type,
-                    restricted: item.data.rarity.isrestricted,
+                    restricted: item.data.data.rarity.isrestricted,
                     flagged: false,
                 })
             }
@@ -208,12 +210,12 @@ export class Vendor extends ActorSheetFFGV2 {
         let compendium_item = $(event.currentTarget).parents(".item").attr("data-item-type");
         let compendium = $(event.currentTarget).parents(".item").attr("data-item-compendium");
 
-        let item_id = await find_item_id(this.entity.id, item_name);
+        let item_id = await find_item_id(this.document.id, item_name);
 
         let buy_packet = {
             type: "buy",
             buyer_id: game.user.data.character,
-            seller_id: this.entity.id,
+            seller_id: this.document.id,
             price: item_price,
             item_id: item_id,
             quantity: 1,
@@ -233,12 +235,12 @@ export class Vendor extends ActorSheetFFGV2 {
     async _remove_item(event, all = 0) {
         event.preventDefault();
         let item_name = $(event.currentTarget).parents(".item").attr("data-item-name");
-        let item_id = await find_item_id(this.entity.id, item_name);
-        await game.actors.get(this.entity.id).deleteEmbeddedEntity("OwnedItem", item_id);
+        let item_id = await find_item_id(this.document.id, item_name);
+        await game.actors.get(this.document.id).deleteEmbeddedDocuments("Item", [item_id]);
     }
 
     async _refresh_stock(event, all = 0) {
-        log(module_name, "refreshing stock for " + this.entity.id);
-        open_shop_generator(this.entity.id);
+        log(module_name, "refreshing stock for " + this.document.id);
+        open_shop_generator(this.document.id);
     }
 }

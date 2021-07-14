@@ -160,7 +160,7 @@ class Shop {
             /* look up the details and see if it makes the shop */
             let possible_item_index = Math.floor((Math.random() * possible_items_raw.length));
             // get item details
-            let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getEntity(possible_items_raw[possible_item_index]['item']['_id']);
+            let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getDocument(possible_items_raw[possible_item_index]['item']['data']['_id']);
             // check if it's OK
             if (possible_item.data.data.rarity.isrestricted === true && this.shady === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)");
@@ -389,7 +389,12 @@ class ShopGenerator extends FormApplication {
         let to_create = [];
         for (let x = 0; x < inventory.length; x++) {
             let item = inventory[x].item;
-            to_create.push(await game.packs.get(item.compendium).getEntity(item.id));
+            console.log("in to create")
+            console.log(item)
+            let item_ffg = await game.packs.get(item.compendium).getDocument(item.id);
+            console.log(item_ffg)
+            console.log(item_ffg.data)
+            to_create.push(item_ffg.data);
         }
 
         // add the price modifier so we can apply it to drag-and-dropped items
@@ -435,6 +440,7 @@ class ShopGenerator extends FormApplication {
             "Item",
             to_delete,
         );
+        console.log("to create")
         console.log(to_create)
         // actually create the new items
         await vendor.createEmbeddedDocuments(
