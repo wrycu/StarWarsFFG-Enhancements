@@ -50,6 +50,9 @@ Hooks.once('init', async function() {
             case "in":
                 bool = b.indexOf(a) > 0;
                 break;
+            case "not in":
+                bool = b.indexOf(a) < 0;
+                break;
             case "contains":
                 if (a && b) {
                     bool = a.includes(b);

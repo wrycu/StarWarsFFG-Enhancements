@@ -1,18 +1,20 @@
 {{#*inline "settingPartial"}}
 <div class="form-group">
     <label>
-    {{#iff 'logo' 'in' this.key}}
-        <!-- todo: this should be an image icon, not a video icon -->
-        <i class="fas fa-video"></i>
+    {{#iff 'animation' 'in' this.key}}
+        {{#iff 'sound' 'not in' this.key}}
+            <i class="fas fa-video"></i>
+        {{/iff}}
     {{/iff}}
-    {{#iff 'music' 'in' this.key}}
+    {{#iff 'sound' 'in' this.key}}
         <i class="fas fa-volume-up"></i>
     {{/iff}}
         &nbsp;{{this.name}}
     </label>
     <div class="form-fields">
     {{#if this.isCheckbox}}
-        <<input type="checkbox" name="{{this.module}}.{{this.key}}" data-dtype="Boolean" {{checked this.value}}/>
+        <input type="checkbox" name="{{this.module}}.{{this.key}}" data-dtype="Boolean" {{checked this.value}}/>
+
     {{else if this.isSelect}}
         <select name="{{this.module}}.{{this.key}}">
             {{#select this.value}} {{#each this.choices as |name k|}}
@@ -25,21 +27,24 @@
                step="{{ this.range.step }}" type="range" value="{{ this.value }}"/>
         <span class="range-value">{{this.value}}</span>
 
-    {{else if this.isFilePicker}}
+    {{else if this.filePicker}}
+        <button class="file-picker" data-target="path" data-type="
+        {{~#iff 'animation' 'in' this.key~}}
+            {{~#iff 'sound' 'not in' this.key~}}
+                video
+            {{~/iff~}}
+        {{~/iff~}}
+        {{~#iff 'sound' 'in' this.key~}}
+            audio
+        {{~/iff~}}
+        {{~#iff 'music' 'in' this.key~}}
+            audio
+        {{~/iff~}}
+        " title="Browse Files" type="button">...</button>
         <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
-        <button class="filepicker" type="button">...</button>
+
     {{else}}
         <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
-        {{#iff this.type '==' 'setting_image'}}
-            <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="image" type="button">
-                <i class="fas fa-file-import"></i>
-            </button>
-        {{/iff}}
-        {{#iff this.type '==' 'setting_audio'}}
-            <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="audio" type="button">
-                <i class="fas fa-file-import"></i>
-            </button>
-        {{/iff}}
     {{/if}}
     </div>
 

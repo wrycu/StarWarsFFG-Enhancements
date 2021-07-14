@@ -26,7 +26,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'icons/svg/regen.svg',
     });
     log(module_name, 'Done initializing');
@@ -110,7 +110,7 @@ class talent_checker_UISettings extends FormApplication {
             id: "talent-checker",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("ffg-star-wars-enhancements.talent-checker.title")}`,
-            template: "modules/ffg-star-wars-enhancements/templates/settings_attack_animations.html",
+            template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }
 

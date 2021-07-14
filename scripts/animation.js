@@ -35,7 +35,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
@@ -44,7 +44,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
@@ -53,7 +53,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
@@ -62,7 +62,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
@@ -71,7 +71,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
@@ -80,7 +80,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
@@ -89,7 +89,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
@@ -98,7 +98,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
@@ -107,7 +107,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
@@ -116,7 +116,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
@@ -125,7 +125,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'video',
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
@@ -134,7 +134,7 @@ export function init () {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
     log('attack_animation', 'Initialized');
@@ -328,7 +328,7 @@ class attack_animation_UISettings extends FormApplication {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
-            template: "modules/ffg-star-wars-enhancements/templates/settings_attack_animations.html",
+            template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }
 

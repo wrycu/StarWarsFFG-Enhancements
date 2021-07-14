@@ -28,7 +28,7 @@ export function init() {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'audio',
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
@@ -37,7 +37,7 @@ export function init() {
         scope: "world",
         config: false,
         type: String,
-        valueType: "FilePicker",
+        filePicker: 'folder',
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music-delay", {
@@ -360,7 +360,7 @@ class opening_crawl_UISettings extends FormApplication {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
-            template: "modules/ffg-star-wars-enhancements/templates/settings_opening_crawl.html",
+            template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }
 

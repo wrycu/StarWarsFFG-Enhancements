@@ -138,11 +138,11 @@ class Shop {
         /* build the raw item array */
         for (let i = 0; i < this.compendiums.length; i++) {
             try {
-                let compendium_items = await game.packs.get(this.compendiums[i]).getData();
-                for (let x = 0; x < compendium_items['index'].length; x++) {
+                let compendium_items = await game.packs.get(this.compendiums[i]).getDocuments();
+                for (let x = 0; x < compendium_items.length; x++) {
                     possible_items_raw.push({
                         'compendium': this.compendiums[i],
-                        'item': compendium_items['index'][x],
+                        'item': compendium_items[x],
                     });
                 }
             } catch ( e ) {
@@ -304,7 +304,7 @@ class Shop {
 Helper function to return a list of actors owned by players
  */
 async function get_player_actors() {
-    let actors = game.actors.entries;
+    let actors = game.actors.filter(actor => actor);
     let pcs = []
     for (let i = 0; i < actors.length; i++) {
         if (actors[i].hasPlayerOwner === true) {
@@ -431,13 +431,14 @@ class ShopGenerator extends FormApplication {
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
         // actually delete the old items
-        await vendor.deleteEmbeddedEntity(
-            "OwnedItem",
+        await vendor.deleteEmbeddedDocuments(
+            "Item",
             to_delete,
         );
+        console.log(to_create)
         // actually create the new items
-        await vendor.createEmbeddedEntity(
-            "OwnedItem",
+        await vendor.createEmbeddedDocuments(
+            "Item",
             to_create,
         );
     }
