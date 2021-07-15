@@ -14,6 +14,9 @@ export function init() {
 }
 
 export function rename_actors(created_data) {
+    if (!game.user.isGM) {
+        return;
+    }
     if (game.settings.get("ffg-star-wars-enhancements", "auto-rename-actors")) {
         log('attack_rename', 'Found combatant being added to combat');
         var update_data = {
