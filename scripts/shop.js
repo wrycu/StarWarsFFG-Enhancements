@@ -382,8 +382,9 @@ class ShopGenerator extends FormApplication {
         }
         // set up to delete items from the vendor
         let to_delete = [];
-        for (let x = 0; x < vendor.data.items.length; x++) {
-            to_delete.push(vendor.data.items[x]._id);
+        let current_inventory = vendor.data.items.filter(item => item);
+        for (let x = 0; x < current_inventory.length; x++) {
+            to_delete.push(current_inventory[x]._id);
         }
         // set up to create the items for the vendor
         let to_create = [];
