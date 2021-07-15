@@ -14,6 +14,9 @@ export function init() {
 }
 
 export function strain_reminder(created_data) {
+    if (!game.user.isGM) {
+        return;
+    }
     if (game.settings.get("ffg-star-wars-enhancements", "strain-reminder")) {
         log('strain_reminder', 'Found combatant(s) being added to combat');
         var token_id = created_data['data']['_id'];
