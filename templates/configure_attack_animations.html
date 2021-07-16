@@ -15,16 +15,16 @@
     <div class="form-group">
         <label><i class="fas fa-video"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.animation.generic"}}</label>
         <input data-dtype="setting_image" id="animation" name="animation_file" type="text" value="placeholder"/>
-        <button class="file-picker" data-target="animation_file" data-type="image" type="button">
+        <button class="file-picker" data-target="animation_file" data-type="video" type="button">
             <i class="fas fa-file-import"></i>
         </button>
     </div>
     <div class="form-group">
         <label><i class="fas fa-volume-up"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.sound.generic"}}</label>
         <input data-dtype="setting_audio" id="sound" name="sound_file" type="text" value="placeholder"/>
-        <button class="file-picker" data-target="sound_file" data-type="audio" type="button">
-                <i class="fas fa-file-import"></i>
-            </button>
+        <button class="file-picker" data-target="sound_file" data-type="audio">
+            <i class="fas fa-file-import"></i>
+        </button>
     </div>
     <button class="reset" value="reset"><i class="fas fa-history"></i>{{localize "ffg-star-wars-enhancements.attack-animation.custom.reset"}}</button>
     <button class="create" type="submit" value="create"><i class="fas fa-save"></i>{{localize "ffg-star-wars-enhancements.attack-animation.custom.set"}}</button>
