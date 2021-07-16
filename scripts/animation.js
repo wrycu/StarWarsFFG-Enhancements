@@ -237,7 +237,7 @@ export function attack_animation(...args) {
             return args;
         }
 
-        let actor_id = args[0]['speaker']['actor']['_id'];
+        let actor_id = args[0]['speaker']['actor']['data']['_id'];
 
         if (that['data'] === null || jQuery.isEmptyObject(that['data'])) {
             // this was a roll from a skill
@@ -245,7 +245,7 @@ export function attack_animation(...args) {
         } else {
             // this was a roll from an item
             let item_id = that['data']['_id'];
-            let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
+            let the_item = game.actors.get(actor_id).items.get(item_id);
             if (the_item !== null) {
                 var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
             } else {
@@ -475,7 +475,7 @@ class ConfigureAttackAnimation extends FormApplication {
             /* step over all items so we can check if custom data is already set or not */
             for (var i=0; i < items.length; i++) {
                 // convert the item to an Item type object so we can read flag data off of it
-                let the_item = tmp_actors[x].getOwnedItem(items[i]._id);
+                let the_item = tmp_actors[x].items.get(items[i].data._id);
                 // validate it's a weapon, since you can only roll attacks with weapons
                 if (the_item.type === 'weapon') {
                     // read the flag data if it's present
@@ -491,7 +491,7 @@ class ConfigureAttackAnimation extends FormApplication {
                     }
                     // add to the list of items for the formapplication
                     tmp_items.push({
-                        'id': items[i]._id,
+                        'id': items[i].data._id,
                         'name': items[i].name,
                         'animation': animation,
                         'sound': sound,
@@ -525,7 +525,7 @@ class ConfigureAttackAnimation extends FormApplication {
             log('attack_animation', 'Removing attack flag');
             // remove the flag data so we can use the default value
             ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-unset"));
-            game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", null);
+            game.actors.get(data['actor']).items.get(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", null);
             return;
         }
         log('attack_animation', 'Setting attack flag');
@@ -533,7 +533,7 @@ class ConfigureAttackAnimation extends FormApplication {
             sound_file: data['sound_file'],
             animation_file: data['animation_file'],
         };
-        game.actors.get(data['actor']).getOwnedItem(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
+        game.actors.get(data['actor']).items.get(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
         ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-success"));
     }
 }
