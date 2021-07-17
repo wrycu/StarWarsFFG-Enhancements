@@ -3,35 +3,57 @@
     <div class="form-group">
         <label for="shop_type">{{localize "ffg-star-wars-enhancements.shop.html.setup.type"}}</label>
         <select id="shop_type" name="shop_type">
-            <option selected value="general">{{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-general"}}</option>
-            <option value="armor">{{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-armor"}}</option>
-            <option value="gear">{{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-gear"}}</option>
-            <option value="weapon">{{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-weapon"}}</option>
+            <option setup.type value="general" {{#iff '==' 'general' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-general"}}
+            </option>
+            <option setup.type value="armor" {{#iff '==' 'armor' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-armor"}}
+            </option>
+            <option setup.type value="gear" {{#iff '==' 'gear' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-gear"}}
+            </option>
+            <option setup.type value="weapon" {{#iff '==' 'weapon' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.type-label-weapon"}}
+            </option>
         </select>
     </div>
     <div class="form-group">
         <label for="min_item_count">{{localize "ffg-star-wars-enhancements.shop.html.setup.min"}}</label>
-        <input id="min_item_count" name="min_item_count" placeholder="5" type="text" value="5">
+        <input id="min_item_count" name="min_item_count" placeholder="5" type="text" value="{{setup.min_items}}">
     </div>
     <div class="form-group">
         <label for="max_item_count">{{localize "ffg-star-wars-enhancements.shop.html.setup.max"}}</label>
-        <input id="max_item_count" name="max_item_count" placeholder="15" type="text" value="15">
+        <input id="max_item_count" name="max_item_count" placeholder="15" type="text" value="{{setup.max_items}}">
     </div>
     <div class="form-group">
         <label for="shop_location">{{localize "ffg-star-wars-enhancements.shop.html.setup.location"}}</label>
         <select id="shop_location" name="shop_location">
-            <option value="minus_two">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-primary"}}</option>
-            <option value="minus_one">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-other"}}</option>
-            <option selected value="no_change">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-colony"}}</option>
-            <option value="plus_one">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-mid"}}</option>
-            <option value="plus_two">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-outer"}}</option>
-            <option value="plus_three">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-wild"}}</option>
-            <option value="plus_four">{{localize "ffg-star-wars-enhancements.shop.html.setup.location-uncivilized"}}</option>
+            <option setup.location value="minus_two" {{#iff '==' 'minus_two' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-primary"}}
+            </option>
+            <option setup.location value="minus_one" {{#iff '==' 'minus_one' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-other"}}
+            </option>
+            <option setup.location value="no_change" {{#iff '==' 'no_change' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-colony"}}
+            </option>
+            <option setup.location value="plus_one" {{#iff '==' 'plus_one' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-mid"}}
+            </option>
+            <option setup.location value="plus_two" {{#iff '==' 'plus_two' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-outer"}}
+            </option>
+            <option setup.location value="plus_three" {{#iff '==' 'plus_three' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-wild"}}
+            </option>
+            <option setup.location value="plus_four" {{#iff '==' 'plus_four' }}selected{{/iff}}>
+                {{localize "ffg-star-wars-enhancements.shop.html.setup.location-uncivilized"}}
+            </option>
         </select>
     </div>
     <div class="form-group">
         <label for="shady">{{localize "ffg-star-wars-enhancements.shop.html.setup.shady"}}</label>
-        <input id="shady" name="shady" type="checkbox">
+        <input id="shady" name="shady" setup.restricted}}checked{{ type="checkbox" {{#if/if}}>
     </div>
     <div class="form-group">
         <label for="shop_actor">{{localize "ffg-star-wars-enhancements.shop.html.setup.pc"}}</label>
@@ -43,7 +65,7 @@
     </div>
     <div class="form-group">
         <label for="shop_base_price">{{localize "ffg-star-wars-enhancements.shop.html.setup.price"}}</label>
-        <input id="shop_base_price" name="shop_base_price" placeholder="100" type="text" value="100">
+        <input id="shop_base_price" name="shop_base_price" placeholder="100" type="text" value="{{setup.base_price}}">
     </div>
     <button class="create" type="submit" value="create"><i class="fas fa-plus"></i>{{localize "ffg-star-wars-enhancements.shop.html.setup.button"}}</button>
 </form>
