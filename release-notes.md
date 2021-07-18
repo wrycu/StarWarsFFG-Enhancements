@@ -3,6 +3,7 @@
     * All Foundry `0.9.x` warnings have been addressed; the move to that version should be faster
 * Shop improvements: shop settings are now remembered ([#56](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/56))
 * Allow players to use dice result spender ([#51](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/51))
+* Fix for dice result spender generating new buttons when scrolling through chat history
 
 `0.1.11` - 2021-06-29
 * Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))
