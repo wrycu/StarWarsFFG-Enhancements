@@ -35,31 +35,21 @@ async function socket_listener(data) {
 }
 
 export function dice_helper() {
-    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
-    Hooks.on("renderChatMessage", (app, html, messageData) => {
-        /*
-        this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
-        hook and the user enables it after the game starts, it doesn't actually enable
-
-        we can probably overcome that, but it requires a bunch more work and who has time for that?!
-         */
+    game.socket.on('module.ffg-messageData-wars-enhancements', socket_listener);
+    Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
-            html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(messageData);
-            });
-            if (is_roll(app, messageData) === true) {
-                let skill = messageData['message']['flavor'].replace(game.i18n.localize('SWFFG.Rolling'), '').replace('...', '').replace(' ', ' ').replace(' ', '');
+            if (is_roll(messageData) === true) {
+                let skill = messageData['_roll']['data']['data']['skill']['value'];
                 let roll_result = {
-                    'advantage': app.roll.ffg.advantage,
-                    'triumph': app.roll.ffg.triumph,
-                    'threat': app.roll.ffg.threat,
-                    'despair': app.roll.ffg.despair,
-                    'success': app.roll.ffg.success,
-                    'failure': app.roll.ffg.failure,
+                    'advantage': messageData['_roll']['ffg']['advantage'],
+                    'triumph': messageData['_roll']['ffg']['triumph'],
+                    'threat': messageData['_roll']['ffg']['threat'],
+                    'despair': messageData['_roll']['ffg']['despair'],
+                    'success': messageData['_roll']['ffg']['success'],
+                    'failure': messageData['_roll']['ffg']['failure'],
                 };
                 if (roll_result['advantage'] > 0 || roll_result['triumph'] > 0 || roll_result['threat'] > 0 || roll_result['despair'] > 0) {
                     log(feature_name, 'Die roll had relevant results, generating new message');
-
                     // do we have a helper for this skill?
                     let data = load_data();
                     if (!is_supported_skill(skill.toLowerCase(), data)) {
@@ -81,16 +71,31 @@ export function dice_helper() {
                     log(feature_name, 'New message content: ' + msg['content']);
                     ChatMessage.create(msg);
                 }
-
             } else {
-                log(feature_name, 'Detected relevant die roll but the message has already been modified; ignoring');
+                log(feature_name, 'Detected message without roll; ignoring');
             }
+        }
+    });
+
+    Hooks.on("renderChatMessage", (app, html, messageData) => {
+        /*
+        this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
+        hook and the user enables it after the game starts, it doesn't actually enable
+
+        we can probably overcome that, but it requires a bunch more work and who has time for that?!
+         */
+        if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
+            // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
+            html.on("click", ".effg-die-result", async function () {
+                await dice_helper_clicked(messageData);
+            });
         }
     });
 }
 
-function is_roll(app, message_data) {
-    if (game.user.isGM && app.data.roll) {
+function is_roll(message_data) {
+    if (game.user.isGM && message_data['_roll'] !== null) {
+        return true;
         if (message_data.message.content.search(
                 'Initiative'
             ) === -1 || message_data.message.content.search(
