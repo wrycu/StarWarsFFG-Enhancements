@@ -1,4 +1,4 @@
-`0.2.0` - ???
+`0.2.0` - 2021-07-18
 * Support for Foundry `0.8.x` ([#52](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/52))
     * All Foundry `0.9.x` warnings have been addressed; the move to that version should be faster
 * Shop improvements: shop settings are now remembered ([#56](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/56))
