@@ -60,6 +60,13 @@
     ],
     "packs": [
         {
+            "name": "ffg-sw-enhanced-scene-ideas",
+            "label": "eFFG.SceneIdeas",
+            "module": "ffg-star-wars-enhancements",
+            "path": "packs/sceneideas.db",
+            "entity": "Scene"
+        },
+        {
             "name": "ffg-sw-enhanced-community-macros",
             "label": "eFFG.CommunityMacros",
             "module": "ffg-star-wars-enhancements",
