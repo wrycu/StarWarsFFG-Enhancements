@@ -1,5 +1,6 @@
 `0.2.1` - ???
 * Fix for breaking `fxmaster` scene controls ([#60](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/60))
+* Fix for Intro Crawl audio delay not working ([#63](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/63))
 
 `0.2.0` - 2021-07-18
 * Support for Foundry `0.8.x` ([#52](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/52))

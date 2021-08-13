@@ -132,8 +132,8 @@ class OpeningCrawlApplication extends Application {
 
         audio_helper.preload(this.data.music).then( async (sound) => {
             callback();
+            await sleep(game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay"));
             sound.play({
-                offset: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay") / 1000,
                 volume: volume
             });
         });
