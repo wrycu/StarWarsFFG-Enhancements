@@ -3,12 +3,10 @@ import { log_msg as log } from './scripts/util.js'
 import {
     init as attack_animation_init,
     attack_animation_check,
-    attack_animation,
-    configure_attack_animation
+    attack_animation
 } from './scripts/animation.js'
-import { init as opening_crawl_init, ready as opening_crawl_ready, select_opening_crawl } from './scripts/opening_crawl.js'
+import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
 import { init as rename_init, rename_actors } from './scripts/rename.js'
-import { create_datapad_journal } from './scripts/datapads.js'
 import {
     init as dice_helper_init,
     dice_helper,
@@ -16,15 +14,15 @@ import {
 } from './scripts/dice_helper.js'
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
-import { shop_creator } from "./scripts/shop.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
+import { register_controls } from "./scripts/controls_layer.js";
 
 Hooks.once('init', async function() {
-	log('base_module', 'Initializing');
+    log('base_module', 'Initializing');
 
-	settings_init();
-	rename_init();
-	attack_animation_init();
+    settings_init();
+    rename_init();
+    attack_animation_init();
     dice_helper_init();
     strain_reminder_init();
     talent_checker_init();
@@ -96,7 +94,7 @@ Hooks.once('init', async function() {
     });
 
     log('base_module', 'Done registering helpers');
-	log('base_module', 'Initializing finished');
+    log('base_module', 'Initializing finished');
 });
 
 Hooks.once('ready', () => {
@@ -111,52 +109,8 @@ Hooks.once('ready', () => {
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {
-	if (game.user.isGM) {
-		controls.push({
-			name: game.i18n.localize("ffg-star-wars-enhancements.controls.name"),
-			title: game.i18n.localize("ffg-star-wars-enhancements.controls.title"),
-			layer: "specials",
-			icon: "fa fa-jedi",
-			tools: [
-				{
-					name: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.name"),
-					title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
-					icon: "fas fa-journal-whills",
-					button: true,
-					onClick: () => {
-						select_opening_crawl();
-					},
-				},
-				{
-					name: game.i18n.localize("ffg-star-wars-enhancements.controls.new-journal-template.name"),
-					title: game.i18n.localize("ffg-star-wars-enhancements.controls.new-journal-template.title"),
-					icon: "fas fa-book-medical",
-					button: true,
-					onClick: () => {
-						create_datapad_journal();
-					},
-				},
-                {
-					name: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.name"),
-					title: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.title"),
-					icon: "fas fa-shopping-cart",
-					button: true,
-					onClick: () => {
-						shop_creator();
-					},
-				},
-                {
-					name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
-					title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
-					icon: "fas fa-bullseye",
-					button: true,
-					onClick: () => {
-						configure_attack_animation();
-					},
-				},
-			]
-		});
-	}
+    if (!game.user.isGM) {return}
+    register_controls(controls);
 });
 
 Hooks.on("createCombatant", (combatant) => {
