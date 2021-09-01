@@ -39,7 +39,7 @@ export function dice_helper() {
     Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             if (is_roll(messageData) === true) {
-                let skill = messageData['_roll']['data']['data']['skill']['value'];
+                let skill = messageData['data']['flavor'].replace(game.i18n.localize('SWFFG.Rolling') + ' ', '').replace('...', '').replace(/\s/g, ' ');
                 let roll_result = {
                     'advantage': messageData['_roll']['ffg']['advantage'],
                     'triumph': messageData['_roll']['ffg']['triumph'],
@@ -53,6 +53,7 @@ export function dice_helper() {
                     // do we have a helper for this skill?
                     let data = load_data();
                     if (!is_supported_skill(skill.toLowerCase(), data)) {
+                        log(feature_name, 'Unable to find helper contents in journal, quitting')
                         return;
                     }
 
