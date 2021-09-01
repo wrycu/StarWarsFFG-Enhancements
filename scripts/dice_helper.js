@@ -190,7 +190,11 @@ async function fetch_suggestions(results) {
     for (var x = 0; x < suggestion_categories.length; x++) {
         let category = suggestion_categories[x];
         // build an array of the suggestions for the specific category we're looking at now
-        let tmp_suggestions = data[skill][category].filter(suggestion => suggestion.required <= results[category]);
+        if ((category === 'ad' && results['tr'] > 0) || (category === 'th' && results['de'] > 0) ) {
+            var tmp_suggestions = data[skill][category];
+        } else {
+            var tmp_suggestions = data[skill][category].filter(suggestion => suggestion.required <= results[category]);
+        }
         // only add the array if it's been populated
         if (tmp_suggestions.length > 0) {
             suggestions.push({
