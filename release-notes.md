@@ -4,6 +4,7 @@
 * Fix for dice result spender not working on non-item rolls... again (thanks `@Theik`!) ([#65](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/65))
 * Add triumph and despair in place of advantage and threat support for dice result spender (thanks `@Theik`!) ([#66](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/66))
 * Improve intro crawl text tilt ([#54](https://github.com/wrycu/StarWarsFFG-Enhancements/pull/54))
+* Add attack animation settings for grenades ([#46](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/46))
 
 `0.2.0` - 2021-07-18
 * Support for Foundry `0.8.x` ([#52](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/52))

@@ -137,6 +137,24 @@ export function init () {
         filePicker: 'audio',
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
+    game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-animation", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-animation'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-animation-hint'),
+        scope: "world",
+        config: false,
+        type: String,
+        filePicker: 'video',
+        default: base_path + '/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm',
+    });
+    game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-sound", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-sound'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-sound-hint'),
+        scope: "world",
+        config: false,
+        type: String,
+        filePicker: 'audio',
+        default: 'modules/ffg-star-wars-enhancements/audio/explosion.wav',
+    });
     log('attack_animation', 'Initialized');
 }
 
@@ -221,6 +239,11 @@ export function attack_animation(...args) {
         'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
         'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
     };
+    // grenade
+    combat_skills['grenade'] = {
+        'animation_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-animation"),
+        'sound_file': game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-sound"),
+    };
 
     if (skill in combat_skills) {
         log('attack_animation', 'Determined that "' + skill + '" is a combat skill');
@@ -242,9 +265,11 @@ export function attack_animation(...args) {
         if (that['data'] === null || jQuery.isEmptyObject(that['data'])) {
             // this was a roll from a skill
             var flag_data = null;
+            var item_name = null;
         } else {
             // this was a roll from an item
             let item_id = that['data']['_id'];
+            var item_name = that['data']['name'];
             let the_item = game.actors.get(actor_id).items.get(item_id);
             if (the_item !== null) {
                 var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
@@ -257,10 +282,21 @@ export function attack_animation(...args) {
         /* check to see if there is custom stuff set for this item */
         if (flag_data === undefined || flag_data === null) {
             log('attack_animation', 'Got animation from config');
-            // noinspection JSDuplicatedDeclaration
-            var animation_file = combat_skills[skill]['animation_file'];
-            // noinspection JSDuplicatedDeclaration
-            var sound_file = combat_skills[skill]['sound_file'];
+            // check if the item is a grenade and override the skill if it is
+            if (item_name && item_name.toLowerCase().includes('grenade')) {
+                // the item was a grenade, we've got to change some stuff around
+                log('attack_animation', 'Item being rolled is a grenade, swapping animation to "grenade"');
+                // noinspection JSDuplicatedDeclaration
+                var animation_file = combat_skills['grenade']['animation_file'];
+                // noinspection JSDuplicatedDeclaration
+                var sound_file = combat_skills['grenade']['sound_file'];
+                skill = 'grenade';
+            } else {
+                // noinspection JSDuplicatedDeclaration
+                var animation_file = combat_skills[skill]['animation_file'];
+                // noinspection JSDuplicatedDeclaration
+                var sound_file = combat_skills[skill]['sound_file'];
+            }
         } else {
             log('attack_animation', 'Got animation from flag data');
             // noinspection JSDuplicatedDeclaration
@@ -295,23 +331,36 @@ async function play_animation(animation_file, sound_file, skill) {
             var num_shots = Math.floor((Math.random() * 6) + 1);
         }
         for (var x = 0; x < num_shots; x++) {
-            let ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
+            if (skill === 'grenade') {
+                var animation_config = {
+                    position: Array.from(game.user.targets)[i].center,
+                    file: animation_file,
+                    anchor: {
+                        x: 0.5,
+                        y: 0.5,
+                    },
+                    angle: -90,
+                };
 
-            let animation_config = {
-                position: tokens[0].center,
-                file: animation_file,
-                anchor: {
-                    x: 0.125,
-                    y: 0.5,
-                },
-                angle: -(ray.angle * 57.3),
-                scale: {
-                    x: ray.distance / 1200,
-                    y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
-                },
-            };
+            } else {
+                var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
+                var animation_config = {
+                    position: tokens[0].center,
+                    file: animation_file,
+                    anchor: {
+                        x: 0.125,
+                        y: 0.5,
+                    },
+                    angle: -(ray.angle * 57.3),
+                    scale: {
+                        x: ray.distance / 1200,
+                        y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
+                    },
+                };
+            }
             canvas.specials.playVideo(animation_config);
             game.socket.emit('module.fxmaster', animation_config);
+
             AudioHelper.play({src: sound_file, volume: .3, autoplay: true, loop: false}, true);
             await sleepNow(250)
         }
