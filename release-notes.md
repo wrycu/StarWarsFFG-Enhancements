@@ -1,4 +1,4 @@
-`0.2.1` - ???
+`0.2.1` - 2021-09-05
 * Fix for breaking `fxmaster` scene controls ([#60](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/60))
 * Fix for Intro Crawl audio delay not working ([#63](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/63))
 * Fix for dice result spender not working on non-item rolls... again (thanks `@Theik`!) ([#65](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/65))
