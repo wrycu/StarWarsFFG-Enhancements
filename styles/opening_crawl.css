@@ -27,21 +27,21 @@
  */
 @font-face {
 	font-family: 'News Cycle';
-    src: url("/modules/ffg-star-wars-enhancements/fonts/NewsCycle-Regular.ttf");
+    src: url("../fonts/NewsCycle-Regular.ttf");
 }
 @font-face {
     font-family: StarJedi;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/StarJedi-DGRW.woff");
+    src: url("../fonts/StarJedi-DGRW.woff");
 }
 
 @font-face {
     font-family: SWCrawlTitle;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/SWCrawlTitle.ttf");
+    src: url("../fonts/SWCrawlTitle.ttf");
 }
 
 @font-face {
     font-family: SWCrawlBody;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/SWCrawlBody.ttf");
+    src: url("../fonts/SWCrawlBody.ttf");
 }
 
 :root {
@@ -63,7 +63,7 @@
 	margin: 0;
 	width: 100%;
 	height: 100%;
-	background: url("/modules/ffg-star-wars-enhancements/artwork/stars.png") repeat;
+	background: url("../artwork/stars.png") repeat;
 	background-color: #000;
 	color: #ffd54e;
 	overflow: hidden;
@@ -209,7 +209,7 @@
 	left: 0;
 	width: 100%;
 	height: 4200px;
-	background: url("/modules/ffg-star-wars-enhancements/artwork/stars.png") repeat;
+	background: url("../artwork/stars.png") repeat;
 }
 
 .ffg-star-wars-enhancements-opening-crawl {
