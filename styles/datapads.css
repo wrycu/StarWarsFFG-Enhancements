@@ -1,18 +1,18 @@
 @font-face {
     font-family: Temporarium;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/Temporarium.otf");
+    src: url("../fonts/Temporarium.otf");
 }
 @font-face {
     font-family: AurekBesh;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/Aurek-Besh.woff2");
+    src: url("../fonts/Aurek-Besh.woff2");
 }
 @font-face {
     font-family: AnakinMono;
-    src: url("/modules/ffg-star-wars-enhancements/fonts/anakinmono.ttf");
+    src: url("../fonts/anakinmono.ttf");
 }
 
 .swdatapad {
-    background-image: url('/modules/ffg-star-wars-enhancements/artwork/datapad-template-700w.png');
+    background-image: url('../artwork/datapad-template-700w.png');
     background-repeat: no-repeat;
     width: 700px;
     min-height: 1000px;
@@ -27,7 +27,7 @@
 }
 
 .swdatapad-wanted {
-    background-image: url('/modules/ffg-star-wars-enhancements/artwork/datapad-template-wanted-700w.png');
+    background-image: url('../artwork/datapad-template-wanted-700w.png');
     background-repeat: no-repeat;
     width: 700px;
     min-height: 1000px;
