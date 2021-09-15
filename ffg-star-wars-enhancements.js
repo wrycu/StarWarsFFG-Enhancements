@@ -6,7 +6,7 @@ import {
     attack_animation
 } from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
-import { init as rename_init, rename_actors } from './scripts/rename.js'
+import { init as rename_init, rename_combatant } from './scripts/rename.js'
 import {
     init as dice_helper_init,
     dice_helper,
@@ -114,9 +114,11 @@ Hooks.on("getSceneControlButtons", (controls) => {
 });
 
 Hooks.on("createCombatant", (combatant) => {
-    rename_actors(combatant);
     strain_reminder(combatant);
 })
+Hooks.on("preCreateCombatant", combatant => {
+    rename_combatant(combatant);
+});
 
 function register_hooks() {
     libWrapper.register(
