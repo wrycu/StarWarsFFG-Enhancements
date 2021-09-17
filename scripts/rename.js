@@ -13,52 +13,22 @@ export function init() {
     log('attack_rename', 'Initialized');
 }
 
-export function rename_actors(created_data) {
-    if (!game.user.isGM) {
+export function rename_combatant(combatant) {
+    if (!game.settings.get("ffg-star-wars-enhancements", "auto-rename-actors")) {
+        log('attack_rename', 'Detected combatant being added to combat, but feature is disabled. Aborting.');
         return;
     }
-    if (game.settings.get("ffg-star-wars-enhancements", "auto-rename-actors")) {
-        log('attack_rename', 'Found combatant being added to combat');
-        var update_data = {
-            'data': {
-                '_id': created_data['data']['_id'],
-            },
-            '_id': created_data['data']['_id']
-        }
-
-        log('attack_rename', 'ID "' + update_data['data']['_id'] + '"');
-        // used to be a global value, now it's a "module" - unsure of how to access it and I don't see it changing
-        //   drastically
-        let token_dispositions = {
-            'friendly': 1,
-            'neutral': 0,
-            'enemy': -1,
-        };
-        let combatants = game.combat.data.combatants.filter(combatant => combatant);
-        for (var x=0; x < combatants.length; x++) {
-            // check the disposition and update the name and image
-            // this is done as a second (different) call because we want to update the information on a temporary basis
-            // and we can't specify part of the data is temporary
-            if (combatants[x]['data']['_id'] === update_data['_id']) {
-                if (combatants[x].token.data.disposition === token_dispositions['friendly']) {
-                    if (combatants[x].isNPC) {
-                        update_data['name'] = 'NPC';
-                    } else {
-                        update_data['name'] = 'PC';
-                    }
-                    update_data['img'] = 'systems/starwarsffg/images/dice/starwars/lightside.png';
-                }
-                else {
-                    update_data['name'] = 'NPC';
-                    update_data['img'] = 'systems/starwarsffg/images/dice/starwars/darkside.png';
-                }
-                log('attack_rename', 'Renaming token');
-                game.combat.combatants.filter(combatant => combatant)[x].update(update_data);
-                break;
-            }
-        }
-    }
-    else {
-        log('attack_rename', 'Detected combatant being added to combat, but feature is disabled. Aborting.');
-    }
+    log('attack_rename', 'Found combatant being added to combat');
+    if (!combatant.token && !combatant.actor) return;
+    // Fetch the disposition for the combatant based on token and fall back on
+    // actor, fall back to neutral if both are undefined.
+    const disposition = (combatant.token?.data.disposition ?? combatant.actor?.token.disposition ?? 0);
+    // Determine side based on disposition.
+    const side = disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY ? 'lightside' : 'darkside';
+    log('attack_rename', 'Renaming token');
+    // Updates the data before it's sent to the DB, preventing names and icons from resetting on reload
+    combatant.data.update({
+        name: combatant.isNPC ? 'NPC' : 'PC',
+        img: `systems/starwarsffg/images/dice/starwars/${side}.png`,
+    });
 }
