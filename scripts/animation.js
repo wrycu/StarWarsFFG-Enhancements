@@ -271,7 +271,7 @@ export function attack_animation(...args) {
             let item_id = that['data']['_id'];
             var item_name = that['data']['name'];
             let the_item = game.actors.get(actor_id).items.get(item_id);
-            if (the_item !== null) {
+            if (the_item !== null && the_item !== undefined) {
                 var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
             } else {
                 // no custom data was set

@@ -1,6 +1,7 @@
 `0.2.2` - ???
 * Fix for relative URLs (thanks `anthonyscorrea`!) ([#68](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/68))
 * Fix for actor renaming resetting on reload (thanks `@Bolts#9418`!)
+* Fix for inability to roll items added to sheets after enabling the module ([#72](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/72))
 
 `0.2.1` - 2021-09-05
 * Fix for breaking `fxmaster` scene controls ([#60](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/60))
