@@ -28,7 +28,7 @@
         <span class="range-value">{{this.value}}</span>
 
     {{else if this.filePicker}}
-        <button class="file-picker" data-target="path" data-type="
+        <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="
         {{~#iff 'animation' 'in' this.key~}}
             {{~#iff 'sound' 'not in' this.key~}}
                 video
@@ -40,7 +40,7 @@
         {{~#iff 'music' 'in' this.key~}}
             audio
         {{~/iff~}}
-        " title="Browse Files" type="button">...</button>
+        " title="Browse Files" type="button"><i class="fas fa-file-import fa-fw"></i></button>
         <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
 
     {{else}}
