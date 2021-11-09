@@ -40,6 +40,9 @@
         {{~#iff 'music' 'in' this.key~}}
             audio
         {{~/iff~}}
+        {{~#iff 'status' 'in' this.key~}}
+            image
+        {{~/iff~}}
         " title="Browse Files" type="button"><i class="fas fa-file-import fa-fw"></i></button>
         <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
 
