@@ -15,6 +15,7 @@ import {
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
+import { init as vehicle_roller_init, intercept_vehicle_roll } from "./scripts/vehicle_roller.js";
 import { register_controls } from "./scripts/controls_layer.js";
 
 Hooks.once('init', async function() {
@@ -28,6 +29,7 @@ Hooks.once('init', async function() {
     talent_checker_init();
     opening_crawl_init();
     shop_generator_init();
+    vehicle_roller_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -130,6 +132,17 @@ function register_hooks() {
                 to the actual weapon in use. I'm not sure if we actually care yet, but worth considering.
              */
             var data = attack_animation(this, ...args);
+            return wrapped(...data);
+        }
+    );
+
+    libWrapper.register(
+        'ffg-star-wars-enhancements',
+        'game.ffg.DiceHelpers.displayRollDialog',
+        async function (wrapped, ...args) {
+            var data = await intercept_vehicle_roll(...args);
+            console.log("got return data of")
+            console.log(data)
             return wrapped(...data);
         }
     );
