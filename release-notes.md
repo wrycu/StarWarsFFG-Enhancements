@@ -2,6 +2,7 @@
 * Fix for non-working adversary status to apply
 * NEW FEATURE: Add ability to show minion group (max) size
 * NEW FEATURE: Add ability to use actor dice pool with vehicle weapon rolls
+* Fix for shop item finding pool being built incorrectly
 
 `0.2.2` - 2021-11-05
 * Fix for relative URLs (thanks `anthonyscorrea`!) ([#68](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/68))

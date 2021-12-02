@@ -277,7 +277,8 @@ class Shop {
             var characteristic = actor.data.data.characteristics[skill.characteristic];
         }
         let dicePool = new DicePoolFFG({
-            ability: Math.max(characteristic.value, skill.rank),
+            ability: (Math.max(characteristic.value, skill.rank) + incoming_roll.ability) - (Math.min(characteristic.value, skill.rank) + incoming_roll.proficiency),
+            proficiency: Math.min(characteristic.value, skill.rank),
             boost: skill.boost,
             setback: skill.setback + status.setback,
             force: skill.force,
