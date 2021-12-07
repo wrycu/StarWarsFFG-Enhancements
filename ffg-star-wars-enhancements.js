@@ -15,7 +15,7 @@ import {
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
-import { init as vehicle_roller_init, intercept_vehicle_roll } from "./scripts/vehicle_roller.js";
+import {init as vehicle_roller_init, intercept_vehicle_roll, register_crew} from "./scripts/vehicle_roller.js";
 import { register_controls } from "./scripts/controls_layer.js";
 
 Hooks.once('init', async function() {
@@ -122,6 +122,10 @@ Hooks.on("preCreateCombatant", combatant => {
     rename_combatant(combatant);
 });
 
+Hooks.on("dropActorSheetData", (...args) => {
+    register_crew(...args);
+});
+
 function register_hooks() {
     libWrapper.register(
         'ffg-star-wars-enhancements',
@@ -141,8 +145,6 @@ function register_hooks() {
         'game.ffg.DiceHelpers.displayRollDialog',
         async function (wrapped, ...args) {
             var data = await intercept_vehicle_roll(...args);
-            console.log("got return data of")
-            console.log(data)
             return wrapped(...data);
         }
     );
