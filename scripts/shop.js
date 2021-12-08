@@ -271,14 +271,14 @@ class Shop {
         let actor = game.actors.get(actor_id);
         if (shop_skill === 'negotiation') {
             var skill = actor.data.data.skills.Negotiation;
-            var characteristic = actor.data.data.characteristics[skill.characteristic];
+            var characteristic = actor.data.data.characteristics[skill.characteristic].value;
         } else if (shop_skill === 'streetwise') {
             var skill = actor.data.data.skills.Streetwise;
-            var characteristic = actor.data.data.characteristics[skill.characteristic];
+            var characteristic = actor.data.data.characteristics[skill.characteristic].value;
         }
         let dicePool = new DicePoolFFG({
-            ability: (Math.max(characteristic.value, skill.rank) + incoming_roll.ability) - (Math.min(characteristic.value, skill.rank) + incoming_roll.proficiency),
-            proficiency: Math.min(characteristic.value, skill.rank),
+            ability: Math.max(characteristic, skill.rank),
+            proficiency: Math.min(characteristic, skill.rank),
             boost: skill.boost,
             setback: skill.setback + status.setback,
             force: skill.force,
@@ -308,7 +308,7 @@ async function get_player_actors() {
     let actors = game.actors.filter(actor => actor);
     let pcs = []
     for (let i = 0; i < actors.length; i++) {
-        if (actors[i].hasPlayerOwner === true) {
+        if (actors[i].hasPlayerOwner === true && actors[i].type !== 'vehicle') {
             pcs.push(actors[i]);
         }
     }
