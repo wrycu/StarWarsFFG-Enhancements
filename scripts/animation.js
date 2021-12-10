@@ -255,9 +255,21 @@ export function attack_animation(...args) {
         }
 
         if (canvas.tokens.controlled.length === 0) {
-            ui.notifications.warn("Please select the attacker or disable attack animations");
-            log('attack_animation', 'Aborted attack animation because no source targets were selected');
-            return args;
+            /* no tokens are selected, attempt to see if any of the tokens on the scene are owned by the user */
+            var source = [];
+            for (var x=0; x < canvas.tokens.placeables.length; x++) {
+                if (canvas.tokens.placeables[x].isOwner) {
+                    source.push(canvas.tokens.placeables[x]);
+                }
+            }
+            if (source.length !== 1) {
+                /* we failed to find exactly 1 token owned by the current user, bail */
+                ui.notifications.warn("Please select the attacker or disable attack animations");
+                log('attack_animation', 'Aborted attack animation because no source targets were selected');
+                return args;
+            }
+        } else {
+            var source = canvas.tokens.controlled;
         }
 
         let actor_id = args[0]['speaker']['actor']['data']['_id'];
@@ -308,7 +320,7 @@ export function attack_animation(...args) {
         // todo: based on dice results, we could have the animation miss
         log('attack_animation', 'Playing the attack animation: ' + animation_file + ' / ' + sound_file);
         // noinspection JSIgnoredPromiseFromCall
-        play_animation(animation_file, sound_file, skill);
+        play_animation(animation_file, sound_file, skill, source);
         return args;
     }
     else {
@@ -319,8 +331,8 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-async function play_animation(animation_file, sound_file, skill) {
-    const tokens = canvas.tokens.controlled;
+async function play_animation(animation_file, sound_file, skill, source) {
+    const tokens = source;
     var arrayLength = game.user.targets.size;
     for (var i = 0; i < arrayLength; i++) {
         if (['Melee', 'Brawl', 'Lightsaber'].indexOf(skill) > -1) {
