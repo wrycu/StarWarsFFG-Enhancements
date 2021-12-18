@@ -4,6 +4,7 @@
 * Fix for shop item finding pool being built incorrectly
 * Fix for non-working adversary status to apply
 * Improve attack animation: players no longer need to select their own token to play attack animations (if they only have one token on the canvas) ([#77](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/77))
+* Improve description of combat renamer in settings window
 
 `0.2.2` - 2021-11-05
 * Fix for relative URLs (thanks `anthonyscorrea`!) ([#68](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/68))
