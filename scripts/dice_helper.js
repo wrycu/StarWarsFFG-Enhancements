@@ -35,7 +35,7 @@ async function socket_listener(data) {
 }
 
 export function dice_helper() {
-    game.socket.on('module.ffg-messageData-wars-enhancements', socket_listener);
+    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
     Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             if (is_roll(messageData) === true) {
@@ -176,7 +176,7 @@ async function fetch_suggestions(results) {
         'de',
     ];
 
-    let skill = encodeURIComponent(results['skill'].toLowerCase());
+    let skill = results['skill'].toLowerCase().replace('&', '&amp;');
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {
