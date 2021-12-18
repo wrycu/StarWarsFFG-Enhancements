@@ -176,7 +176,7 @@ async function fetch_suggestions(results) {
         'de',
     ];
 
-    let skill = results['skill'].toLowerCase();
+    let skill = encodeURIComponent(results['skill'].toLowerCase());
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {

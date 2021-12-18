@@ -3,6 +3,7 @@
 * NEW FEATURE: Add ability to use actor dice pool with vehicle weapon rolls ([#76](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/76))
 * Fix for shop item finding pool being built incorrectly
 * Fix for non-working adversary status to apply
+* Fix for skills with special characters in the name (thanks `Theik`!) ([#80](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/80))
 * Improve attack animation: players no longer need to select their own token to play attack animations (if they only have one token on the canvas) ([#77](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/77))
 * Improve description of combat renamer in settings window
 
