@@ -29,69 +29,133 @@ export function init () {
         type: setting_image,
         default: 'icons/svg/regen.svg',
     });
+    game.settings.register("ffg-star-wars-enhancements", "minion-size-enable", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable-hint'),
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: true,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "minion-size-status", {
+        name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status-hint'),
+        scope: "world",
+        config: false,
+        type: setting_image,
+        default: 'icons/environment/people/infantry-army.webp',
+    });
     log(module_name, 'Done initializing');
 }
 
 export function talent_checker() {
     Hooks.on("canvasReady", (canvas) => {
-        if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
-            log(module_name, 'Detected scene load; searching for actors with the Adversary talent');
+        if (game.user.isGM) {
+            log(module_name, 'Detected scene load');
             for (let i=0; i < canvas.tokens.placeables.length; i++) {
+                // begin javascript sucks
+                let actor = game.actors.get(canvas.tokens.placeables[i].actor.id);
                 let token = canvas.tokens.placeables[i];
-                log(module_name, 'Found token ' + token.data.name + '; searching for Adversary talent');
-                let adversary_count = 0;
-                for (let x=0; x < token.actor.data.items.length; x++) {
-                    let item = token.actor.data.items[x];
-                    if (item.type === 'talent' && item.name === 'Adversary') {
-                        log(module_name, 'Found Adversary ' + item.data.ranks.current + ' on ' + token.data.name + '! Adding status');
-                        adversary_count+= 1;
-                        if (!window.EffectCounter) {
-                            // the user doesn't have status icon counters installed; they don't get a count
-                            canvas.tokens.placeables[i].toggleEffect(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"), {'active': true});
-                        } else {
-                            let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
-                            // create the effect counter
-                            let new_counter = new EffectCounter(item.data.ranks.current, icon_path, canvas.tokens.placeables[i]);
-                            // render it
-                            new_counter.update();
-                        }
+                // end javascript sucks
+                if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
+                    // do the adversary stuff
+                    log(module_name, 'Found token ' + actor.name + '; searching for Adversary talent');
+                    let ranks = get_ranks(actor);
+                    update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                }
+                if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable")) {
+                    // do the minion group size stuff
+                    log(module_name, 'Found token ' + actor.name + '; searching for minion group size');
+                    let minion_count = get_group_size(actor);
+                    if (minion_count !== null) {
+                        log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
+                        update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
                     }
                 }
             }
         }
     });
 
-    Hooks.on("createToken", (scene, token, ...args) => {
-        if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
-            log(module_name, 'Detected token creation; looking for actor data');
-            let token_id = token._id;
-            for (let i=0; i < scene.data.tokens.length; i++) {
-                if (scene.data.tokens[i]._id === token_id) {
-                    let actor = game.actors.get(scene.data.tokens[i].actorId);
-                    log(module_name, 'Found actor ' + actor.name + '; looking for talent');
-                    for (let i=0; i < actor.data.items.length; i++) {
-                        let item = actor.data.items[i];
-                        if (item.type === 'talent' && item.name === 'Adversary') {
-                            log(module_name, actor.name + ' has talent Adversary ' + item.data.ranks.current + '; adding status');
-                            if (!window.EffectCounter) {
-                                // the user doesn't have status icon counters installed; they don't get a count
-                                token.id = token_id;
-                                token.effects.push(game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
-                            } else {
-                                let icon_path = game.settings.get("ffg-star-wars-enhancements", "talent-checker-status");
-                                // convert the JSON blob into a Token object
-                                let the_token = new Token(token);
-                                // create the effect counter
-                                let new_counter = new EffectCounter(item.data.ranks.current, icon_path, the_token);
-                                // render it
-                                new_counter.update();
-                            }
-                        }
-                    }
+    Hooks.on("createToken", (scene, inc_token, ...args) => {
+        if (game.user.isGM) {
+            let token_id = inc_token._id;
+            let actor_data = token_to_actor(token_id);
+            let actor = actor_data[0];
+            let token = actor_data[1];
+            if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
+                let ranks = get_ranks(actor);
+                update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+            }
+            if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable")) {
+                let minion_count = get_group_size(actor);
+                if (minion_count !== null) {
+                    log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
+                    update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
                 }
             }
         }
     });
+}
+
+/**
+ * Looks up the minion group max size
+ * @param {actor} an FFG Actor to check the max size of
+ * @returns {integer|null} the max group size
+ */
+function get_group_size(actor) {
+    if (actor.data.type === 'minion') {
+        log(module_name, 'Found minion group being added: ' + actor.data.name);
+        return actor.data.data.quantity.max;
+    } else {
+        log(module_name, 'Found non-minion group being added: ' + actor.data.name);
+        return null;
+    }
+}
+
+/**
+ * Given a token ID, looks up the associated actor and token objects
+ * @param {token_id} ID of a token to lookup
+ * @returns [actor, token]
+ */
+function token_to_actor(token_id) {
+    let token = canvas.tokens.placeables.filter(token => token.id === token_id)[0];
+    let actor = game.actors.get(token.actor.id);
+    return [actor, token];
+}
+
+/**
+ * Given an actor, return the ranks in Adversary that that actor has
+ * @param {actor} FFG Actor
+ * @returns {ranks} number of ranks
+ */
+function get_ranks(actor) {
+    let talents = actor.data.items.filter(item => item.type === 'talent' && item.name === 'Adversary');
+    let ranks = 0;
+    for (let x=0; x < talents.length; x++) {
+        ranks += talents[x].data.ranks.current;
+    }
+    log(module_name, 'Found ' + ranks + ' ranks of Adversary');
+    return ranks;
+}
+
+/**
+ * Apply a status the given token
+ * @param {token, ranks, icon_path} Token to apply the icon to, # to show for it, and path to the icon
+ * @returns {null}
+ */
+function update_status(token, ranks, icon_path) {
+    if (ranks === 0) { return;}
+    if (!window.EffectCounter) {
+        // the user doesn't have status icon counters installed, don't give a count
+        log(module_name, 'Adding non-ranked status to token');
+        token.effects.push(icon_path);
+    } else {
+        log(module_name, 'Adding status rank ' + ranks + ' to token');
+        // create the effect counter
+        let new_counter = new EffectCounter(ranks, icon_path, token);
+        // render it
+        new_counter.update();
+    }
 }
 
 class talent_checker_UISettings extends FormApplication {
@@ -116,7 +180,7 @@ class talent_checker_UISettings extends FormApplication {
         // Classify all settings
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.config && !setting.key.includes("talent-checker-")) || (!canConfigure && setting.scope !== "client")) continue;
+             if ((!setting.config && !setting.key.includes("talent-checker-") && !setting.key.includes("minion-size-")) || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = duplicate(setting);
@@ -131,7 +195,7 @@ class talent_checker_UISettings extends FormApplication {
 
             // Classify setting
             const name = s.module;
-            if (s.key.includes("talent-checker-")) data.system.settings.push(s);
+            if (s.key.includes("talent-checker-") || s.key.includes("minion-size-")) data.system.settings.push(s);
         }
 
         // Return data
