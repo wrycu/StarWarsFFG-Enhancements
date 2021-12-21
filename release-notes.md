@@ -4,6 +4,7 @@
 * Fix for shop item finding pool being built incorrectly
 * Fix for non-working adversary status to apply
 * Improve attack animation: players no longer need to select their own token to play attack animations (if they only have one token on the canvas)
+* Improve renamer: friendly, non-player owned entities are now renamed to NPC with a light-side image
 
 `0.1.11` - 2021-06-29
 * Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))
