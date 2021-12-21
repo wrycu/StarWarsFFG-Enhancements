@@ -18,6 +18,7 @@ import { init as strain_reminder_init, strain_reminder } from './scripts/strain_
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { shop_creator } from "./scripts/shop.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
+import { init as vehicle_roller_init, intercept_vehicle_roll, register_crew } from "./scripts/vehicle_roller.js";
 
 Hooks.once('init', async function() {
 	log('base_module', 'Initializing');
@@ -30,6 +31,7 @@ Hooks.once('init', async function() {
     talent_checker_init();
     opening_crawl_init();
     shop_generator_init();
+    vehicle_roller_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -154,6 +156,10 @@ Hooks.on("getSceneControlButtons", (controls) => {
 	}
 });
 
+Hooks.on("dropActorSheetData", (...args) => {
+    register_crew(...args);
+})
+
 function register_hooks() {
     libWrapper.register(
         'ffg-star-wars-enhancements',
@@ -176,6 +182,14 @@ function register_hooks() {
             /* call the attack animation code */
             rename_actors(created_data, ...args);
             strain_reminder(created_data, ...args);
+        }
+    );
+    libWrapper.register(
+        'ffg-star-wars-enhancements',
+        'game.ffg.DiceHelpers.displayRollDialog',
+        async function (wrapped, ...args) {
+            var data = await intercept_vehicle_roll(...args);
+            return wrapped(...data);
         }
     );
 }

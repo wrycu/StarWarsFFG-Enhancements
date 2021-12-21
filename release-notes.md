@@ -1,5 +1,6 @@
 `foundry-7_release-1` - ???
 * NEW FEATURE: Add ability to show minion group (max) size
+* NEW FEATURE: Add ability to use actor dice pool with vehicle weapon rolls
 
 `0.1.11` - 2021-06-29
 * Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))

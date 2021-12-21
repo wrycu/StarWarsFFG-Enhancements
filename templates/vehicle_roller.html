@@ -1,0 +1,11 @@
+<form autocomplete="off" class="{{cssClass}} character" style="width: 400px;">
+    <div class="form-group">
+        <label for="actor">{{localize "ffg-star-wars-enhancements.attack-animation.custom.actor"}}</label>
+        <select id="actor" name="actor">
+            {{#each actors as |actor|}}
+                <option value="{{actor.id}}">{{actor.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <button class="create" type="submit" value="create"><i class="fas fa-save"></i>{{localize "ffg-star-wars-enhancements.vehicle-roller-actor-select"}}</button>
+</form>
