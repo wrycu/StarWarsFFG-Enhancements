@@ -246,7 +246,7 @@ export function attack_animation(...args) {
             // this was a roll from an item
             let item_id = that['data']['_id'];
             let the_item = game.actors.get(actor_id).getOwnedItem(item_id);
-            if (the_item !== null) {
+            if (the_item !== null && the_item !== undefined) {
                 var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
             } else {
                 // no custom data was set
