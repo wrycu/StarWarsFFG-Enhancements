@@ -10,3 +10,4 @@ This readme documents assets included in the repository.
 * `melee.mp3` is licensed under the Creative Commons 0 license [source](https://freesound.org/people/SamsterBirdies/sounds/353708/)
 * `brawl.mp3` is licensed under the Creative Commons 0 license [source](https://freesound.org/people/CastIronCarousel/sounds/216782/)
 * `lightsaber.mp3` is licensed under the Creative Commons 0 license [source](https://freesound.org/people/gyzhor/sounds/47125/)
+* `explosion.wav` is licensed under the Mixkit terms [source](https://mixkit.co/terms/)

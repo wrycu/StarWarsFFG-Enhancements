@@ -6,6 +6,7 @@
 * Improve attack animation: players no longer need to select their own token to play attack animations (if they only have one token on the canvas)
 * Improve renamer: friendly, non-player owned entities are now renamed to NPC with a light-side image
 * Fix for inability to roll on items which have custom animations set and then removed
+* Add attack animation - grenades ([#46](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/46))
 
 `0.1.11` - 2021-06-29
 * Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))
