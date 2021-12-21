@@ -342,8 +342,39 @@ class ShopGenerator extends FormApplication {
      */
     async getData() {
         let actors = await get_player_actors();
+        let vendor_actor = game.actors.get(this.actor_id);
+        let vendor_data = vendor_actor.getFlag("ffg-star-wars-enhancements", "vendor-data");
+        if (vendor_data === undefined || vendor_data === null || !('type' in vendor_data['meta'])) {
+            log(module_name, 'Found no existing vendor data, using defaults');
+            // there is no stored data for this vendor, use the defaults
+            var shop = {
+                'base_price': 100,
+                'price_modifier': 1,
+                'type': 'general',
+                'min_items': 5,
+                'max_items': 15,
+                'location': 'no_change',
+                'restricted': false,
+                'pc': null,
+            }
+        } else {
+            log(module_name, 'Found existing vendor data, using it');
+            // there is stored data for this vendor, use the previous settings
+            var shop = {
+                'base_price': parseInt(vendor_data['meta']['base_price']),
+                'price_modifier': parseInt(vendor_data['meta']['price_modifier']),
+                'type': vendor_data['meta']['type'],
+                'min_items': vendor_data['meta']['min_items'],
+                'max_items': vendor_data['meta']['max_items'],
+                'location': vendor_data['meta']['location'],
+                'restricted': vendor_data['meta']['restricted'],
+                'pc': vendor_data['meta']['pc'],
+            }
+        }
+        log(module_name, JSON.stringify(shop));
         return {
             actors: actors,
+            setup: shop,
         };
     }
 
@@ -424,6 +455,12 @@ class ShopGenerator extends FormApplication {
             'meta': {
                 'base_price': parseInt(data['shop_base_price']),
                 'price_modifier': price_modifier,
+                'type': data['shop_type'],
+                'min_items': data['min_item_count'],
+                'max_items': data['max_item_count'],
+                'location': data['shop_location'],
+                'restricted': data['shady'],
+                'pc': data['shop_actor'],
             }
         };
         // set the extended data as a flag
