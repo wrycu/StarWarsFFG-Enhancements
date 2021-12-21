@@ -130,8 +130,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-animation-hint'),
         scope: "world",
         config: false,
-        type: String,
-        filePicker: 'video',
+        type: setting_image,
         default: base_path + '/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-sound", {
@@ -139,8 +138,7 @@ export function init () {
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-sound-hint'),
         scope: "world",
         config: false,
-        type: String,
-        filePicker: 'audio',
+        type: setting_audio,
         default: 'modules/ffg-star-wars-enhancements/audio/explosion.wav',
     });
     log('attack_animation', 'Initialized');
