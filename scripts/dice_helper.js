@@ -23,7 +23,19 @@ export function init() {
     log(feature_name, 'Initialized');
 }
 
+/*
+Socket data handler which transfers items to the purchaser
+ */
+async function socket_listener(data) {
+    if (data.type === "dice") {
+        if (game.user.isGM) {
+            dice_helper_clicked(data.object);
+        }
+    }
+}
+
 export function dice_helper() {
+    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
     Hooks.on("renderChatMessage", (app, html, messageData) => {
         /*
         this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
@@ -84,6 +96,19 @@ async function dice_helper_clicked(object) {
      * @param {object} ChatMessage object passed in by the hook we're listened to
      */
     log(feature_name, 'Detected button click; converting to results');
+
+    if (!game.user.isGM) {
+        // user isn't a GM, send a packet to the GM to do it instead
+        game.socket.emit(
+            'module.ffg-star-wars-enhancements',
+            {
+                type: 'dice',
+                object: object,
+            }
+        );
+        return;
+    }
+
     var data = determine_data(object.message.content);
     log(feature_name, JSON.stringify(data));
 

@@ -8,6 +8,7 @@
 * Fix for inability to roll on items which have custom animations set and then removed
 * Add attack animation - grenades ([#46](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/46))
 * Improve shop: remember previously-selected settings when generating inventory ([#56](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/56))
+* Improve result spender: Allow players to show dice result spending tips ([#51](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/51))
 
 `0.1.11` - 2021-06-29
 * Fix for missing localizations ([#50](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/50))
