@@ -148,5 +148,17 @@
   "ffg-star-wars-enhancements.shop.html.setup.shady": "Include Restricted items",
   "ffg-star-wars-enhancements.shop.html.setup.pc": "Player Character",
   "ffg-star-wars-enhancements.shop.html.setup.price": "Base Price Percent",
-  "ffg-star-wars-enhancements.shop.html.setup.button": "Create Shop"
+  "ffg-star-wars-enhancements.shop.html.setup.button": "Create Shop",
+  "ffg-star-wars-enhancements.controls.hyperspace.name": "hyperspace-transition",
+  "ffg-star-wars-enhancements.controls.hyperspace.title": "Hyperspace Transition",
+  "ffg-star-wars-enhancements.hyperspace.title": "Hyperspace Transition",
+  "ffg-star-wars-enhancements.hyperspace.transition": "Transition",
+  "ffg-star-wars-enhancements.hyperspace.transition-type": "Jump Type",
+  "ffg-star-wars-enhancements.hyperspace.enter-hyperspace": "Enter Hyperspace",
+  "ffg-star-wars-enhancements.hyperspace.exit-hyperspace": "Exit Hyperspace",
+  "ffg-star-wars-enhancements.hyperspace.quick-jump": "Quick Jump",
+  "ffg-star-wars-enhancements.hyperspace.target-scene": "Target Scene",
+  "ffg-star-wars-enhancements.hyperspace.hyperspace-enter": "Enter Hyperspace Scene",
+  "ffg-star-wars-enhancements.hyperspace.hyperspace-exit": "Exit Hyperspace Scene",
+  "ffg-star-wars-enhancements.hyperspace.scene-note": "Note: Import 'Hyperspace (Enter)' and 'Hyperspace (Exit)' from the 'SceneIdeas' compendium to have these auto-select. See the wiki for more details."
 }
