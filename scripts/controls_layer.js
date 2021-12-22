@@ -1,4 +1,5 @@
 import {select_opening_crawl} from "./opening_crawl.js";
+import {select_hyperspace} from "./hyperspace.js";
 import {create_datapad_journal} from "./datapads.js";
 import {shop_creator} from "./shop.js";
 import {configure_attack_animation} from "./animation.js";
@@ -45,6 +46,15 @@ export const register_controls = controls => {
                 button: true,
                 onClick: () => {
                     configure_attack_animation();
+                },
+            },
+            {
+                name: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.name"),
+                title: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.title"),
+                icon: "fas fa-rocket",
+                button: true,
+                onClick: () => {
+                    select_hyperspace();
                 },
             },
         ],

@@ -6,6 +6,7 @@ import {
     attack_animation
 } from './scripts/animation.js'
 import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
+import { init as hyperspace_init, ready as hyperspace_ready } from './scripts/hyperspace.js'
 import { init as rename_init, rename_combatant } from './scripts/rename.js'
 import {
     init as dice_helper_init,
@@ -30,6 +31,7 @@ Hooks.once('init', async function() {
     opening_crawl_init();
     shop_generator_init();
     vehicle_roller_init();
+    hyperspace_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff", function (a, operator, b, opts) {
@@ -108,6 +110,7 @@ Hooks.once('ready', () => {
     talent_checker();
     register_hooks();
     dice_helper_setup();
+    hyperspace_ready();
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {

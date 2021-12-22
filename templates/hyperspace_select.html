@@ -1,0 +1,49 @@
+<form>
+    <h2>{{localize "ffg-star-wars-enhancements.hyperspace.title"}}</h2>
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.hyperspace.transition-type"}}</label>
+        <div class="form-fields">
+            <select name="transition_type">
+                <option value="quick_jump" selected="selected">{{localize "ffg-star-wars-enhancements.hyperspace.quick-jump"}}</option>
+                <option value="enter_hyperspace">{{localize "ffg-star-wars-enhancements.hyperspace.enter-hyperspace"}}</option>
+                <option value="exit_hyperspace">{{localize "ffg-star-wars-enhancements.hyperspace.exit-hyperspace"}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.hyperspace.target-scene"}}</label>
+        <div class="form-fields">
+            <select name="target_scene">
+                <option value=""></option>
+                {{#each scenes as |scene|}}
+                <option value="{{scene.id}}">{{scene.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <hr/>
+    <p style="width:500px">{{localize "ffg-star-wars-enhancements.hyperspace.scene-note"}}</p>
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.hyperspace.hyperspace-enter"}}</label>
+        <div class="form-fields">
+            <select name="hyperspace_enter">
+                <option value=""></option>
+                {{#each scenes as |scene|}}
+                <option value="{{scene.id}}" {{#if scene.enter}}selected="selected"{{/if}}">{{scene.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.hyperspace.hyperspace-exit"}}</label>
+        <div class="form-fields">
+            <select name="hyperspace_exit">
+                <option value=""></option>
+                {{#each scenes as |scene|}}
+                <option value="{{scene.id}}" {{#if scene.exit}}selected="selected"{{/if}}">{{scene.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <button type="submit"><i class="fas fa-rocket"></i>{{localize "ffg-star-wars-enhancements.hyperspace.transition"}}</button>
+</form>
