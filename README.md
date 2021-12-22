@@ -17,6 +17,7 @@ This module is designed to supplement the
 * Automatically renames actors in combat (to generic "PC" and "NPC" slots)
 * Provides tips on how to spend combat dice results
 * Automatically adds a status to tokens which have the `Adversary` talent
+* Change scenes via a transition through hyperspace
 
 ### Utilities
 * Includes (open source) Star Wars-like fonts
