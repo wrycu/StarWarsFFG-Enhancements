@@ -1,6 +1,7 @@
-`0.2.3` - ???
+`0.2.3` - 2021-12-23
 * NEW FEATURE: Add ability to show minion group (max) size
 * NEW FEATURE: Add ability to use actor dice pool with vehicle weapon rolls ([#76](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/76))
+* NEW FEATURE: Hyperspace transitions! ([#12](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/12))
 * Fix for shop item finding pool being built incorrectly
 * Fix for non-working adversary status to apply
 * Fix for skills with special characters in the name (thanks `Theik`!) ([#80](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/80))
