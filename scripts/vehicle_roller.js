@@ -4,7 +4,6 @@ let module_name = 'vehicle_roller';
 
 export function init() {
     log(module_name, 'Initializing');
-    // TODO: register a setting for the feature
     game.settings.register("ffg-star-wars-enhancements", "vehicle-roller", {
         name: game.i18n.localize('ffg-star-wars-enhancements.vehicle-roller'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.vehicle-roller-hint'),
@@ -23,6 +22,10 @@ export function init() {
  */
 export async function intercept_vehicle_roll(...args) {
     if (!game.settings.get("ffg-star-wars-enhancements", "vehicle-roller")) {
+        return args;
+    }
+    if (!args[0].hasOwnProperty('actor')) {
+        // this is an empty roll; no actor
         return args;
     }
     let actor_type = args[0].actor.type;

@@ -1,3 +1,6 @@
+`0.2.4` - 2021-12-28
+* Fix for vehicle roller breaking empty roller (thanks `Dexcellence`!) 
+
 `0.2.3` - 2021-12-23
 * NEW FEATURE: Add ability to show minion group (max) size
 * NEW FEATURE: Add ability to use actor dice pool with vehicle weapon rolls ([#76](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/76))
