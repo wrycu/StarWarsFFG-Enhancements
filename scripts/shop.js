@@ -470,8 +470,6 @@ class ShopGenerator extends FormApplication {
         // actually set the flag data
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
-        console.log(to_delete)
-
         // actually delete the old items
         await vendor.deleteEmbeddedDocuments(
             "Item",
