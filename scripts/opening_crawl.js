@@ -136,6 +136,7 @@ class OpeningCrawlApplication extends Application {
     async play_music(callback) {
         let volume = game.settings.get("core", "globalPlaylistVolume");
         let audio_helper = game.audio;
+        const that = this;
 
         audio_helper.preload(this.data.music).then( async (sound) => {
             callback();
@@ -143,6 +144,7 @@ class OpeningCrawlApplication extends Application {
             sound.play({
                 volume: volume
             });
+            that.sound = sound;
         });
     }
 
@@ -169,8 +171,9 @@ class OpeningCrawlApplication extends Application {
     }
 
     close() {
-        if (this.howl) {
-            this.howl.stop();
+        if (this.sound) {
+            this.sound.stop();
+            this.sound = null;
         }
         return super.close();
     }
