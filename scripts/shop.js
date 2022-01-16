@@ -416,7 +416,7 @@ class ShopGenerator extends FormApplication {
         let to_delete = [];
         let current_inventory = vendor.data.items.filter(item => item);
         for (let x = 0; x < current_inventory.length; x++) {
-            to_delete.push(current_inventory[x]._id);
+            to_delete.push(current_inventory[x].id);
         }
         // set up to create the items for the vendor
         let to_create = [];
@@ -469,6 +469,8 @@ class ShopGenerator extends FormApplication {
         log(module_name, "Setting flag data: " + JSON.stringify(flag_data));
         // actually set the flag data
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
+
+        console.log(to_delete)
 
         // actually delete the old items
         await vendor.deleteEmbeddedDocuments(
