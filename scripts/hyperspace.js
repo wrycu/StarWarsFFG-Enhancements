@@ -90,6 +90,16 @@ async function run_hyperspace(data) {
 
     await Promise.all([enter_preload, exit_preload, target_preload]);
 
+    // HACK: The hook we use to add our tools to the SceneControls seems to have
+    // a race condition first noticed 0.9.242 when viewing the scene. If our
+    // controls are selected, occassionally, an exception will be thrown because
+    // the scene transition attempts to select our control before it's
+    // initialized. As a hack, before we initialize our scene, we manually
+    // select the token-select tool. Unfortunately, a second hack is that there
+    // doesn't appear to be an API to change the the tool, so we're manually
+    // selecting the tools by clicking on the elements.
+    $("[data-control=token]").click(); $("[data-tool=select]").click();
+
     // Hide the loading bar
     $("#loading").css({ "left": -10000 });
 
