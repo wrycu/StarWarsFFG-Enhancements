@@ -34,7 +34,7 @@ Hooks.once('init', async function() {
     hyperspace_init();
 
     log('base_module', 'registering helpers');
-    Handlebars.registerHelper("iff", function (a, operator, b, opts) {
+    Handlebars.registerHelper("iff_custom", function (a, operator, b, opts) {
         var bool = false;
         switch (operator) {
             case "==":
@@ -72,11 +72,6 @@ Hooks.once('init', async function() {
             return opts.inverse(this);
         }
     });
-    Handlebars.registerHelper('localize',
-        function(str){
-            return game.i18n.localize(str);
-        }
-    );
     Handlebars.registerHelper("times", function (times, opts) {
         var out = "";
         var i;

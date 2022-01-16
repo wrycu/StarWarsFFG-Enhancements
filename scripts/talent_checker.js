@@ -13,6 +13,7 @@ export function init () {
         restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "talent-checker-enable", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.enable'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.enable-hint'),
         scope: "world",
@@ -21,6 +22,7 @@ export function init () {
         default: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "talent-checker-status", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.status'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.status-hint'),
         scope: "world",
@@ -30,6 +32,7 @@ export function init () {
         default: 'icons/svg/regen.svg',
     });
     game.settings.register("ffg-star-wars-enhancements", "minion-size-enable", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable-hint'),
         scope: "world",
@@ -38,6 +41,7 @@ export function init () {
         default: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "minion-size-status", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status-hint'),
         scope: "world",
@@ -169,7 +173,7 @@ class talent_checker_UISettings extends FormApplication {
         // Classify all settings
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.config && !setting.key.includes("talent-checker-") && !setting.key.includes("minion-size-")) || (!canConfigure && setting.scope !== "client")) continue;
+            if ((!setting.key.includes("talent-checker-") && !setting.key.includes("minion-size-")) || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = duplicate(setting);

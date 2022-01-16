@@ -15,6 +15,7 @@ export function init() {
         restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-folder", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder-hint'),
         scope: "world",
@@ -23,6 +24,7 @@ export function init() {
         default: "Opening Crawls",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
         scope: "world",
@@ -32,6 +34,7 @@ export function init() {
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
         scope: "world",
@@ -41,6 +44,7 @@ export function init() {
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music-delay", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay-hint'),
         scope: "world",
@@ -49,6 +53,7 @@ export function init() {
         default: 0.0,
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-right", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right-hint'),
         scope: "world",
@@ -57,6 +62,7 @@ export function init() {
         default: 0,
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-bottom", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom-hint'),
         scope: "world",
@@ -65,6 +71,7 @@ export function init() {
         default: 1300,
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-font-size", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size-hint'),
         scope: "world",
@@ -377,7 +384,7 @@ class opening_crawl_UISettings extends FormApplication {
         // noinspection JSUnusedLocalSymbols
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.config && !setting.key.includes("opening-crawl-")) || (!canConfigure && setting.scope !== "client")) continue;
+            if (!setting.key.includes("opening-crawl-") || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = duplicate(setting);

@@ -21,6 +21,7 @@ export function init () {
         restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-enable", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.enable-hint'),
         scope: "world",
@@ -30,6 +31,7 @@ export function init () {
         onChange: (rule) => window.location.reload(),
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-animation-hint'),
         scope: "world",
@@ -39,6 +41,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.brawl-sound-hint'),
         scope: "world",
@@ -48,6 +51,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/brawl.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-animation-hint'),
         scope: "world",
@@ -57,6 +61,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.lightsaber-sound-hint'),
         scope: "world",
@@ -66,6 +71,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/lightsaber.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-animation-hint'),
         scope: "world",
@@ -75,6 +81,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.melee-sound-hint'),
         scope: "world",
@@ -84,6 +91,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/melee.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-animation-hint'),
         scope: "world",
@@ -93,6 +101,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.gunnery-sound-hint'),
         scope: "world",
@@ -102,6 +111,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/gunnery.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-animation-hint'),
         scope: "world",
@@ -111,6 +121,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-heavy-sound-hint'),
         scope: "world",
@@ -120,6 +131,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-animation-hint'),
         scope: "world",
@@ -129,6 +141,7 @@ export function init () {
         default: base_path + '/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.ranged-light-sound-hint'),
         scope: "world",
@@ -138,6 +151,7 @@ export function init () {
         default: 'modules/ffg-star-wars-enhancements/audio/blaster.mp3',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-animation", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-animation'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-animation-hint'),
         scope: "world",
@@ -147,6 +161,7 @@ export function init () {
         default: base_path + '/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm',
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-sound", {
+        module: "ffg-star-wars-enhancements",
         name: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-sound'),
         hint: game.i18n.localize('ffg-star-wars-enhancements.attack-animation.grenade-sound-hint'),
         scope: "world",
@@ -406,7 +421,7 @@ class attack_animation_UISettings extends FormApplication {
         // noinspection JSUnusedLocalSymbols
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.config && !setting.key.includes("attack-animation-")) || (!canConfigure && setting.scope !== "client")) continue;
+            if (!setting.key.includes("attack-animation-") || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = duplicate(setting);

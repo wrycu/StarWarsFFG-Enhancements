@@ -1,14 +1,14 @@
-{{#*inline "settingPartial"}}
+{{#*inline "settingPartialCustom"}}
 <div class="form-group">
     <label>
-    {{#iff 'animation' 'in' this.key}}
-        {{#iff 'sound' 'not in' this.key}}
+    {{#iff_custom 'animation' 'in' this.key}}
+        {{#iff_custom 'sound' 'not in' this.key}}
             <i class="fas fa-video"></i>
-        {{/iff}}
-    {{/iff}}
-    {{#iff 'sound' 'in' this.key}}
+        {{/iff_custom}}
+    {{/iff_custom}}
+    {{#iff_custom 'sound' 'in' this.key}}
         <i class="fas fa-volume-up"></i>
-    {{/iff}}
+    {{/iff_custom}}
         &nbsp;{{this.name}}
     </label>
     <div class="form-fields">
@@ -29,20 +29,20 @@
 
     {{else if this.filePicker}}
         <button class="file-picker" data-target="{{this.module}}.{{this.key}}" data-type="
-        {{~#iff 'animation' 'in' this.key~}}
-            {{~#iff 'sound' 'not in' this.key~}}
+        {{~#iff_custom 'animation' 'in' this.key~}}
+            {{~#iff_custom 'sound' 'not in' this.key~}}
                 video
-            {{~/iff~}}
-        {{~/iff~}}
-        {{~#iff 'sound' 'in' this.key~}}
+            {{~/iff_custom~}}
+        {{~/iff_custom~}}
+        {{~#iff_custom 'sound' 'in' this.key~}}
             audio
-        {{~/iff~}}
-        {{~#iff 'music' 'in' this.key~}}
+        {{~/iff_custom~}}
+        {{~#iff_custom 'music' 'in' this.key~}}
             audio
-        {{~/iff~}}
-        {{~#iff 'status' 'in' this.key~}}
+        {{~/iff_custom~}}
+        {{~#iff_custom 'status' 'in' this.key~}}
             image
-        {{~/iff~}}
+        {{~/iff_custom~}}
         " title="Browse Files" type="button"><i class="fas fa-file-import fa-fw"></i></button>
         <input data-dtype="{{this.type}}" name="{{this.module}}.{{this.key}}" type="text" value="{{this.value}}"/>
 
@@ -59,7 +59,7 @@
     <section class="content" id="config-tabs">
         <div class="settings-list">
             <h2 class="module-header">{{ localize data.system.title }}</h2>
-            {{#each data.system.menus}} {{> menuPartial}} {{/each}} {{#each data.system.settings}} {{> settingPartial}}
+            {{#each data.system.menus}} {{> menuPartial}} {{/each}} {{#each data.system.settings}} {{> settingPartialCustom}}
             {{else}}
             <p class="notes">{{localize 'SETTINGS.None'}}</p>
             {{/each}}
