@@ -69,7 +69,7 @@
 	overflow: hidden;
 	letter-spacing: 0.15em;
 	font-weight: 700;
-	font-size: 1em;
+	font-size: 16px;
     font-family: 'News Cycle';
 	line-height: normal;
 	font-variant-ligatures: none;
@@ -364,7 +364,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -380,7 +380,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -396,7 +396,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -689,7 +689,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -705,7 +705,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -721,7 +721,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }
@@ -737,7 +737,7 @@
 	}
 
 	100% {
-		top: 20%;
+		top: -18.1524%;
 		opacity: 0;
 	}
 }

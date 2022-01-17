@@ -77,7 +77,7 @@ export function init() {
         scope: "world",
         config: false,
         type: Number,
-        default: 850,
+        default: 350,
     });
     log('opening-crawl', 'Initialized');
 }
