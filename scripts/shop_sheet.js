@@ -1,6 +1,7 @@
 import { ActorSheetFFGV2 } from "../../../systems/starwarsffg/modules/actors/actor-sheet-ffg-v2.js"
 import { log_msg as log } from "./util.js";
 import { open_shop_generator } from "./shop.js"
+import ImportHelpers from "../../../systems/starwarsffg/modules/importer/import-helpers.js";
 
 let module_name = 'shop_sheet';
 
@@ -143,9 +144,12 @@ export class Vendor extends ActorSheetFFGV2 {
                 log(module_name, JSON.stringify(item));
                 // this was a drag-and-dropped item. figure out the price on the fly
                 let price = (parseInt(item.data.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
+                // Parsing id out of uuid for consistent passing to findCompendiumEntityById. Should be replaced when
+                // system makes item id access consistent.
+                let id = item.data.flags.starwarsffg.ffgUuid.split('.').pop();
                 inventory_data.push({
                     name: item.name,
-                    id: item.data.flags.ffgTempId,
+                    id: id,
                     image: item.img,
                     price: price,
                     roll: "Manually Added",
@@ -178,6 +182,29 @@ export class Vendor extends ActorSheetFFGV2 {
         html.find('.item-remove').click(ev => this._remove_item(ev));
         // refresh inventory
         html.find('.refresh').click(ev => this._refresh_stock(ev));
+
+        // Copied code from the character sheet, because original item-edit
+        // handler is only applied if the user is an owner of the actor. Since
+        // vendors are assigned as observers, not owners, we need to duplicate
+        // the code in this hook.
+        html.find(".item-view").click(async (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            const li = $(ev.currentTarget).parents(".item");
+            let itemId = li.data("itemId");
+            let item = this.actor.items.get(itemId);
+            if (!item) {
+                item = game.items.get(itemId);
+
+                if (!item) {
+                    item = await ImportHelpers.findCompendiumEntityById("Item", itemId);
+                }
+            }
+            if (item?.sheet) {
+                console.log("test");
+                item.sheet.render(true);
+            }
+        });
     }
 
     /**
