@@ -71,18 +71,12 @@
                 <tr class="item" data-item-compendium="{{compendium}}" data-item-id="{{id}}" data-item-name="{{name}}" data-item-price="{{price}}" data-item-type="{{flagged}}">
                     <td><img height="64" src="{{image}}" width="128"></td>
                     <td>
-                        {{#if restricted}}
-                        <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
-                        {{/if}}
-                        {{#if flagged}}
-                        <a class="entity-link" data-id="{{id}}" data-pack="{{compendium}}" draggable="true">
+                        <a class="item-pill item-view">
+                            {{#if restricted}}
+                            <i class="fas fa-exclamation-triangle"><font color="8b0000">(R)</font></i>
+                            {{/if}}
                             {{name}}
                         </a>
-                        {{else}}
-                        <a class="entity-link" data-entity="Item" data-id="{{id}}" draggable="true">
-                            {{name}}
-                        </a>
-                        {{/if}}
                     </td>
                     <td>{{type}}</td>
                     <td>{{price}}</td>
