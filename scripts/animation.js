@@ -417,7 +417,9 @@ class attack_animation_UISettings extends FormApplication {
             system: {title: game.system.data.title, menus: [], settings: []},
         };
 
-        // Classify all settings
+        // Classify all settings, separating animations and sounds into a list of implied pairs.
+        let enableSetting;
+        let settingPairs = [];
         // noinspection JSUnusedLocalSymbols
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
@@ -436,8 +438,17 @@ class attack_animation_UISettings extends FormApplication {
 
             // Classify setting
             const name = s.module;
-            if (s.key.includes("attack-animation-")) data.system.settings.push(s);
+            if (s.key == "attack-animation-enable") {
+                enableSetting = s;
+            } else if (s.key.includes("attack-animation-")) {
+                settingPairs.push(s);
+            }
         }
+        data.system.settings.push(enableSetting);
+        data.system.settings.push({
+            type: "pairs",
+            pairs: settingPairs,
+        });
 
         // Return data
         return {

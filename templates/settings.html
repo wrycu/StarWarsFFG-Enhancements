@@ -59,9 +59,17 @@
     <section class="content" id="config-tabs">
         <div class="settings-list">
             <h2 class="module-header">{{ localize data.system.title }}</h2>
-            {{#each data.system.menus}} {{> menuPartial}} {{/each}} {{#each data.system.settings}} {{> settingPartialCustom}}
-            {{else}}
-            <p class="notes">{{localize 'SETTINGS.None'}}</p>
+            {{#each data.system.menus}} {{> menuPartial}} {{/each}}
+            {{#each data.system.settings}}
+                {{~#iff_custom this.type '==' 'pairs'~}}
+                    <div class="grid-2col">
+                        {{#each this.pairs}}
+                            {{> settingPartialCustom}}
+                        {{/each}}
+                    </div>
+                {{~else~}}
+                    {{> settingPartialCustom}}
+                {{~/iff_custom~}}
             {{/each}}
         </div>
     </section>
