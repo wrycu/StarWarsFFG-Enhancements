@@ -56,7 +56,8 @@
         "styles/opening_crawl.css",
         "styles/datapads.css",
         "styles/dice_helper.css",
-        "styles/fix_mandar_theme.css"
+        "styles/fix_mandar_theme.css",
+        "styles/settings.css"
     ],
     "packs": [
         {
