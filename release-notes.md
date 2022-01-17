@@ -1,3 +1,6 @@
+`0.2.5` - 2022-01-16
+* Bug fixes for Foundry v9 - see the [milestone](https://github.com/wrycu/StarWarsFFG-Enhancements/milestone/3?closed=1) for details
+
 `0.2.4` - 2021-12-28
 * Fix for vehicle roller breaking empty roller (thanks `Dexcellence`!) 
 
