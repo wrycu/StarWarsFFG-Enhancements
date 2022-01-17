@@ -153,7 +153,7 @@
 	text-align: justify;
 	word-wrap: break-word;
 	transform-origin: 50% 100%;
-	transform: perspective(300px) rotateX(20deg);
+	transform: perspective(300px) rotateX(25deg);
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div {
