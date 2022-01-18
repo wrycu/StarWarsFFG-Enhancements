@@ -117,8 +117,6 @@ function get_dice_pool(actor_id, skill_name, incoming_roll) {
     let actor = game.actors.get(actor_id);
     var parsed_skill_name = convert_skill_name(skill_name);
     var skill = actor.data.data.skills[parsed_skill_name];
-    console.log(skill_name)
-    console.log(actor)
     var characteristic = actor.data.data.characteristics[skill.characteristic];
 
     let dicePool = new DicePoolFFG({
