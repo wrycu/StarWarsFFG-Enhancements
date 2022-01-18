@@ -117,6 +117,8 @@ function get_dice_pool(actor_id, skill_name, incoming_roll) {
     let actor = game.actors.get(actor_id);
     var parsed_skill_name = convert_skill_name(skill_name);
     var skill = actor.data.data.skills[parsed_skill_name];
+    console.log(skill_name)
+    console.log(actor)
     var characteristic = actor.data.data.characteristics[skill.characteristic];
 
     let dicePool = new DicePoolFFG({
@@ -143,6 +145,13 @@ function convert_skill_name(pool_skill_name) {
     let skills = CONFIG.FFG.skills;
     for (var skill in skills) {
         if (skills[skill]['label'] === pool_skill_name) {
+            log(module_name, 'Found mapping to ' + skill);
+            return skill;
+        }
+    }
+    // it would appear that sometimes it's value instead of label
+    for (var skill in skills) {
+        if (skills[skill]['value'] === pool_skill_name) {
             log(module_name, 'Found mapping to ' + skill);
             return skill;
         }
