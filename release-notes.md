@@ -1,4 +1,4 @@
-`0.2.6` - ???
+`0.2.6` - 2022-01-18
 * Partial fix for intro crawl ends before end of text ([#71](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/71))
 * Fix for foundry slowdown when included scenes are imported ([#92](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/92)) 
 * Fix for vehicle roller breaking on Foundry v9 (thanks `ProfessorKiz`!) ([#96](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/96))
