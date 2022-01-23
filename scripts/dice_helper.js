@@ -96,6 +96,9 @@ export function dice_helper() {
 
 function is_roll(message_data) {
     if (game.user.isGM && message_data['_roll'] !== null) {
+        if (message_data['data']['flavor'] === undefined) {
+            return false;
+        }
         return true;
         if (message_data.message.content.search(
                 'Initiative'

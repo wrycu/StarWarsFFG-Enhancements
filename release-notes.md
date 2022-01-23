@@ -1,3 +1,6 @@
+`0.2.7` - 2022-01-23
+* Fix for non-numeric rolls not working on Foundry v9
+
 `0.2.6` - 2022-01-18
 * Partial fix for intro crawl ends before end of text ([#71](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/71))
 * Fix for foundry slowdown when included scenes are imported ([#92](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/92)) 

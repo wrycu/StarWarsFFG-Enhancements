@@ -217,6 +217,10 @@ export function attack_animation(...args) {
     if (error) {
         return args;
     }
+    if (!args[0].hasOwnProperty('flavor')) {
+        log('attack_animation', 'Found roll without required metadata, bailing');
+        return args;
+    }
 
     log('attack_animation', 'Detected FFG dice roll, checking to see if this is a combat skill');
     let skill = args[0]['flavor'].replace(game.i18n.localize('SWFFG.Rolling') + ' ', '').replace('...', '').replace(' ', ' ');
