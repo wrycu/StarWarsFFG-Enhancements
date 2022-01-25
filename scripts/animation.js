@@ -291,7 +291,14 @@ export function attack_animation(...args) {
             var source = canvas.tokens.controlled;
         }
 
-        let actor_id = args[0]['speaker']['actor']['data']['_id'];
+        let actor_id = undefined;
+        if (args[0]['speaker']['actor'] === undefined) {
+            // on foundry v9 the actor data is undefined when using the crew setting
+            // convert the token to the actor ID of the ship
+            actor_id = canvas.tokens.placeables.filter(token => token.id === args[0]['speaker']['token'])[0].actor.id
+        } else {
+            actor_id = args[0]['speaker']['actor']['data']['_id'];
+        }
 
         if (that['data'] === null || jQuery.isEmptyObject(that['data'])) {
             // this was a roll from a skill
