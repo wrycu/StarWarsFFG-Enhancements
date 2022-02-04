@@ -317,6 +317,7 @@ export function attack_animation(...args) {
             }
         }
 
+        var count = null;
         /* check to see if there is custom stuff set for this item */
         if (flag_data === undefined || flag_data === null) {
             log('attack_animation', 'Got animation from config');
@@ -341,12 +342,15 @@ export function attack_animation(...args) {
             var animation_file = flag_data['animation_file'];
             // noinspection JSDuplicatedDeclaration
             var sound_file = flag_data['sound_file'];
+            if (flag_data.hasOwnProperty('animation_count')) {
+                count = flag_data['animation_count'];
+            }
         }
 
         // todo: based on dice results, we could have the animation miss
         log('attack_animation', 'Playing the attack animation: ' + animation_file + ' / ' + sound_file);
         // noinspection JSIgnoredPromiseFromCall
-        play_animation(animation_file, sound_file, skill, source);
+        play_animation(animation_file, sound_file, skill, source, count);
         return args;
     }
     else {
@@ -357,18 +361,30 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-async function play_animation(animation_file, sound_file, skill, source) {
+async function play_animation(animation_file, sound_file, skill, source, count) {
     const tokens = source;
     var arrayLength = game.user.targets.size;
     for (var i = 0; i < arrayLength; i++) {
-        if (['Melee', 'Brawl', 'Lightsaber'].indexOf(skill) > -1) {
+        if (count !== null) {
+            var range = count.split('-');
+            if (range.length > 1) {
+                var lower_bound = parseInt(range[0]);
+                var num_shots = parseInt(range[1]);
+            } else {
+                var lower_bound = 2;
+                var num_shots = parseInt(count);
+            }
+        }
+        else if (['Melee', 'Brawl', 'Lightsaber'].indexOf(skill) > -1) {
             // noinspection JSDuplicatedDeclaration
+            var lower_bound = 1;
             var num_shots = 1;
         } else {
+            var lower_bound = 2;
             // noinspection JSDuplicatedDeclaration
             var num_shots = Math.floor((Math.random() * 6) + 1);
         }
-        for (var x = 0; x < num_shots; x++) {
+        for (var x = lower_bound - 1; x < num_shots; x++) {
             if (skill === 'grenade') {
                 var animation_config = {
                     position: Array.from(game.user.targets)[i].center,
@@ -571,10 +587,16 @@ class ConfigureAttackAnimation extends FormApplication {
                         // set a default if it isn't
                         var animation = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
                         var sound = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        var count = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
                     } else {
                         // display the currently configured data if it exists
                         var animation = flag['animation_file'];
                         var sound = flag['sound_file'];
+                        if (flag.hasOwnProperty('animation_count')) {
+                            var count = flag['animation_count'];
+                        } else {
+                            var count = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        }
                     }
                     // add to the list of items for the formapplication
                     tmp_items.push({
@@ -582,6 +604,7 @@ class ConfigureAttackAnimation extends FormApplication {
                         'name': items[i].name,
                         'animation': animation,
                         'sound': sound,
+                        'count': count,
                     });
                 }
             }
@@ -619,6 +642,7 @@ class ConfigureAttackAnimation extends FormApplication {
         let flag_data = {
             sound_file: data['sound_file'],
             animation_file: data['animation_file'],
+            animation_count: data['animation_count'],
         };
         game.actors.get(data['actor']).items.get(data['item']).setFlag("ffg-star-wars-enhancements", "attack-animation", flag_data);
         ui.notifications.notify(game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-success"));

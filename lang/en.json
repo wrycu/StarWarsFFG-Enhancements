@@ -42,6 +42,7 @@
   "ffg-star-wars-enhancements.attack-animation.custom.item": "Item",
   "ffg-star-wars-enhancements.attack-animation.custom.sound.generic": "Sound File",
   "ffg-star-wars-enhancements.attack-animation.custom.animation.generic": "Animation File",
+  "ffg-star-wars-enhancements.attack-animation.custom.animation.generic-count": "Animation Count",
   "ffg-star-wars-enhancements.attack-animation.custom.reset": "Reset",
   "ffg-star-wars-enhancements.attack-animation.custom.set": "Set Custom Data",
   "ffg-star-wars-enhancements.attack-animation.custom.button-title": "Attack Animation",
