@@ -132,22 +132,26 @@ function get_ranks(actor) {
     return ranks;
 }
 
-function update_status(token, ranks, icon_path) {
-    if (ranks === 0) { return; }
-
+export function update_status(token, ranks, icon_path) {
+    let active = ranks !== 0;
     if (!window.EffectCounter) {
         // the user doesn't have status icon counters installed; they don't get a count
         log(module_name, 'Adding status to token');
         token.toggleEffect(
             icon_path,
-            {'active': true}
+            {'active': active}
         );
     } else {
         // create the effect counter
         log(module_name, 'Adding status rank ' + ranks + ' to token');
         let new_counter = new EffectCounter(ranks, icon_path, token);
         // render it
-        new_counter.update();
+        if (active) {
+            new_counter.update();
+        } else {
+            // setValue() with a value of 0 clears the effect while update() does not
+           new_counter.setValue(0);
+        }
     }
 }
 
