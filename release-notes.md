@@ -2,6 +2,7 @@
 * NEW FEATURE: Add Stimpack tracking - auto-applies a status when healing items are used
 * IMPROVEMENT: Attack animation now allows specifying the number of times to play the animation on a per-item basis ([#103](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/103))
 * Fix for attack animations not working when crews are enabled (thanks `Szyna1988`!) ([#97](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/97))
+* Fix for module being available for non-SW worlds (thanks `esheyw`!) ([#99](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/99))
 
 `0.2.7` - 2022-01-23
 * Fix for non-numeric rolls not working on Foundry v9

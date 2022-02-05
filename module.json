@@ -85,5 +85,8 @@
             "module": "ffg-star-wars-enhancements",
             "entity": "RollTable"
         }
+    ],
+    "system": [
+        "starwarsffg"
     ]
 }
