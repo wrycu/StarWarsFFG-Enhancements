@@ -54,7 +54,7 @@ export function init () {
 }
 
 export function talent_checker() {
-    Hooks.on("canvasReady", (canvas) => {
+    Hooks.on("canvasReady", async (canvas) => {
         if (game.user.isGM) {
             log(module_name, 'Detected scene load.');
             for (let i=0; i < canvas.tokens.placeables.length; i++) {
@@ -64,21 +64,21 @@ export function talent_checker() {
                 if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
                     log(module_name, 'Found token ' + actor.name + '; searching for Adversary talent');
                     let ranks = get_ranks(actor);
-                    update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                    await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
                 }
                 if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable") && window.EffectCounter) {
                     log(module_name, 'Found token ' + actor.name + '; searching for minion group size');
                     let minion_count = get_group_size(actor);
                     if (minion_count !== null) {
                         log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
-                        update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
+                        await update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
                     }
                 }
             }
         }
     });
 
-    Hooks.on("createToken", (scene, token, ...args) => {
+    Hooks.on("createToken", async (scene, token, ...args) => {
         if (game.user.isGM) {
             let token_id = scene.data._id;
             // begin javascript sucks
@@ -88,13 +88,13 @@ export function talent_checker() {
             // end javascript sucks
             if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
                 let ranks = get_ranks(actor);
-                update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
             }
             if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable") && window.EffectCounter) {
                 let minion_count = get_group_size(actor);
                 if (minion_count !== null) {
                     log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
-                    update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
+                    await update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
                 }
             }
         }
@@ -132,7 +132,7 @@ function get_ranks(actor) {
     return ranks;
 }
 
-export function update_status(token, ranks, icon_path) {
+export async function update_status(token, ranks, icon_path) {
     let active = ranks !== 0;
     if (!window.EffectCounter) {
         // the user doesn't have status icon counters installed; they don't get a count
@@ -147,7 +147,7 @@ export function update_status(token, ranks, icon_path) {
         let new_counter = new EffectCounter(ranks, icon_path, token);
         // render it
         if (active) {
-            new_counter.update();
+            await new_counter.update();
         } else {
             // setValue() with a value of 0 clears the effect while update() does not
            new_counter.setValue(0);
