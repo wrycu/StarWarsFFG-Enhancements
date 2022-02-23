@@ -66,14 +66,6 @@ export function talent_checker() {
                     let ranks = get_ranks(actor);
                     await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
                 }
-                if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable") && window.EffectCounter) {
-                    log(module_name, 'Found token ' + actor.name + '; searching for minion group size');
-                    let minion_count = get_group_size(actor);
-                    if (minion_count !== null) {
-                        log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
-                        await update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
-                    }
-                }
             }
         }
     });
