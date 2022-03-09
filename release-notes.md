@@ -1,3 +1,6 @@
+`0.2.9` - ???
+* NEW FEATURE: Convert tokens to Holograms! (thanks `Solos#0001` for the idea and code) 
+
 `0.2.8` - 2022-02-13
 * NEW FEATURE: Add Stimpack tracking - auto-applies a status when healing items are used
 * IMPROVEMENT: Attack animation now allows specifying the number of times to play the animation on a per-item basis ([#103](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/103))
