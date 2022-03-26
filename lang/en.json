@@ -168,5 +168,7 @@
   "ffg-star-wars-enhancements.stimpack-sync-status-hint": "Will be applied on Stimpack usage",
   "ffg-star-wars-enhancements.stimpack-sync.ui.name": "Stimpack Sync",
   "ffg-star-wars-enhancements.stimpack-sync.ui.hint": "Configure Stimpack Sync",
-  "ffg-star-wars-enhancements.stimpack-sync.ui.label": "Open Configuration"
+  "ffg-star-wars-enhancements.stimpack-sync.ui.label": "Open Configuration",
+  "ffg-star-wars-enhancements.controls.holo.name": "Convert to Hologram2",
+  "ffg-star-wars-enhancements.controls.holo.title": "Toggle Hologram conversion"
 }
