@@ -48,31 +48,39 @@ class Shop {
                     'weapon',
                     'gear',
                     'armour',
+                    'armor', // attachments use the US spelling while items use the UK spelling
                     'itemattachment',
                 ],
             },
             'armor': {
                 'compendiums': [
                     'world.oggdudearmor',
+                    'world.oggdudeitemattachments',
                 ],
                 'types': [
-                    'armour'
+                    'armour',
+                    'armor', // attachments use the US spelling while items use the UK spelling
+                    'itemattachment',
                 ],
             },
             'gear': {
                 'compendiums': [
                     'world.oggdudegear',
+                    'world.oggdudeitemattachments',
                 ],
                 'types': [
                     'gear',
+                    'itemattachment',
                 ],
             },
             'weapon': {
                 'compendiums': [
                     'world.oggdudeweapons',
+                    'world.oggdudeitemattachments',
                 ],
                 'types': [
                     'weapon',
+                    'itemattachment',
                 ],
             },
             'nerf_herder': {
@@ -217,7 +225,7 @@ class Shop {
                     }
 
                     // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
-                    let price = (parseInt(possible_item.data.data.price.value) * this.price_modifier) * (this.base_price / 100);
+                    let price = parseInt((parseInt(possible_item.data.data.price.value) * this.price_modifier) * (this.base_price / 100));
                     log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
                     selected_items.push({
                         'item': {
