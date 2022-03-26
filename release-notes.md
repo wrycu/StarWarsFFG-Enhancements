@@ -1,5 +1,6 @@
 `0.2.9` - ???
 * NEW FEATURE: Convert tokens to Holograms! (thanks `Solos#0001` for the idea and code) 
+* Fix for shop not including item attachments
 
 `0.2.8` - 2022-02-13
 * NEW FEATURE: Add Stimpack tracking - auto-applies a status when healing items are used
