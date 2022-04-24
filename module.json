@@ -23,7 +23,7 @@
             "name": "x0d0a"
         }
     ],
-    "version": "0.2.8",
+    "version": "0.2.9",
     "minimumCoreVersion": "0.8.8",
     "compatibleCoreVersion": "9",
     "dependencies": [
@@ -34,24 +34,21 @@
         },
         {
             "name": "fxmaster",
-            "type": "module",
-            "manifest": "https://gitlab.com/mesfoliesludiques/foundryvtt-fxmaster/-/raw/master/module.json"
+            "type": "module"
         },
         {
             "name": "lib-wrapper",
-            "type": "module",
-            "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
+            "type": "module"
         },
         {
             "name": "statuscounter",
-            "type": "module",
-            "manifest": "https://gitlab.com/woodentavern/status-icon-counters/-/raw/master/src/module.json"
+            "type": "module"
         }
     ],
     "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
-    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/0.2.8.zip",
+    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/0.2.9.zip",
     "license": "LICENSE",
     "readme": "README.md",
     "esmodules": [

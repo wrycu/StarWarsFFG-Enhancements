@@ -220,7 +220,10 @@ function get_actors(vehicle) {
         // crew has been defined, let's try to build a list
         for (var x=0; x < flag_data.length; x++) {
             let tmp_actor = game.actors.get(flag_data[x].actor_id);
-            if (tmp_actor.isOwner) {
+            if (tmp_actor === undefined) {
+                log(module_name, 'Found deleted actor via crew settings, ignoring');
+            }
+            else if (tmp_actor.isOwner) {
                 // we found an owner
                 actors.push(tmp_actor);
                 log(module_name, 'Found candidate actor ' + tmp_actor.name + ' via crew settings');
