@@ -2,6 +2,7 @@
 * NEW FEATURE: Convert tokens to Holograms! (thanks `Solos#0001` for the idea and code) 
 * Fix for shop not including item attachments
 * Fix for vehicle roller failing under certain conditions ([#112](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/112))
+* Fix for dependencies requiring old versions ([#111](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/111))
 
 `0.2.8` - 2022-02-13
 * NEW FEATURE: Add Stimpack tracking - auto-applies a status when healing items are used
