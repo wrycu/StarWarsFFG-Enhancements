@@ -49,8 +49,8 @@
     ],
     "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
-    "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
-    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/0.2.8.zip",
+    "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/fixes/module.json",
+    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/0.2.9-test.zip",
     "license": "LICENSE",
     "readme": "README.md",
     "esmodules": [
