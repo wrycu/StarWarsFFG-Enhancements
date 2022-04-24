@@ -34,8 +34,7 @@
         },
         {
             "name": "fxmaster",
-            "type": "module",
-            "manifest": "https://gitlab.com/mesfoliesludiques/foundryvtt-fxmaster/-/raw/master/module.json"
+            "type": "module"
         },
         {
             "name": "lib-wrapper",
