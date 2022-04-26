@@ -77,5 +77,5 @@ export const register_controls = controls => {
     // create the enhancements control section
     controls.splice(controls.findIndex(e => e.name === 'notes') + 1, 0, ffg_sw_enhancements_controls)
     // update the built-in token section
-    controls.splice(controls.findIndex(e => e.name === 'token'), 3, additional_token_controls)
+    controls.splice(controls.findIndex(e => e.name === 'token'), 1, additional_token_controls)
 }

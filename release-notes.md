@@ -1,3 +1,6 @@
+`0.2.10` - 2022-04-25
+* Fix for scene buttons being removed ([#114](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/114))
+
 `0.2.9` - 2022-04-24
 * NEW FEATURE: Convert tokens to Holograms! (thanks `Solos#0001` for the idea and code) 
 * Fix for shop not including item attachments
