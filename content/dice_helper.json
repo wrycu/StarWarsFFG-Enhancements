@@ -1,5 +1,5 @@
 {
-    "brawl": {
+    "SWFFG.SkillsNameMelee": {
         "su": [],
         "ad": [
             {
@@ -111,7 +111,7 @@
             }
         ]
     },
-    "melee": {
+    "SWFFG.SkillsNameBrawl": {
         "su": [],
         "ad": [
             {
@@ -223,7 +223,7 @@
             }
         ]
     },
-    "lightsaber": {
+    "SWFFG.SkillsNameLightsaber": {
         "su": [],
         "ad": [
             {
@@ -335,7 +335,7 @@
             }
         ]
     },
-    "ranged: light": {
+    "SWFFG.SkillsNameRangedLight": {
         "su": [],
         "ad": [
             {
@@ -447,7 +447,7 @@
             }
         ]
     },
-    "ranged: heavy": {
+    "SWFFG.SkillsNameRangedHeavy": {
         "su": [],
         "ad": [
             {
@@ -559,7 +559,7 @@
             }
         ]
     },
-    "gunnery": {
+    "SWFFG.SkillsNameGunnery": {
         "su": [],
         "ad": [
             {
