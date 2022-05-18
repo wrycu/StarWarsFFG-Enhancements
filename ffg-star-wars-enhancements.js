@@ -17,7 +17,8 @@ import { init as strain_reminder_init, strain_reminder } from './scripts/strain_
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
 import {init as vehicle_roller_init, intercept_vehicle_roll, register_crew} from "./scripts/vehicle_roller.js";
-import {init as stim_sync_init, stim_sync} from "./scripts/stim_sync.js";
+import { stim_sync} from "./scripts/stim_sync.js";
+import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
 
 Hooks.once('init', async function() {
@@ -33,7 +34,6 @@ Hooks.once('init', async function() {
     shop_generator_init();
     vehicle_roller_init();
     hyperspace_init();
-    stim_sync_init();
 
     log('base_module', 'registering helpers');
     Handlebars.registerHelper("iff_custom", function (a, operator, b, opts) {
@@ -127,12 +127,25 @@ Hooks.on("dropActorSheetData", (...args) => {
 });
 
 Hooks.on("updateActor", (...args) => {
-    stim_sync('token', ...args);
+    stim_sync('updateActor', ...args);
 });
 
 Hooks.on("canvasReady", (...args) => {
     stim_sync('scene', ...args);
 });
+
+Hooks.on("updateActor", (...args) => {
+    minionsize_sync('updateActor', ...args);
+});
+
+Hooks.on("canvasReady", (...args) => {
+    minionsize_sync('canvasReady', ...args);
+});
+
+Hooks.on("createToken", async (...args) => {
+    minionsize_sync('createToken', ...args);
+});
+
 
 function register_hooks() {
     libWrapper.register(
