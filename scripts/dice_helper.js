@@ -250,7 +250,17 @@ function load_data() {
     log(feature_name, "Found journal " + journal_name);
     try {
         let data = journal[0].data.content.replace('<p>', '').replace('</p>', '');
-        return JSON.parse(data.replace('\"', '"'));
+        let jsondata = JSON.parse(data.replace('\"', '"'));
+        // Let translate the skill names if possible
+        Object.keys(jsondata).forEach( skillname => {
+            if(skillname.includes("SWFFG.")){
+                let localizedskill = game.i18n.localize(skillname).toLowerCase();
+                Object.defineProperty(jsondata, localizedskill,
+                    Object.getOwnPropertyDescriptor(jsondata, skillname));
+                delete jsondata[skillname];
+            }
+        });
+        return jsondata;
     } catch(err) {
         ui.notification.warn("Dice helper: invalid data detected in journal");
         return {};
@@ -259,7 +269,7 @@ function load_data() {
 
 export async function create_and_populate_journal() {
     // if the feature is not enabled, don't do anything
-    console.log("checking status of journal")
+    log(feature_name,"checking status of journal");
     if (!game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
         return;
     }
@@ -269,9 +279,21 @@ export async function create_and_populate_journal() {
     let journal = game.journal.filter(journal => journal.name === journal_name);
 
     if (journal.length === 0) {
-        // journal doesn't exist - create it
-        let suggestions = await $.getJSON("modules/ffg-star-wars-enhancements/content/dice_helper.json");
+        // journal doesn't exist
+        
+        // let's search for a translated one (will probably show an error in console, can't avoid it)
+        let jsonFilePath = "modules/ffg-star-wars-enhancements/content/dice_helper_"+game.i18n.lang+".json"
+        let logFileStatus = "translated";
+        await fetch(jsonFilePath).then(response => {
+            if(!response.ok) {
+                logFileStatus = "default";
+                jsonFilePath = "modules/ffg-star-wars-enhancements/content/dice_helper.json";
+            }
+        });
 
+        // then create journal
+        log(feature_name,`creating ${logFileStatus} journal`);
+        let suggestions = await $.getJSON(jsonFilePath);
         let data = {
             "name": journal_name,
             "content": JSON.stringify(suggestions),

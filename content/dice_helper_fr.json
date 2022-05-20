@@ -1,0 +1,674 @@
+{
+    "SWFFG.SkillsNameMelee": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au jet de l'allié suivant",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain test du personnage visé",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameBrawl": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au prochain jet d'un allié",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameLightsaber": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au prochain jet d'un allié",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameRangedLight": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au prochain jet d'un allié",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameRangedHeavy": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au prochain jet d'un allié",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameGunnery": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Infliger une blessure critique (selon le nombre de critique requis par l'arme)",
+                "required": 1
+            },
+            {
+                "text": "Éliminer un point de stress (plusieurs fois possibles)",
+                "required": 1
+            },
+            {
+                "text": "+[bo] au prochain jet d'un allié",
+                "required": 1
+            },
+            {
+                "text": "Réaliser une manoeuvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de n'importe quel allié",
+                "required": 2
+            },
+            {
+                "text": "Annule les bonus de défense de la cible jusqu'au prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Ignore les pénalités dues à l'environnement jusqu'à la fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "Neutralise la cible au lieu de subir des blessures/stress",
+                "required": 3
+            },
+            {
+                "text": "+1 en défense (cac ou dist.) jusqu'à le fin du prochain tour",
+                "required": 3
+            },
+            {
+                "text": "La cible lâche une arme tenue",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Améliore la difficulté du prochain test de la cible",
+                "required": 1
+            },
+            {
+                "text": "Améliore le prochain test de n'importe quel allié",
+                "required": 1
+            },
+            {
+                "text": "Détruit une pièce d'équipement de la cible",
+                "required": 2
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Subit 1 stress",
+                "required": 1
+            },
+            {
+                "text": "Perds le bénéfice d'une précédente manoeuvre (abri, défense)",
+                "required": 1
+            },
+            {
+                "text": "Un adversaire exécute immédiatement une maneouvre gratuite",
+                "required": 2
+            },
+            {
+                "text": "+[bo] au prochain jet de la cible",
+                "required": 2
+            },
+            {
+                "text": "+[se] au prochain test d'un allié",
+                "required": 2
+            },
+            {
+                "text": "Le personnage tombe à terre",
+                "required": 3
+            },
+            {
+                "text": "Le slot utilisé passe en dernier dans l'ordre d'initiative",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "L'attaque à distance touche un personnage au contact avec la cible",
+                "required": 1
+            },
+            {
+                "text": "L'arme à distance est à court de munition",
+                "required": 1
+            },
+            {
+                "text": "Améliore la difficulté du prochain teste d'un allié",
+                "required": 1
+            },
+            {
+                "text": "L'outil ou l'arme utilisée est endommagée",
+                "required": 1
+            }
+        ]
+    }
+}
