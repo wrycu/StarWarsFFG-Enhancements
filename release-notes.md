@@ -1,3 +1,6 @@
+`0.3.0` - ?
+* IMPROVEMENT: Dice helper will now work with translations. English and French have been provided. (thanks for implementing it, `ercete#4836`!)
+
 `0.2.10` - 2022-04-25
 * Fix for scene buttons being removed ([#114](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/114))
 
