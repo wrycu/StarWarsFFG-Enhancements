@@ -62,7 +62,7 @@ export function minionsize_sync(source, ...args) {
 }
 
 // Update the status icon for a minion
-async function update_minion_status(token,minionSize) {
+async function update_minion_status(token, minionSize) {
     // pull the path of the status to apply
     let status = game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-status");
     let status_zero = game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-status-zero");
