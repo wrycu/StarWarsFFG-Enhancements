@@ -4,7 +4,7 @@ import { update_status } from './talent_checker.js'
 let module_name = 'minionsize_sync';
 
 export function minionsize_sync(source, ...args) {
-    
+
     // check if the user is a GM and that the setting is enabled
     if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-enable")) {
         try {
@@ -13,7 +13,7 @@ export function minionsize_sync(source, ...args) {
                 (and handle each a different way)
              */
             let minionSize = null;
-            
+
             if( source === 'createToken') {
                 let tokenDoc = args[0]; // minion info
                 if( tokenDoc.actor.data.type == 'minion'){
@@ -66,21 +66,20 @@ async function update_minion_status(token,minionSize) {
     // pull the path of the status to apply
     let status = game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-status");
     let status_zero = game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-status-zero");
-    
+
     if (minionSize !== undefined) {
         // If no minions are left, let's show a special status icon and remove it otherwise
         if( minionSize < 1 ) {
-            await update_status(token,0,status);
+            await update_status(token,0, status);
             //re-creates status_zero for no value "1" be shown on update
-            await update_status(token,0,status_zero);
-            await update_status(token,1,status_zero);
+            await update_status(token,1, status_zero);
         } else {
-            await update_status(token,0,status_zero);
-            if (minionSize == 1){
+            await update_status(token,0, status_zero);
+            if (minionSize === 1){
                 // Sometimes, Rivals are imported as minions (swa,...) if quantity is one, no icons are set
-                await update_status(token,0,status);
+                await update_status(token,0, status);
             } else {
-                await update_status(token,minionSize,status);
+                await update_status(token, minionSize, status);
             }
         }
         log(module_name, `Updating token with ${minionSize} minionsize uses`);

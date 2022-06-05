@@ -280,9 +280,9 @@ export async function create_and_populate_journal() {
 
     if (journal.length === 0) {
         // journal doesn't exist
-        
+
         // let's search for a translated one (will probably show an error in console, can't avoid it)
-        let jsonFilePath = "modules/ffg-star-wars-enhancements/content/dice_helper_"+game.i18n.lang+".json"
+        let jsonFilePath = "modules/ffg-star-wars-enhancements/content/dice_helper_" + game.i18n.lang + ".json"
         let logFileStatus = "translated";
         await fetch(jsonFilePath).then(response => {
             if(!response.ok) {

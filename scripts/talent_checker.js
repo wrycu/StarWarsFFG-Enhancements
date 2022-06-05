@@ -170,20 +170,15 @@ export async function update_status(token, ranks, icon_path) {
             {'active': active}
         );
     } else {
-        // search for existing counter
-        let counter = EffectCounter.findCounter(token.document,icon_path);
-        if(counter !== undefined){
-            log(module_name,`Updating counter ${icon_path} to ${ranks}`);
-            await counter.setValue(ranks);
-            if(!active){
-                log(module_name,`Removing counter ${icon_path} with ranks : ${ranks}`);
-                await counter.remove();
-            }
-        } else if (active) {
-            // create & render the effect counter
-            log(module_name,"Creating counter for "+icon_path)
-            counter = new EffectCounter(ranks, icon_path, token);
-            await counter.update();
+        log(module_name, 'Adding status rank ' + ranks + ' to token');
+        // no need to search for the effect ourselves, as this is done in the underlying libraries
+        let new_counter = new EffectCounter(ranks, icon_path, token);
+        // render it
+        if (active) {
+            await new_counter.update();
+        } else {
+            // setValue() with a value of 0 clears the effect while update() does not
+            await new_counter.setValue(0);
         }
     }
 }
