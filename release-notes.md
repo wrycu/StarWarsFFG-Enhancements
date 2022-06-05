@@ -1,4 +1,4 @@
-`0.3.0` - ?
+`1.0.0` - 2022-06-05
 * IMPROVEMENT: Dice helper will now work with translations. English and French have been provided. (thanks for implementing it, `ercete#4836`!)
 * IMPROVEMENT: Minion quantity status icon refers now to 'actual' minion quantity instead of 'maximum' (thanks for implementing it, `ercete#4836`!)
 * Fixed double menu entry for 'Stimpack syncing status icon', the config menu as migrated in 'Talent Checker' submenu  (thanks for implementing it, `ercete#4836`!)
