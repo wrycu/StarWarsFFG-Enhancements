@@ -1,5 +1,9 @@
 `0.3.0` - ?
 * IMPROVEMENT: Dice helper will now work with translations. English and French have been provided. (thanks for implementing it, `ercete#4836`!)
+* IMPROVEMENT: Minion quantity status icon refers now to 'actual' minion quantity instead of 'maximum' (thanks for implementing it, `ercete#4836`!)
+* Fixed double menu entry for 'Stimpack syncing status icon', the config menu as migrated in 'Talent Checker' submenu  (thanks for implementing it, `ercete#4836`!)
+* New default status icons for Stimpacks, Minions and Minions at zero (thanks for implementing it, `ercete#4836`!)
+* Update French translation (thanks `ercete#4836`!)
 
 `0.2.10` - 2022-04-25
 * Fix for scene buttons being removed ([#114](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/114))
