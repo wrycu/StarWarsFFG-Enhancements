@@ -21,4 +21,6 @@ This readme documents assets included in the repository.
 * `range-band-template.png` created for ffg-star-wars-enhancements
 * `boulder.png` [source](https://www.pngegg.com/en/png-clpey)
 * `road.jpg` created for ffg-star-wars-enhancements
-
+* `minionsize.png` created from [source](https://dribbble.com/shots/3907212-Starwars-Icon-Set) with modifications
+* `minionskull.png` created from [source](https://dribbble.com/shots/3907212-Starwars-Icon-Set) and [source](https://www.svgrepo.com/svg/222829/skull) with modifications
+* `stimpack.png` created from [source](https://www.moddb.com/mods/star-wars-the-new-era/images/imperial-stimpack-concepts) with modifications

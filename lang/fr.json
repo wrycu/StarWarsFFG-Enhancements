@@ -161,6 +161,12 @@
   "ffg-star-wars-enhancements.stimpack-sync-enable-hint": "Applique un icône de status aux tokens pour chaque consommation de stimpack",
   "ffg-star-wars-enhancements.stimpack-sync-status": "Icône de status de stimpack",
   "ffg-star-wars-enhancements.stimpack-sync-status-hint": "Sera appliqué à chaque consommation de stimpack",
+  "ffg-star-wars-enhancements.minionsize-sync-enable": "Active la synchronisation des icônes de sbire",
+  "ffg-star-wars-enhancements.minionsize-sync-enable-hint": "Applique un icône de status aux tokens pour chaque membre d'un groupe de sbire",
+  "ffg-star-wars-enhancements.minionsize-sync-status": "Icône de status de sbires",
+  "ffg-star-wars-enhancements.minionsize-sync-status-hint": "Sera appliqué pour chaque membre d'un groupe de sbire au delà du premier",
+  "ffg-star-wars-enhancements.minionsize-sync-status-zero": "Icône de status de sbires à zéro",
+  "ffg-star-wars-enhancements.minionsize-sync-status-zero-hint": "Sera appliqué pour un groupe de sbire sans membres",
   "ffg-star-wars-enhancements.controls.holo.name": "Conversion vers Hologram2",
   "ffg-star-wars-enhancements.controls.holo.title": "Active/Désactive la conversion en holograme"
 }

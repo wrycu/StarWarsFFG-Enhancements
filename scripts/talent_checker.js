@@ -31,24 +31,53 @@ export function init () {
         filePicker: 'image',
         default: 'icons/svg/regen.svg',
     });
-    game.settings.register("ffg-star-wars-enhancements", "minion-size-enable", {
+    game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-enable", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.enable-hint'),
+        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-enable'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-enable-hint'),
         scope: "world",
         config: false,
         type: Boolean,
         default: true,
     });
-    game.settings.register("ffg-star-wars-enhancements", "minion-size-status", {
+    game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-status", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.minion-size.status-hint'),
+        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-hint'),
         scope: "world",
         config: false,
         type: String,
         filePicker: 'image',
-        default: 'icons/environment/people/infantry-army.webp',
+        default: 'modules/ffg-star-wars-enhancements/artwork/minionsize.png',
+    });
+    game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-status-zero", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-zero'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-zero-hint'),
+        scope: "world",
+        config: false,
+        type: String,
+        filePicker: 'image',
+        default: 'modules/ffg-star-wars-enhancements/artwork/minionskull.png',
+    });
+    game.settings.register("ffg-star-wars-enhancements", "stimpack-sync-enable", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-enable'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-enable-hint'),
+        scope: "world",
+        config: false,
+        type: Boolean,
+        default: true,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "stimpack-sync-status", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-status'),
+        hint: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-status-hint'),
+        scope: "world",
+        config: false,
+        type: String,
+        filePicker: 'image',
+        default: 'modules/ffg-star-wars-enhancements/artwork/stimpack.png',
     });
     log(module_name, 'Done initializing');
 }
@@ -66,12 +95,11 @@ export function talent_checker() {
                     let ranks = get_ranks(actor);
                     await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
                 }
-                if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable") && window.EffectCounter) {
-                    log(module_name, 'Found token ' + actor.name + '; searching for minion group size');
-                    let minion_count = get_group_size(actor);
-                    if (minion_count !== null) {
-                        log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
-                        await update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
+                if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
+                    let stimpack_used = get_stimpack_used(actor);
+                    if (stimpack_used !== null) {
+                        log(module_name, 'Actor ' + actor.data.name + ' has used ' + stimpack_used + 'stimpacks');
+                        await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
                     }
                 }
             }
@@ -90,23 +118,23 @@ export function talent_checker() {
                 let ranks = get_ranks(actor);
                 await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
             }
-            if (game.settings.get("ffg-star-wars-enhancements", "minion-size-enable") && window.EffectCounter) {
-                let minion_count = get_group_size(actor);
-                if (minion_count !== null) {
-                    log(module_name, 'Minion group ' + actor.data.name + ' is of size ' + minion_count);
-                    await update_status(token, minion_count, game.settings.get("ffg-star-wars-enhancements", "minion-size-status"));
+            if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
+                let stimpack_used = get_stimpack_used(actor);
+                if (stimpack_used !== null) {
+                    log(module_name, 'Actor ' + actor.data.name + ' has used ' + stimpack_used + 'stimpacks');
+                    await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
                 }
             }
         }
     });
 }
 
-function get_group_size(actor) {
-    if (actor.data.type === 'minion') {
-        log(module_name, 'Found minion group being added: ' + actor.data.name);
-        return actor.data.data.quantity.max;
+function get_stimpack_used(actor) {
+    if (actor.data.type === 'character') {
+        log(module_name, 'Found actor being added: ' + actor.data.name);
+        return actor?.data?.data?.stats?.medical?.uses;
     } else {
-        log(module_name, 'Found non-minion group being added: ' + actor.data.name);
+        log(module_name, 'Found non-actor group being added: ' + actor.data.name);
         return null;
     }
 }
@@ -142,15 +170,20 @@ export async function update_status(token, ranks, icon_path) {
             {'active': active}
         );
     } else {
-        // create the effect counter
-        log(module_name, 'Adding status rank ' + ranks + ' to token');
-        let new_counter = new EffectCounter(ranks, icon_path, token);
-        // render it
-        if (active) {
-            await new_counter.update();
-        } else {
-            // setValue() with a value of 0 clears the effect while update() does not
-           new_counter.setValue(0);
+        // search for existing counter
+        let counter = EffectCounter.findCounter(token.document,icon_path);
+        if(counter !== undefined){
+            log(module_name,`Updating counter ${icon_path} to ${ranks}`);
+            await counter.setValue(ranks);
+            if(!active){
+                log(module_name,`Removing counter ${icon_path} with ranks : ${ranks}`);
+                await counter.remove();
+            }
+        } else if (active) {
+            // create & render the effect counter
+            log(module_name,"Creating counter for "+icon_path)
+            counter = new EffectCounter(ranks, icon_path, token);
+            await counter.update();
         }
     }
 }
@@ -177,7 +210,7 @@ class talent_checker_UISettings extends FormApplication {
         // Classify all settings
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.key.includes("talent-checker-") && !setting.key.includes("minion-size-")) || (!canConfigure && setting.scope !== "client")) continue;
+            if ((!setting.key.includes("talent-checker-") && !setting.key.includes("minionsize-sync-") && !setting.key.includes("stimpack-sync-")) || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = duplicate(setting);
@@ -192,7 +225,7 @@ class talent_checker_UISettings extends FormApplication {
 
             // Classify setting
             const name = s.module;
-            if (s.key.includes("talent-checker-") || s.key.includes("minion-size-")) data.system.settings.push(s);
+            if (s.key.includes("talent-checker-") || s.key.includes("minionsize-sync-") || s.key.includes("stimpack-sync-")) data.system.settings.push(s);
         }
 
         // Return data
