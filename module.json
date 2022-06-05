@@ -23,7 +23,7 @@
             "name": "x0d0a"
         }
     ],
-    "version": "0.2.10",
+    "version": "1.0.0",
     "minimumCoreVersion": "0.8.8",
     "compatibleCoreVersion": "9",
     "dependencies": [
@@ -48,7 +48,7 @@
     "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
-    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/0.2.10.zip",
+    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/1.0.0.zip",
     "license": "LICENSE",
     "readme": "README.md",
     "esmodules": [
