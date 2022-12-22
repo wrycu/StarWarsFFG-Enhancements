@@ -98,7 +98,7 @@ export function talent_checker() {
                 if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
                     let stimpack_used = get_stimpack_used(actor);
                     if (stimpack_used !== null) {
-                        log(module_name, 'Actor ' + actor.data.name + ' has used ' + stimpack_used + 'stimpacks');
+                        log(module_name, 'Actor ' + actor.name + ' has used ' + stimpack_used + 'stimpacks');
                         await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
                     }
                 }
@@ -108,7 +108,7 @@ export function talent_checker() {
 
     Hooks.on("createToken", async (scene, token, ...args) => {
         if (game.user.isGM) {
-            let token_id = scene.data._id;
+            let token_id = scene._id;
             // begin javascript sucks
             let actor_data = find_actor(token_id);
             let actor = actor_data[0];
@@ -120,8 +120,8 @@ export function talent_checker() {
             }
             if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
                 let stimpack_used = get_stimpack_used(actor);
-                if (stimpack_used !== null) {
-                    log(module_name, 'Actor ' + actor.data.name + ' has used ' + stimpack_used + 'stimpacks');
+                if (stimpack_used !== null && stimpack_used !== undefined) {
+                    log(module_name, 'Actor ' + actor.name + ' has used ' + stimpack_used + ' stimpacks');
                     await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
                 }
             }
@@ -130,11 +130,11 @@ export function talent_checker() {
 }
 
 function get_stimpack_used(actor) {
-    if (actor.data.type === 'character') {
-        log(module_name, 'Found actor being added: ' + actor.data.name);
-        return actor?.data?.data?.stats?.medical?.uses;
+    if (actor.type === 'character') {
+        log(module_name, 'Found actor being added: ' + actor.name);
+        return actor?.system?.stats?.medical?.uses;
     } else {
-        log(module_name, 'Found non-actor group being added: ' + actor.data.name);
+        log(module_name, 'Found non-actor group being added: ' + actor.name);
         return null;
     }
 }
@@ -148,12 +148,12 @@ function find_actor(token_id) {
 }
 
 function get_ranks(actor) {
-    let actor_items = actor.data.items.filter(item => item);
+    let actor_items = actor.items.filter(item => item);
     let ranks = 0;
     for (let x=0; x < actor_items.length; x++) {
         let item = actor_items[x];
         if (item.type === 'talent' && item.name === 'Adversary') {
-            ranks += item.data.data.ranks.current;
+            ranks += item.system.ranks.current;
         }
     }
     log(module_name, 'Found ' + ranks + ' ranks of Adversary');
@@ -199,7 +199,7 @@ class talent_checker_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: {title: game.system.data.title, menus: [], settings: []},
+            system: {title: game.system.title, menus: [], settings: []},
         };
 
         // Classify all settings
@@ -227,7 +227,7 @@ class talent_checker_UISettings extends FormApplication {
         return {
             user: game.user,
             canConfigure: canConfigure,
-            systemTitle: game.system.data.title,
+            systemTitle: game.system.title,
             data: data,
         };
     }
