@@ -13,7 +13,7 @@ export function convert_to_hologram() {
     }
 
     let filter_id = 'hologram';
-    let tokens = canvas.activeLayer.placeables.filter(p => p._controlled === true) || [];
+    let tokens = canvas.activeLayer.placeables.filter(p => p.controlled === true) || [];
 
     tokens.forEach(function (element) {
         if (TokenMagic.hasFilterId(element, filter_id)) {
