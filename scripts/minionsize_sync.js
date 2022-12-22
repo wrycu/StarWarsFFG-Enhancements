@@ -16,28 +16,28 @@ export function minionsize_sync(source, ...args) {
 
             if (source === 'createToken') {
                 let tokenDoc = args[0]; // minion info
-                if( tokenDoc.actor.data.type === 'minion'){
-                    minionSize = tokenDoc?.actor?.data?.data?.quantity?.value;
+                if( tokenDoc.actor.type === 'minion'){
+                    minionSize = tokenDoc?.actor?.system?.quantity?.value;
                     update_minion_status(tokenDoc.object, minionSize);
                 }
             } else if (source === 'updateActor') {
                 let actor = args[0]; //actor info
-                minionSize = actor?.data?.data?.quantity?.value;
+                minionSize = actor?.system?.quantity?.value;
                 if (minionSize !== undefined) {
                     let tokens;
 
                     // check if token is linked or unlinked to the main actor
-                    if (actor.data.token.actorLink) {
+                    if (actor.prototypeToken.actorLink) {
                         log(module_name, "Updating every linked tokens on canvas");
-                        tokens = canvas.tokens.placeables.filter(searchedtoken => searchedtoken.data.actorId === actor.data._id && searchedtoken.data.actorLink);
+                        tokens = canvas.tokens.placeables.filter(searchedtoken => searchedtoken.document.actorId === actor.id && searchedtoken.document.actorLink);
                         // Updating every token related
                         for (var x = 0; x < tokens.length; x++) {
-                            log(module_name, `found token for ${tokens[x].data.name}`);
+                            log(module_name, `found token for ${tokens[x].name}`);
                             update_minion_status(tokens[x], minionSize);
                         }
                     } else {
                         log(module_name, "Updating an unlinked token");
-                        let token = canvas.tokens.placeables.find(searchedtoken => searchedtoken.data._id === actor.parent.data._id);
+                        let token = canvas.tokens.placeables.find(searchedtoken => searchedtoken._id === actor.parent._id);
                         update_minion_status(token, minionSize);
                     }
                 } else {
@@ -48,7 +48,7 @@ export function minionsize_sync(source, ...args) {
                 let tokens = canvas.tokens.placeables.filter(searchedtoken => searchedtoken.document.actor.type == 'minion');
                 for (var x = 0; x < tokens.length; x++) {
                     let token = tokens[x];
-                    minionSize = token?.document?._actor?.data?.data?.quantity.value;
+                    minionSize = token?.document?._actor?.system?.quantity.value;
                     update_minion_status(token, minionSize);
                 }
             } else {
