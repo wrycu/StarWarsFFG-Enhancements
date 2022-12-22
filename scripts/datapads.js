@@ -36,7 +36,6 @@ export async function create_datapad_journal() {
 
                     let data = {
                         "name": template,
-                        "folder": 0,
                         "content": templates[template],
                     };
 
