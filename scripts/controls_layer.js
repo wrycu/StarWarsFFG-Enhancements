@@ -6,10 +6,13 @@ import {configure_attack_animation} from "./animation.js";
 import {convert_to_hologram} from "./hologram.js";
 
 export const register_controls = controls => {
+    if (canvas === null) {
+        return;
+    }
     const ffg_sw_enhancements_controls = {
         name: game.i18n.localize("ffg-star-wars-enhancements.controls.name"),
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.title"),
-        layer: "fxmaster",
+        layer: "ffgenhancements",
         icon: "fa fa-jedi",
         visible: game.user.isGM,
         tools: [
@@ -75,7 +78,10 @@ export const register_controls = controls => {
     })
 
     // create the enhancements control section
-    controls.splice(controls.findIndex(e => e.name === 'notes') + 1, 0, ffg_sw_enhancements_controls)
+    //controls.splice(controls.findIndex(e => e.name === 'notes') + 1, 0, ffg_sw_enhancements_controls)
     // update the built-in token section
     controls.splice(controls.findIndex(e => e.name === 'token'), 1, additional_token_controls)
+    controls.push(
+        ffg_sw_enhancements_controls
+    );
 }
