@@ -168,20 +168,20 @@ class Shop {
             /* look up the details and see if it makes the shop */
             let possible_item_index = Math.floor((Math.random() * possible_items_raw.length));
             // get item details
-            let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getDocument(possible_items_raw[possible_item_index]['item']['data']['_id']);
+            let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getDocument(possible_items_raw[possible_item_index]['item']['id']);
             // check if it's OK
-            if (possible_item.data.data.rarity.isrestricted === true && this.shady === false) {
+            if (possible_item.system.rarity.isrestricted === true && this.shady === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)");
-            } else if (this.item_types.includes(possible_item.data.type) === false) {
+            } else if (this.item_types.includes(possible_item.type) === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is not an accepted type for this kind of store)");
-            } else if (possible_item.data.type === 'itemattachment' && this.item_types.includes(possible_item.data.data.type) === false) {
+            } else if (possible_item.system.type === 'itemattachment' && this.item_types.includes(possible_item.type) === false) {
                 log(module_name, "Rejected item " + possible_item.name + " (item is a mod for an item type not accepted for this kind of store)");
             } else {
                 // the item is a fit for our shop, roll to see if the actor finds it or not
                 log(module_name, "Rolling to see if we find the item in the shop or not");
                 // make the check to see if we find the item
-                let difficulty = this.rarity_to_difficulty(possible_item.data.data.rarity.adjusted + this.location_modifier);
-                if (possible_item.data.data.rarity.isrestricted === true) {
+                let difficulty = this.rarity_to_difficulty(possible_item.system.rarity.adjusted + this.location_modifier);
+                if (possible_item.system.rarity.isrestricted === true) {
                     // legal items use negotiation
                     var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'streetwise');
                 } else {
@@ -218,23 +218,23 @@ class Shop {
                         'weapon': base_path + 'bolter-gun.svg',
                         'armour': base_path + 'breastplate.svg',
                     };
-                    if (possible_items_raw[possible_item_index]['item']['img'] === "icons/svg/mystery-man.svg" && possible_item.data.type in image_mapping) {
-                        var image = image_mapping[possible_item.data.type];
+                    if (possible_items_raw[possible_item_index]['item']['img'] === "icons/svg/mystery-man.svg" && possible_item.type in image_mapping) {
+                        var image = image_mapping[possible_item.type];
                     } else {
                         var image = possible_items_raw[possible_item_index]['item']['img'];
                     }
 
                     // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
-                    let price = parseInt((parseInt(possible_item.data.data.price.value) * this.price_modifier) * (this.base_price / 100));
+                    let price = parseInt((parseInt(possible_item.system.price.value) * this.price_modifier) * (this.base_price / 100));
                     log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
                     selected_items.push({
                         'item': {
                             'id': possible_item.id,
                             'name': possible_item.name,
                             'image': image,
-                            'type': possible_item.data.type,
+                            'type': possible_item.type,
                             'compendium': possible_items_raw[possible_item_index]['compendium'],
-                            'restricted': possible_item.data.data.rarity.isrestricted,
+                            'restricted': possible_item.system.rarity.isrestricted,
                         },
                         'price': price,
                         'roll': result_string,
@@ -278,11 +278,11 @@ class Shop {
         // stripped down version of https://github.com/StarWarsFoundryVTT/StarWarsFFG/blob/6606003c3a87de394c7ccd74401d838c17bc0b42/modules/helpers/dice-helpers.js#L7
         let actor = game.actors.get(actor_id);
         if (shop_skill === 'negotiation') {
-            var skill = actor.data.data.skills.Negotiation;
-            var characteristic = actor.data.data.characteristics[skill.characteristic].value;
+            var skill = actor.system.skills.Negotiation;
+            var characteristic = actor.system.characteristics[skill.characteristic].value;
         } else if (shop_skill === 'streetwise') {
-            var skill = actor.data.data.skills.Streetwise;
-            var characteristic = actor.data.data.characteristics[skill.characteristic].value;
+            var skill = actor.system.skills.Streetwise;
+            var characteristic = actor.system.characteristics[skill.characteristic].value;
         }
         let dicePool = new DicePoolFFG({
             ability: Math.max(characteristic, skill.rank),
@@ -422,7 +422,7 @@ class ShopGenerator extends FormApplication {
         }
         // set up to delete items from the vendor
         let to_delete = [];
-        let current_inventory = vendor.data.items.filter(item => item);
+        let current_inventory = vendor.items.filter(item => item);
         for (let x = 0; x < current_inventory.length; x++) {
             to_delete.push(current_inventory[x].id);
         }
@@ -431,7 +431,7 @@ class ShopGenerator extends FormApplication {
         for (let x = 0; x < inventory.length; x++) {
             let item = inventory[x].item;
             let item_ffg = await game.packs.get(item.compendium).getDocument(item.id);
-            to_create.push(item_ffg.data);
+            to_create.push(item_ffg);
         }
 
         // add the price modifier so we can apply it to drag-and-dropped items

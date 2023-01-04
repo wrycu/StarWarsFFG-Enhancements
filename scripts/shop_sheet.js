@@ -27,12 +27,12 @@ Socket data handler which transfers items to the purchaser
  */
 async function socket_listener(data) {
     if (data.type === "buy") {
-        log(module_name, "Detected by request");
+        log(module_name, "Detected buy request");
         /* is the packet meant for us? */
         if (game.user.id === data.gm_id) {
             log(module_name, "This packet is intended for me, decoding");
             // pull out basic information we'll be referencing a bunch
-            let buyer = game.actors.get(data.buyer_id);
+            let buyer = game.actors.get(data.buyer_id._id);
             let seller = game.actors.get(data.seller_id);
             if (data.compendium_item) {
                 var item = await seller.getEmbeddedDocument("Item", data.item_id);
@@ -40,22 +40,22 @@ async function socket_listener(data) {
                 var item = await game.packs.get(data.compendium).getDocument(data.item_id);
             }
             // check to see if the buyer has enough credits to afford the item
-            if (buyer.data.data.stats.credits.value < parseInt(data.price)) {
+            if (buyer.system.stats.credits.value < parseInt(data.price)) {
                 ChatMessage.create({
-                    content: '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.buyer_id + '">'
+                    content: '<a class="content-link" draggable="true" data-type="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.buyer_id._id + '">'
                         + buyer.name + "</a> tried to buy " + item.name + " from "
-                        + '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.seller_id +  '">'
+                        + '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + seller.uuid + '" data-id="' + data.seller_id +  '">'
                         + seller.name + "</a> but couldn't afford the price of " + data.price + " credits!",
                 });
             } else {
-                await buyer.createEmbeddedDocuments("Item", [item.data]);
+                await buyer.createEmbeddedDocuments("Item", [item]);
                 await seller.deleteEmbeddedDocuments("Item", [data.item_id]);
                 /* this doesn't seem to actually get reflected on the character sheet */
-                buyer.data.data.stats.credits.value -= parseInt(data.price);
+                buyer.system.stats.credits.value -= parseInt(data.price);
                 ChatMessage.create({
-                    content: '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.buyer_id + '">'
+                    content: '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.buyer_id._id + '">'
                         + buyer.name + "</a> bought " + item.name + " from " +
-                        '<a class="entity-link" draggable="true" data-entity="Actor" data-id="' + data.seller_id +  '">'
+                        '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.seller_id +  '">'
                         + seller.name + "</a> for " + data.price + " credits! (make sure to deduct the credits from your sheet)",
                 });
             }
@@ -71,10 +71,10 @@ Helper function to convert an item name to the item ID
  */
 async function find_item_id(actor_id, item_name) {
     let vendor = game.actors.get(actor_id);
-    let items = vendor.data.items.filter(item => item);
+    let items = vendor.items.filter(item => item);
     for (let x = 0; x < items.length; x++) {
         if (items[x].name === item_name) {
-            return items[x].data._id;
+            return items[x].id;
         }
     }
     return null;
@@ -120,7 +120,7 @@ export class Vendor extends ActorSheetFFGV2 {
         log(module_name, "Retrieving data for " + this.document.id);
 
         let inventory_data = [];
-        let items = this.document.data.items.filter(item => item);
+        let items = this.document.items.filter(item => item);
         for (let x = 0; x < items.length; x++) {
             /* merge the flag data with the inventory data so we can render it in the template */
             let item = items[x];
@@ -143,10 +143,8 @@ export class Vendor extends ActorSheetFFGV2 {
                 log(module_name, "Detected item with NO flag data set");
                 log(module_name, JSON.stringify(item));
                 // this was a drag-and-dropped item. figure out the price on the fly
-                let price = (parseInt(item.data.data.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
-                // Parsing id out of uuid for consistent passing to findCompendiumEntityById. Should be replaced when
-                // system makes item id access consistent.
-                let id = item.data.flags.starwarsffg.ffgUuid.split('.').pop();
+                let price = (parseInt(item.system.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
+                let id = item.id;
                 inventory_data.push({
                     name: item.name,
                     id: id,
@@ -154,7 +152,7 @@ export class Vendor extends ActorSheetFFGV2 {
                     price: price,
                     roll: "Manually Added",
                     type: item.type,
-                    restricted: item.data.data.rarity.isrestricted,
+                    restricted: item.system.rarity.isrestricted,
                     flagged: false,
                 })
             }
@@ -201,7 +199,6 @@ export class Vendor extends ActorSheetFFGV2 {
                 }
             }
             if (item?.sheet) {
-                console.log("test");
                 item.sheet.render(true);
             }
         });
@@ -226,7 +223,7 @@ export class Vendor extends ActorSheetFFGV2 {
             return ui.notifications.error("No active GM on your scene, they must be online to purchase an item.");
         }
 
-        if (!game.user.data.character) {
+        if (!game.user.character) {
             return ui.notifications.error(`No active character for user.`);
         }
 
@@ -241,7 +238,7 @@ export class Vendor extends ActorSheetFFGV2 {
 
         let buy_packet = {
             type: "buy",
-            buyer_id: game.user.data.character,
+            buyer_id: game.user.character,
             seller_id: this.document.id,
             price: item_price,
             item_id: item_id,
