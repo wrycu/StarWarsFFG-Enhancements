@@ -116,8 +116,8 @@ export async function configure_vehicle_roller(skill, roll, possible_actors) {
 function get_dice_pool(actor_id, skill_name, incoming_roll) {
     let actor = game.actors.get(actor_id);
     var parsed_skill_name = convert_skill_name(skill_name);
-    var skill = actor.data.data.skills[parsed_skill_name];
-    var characteristic = actor.data.data.characteristics[skill.characteristic];
+    var skill = actor.system.skills[parsed_skill_name];
+    var characteristic = actor.system.characteristics[skill.characteristic];
 
     let dicePool = new DicePoolFFG({
         ability: (Math.max(characteristic.value, skill.rank) + incoming_roll.ability) - (Math.min(characteristic.value, skill.rank) + incoming_roll.proficiency),
@@ -178,10 +178,17 @@ export function register_crew(...args) {
     }
     // check if this is an actor being dragged onto a vehicle
     let vehicle_actor = args[0];
-    let drag_actor = game.actors.get(args[2].id);
-    if (vehicle_actor.data.type !== 'vehicle' || drag_actor.data.type === 'vehicle') {
+    if (vehicle_actor.type !== 'vehicle' || args[2].type !== 'Actor') {
         // the target is not a vehicle or the actor being dragged onto it is a vehicle
+        log(module_name, "Not registering crew as item is not an actor");
         return args;
+    }
+    log(module_name, "Detected actor dropped on vehicle");
+    let drag_actor = null;
+    if (args[2].hasOwnProperty('uuid')) {
+        drag_actor = game.actors.get(args[2].uuid.split('.').pop());
+    } else {
+        drag_actor = game.actors.get(args[2].id);
     }
     // set up the flag data
     let flag_data = [];
@@ -196,11 +203,14 @@ export function register_crew(...args) {
         let overlapping_data = existing_data.filter(existing => existing.actor_id === drag_actor.id);
         if (overlapping_data.length !== 0) {
             // this actor is already in the crew; bail
+            log(module_name, "Actor is already in crew - not making any changes");
             return args;
         }
+        log(module_name, "Adding actor to vehicle crew");
         flag_data = flag_data.concat(existing_data);
     }
     // set the flag data
+    log(module_name, "Updating flag for crew");
     vehicle_actor.setFlag('ffg-star-wars-enhancements', 'crew', flag_data);
     return args;
 }
@@ -233,7 +243,7 @@ function get_actors(vehicle) {
     if (actors.length === 0) {
         // either there's no crew or the person trying to roll doesn't own any of the actors on the crew
         // in either case, build a list of owned actors
-        actors = game.actors.contents.filter(actor => actor.isOwner === true && actor.data.type !== 'vehicle');
+        actors = game.actors.contents.filter(actor => actor.isOwner === true && actor.type !== 'vehicle');
         log(module_name, 'Found the following candidate actors via owned actors: ' + actors.map(actor_name => actor_name.name));
     }
     return actors;
