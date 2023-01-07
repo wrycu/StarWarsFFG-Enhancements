@@ -83,56 +83,51 @@ async function run_hyperspace(data) {
     let exit_scene = game.scenes.get(data.hyperspace_exit);
     let target_scene = game.scenes.get(data.target_scene);
 
-    // Preloading the scenes
+    // preload the scenes
     let enter_preload = game.scenes.preload(enter_scene.id);
     let exit_preload = game.scenes.preload(exit_scene.id);
     let target_preload = game.scenes.preload(target_scene.id);
-
     await Promise.all([enter_preload, exit_preload, target_preload]);
 
-    // HACK: The hook we use to add our tools to the SceneControls seems to have
-    // a race condition first noticed 0.9.242 when viewing the scene. If our
-    // controls are selected, occassionally, an exception will be thrown because
-    // the scene transition attempts to select our control before it's
-    // initialized. As a hack, before we initialize our scene, we manually
-    // select the token-select tool. Unfortunately, a second hack is that there
-    // doesn't appear to be an API to change the the tool, so we're manually
-    // selecting the tools by clicking on the elements.
-    $("[data-control=token]").click(); $("[data-tool=select]").click();
+    // create the video element object
+    let video = undefined;
 
     // Hide the loading bar
     $("#loading").css({ "left": -10000 });
 
     // Checking negation to enter hyperspace for both enter and quick jump
-    if (data.transition_type != "exit_hyperspace") {
+    if (data.transition_type !== "exit_hyperspace") {
         log("hyperspace", "Entering hyperspace");
+        // change to the hyperspace enter scene
         await enter_scene.view();
+        video = find_video_layer(canvas);
+        video.loop = false;
+        video.currentTime = 0;
+        await video.play();
 
-        // Stop the video loop
-        canvas.background.bgSource.loop = false;
-        canvas.background.bgSource.currentTime = 0;
-        await canvas.background.bgSource.play();
-
+        // wait for the video to end
         await new Promise(resolve => {
             log("hyperspace", "Enter adding on-end hook");
-            canvas.background.bgSource.onended = () => {
+            video.onended = () => {
                 log("hyperspace", "Enter video ended");
                 resolve();
             };
         });
     }
     // Checking negation to exit hyperspace for both exit and quick jump
-    if (data.transition_type != "enter_hyperspace") {
+    if (data.transition_type !== "enter_hyperspace") {
+        log("hyperspace", "Exiting hyperspace");
+        // change to the hyperspace enter scene
         await exit_scene.view();
+        video = find_video_layer(canvas);
+        video.loop = false;
+        video.currentTime = 0;
+        await video.play();
 
-        // Stop the video loop
-        canvas.background.bgSource.loop = false;
-        canvas.background.bgSource.currentTime = 0;
-        await canvas.background.bgSource.play();
-
+        // wait for the video to end
         await new Promise(resolve => {
             log("hyperspace", "Exit adding on-end hook");
-            canvas.background.bgSource.onended = () => {
+            video.onended = () => {
                 log("hyperspace", "Exit video ended");
                 resolve();
             };
@@ -144,4 +139,41 @@ async function run_hyperspace(data) {
 
     // Restore the loading bar
     $("#loading").css("left", "");
+}
+
+/**
+ * Search the PIXI layers for the specified layer
+ * @param {object} canvas canvas object
+ */
+function find_video_layer(canvas) {
+    let to_search = [
+        'RenderedCanvasGroup',
+        'EnvironmentCanvasGroup',
+        'PrimaryCanvasGroup',
+    ];
+    let layer = canvas.app.stage.children;
+
+    for (let i = 0; i < to_search.length; i++) {
+        layer = _find_layer(layer, to_search[i])['children'];
+    }
+    // find the SpiteMesh layer, where the actual video is
+    layer = _find_layer(layer, 'SpriteMesh');
+    if (!layer.isVideo) {
+        // this is not a video, ignore it
+        return false;
+    } else {
+        // return the HTML5 video element
+        return layer.sourceElement;
+    }
+}
+
+/**
+ * Given a list of layers, find a specific layer
+ * this is a bit brittle (it assumes the layer exists) but oh well. not worth the effort to fix it
+ * @param layers  layers within the canvas, e.g. canvas.app.stage.children
+ * @param layer_name name of the layer to look for
+ * @private
+ */
+function _find_layer(layers, layer_name) {
+    return layers.filter(i => i.constructor.name === layer_name)[0];
 }

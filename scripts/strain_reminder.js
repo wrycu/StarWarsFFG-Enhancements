@@ -19,16 +19,16 @@ export function strain_reminder(created_data) {
     }
     if (game.settings.get("ffg-star-wars-enhancements", "strain-reminder")) {
         log('strain_reminder', 'Found combatant(s) being added to combat');
-        var token_id = created_data['data']['_id'];
+        var token_id = created_data['_id'];
 
         log('strain_reminder', 'Searching for combatant "' + token_id + '" in combat');
-        let combatants = game.combat.data.combatants.filter(combatant => combatant);
+        let combatants = game.combat.combatants.filter(combatant => combatant);
         for (var x=0; x < combatants.length; x++) {
-            if (combatants[x]['data']['_id'] === token_id) {
+            if (combatants[x]['_id'] === token_id) {
                 if (combatants[x]['isNPC'] === false) {
                     log('strain_reminder', 'Found combatant. Creating chat message');
-                    var actor_name = combatants[x].actor.data.name;
-                    var actor_strain = combatants[x].actor.data.data.stats.strain.value;
+                    var actor_name = combatants[x].actor.name;
+                    var actor_strain = combatants[x].actor.system.stats.strain.value;
                     var msg = {
                         type: CONST.CHAT_MESSAGE_TYPES.OTHER,
                         'content': actor_name + ' entered combat wth ' + actor_strain + ' strain',

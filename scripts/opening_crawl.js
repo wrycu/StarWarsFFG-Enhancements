@@ -194,7 +194,7 @@ export function ready() {
  * @returns {object|null}
  */
 function parse_journal(journal) {
-    let journal_html = $("<div/>").append($(journal.data.content));
+    let journal_html = $("<div/>").append($(journal.pages.contents[0].text.content));
 
     let episode_html = journal_html.find("h1");
     let title_html = journal_html.find("h2");
@@ -279,10 +279,10 @@ class OpeningCrawlSelectApplication extends FormApplication {
     }
     async getData() {
         let folder = await get_journal_folder();
-        let journals = folder.content.map(journal => {
+        let journals = folder.contents.map(journal => {
             return {
-                id: journal.data._id,
-                name: journal.data.name,
+                id: journal._id,
+                name: journal.name,
             }
         });
 
@@ -332,7 +332,6 @@ async function get_journal_folder() {
             folder = await Folder.create({
                 name: folder_name,
                 type: "JournalEntry",
-                parent: 0,
             });
 
         } else {
@@ -380,7 +379,7 @@ class opening_crawl_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: {title: game.system.data.title, menus: [], settings: []},
+            system: {title: game.system.title, menus: [], settings: []},
         };
 
         // Classify all settings
@@ -409,7 +408,7 @@ class opening_crawl_UISettings extends FormApplication {
         return {
             user: game.user,
             canConfigure: canConfigure,
-            systemTitle: game.system.data.title,
+            systemTitle: game.system.title,
             data: data,
         };
     }

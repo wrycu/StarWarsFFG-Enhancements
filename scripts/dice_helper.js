@@ -39,7 +39,9 @@ export function dice_helper() {
     Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             if (is_roll(messageData) === true) {
-                let skill = messageData['data']['flavor'].replace(game.i18n.localize('SWFFG.Rolling') + ' ', '').replace('...', '').replace(/\s/g, ' ');
+                // as of some v10 version, chat messages can contain >1 roll. let's just read the first
+                messageData['_roll'] = messageData.rolls[0];
+                let skill = messageData['flavor'].replace(game.i18n.localize('SWFFG.Rolling') + ' ', '').replace('...', '').replace(/\s/g, ' ');
                 let roll_result = {
                     'advantage': messageData['_roll']['ffg']['advantage'],
                     'triumph': messageData['_roll']['ffg']['triumph'],
@@ -95,8 +97,8 @@ export function dice_helper() {
 }
 
 function is_roll(message_data) {
-    if (game.user.isGM && message_data['_roll'] !== null) {
-        if (message_data['data']['flavor'] === undefined) {
+    if (game.user.isGM && message_data['rolls'].length > 0) {
+        if (message_data['flavor'] === undefined) {
             return false;
         }
         return true;
@@ -145,7 +147,6 @@ async function dice_helper_clicked(object) {
         skill: skill,
     };
     object.message.content = (await getTemplate('modules/ffg-star-wars-enhancements/templates/dice_helper.html'))(context);
-    object.message.id = object.message._id;
     msg.update(object.message);
     log(feature_name, 'Updated the message');
 }
@@ -243,13 +244,21 @@ function load_data() {
     let journal = game.journal.filter(journal => journal.name === journal_name);
 
     if (journal.length <= 0) {
-        ui.notification.warn("Failed to find journal - make sure it's created or something");
+        ui.notifications.warn("Failed to find journal - make sure it's created or something");
         log(feature_name, "Unable to find journal with the name " + journal_name);
         return {};
     }
     log(feature_name, "Found journal " + journal_name);
+
+    let journal_pages = journal[0].pages.filter(i => i.name === 'dice_helper');
+    if (journal_pages.length <= 0) {
+        ui.notifications.warn("Failed to find journal with correct pages - make sure it's created or something");
+        log(feature_name, "Unable to find journal with correct pages");
+        return {};
+    }
+
     try {
-        let data = journal[0].data.content.replace('<p>', '').replace('</p>', '');
+        let data = journal_pages[0].text.content.replace('<p>', '').replace('</p>', '');
         let jsondata = JSON.parse(data.replace('\"', '"'));
         // Let translate the skill names if possible
         Object.keys(jsondata).forEach( skillname => {
@@ -262,7 +271,7 @@ function load_data() {
         });
         return jsondata;
     } catch(err) {
-        ui.notification.warn("Dice helper: invalid data detected in journal");
+        ui.notifications.warn("Dice helper: invalid data detected in journal");
         return {};
     }
 }

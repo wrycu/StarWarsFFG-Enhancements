@@ -1,5 +1,5 @@
 import { init as settings_init } from './scripts/settings.js'
-import { log_msg as log } from './scripts/util.js'
+import {FfgEnhancementsLayer, log_msg as log} from './scripts/util.js'
 import {
     init as attack_animation_init,
     attack_animation_check,
@@ -24,6 +24,7 @@ import { register_controls } from "./scripts/controls_layer.js";
 Hooks.once('init', async function() {
     log('base_module', 'Initializing');
 
+    register_layers();
     settings_init();
     rename_init();
     attack_animation_init();
@@ -169,4 +170,8 @@ function register_hooks() {
             return wrapped(...data);
         }
     );
+}
+
+function register_layers() {
+    CONFIG.Canvas.layers.ffgenhancements = { layerClass: FfgEnhancementsLayer, group: "interface"};
 }

@@ -297,7 +297,7 @@ export function attack_animation(...args) {
             // convert the token to the actor ID of the ship
             actor_id = canvas.tokens.placeables.filter(token => token.id === args[0]['speaker']['token'])[0].actor.id
         } else {
-            actor_id = args[0]['speaker']['actor']['data']['_id'];
+            actor_id = args[0]['speaker']['actor']['_id'];
         }
 
         if (that['data'] === null || jQuery.isEmptyObject(that['data'])) {
@@ -441,7 +441,7 @@ class attack_animation_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: {title: game.system.data.title, menus: [], settings: []},
+            system: {title: game.system.title, menus: [], settings: []},
         };
 
         // Classify all settings
@@ -470,7 +470,7 @@ class attack_animation_UISettings extends FormApplication {
         return {
             user: game.user,
             canConfigure: canConfigure,
-            systemTitle: game.system.data.title,
+            systemTitle: game.system.title,
             data: data,
         };
     }

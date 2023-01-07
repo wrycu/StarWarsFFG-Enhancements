@@ -15,14 +15,14 @@ export function stim_sync(source, ...args) {
              */
             if (source === 'updateActor') {
                 let our_args = args[1]; // medical use info
-                if (our_args && our_args.hasOwnProperty('data') && our_args['data'].hasOwnProperty('stats') && our_args['data']['stats'].hasOwnProperty('medical')) {
+                if (our_args && our_args.hasOwnProperty('system') && our_args['system'].hasOwnProperty('stats') && our_args['system']['stats'].hasOwnProperty('medical')) {
                     // this is a stimpack update
-                    log(module_name, "caught stimpack usage, new count: " + our_args['data']['stats']['medical']['uses']);
+                    log(module_name, "caught stimpack usage, new count: " + our_args['system']['stats']['medical']['uses']);
 
                     // look up relevant info
                     let actor_id = our_args['_id'];
-                    let stimpack_usage = our_args['data']['stats']['medical']['uses'];
-                    let tokens = canvas.tokens.placeables.filter(token => token.data.actorId === actor_id);
+                    let stimpack_usage = our_args['system']['stats']['medical']['uses'];
+                    let tokens = canvas.tokens.placeables.filter(token => token.document.actorId === actor_id);
 
                     // update the tokens
                     for (var x = 0; x < tokens.length; x++) {
@@ -38,8 +38,8 @@ export function stim_sync(source, ...args) {
                 let tokens = canvas.tokens.placeables.filter(token => token);
                 for (var x = 0; x < tokens.length; x++) {
                     let token = tokens[x];
-                    let actor = game.actors.get(token.data.actorId);
-                    let stimpack_usage = actor?.data?.data?.stats?.medical?.uses;
+                    let actor = game.actors.get(token.document.actorId);
+                    let stimpack_usage = actor?.system?.stats?.medical?.uses;
                     if (stimpack_usage !== undefined) {
                         log(module_name, "found token for " + actor.name + " with " + stimpack_usage + " stimpack uses");
 

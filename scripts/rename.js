@@ -22,12 +22,12 @@ export function rename_combatant(combatant) {
     if (!combatant.token && !combatant.actor) return;
     // Fetch the disposition for the combatant based on token and fall back on
     // actor, fall back to neutral if both are undefined.
-    const disposition = (combatant.token?.data.disposition ?? combatant.actor?.token.disposition ?? 0);
+    const disposition = (combatant.token?.disposition ?? combatant.actor?.token.disposition ?? 0);
     // Determine side based on disposition.
     const side = disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY ? 'lightside' : 'darkside';
     log('attack_rename', 'Renaming token');
     // Updates the data before it's sent to the DB, preventing names and icons from resetting on reload
-    combatant.data.update({
+    combatant.updateSource({
         name: combatant.isNPC ? 'NPC' : 'PC',
         img: `systems/starwarsffg/images/dice/starwars/${side}.png`,
     });
