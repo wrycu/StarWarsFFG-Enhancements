@@ -26,7 +26,7 @@
     "version": "2.0.0-alpha1",
     "compatibility": {
         "minimum": 10,
-        "verified": "10.288"
+        "verified": "10.291"
     },
     "relationships": {
         "systems": [
@@ -34,8 +34,8 @@
                 "id": "starwarsffg",
                 "manifest": "https://raw.githubusercontent.com/StarWarsFoundryVTT/StarWarsFFG/master/system.json",
                 "compatability": {
-                    "minimum": "1.80-alpha1",
-                    "verified": "1.80-alpha4"
+                    "minimum": "1.80-alpha6",
+                    "verified": "1.80-alpha6"
                 }
             }
         ],
@@ -44,16 +44,16 @@
                 "id": "fxmaster",
                 "type": "module",
                 "compatability": {
-                    "minimum": "3.5.0",
-                    "verified": "3.5.0"
+                    "minimum": "3.5.2",
+                    "verified": "3.5.2"
                 }
             },
             {
                 "id": "lib-wrapper",
                 "type": "module",
                 "compatability": {
-                    "minimum": "1.12.10.0",
-                    "verified": "1.12.10.0"
+                    "minimum": "1.12.11.0",
+                    "verified": "1.12.11.0"
                 }
             },
             {
@@ -69,7 +69,7 @@
     "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://raw.githubusercontent.com/wrycu/StarWarsFFG-Enhancements/main/module.json",
-    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/1.0.0.zip",
+    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/archive/refs/tags/2.0.0-alpha1.zip",
     "license": "LICENSE",
     "readme": "README.md",
     "esmodules": [

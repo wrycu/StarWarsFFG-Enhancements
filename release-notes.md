@@ -1,3 +1,6 @@
+`2.0.0alpha-1` - 2023-01-06
+* NEW FEATURE: alpha Foundry v10 support
+
 `1.0.0` - 2022-06-05
 * IMPROVEMENT: Dice helper will now work with translations. English and French have been provided. (thanks for implementing it, `ercete#4836`!)
 * IMPROVEMENT: Minion quantity status icon refers now to 'actual' minion quantity instead of 'maximum' (thanks for implementing it, `ercete#4836`!)
