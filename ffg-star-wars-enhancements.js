@@ -16,7 +16,6 @@ import {
 import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
 import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
-import {init as vehicle_roller_init, intercept_vehicle_roll, register_crew} from "./scripts/vehicle_roller.js";
 import { stim_sync} from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
@@ -33,7 +32,6 @@ Hooks.once('init', async function() {
     talent_checker_init();
     opening_crawl_init();
     shop_generator_init();
-    vehicle_roller_init();
     hyperspace_init();
 
     log('base_module', 'registering helpers');
@@ -123,10 +121,6 @@ Hooks.on("preCreateCombatant", combatant => {
     rename_combatant(combatant);
 });
 
-Hooks.on("dropActorSheetData", (...args) => {
-    register_crew(...args);
-});
-
 Hooks.on("updateActor", (...args) => {
     stim_sync('updateActor', ...args);
 });
@@ -158,15 +152,6 @@ function register_hooks() {
                 to the actual weapon in use. I'm not sure if we actually care yet, but worth considering.
              */
             var data = attack_animation(this, ...args);
-            return wrapped(...data);
-        }
-    );
-
-    libWrapper.register(
-        'ffg-star-wars-enhancements',
-        'game.ffg.DiceHelpers.displayRollDialog',
-        async function (wrapped, ...args) {
-            var data = await intercept_vehicle_roll(...args);
             return wrapped(...data);
         }
     );

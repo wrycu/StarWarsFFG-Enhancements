@@ -1,5 +1,6 @@
 `2.0.0` - ??
 * FIX: Alpha bug - Per-item attack animations now work again
+* REMOVED: Vehicle roller has been removed. Better support has been added in the system natively
 
 `2.0.0alpha-1` - 2023-01-06
 * NEW FEATURE: alpha Foundry v10 support
