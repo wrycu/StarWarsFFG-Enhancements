@@ -17,18 +17,8 @@ export function setting_audio(val) {
 }
 
 /**
- * Register SettingsConfig hook to render file-picker buttons.
+ * Placeholder for any initialization code
  */
 export function init() {
-    libWrapper.register("ffg-star-wars-enhancements", "SettingsConfig.prototype.activateListeners", (wrapper, ...args) => {
-        var html = args[0];
-        html.find('[data-dtype^="setting"]').each((idx, input) => {
-            input = $(input);
-            const button = $('<button type="button" class="file-picker"><i class="fas fa-file-import"/></button>');
-            button.attr('data-type', input.data('dtype').replace(/^setting_/, ""));
-            button.attr('data-target', input.attr('name'));
-            input.after(button);
-        });
-        wrapper(...args);
-    }, "WRAPPER");
+
 }
