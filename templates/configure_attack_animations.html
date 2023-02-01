@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <label><i class="fas fa-video"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.animation.generic"}}</label>
-        <input data-dtype="setting_image" id="animation" name="animation_file" type="text" value="placeholder"/>
+        <input data-dtype="Image" id="animation" name="animation_file" type="text" value="placeholder"/>
         <button class="file-picker" data-target="animation_file" data-type="video" type="button">
             <i class="fas fa-file-import"></i>
         </button>
@@ -31,7 +31,7 @@
         </button>
     </div>
     <button class="reset" value="reset"><i class="fas fa-history"></i>{{localize "ffg-star-wars-enhancements.attack-animation.custom.reset"}}</button>
-    <button class="create" type="submit" value="create"><i class="fas fa-save"></i>{{localize "ffg-star-wars-enhancements.attack-animation.custom.set"}}</button>
+    <button name="create" class="create" type="submit" value="create"><i class="fas fa-save"></i>{{localize "ffg-star-wars-enhancements.attack-animation.custom.set"}}</button>
 </form>
 
 <script>

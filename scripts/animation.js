@@ -564,6 +564,27 @@ class ConfigureAttackAnimation extends FormApplication {
         });
     }
 
+    activateListeners(html) {
+      // for whatever reason, the old wrap does not work, so instead we'll override the listener
+      super.activateListeners(html);
+      html.find('button[name="create"]').click(this._saveChanges.bind(this));
+    }
+
+    async _saveChanges(event) {
+      event.preventDefault();
+      await this._updateObject(event, this._extractFormData(event));
+    }
+
+    _extractFormData(event) {
+      return {
+        "actor": event.target.parentElement[0].value,
+        "item": event.target.parentElement[1].value,
+        "animation_file": event.target.parentElement[2].value,
+        "animation_count": event.target.parentElement[4].value,
+        "sound_file": event.target.parentElement[5].value,
+      }
+    }
+
     async getData() {
         // list of actors in the game
         let tmp_actors = game.actors.contents;
@@ -572,13 +593,13 @@ class ConfigureAttackAnimation extends FormApplication {
         /* step over all actors in the game */
         for (var x=0; x < tmp_actors.length; x++) {
             // pull items for the actor
-            var items = tmp_actors[x].data.items.contents;
+            var items = tmp_actors[x].items.contents;
             // list of items to pass to the form application
             let tmp_items = [];
             /* step over all items so we can check if custom data is already set or not */
             for (var i=0; i < items.length; i++) {
                 // convert the item to an Item type object so we can read flag data off of it
-                let the_item = tmp_actors[x].items.get(items[i].data._id);
+                let the_item = tmp_actors[x].items.get(items[i]._id);
                 // validate it's a weapon, since you can only roll attacks with weapons
                 if (the_item.type === 'weapon') {
                     // read the flag data if it's present
@@ -600,7 +621,7 @@ class ConfigureAttackAnimation extends FormApplication {
                     }
                     // add to the list of items for the formapplication
                     tmp_items.push({
-                        'id': items[i].data._id,
+                        'id': items[i]._id,
                         'name': items[i].name,
                         'animation': animation,
                         'sound': sound,
