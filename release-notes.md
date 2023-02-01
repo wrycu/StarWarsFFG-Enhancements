@@ -1,3 +1,6 @@
+`2.0.0` - ??
+* FIX: Alpha bug - Per-item attack animations now work again
+
 `2.0.0alpha-1` - 2023-01-06
 * NEW FEATURE: alpha Foundry v10 support
 
