@@ -1,4 +1,5 @@
-`2.0.0` - ??
+`2.0.0` - 2023-02-01
+* NEW FEATURE: stable Foundry v10 support
 * FIX: Alpha bug - Per-item attack animations now work again
 * REMOVED: Vehicle roller has been removed. Better support has been added in the system natively
 
