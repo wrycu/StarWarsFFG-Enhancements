@@ -1,3 +1,6 @@
+`2.0.1` - ?
+* FIX: Correct Dice Helper not working for Ranged Attacks ([#120](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/120))
+
 `2.0.0` - 2023-02-01
 * NEW FEATURE: stable Foundry v10 support
 * FIX: Alpha bug - Per-item attack animations now work again

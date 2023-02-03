@@ -180,7 +180,7 @@ async function fetch_suggestions(results) {
         'de',
     ];
 
-    let skill = results['skill'].toLowerCase().replace('&', '&amp;');
+    let skill = results['skill'].toLowerCase().replace('&', '&amp;').replace(' ', ' ');
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {
@@ -263,7 +263,7 @@ function load_data() {
         // Let translate the skill names if possible
         Object.keys(jsondata).forEach( skillname => {
             if(skillname.includes("SWFFG.")){
-                let localizedskill = game.i18n.localize(skillname).toLowerCase();
+                let localizedskill = game.i18n.localize(skillname).toLowerCase().replace(' ', ' ');
                 Object.defineProperty(jsondata, localizedskill,
                     Object.getOwnPropertyDescriptor(jsondata, skillname));
                 delete jsondata[skillname];
