@@ -27,6 +27,7 @@ jobs:
       - name: Launch FoundryVTT
         run: |
           sudo docker run -d \
+            --name foundryvtt
             --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
             --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
             --publish 30000:30000/tcp \
@@ -40,4 +41,4 @@ jobs:
       #    wait-on-timeout: 120
 
       - name: Curl service
-        run: sleep 120; curl -v http://localhost:30000/
+        run: docker attach foundryvtt; sleep 120; curl -v http://localhost:30000/
