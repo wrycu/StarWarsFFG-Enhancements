@@ -30,7 +30,7 @@ jobs:
       - name: Launch FoundryVTT
         uses: cypress-io/github-action@v5
         with:
-          run: |
+          start: |
             sudo docker run -d \
               --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
               --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
