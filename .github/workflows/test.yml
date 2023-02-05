@@ -23,5 +23,13 @@ jobs:
           FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
 
     steps:
+      - name: Create Test file
+        run: echo "Test" > ~/.test-file
+
+      - name: Cache Test file
+        uses: actions/cache@v3
+        with:
+          path: ~/.test-file
+
       - name: Verify service is up
         run: curl http://foundry:3000/; sleep 120; curl http://foundry:3000/
