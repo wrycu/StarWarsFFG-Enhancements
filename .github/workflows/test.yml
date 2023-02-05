@@ -32,6 +32,7 @@ jobs:
       - name: Cache Test file
         uses: actions/cache@v3
         with:
+          key: test-file
           path: /tmp/test-file
 
       - name: Verify service is up
