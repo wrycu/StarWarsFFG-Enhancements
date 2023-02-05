@@ -9,11 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # TEMP: Simple curl container to verify plumbing
-    container:
-      image: ubuntu:latest
-      steps:
-        - name: Prefetch
-          run: echo Hello world!
+    container: ubuntu:latest
 
 
     services:
