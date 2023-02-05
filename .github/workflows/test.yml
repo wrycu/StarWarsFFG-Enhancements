@@ -24,12 +24,12 @@ jobs:
 
     steps:
       - name: Create Test file
-        run: echo "Test" > test-file
+        run: echo "Test" > /tmp/test-file
 
       - name: Cache Test file
         uses: actions/cache@v3
         with:
-          path: .test-file
+          path: /tmp/test-file
 
       - name: Verify service is up
         run: sleep 120; curl http://foundry:3000/
