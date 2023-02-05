@@ -24,6 +24,9 @@ jobs:
       - name: Initialized data directory
         run: mkdir data
 
+      - name: Pull FoundryVTT Container
+        run: sudo docker pull felddy/foundryvtt:release
+
       - name: Launch FoundryVTT
         run: >
           sudo docker run -d \
