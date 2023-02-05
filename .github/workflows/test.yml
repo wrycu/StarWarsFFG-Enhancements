@@ -55,3 +55,9 @@ jobs:
 
       - name: Verify contents of data dir
         run: find data
+
+      - name: Publish test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-test-videos
+          path: cypress/videos/
