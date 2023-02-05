@@ -8,12 +8,10 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
 
-    # TEMP: Simple curl container to verify plumbing
     container: ubuntu:latest
 
 
     services:
-      # TEMP: Starting with a hello world container to explore plumbing
       foundry:
         image: felddy/foundryvtt
         ports:
