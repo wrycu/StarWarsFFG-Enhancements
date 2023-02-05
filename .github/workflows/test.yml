@@ -28,7 +28,7 @@ jobs:
         run: sudo docker pull felddy/foundryvtt:release
 
       - name: Launch FoundryVTT
-        run: >
+        run: |
           sudo docker run -d \
             --env FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }} \
             --env FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }} \
