@@ -36,5 +36,13 @@ jobs:
             --volume data:/data \
             felddy/foundryvtt:release
 
-      - name: Verify service is up
-        run: curl http://foundry:30000/; sleep 120; curl http://foundry:30000/
+      - name: Wait for FoundryVTT to Start
+        uses: cygnetdigital/wait_for_response@v2.0.0
+        with:
+          url: 'http://localhost:30000'
+          responseCode: '200,302'
+          # It shouldn't take more than two minutes to start
+          timeout: 120000
+
+      - name: Curl service
+        run: curl http://localhost:30000/
