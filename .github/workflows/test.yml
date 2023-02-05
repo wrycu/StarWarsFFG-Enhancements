@@ -12,15 +12,15 @@ jobs:
     container: curlimages/curl
 
 
-    services:
-      # TEMP: Starting with a hello world container to explore plumbing
-      foundry:
-        image: felddy/foundryvtt
-        ports:
-          - 3000:3000
-        env:
-          FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
-          FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
+    #services:
+    #  # TEMP: Starting with a hello world container to explore plumbing
+    #  foundry:
+    #    image: felddy/foundryvtt
+    #    ports:
+    #      - 3000:3000
+    #    env:
+    #      FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+    #      FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
 
     steps:
       - name: Create Test file
