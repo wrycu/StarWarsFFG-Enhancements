@@ -28,21 +28,17 @@ jobs:
         run: sudo docker pull felddy/foundryvtt:release
 
       - name: Launch FoundryVTT
-        run: |
-          sudo docker run -d \
-            --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
-            --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
-            --publish 30000:30000/tcp \
-            --volume data:/data \
-            felddy/foundryvtt:release
-
-      - name: Wait for FoundryVTT to Start
-        uses: cygnetdigital/wait_for_response@v2.0.0
+      - uses: cypress-io/github-action@v5
         with:
-          url: 'http://localhost:30000'
-          responseCode: '200,302'
-          # It shouldn't take more than two minutes to start
-          timeout: 120000
+          run: |
+            sudo docker run -d \
+              --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
+              --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
+              --publish 30000:30000/tcp \
+              --volume data:/data \
+              felddy/foundryvtt:release
+          wait-on: 'http://localhost:30000'
+          wait-on-timeout: 120
 
       - name: Curl service
         run: curl http://localhost:30000/
