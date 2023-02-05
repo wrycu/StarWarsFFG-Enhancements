@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # This directory caches the foundryvtt install avoiding abusive downloads.
       - name: Restore FoundryVTT CONTAINER_CACHE
         uses: actions/cache@v3
         id: container_cache
@@ -19,13 +20,18 @@ jobs:
           key: container_cache
           path: data/container_cache
 
+      # Ensure the directory exists for the volume mount
       - name: Initialized data directory
         run: mkdir -p data
 
+      # Executing the pull separately declutters the docker run command output.
       - name: Pull FoundryVTT Container
         run: sudo docker pull felddy/foundryvtt:release
 
-
+      # There are two steps for the foundryvtt container, because if the
+      # username/password is provided, the container makes an unnecessary set of
+      # API calls to the foundry API, even if it ultimately uses the cached
+      # download.
       - if: ${{ steps.container_cache.outputs.cache-hit != 'true' }}
         name: Launch FoundryVTT and run Cypress Tests
         uses: cypress-io/github-action@v5
@@ -61,6 +67,7 @@ jobs:
       - name: List contents of data dir for troubleshooting
         run: find data
 
+      # Capture the cypress test videos as an artifact
       - name: Publish test videos
         uses: actions/upload-artifact@v2
         with:
