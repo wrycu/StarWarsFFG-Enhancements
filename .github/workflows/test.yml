@@ -14,6 +14,7 @@ jobs:
 
       - name: Restore FoundryVTT CONTAINER_CACHE
         uses: actions/cache@v3
+        id: container_cache
         with:
           key: container_cache
           path: data/container_cache
@@ -25,7 +26,7 @@ jobs:
         run: sudo docker pull felddy/foundryvtt:release
 
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.container_cache.outputs.cache-hit != 'true' }}
         name: Launch FoundryVTT and run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
@@ -42,7 +43,7 @@ jobs:
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit == 'true' }}
+      - if: ${{ steps.container_cache.outputs.cache-hit == 'true' }}
         name: Launch FoundryVTT and run Cypress Tests (container cached)
         uses: cypress-io/github-action@v5
         with:
