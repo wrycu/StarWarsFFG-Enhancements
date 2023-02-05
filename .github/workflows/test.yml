@@ -19,7 +19,7 @@ jobs:
           path: data/container_cache
 
       - name: Initialized data directory
-        run: mkdir data
+        run: mkdir -p data
 
       - name: Pull FoundryVTT Container
         run: sudo docker pull felddy/foundryvtt:release
