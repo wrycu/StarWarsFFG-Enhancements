@@ -24,4 +24,4 @@ jobs:
 
     steps:
       - name: Verify service is up
-        run: curl http://foundry:3000/; sleep 60; curl http://foundry:3000/
+        run: curl http://foundry:3000/; sleep 120; curl http://foundry:3000/
