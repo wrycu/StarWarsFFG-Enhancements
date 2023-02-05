@@ -28,7 +28,7 @@ jobs:
         run: sudo docker pull felddy/foundryvtt:release
 
       - name: Launch FoundryVTT
-      - uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v5
         with:
           run: |
             sudo docker run -d \
