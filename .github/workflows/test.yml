@@ -3,39 +3,35 @@ name: FoundryVTT Integration test
 # TODO: We would like this step to run on pull requests, but only after some
 # approval has been granted to protect the secrets.
 # TODO: Temporarily disabling
-on:
-  push:
-    tags:
-      - '*'
+on: push
 
 jobs:
   cypress:
     runs-on: ubuntu-latest
 
-    container: ubuntu:latest
-
-
-    services:
-      foundry:
-        image: felddy/foundryvtt
-        ports:
-          - 30000:30000
-        env:
-          FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
-          FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
-
     steps:
       - name: Install dependencies
         run: apt-get -y update; apt-get -y install curl
 
-      #- name: Create Test file
-      #  run: echo "Test" > /tmp/test-file
+      - uses: actions/checkout@v3
 
-      #- name: Cache Test file
-      #  uses: actions/cache@v3
-      #  with:
-      #    key: test-file
-      #    path: /tmp/test-file
+      - name: Restore FoundryVTT CONTAINER_CACHE
+        uses: actions/cache@v3
+        with:
+          key: container_cache
+          path: data/container_cache
+
+      - name: Initialized data directory
+        run: mkdir data
+
+      - name: Launch FoundryVTT
+        run: >
+          sudo docker run -d
+            --env FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+            --env FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
+            --publish 30000:30000/tcp
+            --volume data:/data
+            felddy/foundryvtt:release
 
       - name: Verify service is up
         run: curl http://foundry:30000/; sleep 120; curl http://foundry:30000/
