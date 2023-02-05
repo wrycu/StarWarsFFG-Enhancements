@@ -25,17 +25,19 @@ jobs:
         run: sudo docker pull felddy/foundryvtt:release
 
       - name: Launch FoundryVTT
-        uses: cypress-io/github-action@v5
-        with:
-          start: |
-            sudo docker run -d \
-              --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
-              --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
-              --publish 30000:30000/tcp \
-              --volume data:/data \
-              felddy/foundryvtt:release
-          wait-on: 'http://localhost:30000'
-          wait-on-timeout: 120
+        run: |
+          sudo docker run -d \
+            --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
+            --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
+            --publish 30000:30000/tcp \
+            --volume data:/data \
+            felddy/foundryvtt:release
+
+      #- name: Launch FoundryVTT
+      #  uses: cypress-io/github-action@v5
+      #  with:
+      #    wait-on: 'http://localhost:30000'
+      #    wait-on-timeout: 120
 
       - name: Curl service
-        run: curl http://localhost:30000/
+        run: sleep 120; curl -v http://localhost:30000/
