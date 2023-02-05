@@ -2,7 +2,11 @@ name: FoundryVTT Integration test
 
 # TODO: We would like this step to run on pull requests, but only after some
 # approval has been granted to protect the secrets.
-on: push
+# TODO: Temporarily disabling
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   cypress:
