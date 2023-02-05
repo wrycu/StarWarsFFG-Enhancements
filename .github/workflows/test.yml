@@ -24,7 +24,9 @@ jobs:
       - name: Pull FoundryVTT Container
         run: sudo docker pull felddy/foundryvtt:release
 
-      - name: Launch FoundryVTT and run Cypress Tests
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: Launch FoundryVTT and run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
           start: >-
@@ -33,6 +35,21 @@ jobs:
             --env FOUNDRY_ADMIN_KEY=test-admin-key
             --env FOUNDRY_USERNAME=${{ secrets.FOUNDRY_USERNAME }}
             --env FOUNDRY_PASSWORD=${{ secrets.FOUNDRY_PASSWORD }}
+            --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
+            --publish 30000:30000/tcp
+            --volume ${{ github.workspace }}/data:/data
+            felddy/foundryvtt:release
+          wait-on: 'http://localhost:30000'
+          wait-on-timeout: 120
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit == 'true' }}
+        name: Launch FoundryVTT and run Cypress Tests (container cached)
+        uses: cypress-io/github-action@v5
+        with:
+          start: >-
+            sudo docker run
+            --name foundryvtt
+            --env FOUNDRY_ADMIN_KEY=test-admin-key
             --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
             --publish 30000:30000/tcp
             --volume ${{ github.workspace }}/data:/data
