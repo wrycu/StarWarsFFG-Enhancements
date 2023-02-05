@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install dependencies
-        run: sudo apt-get -y update; sudo apt-get -y install curl
-
       - uses: actions/checkout@v3
 
       - name: Restore FoundryVTT CONTAINER_CACHE
