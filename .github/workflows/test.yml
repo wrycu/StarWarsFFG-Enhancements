@@ -18,8 +18,9 @@ jobs:
         image: felddy/foundryvtt
         ports:
           - 3000:3000
-        options:  --env FOUNDRY_USERNAME="$FOUNDRY_USERNAME" \
-                  --env FOUNDRY_PASSWORD="$FOUNDRY_PASSWORD"
+        env:
+          FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+          FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
 
     steps:
       - name: Verify service is up
