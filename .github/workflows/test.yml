@@ -17,7 +17,7 @@ jobs:
       foundry:
         image: felddy/foundryvtt
         ports:
-          - 3000:3000
+          - 30000:30000
         env:
           FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
           FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
@@ -36,4 +36,4 @@ jobs:
       #    path: /tmp/test-file
 
       - name: Verify service is up
-        run: sleep 120; curl http://foundry:3000/
+        run: curl http://foundry:30000/; sleep 120; curl http://foundry:30000/
