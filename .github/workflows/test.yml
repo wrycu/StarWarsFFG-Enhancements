@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # TEMP: Simple curl container to verify plumbing
-    container: curlimages/curl
+    container: ubuntu:latest
 
 
     #services:
@@ -23,6 +23,9 @@ jobs:
     #      FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
 
     steps:
+      - name: Install dependencies
+        run: apt-get -y update; apt-get -y install curl
+
       - name: Create Test file
         run: echo "Test" > /tmp/test-file
 
