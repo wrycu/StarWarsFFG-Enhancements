@@ -32,4 +32,4 @@ jobs:
           path: ~/.test-file
 
       - name: Verify service is up
-        run: curl http://foundry:3000/; sleep 120; curl http://foundry:3000/
+        run: sleep 120; curl http://foundry:3000/
