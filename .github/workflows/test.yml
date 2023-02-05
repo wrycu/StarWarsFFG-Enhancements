@@ -27,7 +27,7 @@ jobs:
       - name: Launch FoundryVTT
         run: |
           sudo docker run -d \
-            --name foundryvtt
+            --name foundryvtt \
             --env "FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}" \
             --env "FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}" \
             --publish 30000:30000/tcp \
