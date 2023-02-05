@@ -14,11 +14,13 @@ jobs:
 
     services:
       # TEMP: Starting with a hello world container to explore plumbing
-      helloworld:
-        image: strm/helloworld-http
+      foundry:
+        image: felddy/foundryvtt
         ports:
-          - 80:3000
+          - 3000:3000
+        options:  --env FOUNDRY_USERNAME="$FOUNDRY_USERNAME" \
+                  --env FOUNDRY_PASSWORD="$FOUNDRY_PASSWORD"
 
     steps:
       - name: Verify service is up
-        run: curl http://helloworld/; sleep 15; curl http://helloworld/
+        run: curl http://foundry:3000/; sleep 15; curl http://foundry:3000/
