@@ -5,10 +5,11 @@ name: FoundryVTT Integration test
 # TODO: Temporarily disabling
 #on: push
 on:
-  pull_request:
+  pull_request_target:
     # Sequence of patterns matched against refs/heads
     branches:
-      - '*'
+      - 'main'
+      - 'bheiskell/issue131'
 
 jobs:
   cypress:
