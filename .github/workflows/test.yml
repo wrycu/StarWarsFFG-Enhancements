@@ -18,11 +18,11 @@ jobs:
   foundryvtt-cypress-test:
     if: github.repository != 'bheiskell/StarWarsFFG-Enhancements'
 
-    uses: ./.github/workflows/reusable/test.yml
+    uses: ./.github/workflows/reusable-test.yml
     secrets: inherit
 
   foundryvtt-cypress-test-fork:
     if: github.repository == 'bheiskell/StarWarsFFG-Enhancements'
 
-    uses: ./.github/workflows/reusable/test.yml
+    uses: ./.github/workflows/reusable-test.yml
     secrets: inherit
