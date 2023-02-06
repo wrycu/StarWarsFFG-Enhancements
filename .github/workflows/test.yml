@@ -20,13 +20,13 @@ permissions:
 
 jobs:
   foundryvtt-cypress-test:
-    if: github.event.pull_request.head.repo.full_name != 'bheiskell/StarWarsFFG-Enhancements'
+    if: github.event.pull_request.head.repo.full_name == 'bheiskell/StarWarsFFG-Enhancements'
 
     uses: ./.github/workflows/reusable-test.yml
     secrets: inherit
 
   foundryvtt-cypress-test-fork:
-    if: github.event.pull_request.head.repo.full_name == 'bheiskell/StarWarsFFG-Enhancements'
+    if: github.event.pull_request.head.repo.full_name != 'bheiskell/StarWarsFFG-Enhancements'
 
     uses: ./.github/workflows/reusable-test.yml
     secrets: inherit
