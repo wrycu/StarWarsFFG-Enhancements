@@ -3,6 +3,10 @@ name: Reusable FoundryVTT Cypress workflow
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        required: false
+        type: string
     secrets:
       FOUNDRY_USERNAME:
         required: true
@@ -15,7 +19,7 @@ jobs:
   foundryvtt-cypress-test:
     runs-on: ubuntu-latest
 
-    environment: Test
+    environment: ${{ inputs.environment }}
 
     steps:
       - uses: actions/checkout@v3
