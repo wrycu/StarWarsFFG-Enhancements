@@ -1,11 +1,6 @@
 name: FoundryVTT Integration Tests
 
 on:
-  # Run when pull request is filed from a branch on the upstream repository
-  pull_request:
-    branches:
-      - 'main'
-
   # Run when pull request is filed from a branch from a fork
   pull_request_target:
     branches:
