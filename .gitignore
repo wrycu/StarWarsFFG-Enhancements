@@ -3,3 +3,6 @@ ffg-star-wars-enhancements.lock
 
 # ignore installed dependencies from npm
 node_modules
+
+# Ignore VSCode configuration
+.vscode/
