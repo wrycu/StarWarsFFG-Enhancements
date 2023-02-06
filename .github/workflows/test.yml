@@ -14,6 +14,8 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
 
+    environment: Test
+
     steps:
       - uses: actions/checkout@v3
 
