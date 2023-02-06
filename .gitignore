@@ -1,2 +1,5 @@
 # ignore lock file created disabling updates
 ffg-star-wars-enhancements.lock
+
+# ignore installed dependencies from npm
+node_modules

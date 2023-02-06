@@ -1,0 +1,31 @@
+name: FoundryVTT Integration Tests
+
+on:
+  # Run when pull request is filed from a branch from a fork
+  pull_request_target:
+    branches:
+      - 'main'
+
+# Restrict the GITHUB_TOKEN access purely for hardening
+permissions:
+  contents: read
+
+jobs:
+  # Running a workflow triggered by the pull_request_target event is dangerous.
+  # This runs untrusted code in the context of the upstream repository, granting
+  # it access to the repository secrets. To limit the risk here, create a
+  # "requires-approval" environment that requires approvers for every execution.
+  # This will gate running the tests behind an approver reviewing the code for
+  # abuse. Duplicating the secrets in this environment is not required.
+  forks-only:
+    if: github.event.pull_request.head.repo.full_name != 'wrycu/StarWarsFFG-Enhancements'
+    uses: ./.github/workflows/reusable-test.yml
+    secrets: inherit
+    with:
+      environment: requires-approval
+
+  # When running for a branch on the upstream repository, don't use an environment.
+  upstream-only:
+    if: github.event.pull_request.head.repo.full_name == 'wrycu/StarWarsFFG-Enhancements'
+    uses: ./.github/workflows/reusable-test.yml
+    secrets: inherit
