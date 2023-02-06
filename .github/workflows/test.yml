@@ -8,7 +8,7 @@ on:
   pull_request_target:
     # Sequence of patterns matched against refs/heads
     branches:
-      - main
+      - '*'
 
 jobs:
   cypress:
