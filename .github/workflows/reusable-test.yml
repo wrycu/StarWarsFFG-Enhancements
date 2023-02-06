@@ -5,6 +5,9 @@ on:
   workflow_call:
     inputs:
       environment:
+        # The official schema doesn't allow Environment to be set to null.
+        # However passing the environment in optionally as an input works around
+        # that limitation.
         required: false
         type: string
     secrets:
@@ -16,9 +19,10 @@ on:
         required: true
 
 jobs:
-  foundryvtt-cypress-test:
+  tests:
     runs-on: ubuntu-latest
 
+    # Use an environment to require manual approval.
     environment: ${{ inputs.environment }}
 
     steps:
