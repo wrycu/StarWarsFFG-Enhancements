@@ -27,6 +27,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # This directory caches the foundryvtt install avoiding abusive downloads.
       - name: Restore FoundryVTT CONTAINER_CACHE
