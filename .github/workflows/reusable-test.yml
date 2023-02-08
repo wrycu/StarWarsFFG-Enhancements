@@ -27,6 +27,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # This directory caches the foundryvtt install avoiding abusive downloads.
       - name: Restore FoundryVTT CONTAINER_CACHE
@@ -83,8 +85,9 @@ jobs:
       - name: List contents of data dir for troubleshooting
         run: find data
 
-      # Capture the cypress test videos as an artifact
-      - name: Publish test videos
+      # Capture the cypress test videos as an artifact even upon failure
+      - if: ${{ always() }}
+        name: Publish test videos
         uses: actions/upload-artifact@v2
         with:
           name: cypress-test-videos
