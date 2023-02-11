@@ -63,6 +63,7 @@ jobs:
             --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
             --publish 30000:30000/tcp
             --volume ${{ github.workspace }}/data:/data
+            --volume ${{ github.workspace }}:/data/Data/modules/ffg-star-wars-enhancements
             felddy/foundryvtt:release
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
@@ -78,6 +79,7 @@ jobs:
             --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
             --publish 30000:30000/tcp
             --volume ${{ github.workspace }}/data:/data
+            --volume ${{ github.workspace }}:/data/Data/modules/ffg-star-wars-enhancements
             felddy/foundryvtt:release
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
