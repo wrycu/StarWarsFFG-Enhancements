@@ -108,7 +108,7 @@ function handlesSetup() {
 function closeNotifications() {
   cy.get('#notifications').then(($notifications) => {
     if ($notifications.children().length) {
-      cy.get("#notifications .close").first().click();
+      cy.get("#notifications .close").first().click({force: true});
 
       // Might introduce some brittleness, but I don't know a better way to work around this check right now.
       cy.wait(100);
