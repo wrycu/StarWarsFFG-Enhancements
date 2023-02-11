@@ -54,7 +54,7 @@ jobs:
         name: Launch FoundryVTT and run Cypress Tests
         uses: cypress-io/github-action@v5
         env:
-          FOUNDRY_URL: http://localhost:30000
+          CYPRESS_BASE_URL: http://localhost:30000
         with:
           start: >-
             sudo docker run
