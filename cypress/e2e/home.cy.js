@@ -213,6 +213,7 @@ describe.only("ffg-star-wars-enhancements", () => {
 
   beforeEach(() => {
     cy.visit("/game");
+    cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
 
     waitForWorld();
     closeNotifications();
