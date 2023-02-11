@@ -209,11 +209,11 @@ function parse_journal(journal) {
     }
 
     var image = null;
-    let image_html = journal_html.find("p>img");
+    let image_html = journal_html.find("img");
     if (image_html.length) {
         image = image_html.attr("src");
-        // Once the image has been extracted, remove the parent paragraph.
-        journal_html.find("p>img").parent().remove();
+        // Once the image has been extracted, remove it
+        journal_html.find("img").remove();
     } else {
         log('opening-crawl', 'no image to pan to found in journal');
     }
@@ -347,7 +347,7 @@ export async function create_opening_crawl() {
     let data = {
         "name": "Episode X",
         "folder": folder.id,
-        "content": "<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><p><img src=\"modules/ffg-star-wars-enhancements/artwork/planet.png\"/></p>",
+        "content": "<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><img src=\"modules/ffg-star-wars-enhancements/artwork/planet.png\"/>",
     };
     JournalEntry.create(data).then(journal => {journal.sheet.render(true)});
 }
