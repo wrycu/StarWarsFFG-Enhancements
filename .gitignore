@@ -6,3 +6,6 @@ node_modules
 
 # Ignore VSCode configuration
 .vscode/
+
+# Ignore local cypress environment overrides for setting baseUrl
+cypress.env.json
