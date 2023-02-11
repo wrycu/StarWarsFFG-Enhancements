@@ -40,7 +40,9 @@ jobs:
 
       # Ensure the directory exists for the volume mount
       - name: Initialized data directory
-        run: mkdir -p data/Data/modules/ffg-star-wars-enhancements
+        run: |
+          mkdir -p data/Data/modules/ffg-star-wars-enhancements
+          rsync -aP --exclude data --exclude .git * .??* data/Data/modules/ffg-star-wars-enhancements/
 
       # Executing the pull separately declutters the docker run command output.
       - name: Pull FoundryVTT Container
@@ -63,7 +65,6 @@ jobs:
             --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
             --publish 30000:30000/tcp
             --volume ${{ github.workspace }}/data:/data
-            --volume ${{ github.workspace }}:/data/Data/modules/ffg-star-wars-enhancements
             felddy/foundryvtt:release
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
@@ -79,7 +80,6 @@ jobs:
             --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
             --publish 30000:30000/tcp
             --volume ${{ github.workspace }}/data:/data
-            --volume ${{ github.workspace }}:/data/Data/modules/ffg-star-wars-enhancements
             felddy/foundryvtt:release
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
