@@ -1,100 +1,225 @@
-describe.only("initialization", () => {
-  it.only("completes", () => {
-    cy.visit("/");
+/**
+ * Visits document root and accepts the license if redirected to the accept
+ * license page.
+ */
+function acceptsLicense() {
+  cy.visit("/");
+  cy.url().then((url) => {
+    if (url != `${Cypress.config("baseUrl")}/license`) {
+      return;
+    }
+    cy.get("#eula-agree").check();
+    cy.get("#sign").click();
+  })
+}
 
-    // Accept the license agreement
-    cy.url().then((url) => {
-      if (url == `${Cypress.config("baseUrl")}/license`) {
-        cy.get("#eula-agree").check();
-        cy.get("#sign").click();
+/**
+ * Visits document root and authenticates as an admin if redirected.
+ */
+function authenticatesAsAdmin() {
+  cy.visit("/");
+  cy.url().then((url) => {
+    if (url != `${Cypress.config("baseUrl")}/auth`) {
+      return;
+    }
+    cy.get('#key').type("test-admin-key{enter}");
+  })
+}
+
+/**
+ * Installs module, but it assumes already on the add-on modules tab of setup.
+ */
+function installModule($moduleList, module) {
+  // Module already installed
+  if ($moduleList.find(`[data-package-id="${module}"]`).length) {
+    return;
+  }
+  cy.get(`[data-package-id="${module}"] > .package-controls > .install`).click();
+  cy.get('#notifications > .notification').contains('installed successfully', {timeout: 25000});
+}
+
+/**
+ * Handles setup of the system, modules, and world.
+ */
+function handlesSetup() {
+  acceptsLicense();
+  authenticatesAsAdmin();
+
+  cy.visit("/");
+  cy.url().then((url) => {
+    if (url != `${Cypress.config("baseUrl")}/setup`) {
+      return;
+    }
+
+    cy.get('.sheet-tabs > [data-tab="systems"]').click();
+    cy.get('#system-list').then(($systemList) => {
+      // System already installed
+      if ($systemList.find('[data-package-id="starwarsffg"]').length) {
+        return;
       }
-    })
 
-    // Enter the Admin key if not already logged in
-    cy.url().then((url) => {
-      if (url == `${Cypress.config("baseUrl")}/auth`) {
-        cy.get('#key').type("test-admin-key{enter}");
-      }
-    })
+      cy.get('.active > .setup-footer > .install-package').click();
 
-    cy.url().then((url) => {
-      if (url == `${Cypress.config("baseUrl")}/setup`) {
-        // Install FFG System
-        cy.get('.sheet-tabs > .active').then((el) => {
-          if (el[0].dataset.tab == 'systems') {
-            // Click Install System
-            cy.get('.active > .setup-footer > .install-package').click();
+      cy.get('[data-package-id="starwarsffg"] > .package-controls > .install').click();
 
-            // Click Install for Star Wars FFG system
-            cy.get('[data-package-id="starwarsffg"] > .package-controls > .install').click();
+      cy.get('#notifications > .notification').contains('installed successfully', {timeout: 25000});
 
-            cy.get('#notifications > .notification').contains('installed successfully', {timeout: 10000});
-            // Close dialog
-            cy.get('.header-button').click();
-          }
-        });
-
-        // Navigate to install modules
-        cy.get('.sheet-tabs > [data-tab="modules"]').click();
-
-        // Cilck Install modules
-        cy.get('.active > .setup-footer > .install-package').click();
-
-        // Install fxmaster
-        cy.get('[data-package-id="fxmaster"] > .package-controls > .install').click();
-        cy.get('[data-package-id="lib-wrapper"] > .package-controls > .install').click();
-        cy.get('[data-package-id="statuscounter"] > .package-controls > .install').click();
-
-        cy.get('.sheet-tabs > [data-tab="worlds"]').click();
-
-        // Open create world dialog
-        cy.get('#create-world > label').click();
-
-        // Name the system
-        cy.get(':nth-child(1) > .form-fields > input').type('Integration Test World', {force: true});
-
-        // Select the system
-        cy.get('form > :nth-child(3) > .form-fields > select').select('Star Wars FFG');
-
-        // Create the world
-        cy.get('form > [type="submit"]').click();
-
-        // Launch the world
-        cy.get('.package-controls > [name="action"]').click();
-      }
+      cy.get('.header-button.close').click();
     });
 
-    cy.visit(`${Cypress.config("baseUrl")}/join`);
-    cy.url().should('eq', `${Cypress.config("baseUrl")}/join`);
+    cy.get('.sheet-tabs > [data-tab="modules"]').click();
+    cy.get('#module-list').then(($moduleList) => {
+      cy.get('.active > .setup-footer > .install-package').click();
 
-    // Select game master
-    cy.get('select').select("Gamemaster");
+      cy.get('.package-list').should('have.length.gt', 1)
 
-    // Join Game Session
-    cy.get(':nth-child(1) > button').click();
+      installModule($moduleList, 'fxmaster');
+      installModule($moduleList, 'lib-wrapper');
+      installModule($moduleList, 'statuscounter');
 
-    cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
+      // There's a quirk here where the close button isn't immediately ready to go. Double clicking just to hide it.
+      cy.get('#install-package .header-button.close').dblclick();
+      //cy.pause();
+    });
 
-    // Clear welcome message if it exists
-    cy.get('.step-header > .step-button > .far').click();
+    cy.get('.sheet-tabs > [data-tab="worlds"]').click();
+    cy.get('#world-list').then(($worldList) => {
+      // World already exists
+      if ($worldList.find('[data-package-id="integration-test-world"]').length) {
+        return;
+      }
 
-    // Close warning
-    cy.get('.dialog-button').click();
+      cy.get('#create-world').click();
 
-    // Close all notifications
-    //cy.get('#notifications .close').click({ multiple: true })
+      cy.get('#world-config form input[name="title"]').type('Integration Test World', {force: true});
 
-    // Activate modules
-    cy.get('[data-tab="settings"] > .fas').click();
+      cy.get('#world-config form select[name="system"]').select('Star Wars FFG');
 
-    cy.get('[data-action="modules"]').click();
+      cy.get('#world-config form [type="submit"]').click();
 
-    cy.get('.package-overview > .package-title > .active').click({multiple: true});
+    });
 
-    cy.get('footer.flexrow > [type="submit"]').click();
+    // Launch the world
+    cy.get('[data-package-id="integration-test-world"] button[data-action="launchWorld"]').click();
+  })
+}
 
-    cy.get('.window-content > .dialog-buttons > .yes').click({multiple: true});
+/** Promise chain until notifications are closed */
+function closeNotifications() {
+  cy.get('#notifications').then(($notifications) => {
+    if ($notifications.children().length) {
+      cy.get("#notifications .close").first().click();
 
-    cy.get('[data-control="ffg-star-wars-enhancements"] > .fa').click();
+      // Might introduce some brittleness, but I don't know a better way to work around this check right now.
+      cy.wait(100);
+
+      closeNotifications();
+    }
+  });
+}
+
+/**
+ * This is a bit of a pain because these windows could not exist.
+ */
+function closeInitialPopups() {
+  cy.get('body').then(($body) => {
+
+    // Dismiss the initial tour on the world
+    if ($body.find('.tour').length) {
+      cy.get('.tour > .step-header > .step-button').click();
+    }
+
+    $body.find('.app > .window-header > .window-title').each((_, titleEl) => {
+      const title = Cypress.$(titleEl).text();
+
+      if (title === 'FFG Star Wars Enhancements') {
+        cy.get('.app > .window-header > .window-title')
+          .contains('FFG Star Wars Enhancements')
+          .parent()
+          .find('.header-button.close')
+          .click({force: true});
+      }
+
+      if (title === 'Warning') {
+        cy.get('.app > .window-header > .window-title')
+          .contains('Warning')
+          .parent()
+          .find('.header-button.close')
+          .click({force: true});
+      }
+    });
+  });
+}
+
+/**
+ * Log in as a user
+ */
+function join(user = "Gamemaster") {
+
+  //  If we try to join, but don't land on the join URL there is a problem
+  cy.visit("/join");
+  cy.url().should('eq', `${Cypress.config("baseUrl")}/join`);
+
+  cy.get('select[name="userid"]').select(user);
+  cy.get('button[name="join"').click();
+
+  cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
+}
+
+function waitForWorld() {
+  // TODO: Find a better hooks - this will likely be brittle
+  cy.get('#destinyMenu');
+  cy.wait(1000);
+}
+
+function activateModules() {
+  cy.get('#sidebar-tabs [data-tab="settings"]').click();
+  cy.get('[data-action="modules"]').click();
+  cy.get('#module-list li').should('have.length.gt', 1);
+
+  cy.get('#module-list').then(($moduleList) => {
+    // If things  are already checked, modules are already enabled
+    if ($moduleList.find(':checked').length) {
+      return;
+    }
+
+    cy.get('#module-list [data-module-id="ffg-star-wars-enhancements"]')
+    cy.get('#module-list [data-module-id="ffg-star-wars-enhancements"] input[type="checkbox"]').check();
+
+    // Accept the dialog to select all dependencies
+    cy.get('.window-content > .dialog-buttons > .yes').click();
+
+    // Save
+    cy.get('#module-management footer button[type="submit"]').click();
+  });
+}
+
+/**
+ * Initialize the world after logging in as the Gamemaster
+ */
+function initializeWorld() {
+  waitForWorld();
+  closeInitialPopups();
+
+  activateModules();
+}
+
+describe.only("ffg-star-wars-enhancements", () => {
+  before(() => {
+    handlesSetup();
+    join();
+    initializeWorld();
+  });
+
+  beforeEach(() => {
+    cy.visit("/game");
+
+    waitForWorld();
+    closeNotifications();
+    closeInitialPopups();
+  });
+
+  it("loads", () => {
+    cy.get('body');
   });
 });
