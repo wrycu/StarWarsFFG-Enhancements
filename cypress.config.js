@@ -14,8 +14,7 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:30000',
   },
-  viewportWidth: 1920,
-  viewportHeight: 1080,
-  defaultCommandTimeout: 60000,
-  videoCompression: 16
+  viewportWidth: 1440,
+  viewportHeight: 900,
+  defaultCommandTimeout: 60000
 });
