@@ -237,7 +237,7 @@ describe.only("ffg-star-wars-enhancements", () => {
     });
 
     // Open the crawl dialog
-    cy.get('[data-control="ffg-star-wars-enhancements"]').click({force: true});
+    cy.get('[data-control="ffg-star-wars-enhancements"]').click();
     cy.get('[data-tool="opening-crawl"]').click({force: true});
 
     // Create a folder for the Opening Crawl journals
@@ -249,8 +249,8 @@ describe.only("ffg-star-wars-enhancements", () => {
     // Can't seem to close the journal at this point, so just minimize it to keep it out of view
     cy.get('.journal-entry > .window-header > .close').dblclick();
 
-    cy.get('[data-control="ffg-star-wars-enhancements"]').click({force: true});
-    cy.get('[data-tool="opening-crawl"]').click({force: true});
+    cy.get('[data-control="ffg-star-wars-enhancements"]').click();
+    cy.get('[data-tool="opening-crawl"]').click();
 
     // Launch the opening crawl
     cy.get('#ffg-star-wars-enhancements-opening-crawl-select form button[type="submit"]').each(($button) => {
