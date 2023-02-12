@@ -135,14 +135,19 @@ function closeInitialPopups() {
     $body.find('.app > .window-header > .window-title').each((_, titleEl) => {
       const title = Cypress.$(titleEl).text();
 
+      // Dismiss the warning related to not having all the plugins required
+      // enabled. This matters on initial world load.
       if (title === 'FFG Star Wars Enhancements') {
         cy.get('.app > .window-header > .window-title')
           .contains('FFG Star Wars Enhancements')
           .parent()
           .find('.header-button.close')
           .click({force: true}); // Forced because dialogs can overlap
+        // The above triggers a page reload due to it setting animations to off.
+        waitUntilReady();
       }
 
+      // Dismiss a warning about running head of the foundry codebase
       if (title === 'Warning') {
         cy.get('.app > .window-header > .window-title')
           .contains('Warning')
@@ -179,10 +184,17 @@ function waitUntilReady() {
 
   // Re-add if the FFG system doesn't seem initialized as this is close to the
   // last thing added during initialization
-  //cy.get('#destinyMenu');
+  cy.get('#destinyMenu');
 
   // Fixed delay: Brittle, but has been used prior to using game.ready
   //cy.wait(10000);
+
+  // The notifications can block the pop-ups and vice versa. So try the
+  // notifications first, then finish with notifications to clean up any
+  // missing.
+  closeNotifications();
+  closeInitialPopups();
+  closeNotifications();
 }
 
 function activateModules() {
@@ -212,9 +224,6 @@ function activateModules() {
  */
 function initializeWorld() {
   waitUntilReady();
-  closeNotifications();
-  closeInitialPopups();
-  closeNotifications();
 
   activateModules();
 }
@@ -231,9 +240,6 @@ describe.only("ffg-star-wars-enhancements", () => {
     cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
 
     waitUntilReady();
-    closeNotifications();
-    closeInitialPopups();
-    closeNotifications();
 
     // Clean-up crawls if they exist
     cy.get('#sidebar-tabs > [data-tab="journal"]').click();
