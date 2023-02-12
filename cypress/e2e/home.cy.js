@@ -221,6 +221,10 @@ describe.only("ffg-star-wars-enhancements", () => {
   });
 
   it.only("creates and launches an opening crawl", () => {
+    waitForWorld();
+    closeNotifications();
+    closeInitialPopups();
+
     // Clean-up crawls if they exist
     cy.get('#sidebar-tabs > [data-tab="journal"]').click();
     cy.get('#journal > .directory-list').then(($directoryList) => {
