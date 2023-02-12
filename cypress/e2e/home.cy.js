@@ -199,7 +199,9 @@ function activateModules() {
  */
 function initializeWorld() {
   waitForWorld();
+  closeNotifications();
   closeInitialPopups();
+  closeNotifications();
 
   activateModules();
 }
@@ -218,6 +220,7 @@ describe.only("ffg-star-wars-enhancements", () => {
     waitForWorld();
     closeNotifications();
     closeInitialPopups();
+    closeNotifications();
 
     // Clean-up crawls if they exist
     cy.get('#sidebar-tabs > [data-tab="journal"]').click();
