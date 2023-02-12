@@ -169,7 +169,7 @@ function join(user = "Gamemaster") {
 function waitForWorld() {
   // TODO: Find a better hooks - this will likely be brittle
   cy.get('#destinyMenu');
-  cy.wait(1000);
+  cy.wait(10000);
 }
 
 function activateModules() {
