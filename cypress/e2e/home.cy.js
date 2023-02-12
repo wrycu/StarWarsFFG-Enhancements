@@ -91,6 +91,7 @@ function handlesSetup() {
 
       cy.get('#create-world').click();
 
+      // Something interrupts focus during the load, so forcing the typing
       cy.get('#world-config form input[name="title"]').type('Integration Test World', {force: true});
 
       cy.get('#world-config form select[name="system"]').select('Star Wars FFG');
@@ -108,6 +109,7 @@ function handlesSetup() {
 function closeNotifications() {
   cy.get('#notifications').then(($notifications) => {
     if ($notifications.children().length) {
+      // Forced because notifications can scroll out of view
       cy.get("#notifications .close").first().click({force: true});
 
       // Might introduce some brittleness, but I don't know a better way to work around this check right now.
@@ -137,7 +139,7 @@ function closeInitialPopups() {
           .contains('FFG Star Wars Enhancements')
           .parent()
           .find('.header-button.close')
-          .click({force: true});
+          .click({force: true}); // Forced because dialogs can overlap
       }
 
       if (title === 'Warning') {
@@ -145,7 +147,7 @@ function closeInitialPopups() {
           .contains('Warning')
           .parent()
           .find('.header-button.close')
-          .click({force: true});
+          .click({force: true}); // Forced because dialogs can overlap
       }
     });
   });
@@ -166,10 +168,20 @@ function join(user = "Gamemaster") {
   cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
 }
 
-function waitForWorld() {
-  // TODO: Find a better hooks - this will likely be brittle
-  cy.get('#destinyMenu');
-  cy.wait(10000);
+function waitUntilReady() {
+  // Verify that both the game and canvas are ready before continuing
+  cy.window().its('game')
+    .and('have.property', 'ready').and('be.true');
+  cy.window().its('game')
+    .should('have.property', 'canvas')
+    .and('have.property', 'ready').and('be.true');
+
+  // Re-add if the FFG system doesn't seem initialized as this is close to the
+  // last thing added during initialization
+  //cy.get('#destinyMenu');
+
+  // Fixed delay: Brittle, but has been used prior to using game.ready
+  //cy.wait(10000);
 }
 
 function activateModules() {
@@ -198,7 +210,7 @@ function activateModules() {
  * Initialize the world after logging in as the Gamemaster
  */
 function initializeWorld() {
-  waitForWorld();
+  waitUntilReady();
   closeNotifications();
   closeInitialPopups();
   closeNotifications();
@@ -217,7 +229,7 @@ describe.only("ffg-star-wars-enhancements", () => {
     cy.visit("/game");
     cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
 
-    waitForWorld();
+    waitUntilReady();
     closeNotifications();
     closeInitialPopups();
     closeNotifications();
