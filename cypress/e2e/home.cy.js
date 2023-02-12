@@ -109,8 +109,9 @@ function handlesSetup() {
 function closeNotifications() {
   cy.get('#notifications').then(($notifications) => {
     if ($notifications.children().length) {
-      // Forced because notifications can scroll out of view
-      cy.get("#notifications .close").first().click({force: true});
+      // Clicking them in reverse order, because (I think) it avoids a problem
+      // with the notification jumping up after the click.
+      cy.get("#notifications .close").last().click();
 
       // Might introduce some brittleness, but I don't know a better way to work around this check right now.
       cy.wait(100);
