@@ -238,7 +238,7 @@ describe.only("ffg-star-wars-enhancements", () => {
 
     // Open the crawl dialog
     cy.get('[data-control="ffg-star-wars-enhancements"]').click();
-    cy.get('[data-tool="opening-crawl"]').click({force: true});
+    cy.get('[data-tool="opening-crawl"]').click();
 
     // Create a folder for the Opening Crawl journals
     cy.get('.window-content .yes').click();
