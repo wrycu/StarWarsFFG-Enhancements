@@ -211,16 +211,10 @@ describe.only("ffg-star-wars-enhancements", () => {
     initializeWorld();
   });
 
-  beforeEach(() => {
+  it.only("creates and launches an opening crawl", () => {
     cy.visit("/game");
     cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
 
-    waitForWorld();
-    closeNotifications();
-    closeInitialPopups();
-  });
-
-  it.only("creates and launches an opening crawl", () => {
     waitForWorld();
     closeNotifications();
     closeInitialPopups();
