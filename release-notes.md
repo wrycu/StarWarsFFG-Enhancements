@@ -1,5 +1,6 @@
-`2.0.1` - ?
+`2.0.1` - 2023-02-12
 * FIX: Correct Dice Helper not working for Ranged Attacks ([#120](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/120))
+* FIX: Fix opening-crawl by removing wrapper p tag from template and parsing logic ([#136](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/136))
 
 `2.0.0` - 2023-02-01
 * NEW FEATURE: stable Foundry v10 support
