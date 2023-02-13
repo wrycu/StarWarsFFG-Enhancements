@@ -189,10 +189,6 @@ function waitUntilReady() {
   // Fixed delay: Brittle, but has been used prior to using game.ready
   //cy.wait(10000);
 
-  // The notifications can block the pop-ups and vice versa. So try the
-  // notifications first, then finish with notifications to clean up any
-  // missing.
-  closeNotifications();
   closeInitialPopups();
   closeNotifications();
 }
