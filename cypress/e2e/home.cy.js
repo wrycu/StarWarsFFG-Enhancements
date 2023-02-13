@@ -29,7 +29,7 @@ function authenticatesAsAdmin() {
 /**
  * Installs module, but it assumes already on the add-on modules tab of setup.
  */
-function installModule($moduleList, module) {
+function installsModule($moduleList, module) {
   // Module already installed
   if ($moduleList.find(`[data-package-id="${module}"]`).length) {
     return;
@@ -73,9 +73,9 @@ function handlesSetup() {
 
       cy.get('.package-list').should('have.length.gt', 1)
 
-      installModule($moduleList, 'fxmaster');
-      installModule($moduleList, 'lib-wrapper');
-      installModule($moduleList, 'statuscounter');
+      installsModule($moduleList, 'fxmaster');
+      installsModule($moduleList, 'lib-wrapper');
+      installsModule($moduleList, 'statuscounter');
 
       // There's a quirk here where the close button isn't immediately ready to go. Double clicking just to hide it.
       cy.get('#install-package .header-button.close').dblclick();
