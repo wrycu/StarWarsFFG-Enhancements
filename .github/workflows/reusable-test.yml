@@ -40,7 +40,9 @@ jobs:
 
       # Ensure the directory exists for the volume mount
       - name: Initialized data directory
-        run: mkdir -p data
+        run: |
+          mkdir -p data/Data/modules/ffg-star-wars-enhancements
+          rsync -aP --exclude data --exclude .git * .??* data/Data/modules/ffg-star-wars-enhancements/
 
       # Executing the pull separately declutters the docker run command output.
       - name: Pull FoundryVTT Container
@@ -82,7 +84,8 @@ jobs:
           wait-on: 'http://localhost:30000'
           wait-on-timeout: 120
 
-      - name: List contents of data dir for troubleshooting
+      - if: ${{ always() }}
+        name: List contents of data dir for troubleshooting
         run: find data
 
       # Capture the cypress test videos as an artifact even upon failure
