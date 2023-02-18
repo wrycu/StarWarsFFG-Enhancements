@@ -70,7 +70,7 @@ docker compose down
 
 > :warning: The Github Actions use [pull_request_target](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/) and have been carefully configured to protect the FoundryVTT credentials by requiring approval from untrusted forks prior to running tests. If emulating this repository, be very careful.
 
-The Cypress tests are configured to run on pull requests (see `.github/workflows/test.yml`). For PRs from a branch within the repository, they're automatically run. For PRs from a fork, each run must be approved by a contributor (this is to protect the FoundryVTT credentials). Unfortunately, both jobs show up on all PRs, but only one is run per PR.
+The Cypress tests are configured to run on pull requests (see `.github/workflows/cypress.yaml`). For PRs from a branch within the repository, they're automatically run. For PRs from a fork, each run must be approved by a contributor (this is to protect the FoundryVTT credentials). Unfortunately, both jobs show up on all PRs, but only one is run per PR.
 
 The repository requires some manual configuration. Follow these steps:
 
