@@ -26,7 +26,7 @@
  * SOFTWARE.
  */
 @font-face {
-	font-family: 'News Cycle';
+    font-family: "News Cycle";
     src: url("../fonts/NewsCycle-Regular.ttf");
 }
 @font-face {
@@ -45,834 +45,873 @@
 }
 
 :root {
-	--time-factor: 1;
-	--extra-time: 0s;
-	--intro-background-duration: calc(9s * var(--time-factor));
-	--intro-text-duration: calc(6s * var(--time-factor));
-	--intro-text-delay: calc(1s * var(--time-factor));
-	--intro-logo-duration: calc(11s * var(--time-factor));
-	--intro-logo-delay: calc(9s * var(--time-factor));
-	--intro-crawl-duration: calc((73s + var(--extra-time)) * var(--time-factor));
-	--intro-crawl-delay: calc(13s * var(--time-factor));
-	--intro-ending-duration: calc(7s * var(--time-factor));
-	--intro-ending-delay: calc((86s + var(--extra-time)) * var(--time-factor));
+    --time-factor: 1;
+    --extra-time: 0s;
+    --intro-background-duration: calc(9s * var(--time-factor));
+    --intro-text-duration: calc(6s * var(--time-factor));
+    --intro-text-delay: calc(1s * var(--time-factor));
+    --intro-logo-duration: calc(11s * var(--time-factor));
+    --intro-logo-delay: calc(9s * var(--time-factor));
+    --intro-crawl-duration: calc((73s + var(--extra-time)) * var(--time-factor));
+    --intro-crawl-delay: calc(13s * var(--time-factor));
+    --intro-ending-duration: calc(7s * var(--time-factor));
+    --intro-ending-delay: calc((86s + var(--extra-time)) * var(--time-factor));
 }
 
 .ffg-star-wars-enhancements-opening-crawl {
-	position: relative;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	background: url("../artwork/stars.png") repeat;
-	background-color: #000;
-	color: #ffd54e;
-	overflow: hidden;
-	letter-spacing: 0.15em;
-	font-weight: 700;
-	font-size: 16px;
-    font-family: 'News Cycle';
-	line-height: normal;
-	font-variant-ligatures: none;
+    position: relative;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../artwork/stars.png") repeat;
+    background-color: #000;
+    color: #ffd54e;
+    overflow: hidden;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: "News Cycle";
+    line-height: normal;
+    font-variant-ligatures: none;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .verticalWrapper {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .introBackground {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 100%;
-	background-color: #000;
-	opacity: 0;
-	animation: introBackgroundAnimation var(--intro-background-duration);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0;
+    animation: introBackgroundAnimation var(--intro-background-duration);
 }
 
 .ffg-star-wars-enhancements-opening-crawl .introBackground .intro {
-	padding-right: 5%;
-	padding-left: 5%;
-	color: #4bd5ee;
-	font-weight: 400;
-	font-size: 450%;
-	opacity: 0;
-	transform: scaleX(1.1);
-	animation: introTextAnimation var(--intro-text-duration) ease-out var(--intro-text-delay);
+    padding-right: 5%;
+    padding-left: 5%;
+    color: #4bd5ee;
+    font-weight: 400;
+    font-size: 450%;
+    opacity: 0;
+    transform: scaleX(1.1);
+    animation: introTextAnimation var(--intro-text-duration) ease-out var(--intro-text-delay);
 }
 
 .ffg-star-wars-enhancements-opening-crawl .logo {
-	position: static;
-	text-align: center;
-	font-family: StarJedi;
-	margin: 0 auto;
-	opacity: 0;
-	transform: scale(2.2);
-	animation: logoAnimation var(--intro-logo-duration) cubic-bezier(0.11, 0.6, 0.48, 0.88) var(--intro-logo-delay);
+    position: static;
+    text-align: center;
+    font-family: StarJedi;
+    margin: 0 auto;
+    opacity: 0;
+    transform: scale(2.2);
+    animation: logoAnimation var(--intro-logo-duration) cubic-bezier(0.11, 0.6, 0.48, 0.88) var(--intro-logo-delay);
 }
 
 .ffg-star-wars-enhancements-opening-crawl .logo .logoSub {
-	width: 100%;
+    width: 100%;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .logo .logoText {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	color: #000;
-	text-shadow:rgb(255, 213, 78) -5px -5px 0px, rgb(255, 213, 78) -5px -4px 0px, rgb(255, 213, 78) -5px -3px 0px, rgb(255, 213, 78) -5px -2px 0px, rgb(255, 213, 78) -5px -1px 0px, rgb(255, 213, 78) -5px 0px 0px, rgb(255, 213, 78) -5px 1px 0px, rgb(255, 213, 78) -5px 2px 0px, rgb(255, 213, 78) -5px 3px 0px, rgb(255, 213, 78) -5px 4px 0px, rgb(255, 213, 78) -5px 5px 0px, rgb(255, 213, 78) -4px -5px 0px, rgb(255, 213, 78) -4px -4px 0px, rgb(255, 213, 78) -4px -3px 0px, rgb(255, 213, 78) -4px -2px 0px, rgb(255, 213, 78) -4px -1px 0px, rgb(255, 213, 78) -4px 0px 0px, rgb(255, 213, 78) -4px 1px 0px, rgb(255, 213, 78) -4px 2px 0px, rgb(255, 213, 78) -4px 3px 0px, rgb(255, 213, 78) -4px 4px 0px, rgb(255, 213, 78) -4px 5px 0px, rgb(255, 213, 78) -3px -5px 0px, rgb(255, 213, 78) -3px -4px 0px, rgb(255, 213, 78) -3px -3px 0px, rgb(255, 213, 78) -3px -2px 0px, rgb(255, 213, 78) -3px -1px 0px, rgb(255, 213, 78) -3px 0px 0px, rgb(255, 213, 78) -3px 1px 0px, rgb(255, 213, 78) -3px 2px 0px, rgb(255, 213, 78) -3px 3px 0px, rgb(255, 213, 78) -3px 4px 0px, rgb(255, 213, 78) -3px 5px 0px, rgb(255, 213, 78) -2px -5px 0px, rgb(255, 213, 78) -2px -4px 0px, rgb(255, 213, 78) -2px -3px 0px, rgb(255, 213, 78) -2px -2px 0px, rgb(255, 213, 78) -2px -1px 0px, rgb(255, 213, 78) -2px 0px 0px, rgb(255, 213, 78) -2px 1px 0px, rgb(255, 213, 78) -2px 2px 0px, rgb(255, 213, 78) -2px 3px 0px, rgb(255, 213, 78) -2px 4px 0px, rgb(255, 213, 78) -2px 5px 0px, rgb(255, 213, 78) -1px -5px 0px, rgb(255, 213, 78) -1px -4px 0px, rgb(255, 213, 78) -1px -3px 0px, rgb(255, 213, 78) -1px -2px 0px, rgb(255, 213, 78) -1px -1px 0px, rgb(255, 213, 78) -1px 0px 0px, rgb(255, 213, 78) -1px 1px 0px, rgb(255, 213, 78) -1px 2px 0px, rgb(255, 213, 78) -1px 3px 0px, rgb(255, 213, 78) -1px 4px 0px, rgb(255, 213, 78) -1px 5px 0px, rgb(255, 213, 78) 0px -5px 0px, rgb(255, 213, 78) 0px -4px 0px, rgb(255, 213, 78) 0px -3px 0px, rgb(255, 213, 78) 0px -2px 0px, rgb(255, 213, 78) 0px -1px 0px, rgb(255, 213, 78) 0px 0px 0px, rgb(255, 213, 78) 0px 1px 0px, rgb(255, 213, 78) 0px 2px 0px, rgb(255, 213, 78) 0px 3px 0px, rgb(255, 213, 78) 0px 4px 0px, rgb(255, 213, 78) 0px 5px 0px, rgb(255, 213, 78) 1px -5px 0px, rgb(255, 213, 78) 1px -4px 0px, rgb(255, 213, 78) 1px -3px 0px, rgb(255, 213, 78) 1px -2px 0px, rgb(255, 213, 78) 1px -1px 0px, rgb(255, 213, 78) 1px 0px 0px, rgb(255, 213, 78) 1px 1px 0px, rgb(255, 213, 78) 1px 2px 0px, rgb(255, 213, 78) 1px 3px 0px, rgb(255, 213, 78) 1px 4px 0px, rgb(255, 213, 78) 1px 5px 0px, rgb(255, 213, 78) 2px -5px 0px, rgb(255, 213, 78) 2px -4px 0px, rgb(255, 213, 78) 2px -3px 0px, rgb(255, 213, 78) 2px -2px 0px, rgb(255, 213, 78) 2px -1px 0px, rgb(255, 213, 78) 2px 0px 0px, rgb(255, 213, 78) 2px 1px 0px, rgb(255, 213, 78) 2px 2px 0px, rgb(255, 213, 78) 2px 3px 0px, rgb(255, 213, 78) 2px 4px 0px, rgb(255, 213, 78) 2px 5px 0px, rgb(255, 213, 78) 3px -5px 0px, rgb(255, 213, 78) 3px -4px 0px, rgb(255, 213, 78) 3px -3px 0px, rgb(255, 213, 78) 3px -2px 0px, rgb(255, 213, 78) 3px -1px 0px, rgb(255, 213, 78) 3px 0px 0px, rgb(255, 213, 78) 3px 1px 0px, rgb(255, 213, 78) 3px 2px 0px, rgb(255, 213, 78) 3px 3px 0px, rgb(255, 213, 78) 3px 4px 0px, rgb(255, 213, 78) 3px 5px 0px, rgb(255, 213, 78) 4px -5px 0px, rgb(255, 213, 78) 4px -4px 0px, rgb(255, 213, 78) 4px -3px 0px, rgb(255, 213, 78) 4px -2px 0px, rgb(255, 213, 78) 4px -1px 0px, rgb(255, 213, 78) 4px 0px 0px, rgb(255, 213, 78) 4px 1px 0px, rgb(255, 213, 78) 4px 2px 0px, rgb(255, 213, 78) 4px 3px 0px, rgb(255, 213, 78) 4px 4px 0px, rgb(255, 213, 78) 4px 5px 0px, rgb(255, 213, 78) 5px -5px 0px, rgb(255, 213, 78) 5px -4px 0px, rgb(255, 213, 78) 5px -3px 0px, rgb(255, 213, 78) 5px -2px 0px, rgb(255, 213, 78) 5px -1px 0px, rgb(255, 213, 78) 5px 0px 0px, rgb(255, 213, 78) 5px 1px 0px, rgb(255, 213, 78) 5px 2px 0px, rgb(255, 213, 78) 5px 3px 0px, rgb(255, 213, 78) 5px 4px 0px, rgb(255, 213, 78) 5px 5px 0px;
-	font-size: 200px;
-	line-height: 86%;
-	letter-spacing: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000;
+    text-shadow: rgb(255, 213, 78) -5px -5px 0px, rgb(255, 213, 78) -5px -4px 0px, rgb(255, 213, 78) -5px -3px 0px,
+        rgb(255, 213, 78) -5px -2px 0px, rgb(255, 213, 78) -5px -1px 0px, rgb(255, 213, 78) -5px 0px 0px,
+        rgb(255, 213, 78) -5px 1px 0px, rgb(255, 213, 78) -5px 2px 0px, rgb(255, 213, 78) -5px 3px 0px,
+        rgb(255, 213, 78) -5px 4px 0px, rgb(255, 213, 78) -5px 5px 0px, rgb(255, 213, 78) -4px -5px 0px,
+        rgb(255, 213, 78) -4px -4px 0px, rgb(255, 213, 78) -4px -3px 0px, rgb(255, 213, 78) -4px -2px 0px,
+        rgb(255, 213, 78) -4px -1px 0px, rgb(255, 213, 78) -4px 0px 0px, rgb(255, 213, 78) -4px 1px 0px,
+        rgb(255, 213, 78) -4px 2px 0px, rgb(255, 213, 78) -4px 3px 0px, rgb(255, 213, 78) -4px 4px 0px,
+        rgb(255, 213, 78) -4px 5px 0px, rgb(255, 213, 78) -3px -5px 0px, rgb(255, 213, 78) -3px -4px 0px,
+        rgb(255, 213, 78) -3px -3px 0px, rgb(255, 213, 78) -3px -2px 0px, rgb(255, 213, 78) -3px -1px 0px,
+        rgb(255, 213, 78) -3px 0px 0px, rgb(255, 213, 78) -3px 1px 0px, rgb(255, 213, 78) -3px 2px 0px,
+        rgb(255, 213, 78) -3px 3px 0px, rgb(255, 213, 78) -3px 4px 0px, rgb(255, 213, 78) -3px 5px 0px,
+        rgb(255, 213, 78) -2px -5px 0px, rgb(255, 213, 78) -2px -4px 0px, rgb(255, 213, 78) -2px -3px 0px,
+        rgb(255, 213, 78) -2px -2px 0px, rgb(255, 213, 78) -2px -1px 0px, rgb(255, 213, 78) -2px 0px 0px,
+        rgb(255, 213, 78) -2px 1px 0px, rgb(255, 213, 78) -2px 2px 0px, rgb(255, 213, 78) -2px 3px 0px,
+        rgb(255, 213, 78) -2px 4px 0px, rgb(255, 213, 78) -2px 5px 0px, rgb(255, 213, 78) -1px -5px 0px,
+        rgb(255, 213, 78) -1px -4px 0px, rgb(255, 213, 78) -1px -3px 0px, rgb(255, 213, 78) -1px -2px 0px,
+        rgb(255, 213, 78) -1px -1px 0px, rgb(255, 213, 78) -1px 0px 0px, rgb(255, 213, 78) -1px 1px 0px,
+        rgb(255, 213, 78) -1px 2px 0px, rgb(255, 213, 78) -1px 3px 0px, rgb(255, 213, 78) -1px 4px 0px,
+        rgb(255, 213, 78) -1px 5px 0px, rgb(255, 213, 78) 0px -5px 0px, rgb(255, 213, 78) 0px -4px 0px,
+        rgb(255, 213, 78) 0px -3px 0px, rgb(255, 213, 78) 0px -2px 0px, rgb(255, 213, 78) 0px -1px 0px,
+        rgb(255, 213, 78) 0px 0px 0px, rgb(255, 213, 78) 0px 1px 0px, rgb(255, 213, 78) 0px 2px 0px,
+        rgb(255, 213, 78) 0px 3px 0px, rgb(255, 213, 78) 0px 4px 0px, rgb(255, 213, 78) 0px 5px 0px,
+        rgb(255, 213, 78) 1px -5px 0px, rgb(255, 213, 78) 1px -4px 0px, rgb(255, 213, 78) 1px -3px 0px,
+        rgb(255, 213, 78) 1px -2px 0px, rgb(255, 213, 78) 1px -1px 0px, rgb(255, 213, 78) 1px 0px 0px,
+        rgb(255, 213, 78) 1px 1px 0px, rgb(255, 213, 78) 1px 2px 0px, rgb(255, 213, 78) 1px 3px 0px,
+        rgb(255, 213, 78) 1px 4px 0px, rgb(255, 213, 78) 1px 5px 0px, rgb(255, 213, 78) 2px -5px 0px,
+        rgb(255, 213, 78) 2px -4px 0px, rgb(255, 213, 78) 2px -3px 0px, rgb(255, 213, 78) 2px -2px 0px,
+        rgb(255, 213, 78) 2px -1px 0px, rgb(255, 213, 78) 2px 0px 0px, rgb(255, 213, 78) 2px 1px 0px,
+        rgb(255, 213, 78) 2px 2px 0px, rgb(255, 213, 78) 2px 3px 0px, rgb(255, 213, 78) 2px 4px 0px,
+        rgb(255, 213, 78) 2px 5px 0px, rgb(255, 213, 78) 3px -5px 0px, rgb(255, 213, 78) 3px -4px 0px,
+        rgb(255, 213, 78) 3px -3px 0px, rgb(255, 213, 78) 3px -2px 0px, rgb(255, 213, 78) 3px -1px 0px,
+        rgb(255, 213, 78) 3px 0px 0px, rgb(255, 213, 78) 3px 1px 0px, rgb(255, 213, 78) 3px 2px 0px,
+        rgb(255, 213, 78) 3px 3px 0px, rgb(255, 213, 78) 3px 4px 0px, rgb(255, 213, 78) 3px 5px 0px,
+        rgb(255, 213, 78) 4px -5px 0px, rgb(255, 213, 78) 4px -4px 0px, rgb(255, 213, 78) 4px -3px 0px,
+        rgb(255, 213, 78) 4px -2px 0px, rgb(255, 213, 78) 4px -1px 0px, rgb(255, 213, 78) 4px 0px 0px,
+        rgb(255, 213, 78) 4px 1px 0px, rgb(255, 213, 78) 4px 2px 0px, rgb(255, 213, 78) 4px 3px 0px,
+        rgb(255, 213, 78) 4px 4px 0px, rgb(255, 213, 78) 4px 5px 0px, rgb(255, 213, 78) 5px -5px 0px,
+        rgb(255, 213, 78) 5px -4px 0px, rgb(255, 213, 78) 5px -3px 0px, rgb(255, 213, 78) 5px -2px 0px,
+        rgb(255, 213, 78) 5px -1px 0px, rgb(255, 213, 78) 5px 0px 0px, rgb(255, 213, 78) 5px 1px 0px,
+        rgb(255, 213, 78) 5px 2px 0px, rgb(255, 213, 78) 5px 3px 0px, rgb(255, 213, 78) 5px 4px 0px,
+        rgb(255, 213, 78) 5px 5px 0px;
+    font-size: 200px;
+    line-height: 86%;
+    letter-spacing: normal;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .logo .logoText div {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles {
-	position: absolute;
-	top: auto;
-	bottom: 0;
-	left: 50%;
-	overflow: hidden;
-	margin: 0 0 0 -7.325em;
-	width: 14.65em;
-	height: 50em;
-	text-align: justify;
-	word-wrap: break-word;
-	transform-origin: 50% 100%;
-	transform: perspective(300px) rotateX(25deg);
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    overflow: hidden;
+    margin: 0 0 0 -7.325em;
+    width: 14.65em;
+    height: 50em;
+    text-align: justify;
+    word-wrap: break-word;
+    transform-origin: 50% 100%;
+    transform: perspective(300px) rotateX(25deg);
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div {
-	position: absolute;
-	top: 100%;
-	width: 100%;
-	animation: titlesAnimation var(--intro-crawl-duration) linear var(--intro-crawl-delay) forwards;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    animation: titlesAnimation var(--intro-crawl-duration) linear var(--intro-crawl-delay) forwards;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div > p {
-	margin: 1.35em 0 1.85em 0;
-	line-height: 1.35em;
-	backface-visibility: hidden;
+    margin: 1.35em 0 1.85em 0;
+    line-height: 1.35em;
+    backface-visibility: hidden;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .tcenter {
-	margin: 1.35em 0 -1em 0;
-	text-align: center;
+    margin: 1.35em 0 -1em 0;
+    text-align: center;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .episode {
-	margin-bottom: -2em;
+    margin-bottom: -2em;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .title {
-	transform: scaleY(2);
-	margin-top: 3.5em;
-	margin-bottom: 1.6em;
-	text-transform: uppercase;
+    transform: scaleY(2);
+    margin-top: 3.5em;
+    margin-bottom: 1.6em;
+    text-transform: uppercase;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .SWFont {
-	margin-top: 1.35em;
-	margin-bottom: -0.1em;
-	transform: scaleY(1);
-	font-weight: normal;
-	font-size: 210%;
-	font-family: SWCrawlTitle;
-	text-transform: lowercase;
+    margin-top: 1.35em;
+    margin-bottom: -0.1em;
+    transform: scaleY(1);
+    font-weight: normal;
+    font-size: 210%;
+    font-family: SWCrawlTitle;
+    text-transform: lowercase;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .text {
-	line-height: 1.4em;
+    line-height: 1.4em;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .titles > div .text p {
-	margin: 1em 0;
+    margin: 1em 0;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .backgroundSpace {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 4200px;
-	background: url("../artwork/stars.png") repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4200px;
+    background: url("../artwork/stars.png") repeat;
 }
 
 .ffg-star-wars-enhancements-opening-crawl {
-	display: initial;
+    display: initial;
 }
 
 .ffg-star-wars-enhancements-opening-crawl .backgroundSpace {
-	animation: scrolldown var(--intro-ending-duration) var(--intro-ending-delay) forwards;
+    animation: scrolldown var(--intro-ending-duration) var(--intro-ending-delay) forwards;
 }
 
-
 @-moz-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-o-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-o-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-moz-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-o-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-o-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @-webkit-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @-o-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @-moz-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-o-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-moz-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @-o-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 @-moz-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-o-keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes introTextAnimation {
-	0% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
 
-	20% {
-		opacity: 1;
-	}
+    20% {
+        opacity: 1;
+    }
 
-	90% {
-		opacity: 1;
-	}
+    90% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 0;
-	}
+    100% {
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-o-keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes introBackgroundAnimation {
-	0% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 1;
+    }
 
-	100% {
-		opacity: 1;
-	}
+    100% {
+        opacity: 1;
+    }
 }
 
 @-moz-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-o-keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @keyframes logoAnimation {
-	0% {
-		transform: scale(2.2);
-		opacity: 1;
-	}
+    0% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		transform: scale(0.01);
-		opacity: 0;
-	}
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-o-keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @keyframes titlesAnimation {
-	0% {
-		top: 100%;
-		opacity: 1;
-	}
+    0% {
+        top: 100%;
+        opacity: 1;
+    }
 
-	95% {
-		opacity: 1;
-	}
+    95% {
+        opacity: 1;
+    }
 
-	100% {
-		top: -18.1524%;
-		opacity: 0;
-	}
+    100% {
+        top: -18.1524%;
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @-webkit-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @-o-keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 
 @keyframes scrolldown {
-	0% {
-		transform: translateY(0);
-	}
+    0% {
+        transform: translateY(0);
+    }
 
-	100% {
-		transform: translateY(-2200px);
-	}
+    100% {
+        transform: translateY(-2200px);
+    }
 }
 @-moz-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-o-keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @keyframes fadeinAnimation {
-	from {
-		visibility: hidden;
-		opacity: 0;
-	}
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
 
-	to {
-		visibility: visible;
-		opacity: 1;
-	}
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-moz-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @-o-keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @keyframes fadeoutAnimation {
-	from {
-		visibility: visible;
-		opacity: 1;
-	}
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
 
-	to {
-		visibility: hidden;
-		opacity: 0;
-	}
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
 }

@@ -1,10 +1,9 @@
-import { log_msg as log } from './util.js'
-import { update_status } from './talent_checker.js'
+import { log_msg as log } from "./util.js";
+import { update_status } from "./talent_checker.js";
 
-let module_name = 'minionsize_sync';
+let module_name = "minionsize_sync";
 
 export function minionsize_sync(source, ...args) {
-
     // check if the user is a GM and that the setting is enabled
     if (game.user.isGM && game.settings.get("ffg-star-wars-enhancements", "minionsize-sync-enable")) {
         try {
@@ -14,13 +13,13 @@ export function minionsize_sync(source, ...args) {
              */
             let minionSize = null;
 
-            if (source === 'createToken') {
+            if (source === "createToken") {
                 let tokenDoc = args[0]; // minion info
-                if( tokenDoc.actor.type === 'minion'){
+                if (tokenDoc.actor.type === "minion") {
                     minionSize = tokenDoc?.actor?.system?.quantity?.value;
                     update_minion_status(tokenDoc.object, minionSize);
                 }
-            } else if (source === 'updateActor') {
+            } else if (source === "updateActor") {
                 let actor = args[0]; //actor info
                 minionSize = actor?.system?.quantity?.value;
                 if (minionSize !== undefined) {
@@ -29,7 +28,10 @@ export function minionsize_sync(source, ...args) {
                     // check if token is linked or unlinked to the main actor
                     if (actor.prototypeToken.actorLink) {
                         log(module_name, "Updating every linked tokens on canvas");
-                        tokens = canvas.tokens.placeables.filter(searchedtoken => searchedtoken.document.actorId === actor.id && searchedtoken.document.actorLink);
+                        tokens = canvas.tokens.placeables.filter(
+                            (searchedtoken) =>
+                                searchedtoken.document.actorId === actor.id && searchedtoken.document.actorLink
+                        );
                         // Updating every token related
                         for (var x = 0; x < tokens.length; x++) {
                             log(module_name, `found token for ${tokens[x].name}`);
@@ -37,15 +39,19 @@ export function minionsize_sync(source, ...args) {
                         }
                     } else {
                         log(module_name, "Updating an unlinked token");
-                        let token = canvas.tokens.placeables.find(searchedtoken => searchedtoken._id === actor.parent._id);
+                        let token = canvas.tokens.placeables.find(
+                            (searchedtoken) => searchedtoken._id === actor.parent._id
+                        );
                         update_minion_status(token, minionSize);
                     }
                 } else {
                     log(module_name, "Minion size not found.");
                 }
-            } else if (source === 'canvasReady') {
+            } else if (source === "canvasReady") {
                 log(module_name, "caught scene-transition, looking for minions");
-                let tokens = canvas.tokens.placeables.filter(searchedtoken => searchedtoken.document.actor.type == 'minion');
+                let tokens = canvas.tokens.placeables.filter(
+                    (searchedtoken) => searchedtoken.document.actor.type == "minion"
+                );
                 for (var x = 0; x < tokens.length; x++) {
                     let token = tokens[x];
                     minionSize = token?.document?._actor?.system?.quantity.value;
@@ -56,7 +62,7 @@ export function minionsize_sync(source, ...args) {
             }
         } catch (exception) {
             // something went wrong, bail (silently)
-            log(module_name, 'Failed to sync minionsize : ' + exception);
+            log(module_name, "Failed to sync minionsize : " + exception);
         }
     }
 }
@@ -69,13 +75,13 @@ async function update_minion_status(token, minionSize) {
 
     if (minionSize !== undefined) {
         // If no minions are left, let's show a special status icon and remove it otherwise
-        if( minionSize < 1 ) {
+        if (minionSize < 1) {
             await update_status(token, 0, status);
             //re-creates status_zero for no value "1" be shown on update
             await update_status(token, 1, status_zero);
         } else {
             await update_status(token, 0, status_zero);
-            if (minionSize === 1){
+            if (minionSize === 1) {
                 // Sometimes, Rivals are imported as minions (swa,...) if quantity is one, no icons are set
                 await update_status(token, 0, status);
             } else {

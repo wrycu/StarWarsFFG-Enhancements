@@ -72,15 +72,8 @@
     "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/releases/download/2.0.1/module.zip",
     "license": "LICENSE",
     "readme": "README.md",
-    "esmodules": [
-        "ffg-star-wars-enhancements.js"
-    ],
-    "styles": [
-        "styles/opening_crawl.css",
-        "styles/datapads.css",
-        "styles/dice_helper.css",
-        "styles/settings.css"
-    ],
+    "esmodules": ["ffg-star-wars-enhancements.js"],
+    "styles": ["styles/opening_crawl.css", "styles/datapads.css", "styles/dice_helper.css", "styles/settings.css"],
     "packs": [
         {
             "name": "ffg-sw-enhanced-scene-ideas",
@@ -96,7 +89,7 @@
             "path": "packs/communitymacros.db",
             "type": "Macro"
         },
-         {
+        {
             "name": "ffg-sw-enhanced-cantina-patrons",
             "label": "eFFG.CantinaPatrons",
             "path": "packs/cantinapatrons.db",

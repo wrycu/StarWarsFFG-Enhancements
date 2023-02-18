@@ -1,9 +1,9 @@
-import { ActorSheetFFGV2 } from "../../../systems/starwarsffg/modules/actors/actor-sheet-ffg-v2.js"
+import { ActorSheetFFGV2 } from "../../../systems/starwarsffg/modules/actors/actor-sheet-ffg-v2.js";
 import { log_msg as log } from "./util.js";
-import { open_shop_generator } from "./shop.js"
+import { open_shop_generator } from "./shop.js";
 import ImportHelpers from "../../../systems/starwarsffg/modules/importer/import-helpers.js";
 
-let module_name = 'shop_sheet';
+let module_name = "shop_sheet";
 
 /* Register the vendor sheet */
 export function init() {
@@ -19,7 +19,7 @@ Configures the socket listener used for purchasing items
  */
 export function ready() {
     log(module_name, "Setting up socket listener");
-    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
+    game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
 }
 
 /*
@@ -42,10 +42,25 @@ async function socket_listener(data) {
             // check to see if the buyer has enough credits to afford the item
             if (buyer.system.stats.credits.value < parseInt(data.price)) {
                 ChatMessage.create({
-                    content: '<a class="content-link" draggable="true" data-type="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.buyer_id._id + '">'
-                        + buyer.name + "</a> tried to buy " + item.name + " from "
-                        + '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + seller.uuid + '" data-id="' + data.seller_id +  '">'
-                        + seller.name + "</a> but couldn't afford the price of " + data.price + " credits!",
+                    content:
+                        '<a class="content-link" draggable="true" data-type="Actor" data-uuid="' +
+                        buyer.uuid +
+                        '" data-id="' +
+                        data.buyer_id._id +
+                        '">' +
+                        buyer.name +
+                        "</a> tried to buy " +
+                        item.name +
+                        " from " +
+                        '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' +
+                        seller.uuid +
+                        '" data-id="' +
+                        data.seller_id +
+                        '">' +
+                        seller.name +
+                        "</a> but couldn't afford the price of " +
+                        data.price +
+                        " credits!",
                 });
             } else {
                 await buyer.createEmbeddedDocuments("Item", [item]);
@@ -53,13 +68,27 @@ async function socket_listener(data) {
                 /* this doesn't seem to actually get reflected on the character sheet */
                 buyer.system.stats.credits.value -= parseInt(data.price);
                 ChatMessage.create({
-                    content: '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.buyer_id._id + '">'
-                        + buyer.name + "</a> bought " + item.name + " from " +
-                        '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' + buyer.uuid + '" data-id="' + data.seller_id +  '">'
-                        + seller.name + "</a> for " + data.price + " credits! (make sure to deduct the credits from your sheet)",
+                    content:
+                        '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' +
+                        buyer.uuid +
+                        '" data-id="' +
+                        data.buyer_id._id +
+                        '">' +
+                        buyer.name +
+                        "</a> bought " +
+                        item.name +
+                        " from " +
+                        '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' +
+                        buyer.uuid +
+                        '" data-id="' +
+                        data.seller_id +
+                        '">' +
+                        seller.name +
+                        "</a> for " +
+                        data.price +
+                        " credits! (make sure to deduct the credits from your sheet)",
                 });
             }
-
         } else {
             log(module_name, "rejected message as it isn't for us");
         }
@@ -71,7 +100,7 @@ Helper function to convert an item name to the item ID
  */
 async function find_item_id(actor_id, item_name) {
     let vendor = game.actors.get(actor_id);
-    let items = vendor.items.filter(item => item);
+    let items = vendor.items.filter((item) => item);
     for (let x = 0; x < items.length; x++) {
         if (items[x].name === item_name) {
             return items[x].id;
@@ -108,19 +137,19 @@ export class Vendor extends ActorSheetFFGV2 {
         // validate that we got flag data before trying to index into it
         if (vendor_data === undefined || vendor_data === null) {
             var vendor_meta_data = {
-                'base_price': 100,
-                'price_modifier': 1,
+                base_price: 100,
+                price_modifier: 1,
             };
-            vendor_data = {}
+            vendor_data = {};
         } else {
             // temporary to avoid having to refactor a bunch of code below
-            var vendor_meta_data = vendor_data['meta'];
-            vendor_data = vendor_data['items'];
+            var vendor_meta_data = vendor_data["meta"];
+            vendor_data = vendor_data["items"];
         }
         log(module_name, "Retrieving data for " + this.document.id);
 
         let inventory_data = [];
-        let items = this.document.items.filter(item => item);
+        let items = this.document.items.filter((item) => item);
         for (let x = 0; x < items.length; x++) {
             /* merge the flag data with the inventory data so we can render it in the template */
             let item = items[x];
@@ -138,12 +167,15 @@ export class Vendor extends ActorSheetFFGV2 {
                     type: item.type,
                     restricted: vendor_data[item.name].restricted,
                     flagged: true,
-                })
+                });
             } else {
                 log(module_name, "Detected item with NO flag data set");
                 log(module_name, JSON.stringify(item));
                 // this was a drag-and-dropped item. figure out the price on the fly
-                let price = (parseInt(item.system.price.value) * vendor_meta_data['price_modifier']) * (vendor_meta_data['base_price'] / 100);
+                let price =
+                    parseInt(item.system.price.value) *
+                    vendor_meta_data["price_modifier"] *
+                    (vendor_meta_data["base_price"] / 100);
                 let id = item.id;
                 inventory_data.push({
                     name: item.name,
@@ -154,16 +186,16 @@ export class Vendor extends ActorSheetFFGV2 {
                     type: item.type,
                     restricted: item.system.rarity.isrestricted,
                     flagged: false,
-                })
+                });
             }
         }
         // thought of adding this stuff later on. could have refactored the code to make it more first-class, but I'm too lazy
         let tmp_sheet_data = {
-            'inventory': inventory_data,
-            'meta': {
-                'is_gm': game.user.isGM,
+            inventory: inventory_data,
+            meta: {
+                is_gm: game.user.isGM,
             },
-        }
+        };
         sheetData.inventory = tmp_sheet_data;
         return sheetData;
     }
@@ -175,11 +207,11 @@ export class Vendor extends ActorSheetFFGV2 {
     activateListeners(html) {
         super.activateListeners(html);
         // buy item
-        html.find('.item-buy').click(ev => this._buy_item(ev));
+        html.find(".item-buy").click((ev) => this._buy_item(ev));
         // remove item from inventory
-        html.find('.item-remove').click(ev => this._remove_item(ev));
+        html.find(".item-remove").click((ev) => this._remove_item(ev));
         // refresh inventory
-        html.find('.refresh').click(ev => this._refresh_stock(ev));
+        html.find(".refresh").click((ev) => this._refresh_stock(ev));
 
         // Copied code from the character sheet, because original item-edit
         // handler is only applied if the user is an owner of the actor. Since
@@ -249,7 +281,7 @@ export class Vendor extends ActorSheetFFGV2 {
         };
         log(module_name, "Sending buy packet with contents");
         log(module_name, buy_packet);
-        game.socket.emit('module.ffg-star-wars-enhancements', buy_packet);
+        game.socket.emit("module.ffg-star-wars-enhancements", buy_packet);
     }
 
     /**
