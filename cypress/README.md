@@ -39,7 +39,7 @@ Once Cypress is open:
 
 ### Configuration
 
-The default Cypress configuration can be optionally customized with a `cypress.env.json`. For example, to change the instance of FoundryVTT being tested to another port, populate the file with:
+The default Cypress configuration can be customized by creating a `cypress.env.json` in the project root. For example, to change the instance of FoundryVTT being tested to another port, populate the file with:
 
 ```json
 {
