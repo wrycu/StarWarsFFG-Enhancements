@@ -68,6 +68,8 @@ docker compose down
 
 ## Configuring Github Actions
 
+> :warning: The Github Actions use [pull_request_target](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/) and have been carefully configured to protect the FoundryVTT credentials by requiring approval from untrusted forks prior to running tests. If emulating this repository, be very careful.
+
 The Cypress tests are configured to run on pull requests. For PRs from a branch within the repository, they're automatically run. For PRs from a fork, each run must be approved by a contributor (this is to protect the FoundryVTT credentials). Unfortunately, both of jobs show up on all PRs, but only one is run per PR.
 
 To configure the repository:
