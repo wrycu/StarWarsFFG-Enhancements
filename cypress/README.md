@@ -67,3 +67,42 @@ docker compose down
 ```
 
 ## Configuring Github Actions
+
+The Cypress tests are configured to run on pull requests. For PRs from a branch within the repository, they're automatically run. For PRs from a fork, each run must be approved by a contributor (this is to protect the FoundryVTT credentials). Unfortunately, both of jobs show up on all PRs, but only one is run per PR.
+
+To configure the repository:
+
+1. Configure "Actions secrets and variables"
+2. Configure a `requires-approval` Environment
+3. Review "Actions permissions" (Optional)
+
+### 1. Actions secrets and variables
+
+Configure the FoundryVTT user credentials and license key to launch FoundryVTT.
+
+1. Navigate to the repository > Settings > Secrets and variables > Actions
+2. Repeat following for `FOUNDRY_LICENSE_KEY`, `FOUNDRY_PASSWORD`, and `FOUNDRY_USERNAME`:
+   1. Click "New repository secret"
+   2. Populate the secret name and its value
+   3. Click "Add secret"
+
+### 2. Environment
+
+Configure the `requires-approval` environment to require specific approvers to run the Cypress tests on a fork.
+
+1. Navigate to the repository > Settings > Environments
+2. Click "New environment"
+3. Name it exactly `requires-approval` and click "Configure environment"
+4. Check "Requires reviewers" and specify who is allowed to approve
+5. Click "Save protection rules"
+
+Note: No environment variables need to be configured here. They're inherited from the repository global variables.
+
+### 3. Actions permissions (Optional)
+
+Review the repository Actions permissions.
+
+1. Navigate to the repository > Settings > Actions > General
+2. Review all settings, specificcally "Fork pull request workflows from outside collaborators"
+   (this is separate to our `requires-approval` environment)
+3. Consider hardening "Workflow permissions"
