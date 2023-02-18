@@ -19,6 +19,4 @@ export function setting_audio(val) {
 /**
  * Placeholder for any initialization code
  */
-export function init() {
-
-}
+export function init() {}

@@ -1,4 +1,5 @@
 # Fonts
+
 To avoid including copywritten fonts, this document tracks the licenses of each
 font included in this project.
 
@@ -23,6 +24,7 @@ for other fonts of interest.
 See Temporarium-FONTLOG.txt for additional details.
 
 ### Star Jedi
+
 | Author | Boba Fonts |
 | Year | 1998 |
 | License | [Freeware](https://www.fontspace.com/star-jedi-font-f9641) |
@@ -38,6 +40,7 @@ See `Star Jedi font guide Word97.doc` for additional details.
 See each of their respective `*Readme.rtfs` for additional details.
 
 ### AnakinMono
+
 | Author | opipik |
 | Year | 2013 |
 | License | Create Commons Attribution Share Alike license |
@@ -45,6 +48,7 @@ See each of their respective `*Readme.rtfs` for additional details.
 See `anakinmono-read me.txt` for additional details.
 
 ### Aurek Besh
+
 | Author | Boba Fonts |
 | Year | 1998 |
 | License | [Freeware](https://www.fontspace.com/aurek-besh-font-f9639) |
@@ -52,6 +56,7 @@ See `anakinmono-read me.txt` for additional details.
 See `Aurek-Besh font guide Word97.doc` for additional details.
 
 ### News Cycle
+
 | Author | Nathan Willis |
 | Year | 2010-2011 |
 | License | OFL |

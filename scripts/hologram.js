@@ -1,9 +1,9 @@
-import {log_msg, log_msg as log} from './util.js'
+import { log_msg, log_msg as log } from "./util.js";
 
-let module_name = 'hologram';
+let module_name = "hologram";
 
 export function convert_to_hologram() {
-    if (!game.modules.get('tokenmagic')?.active) {
+    if (!game.modules.get("tokenmagic")?.active) {
         ui.notifications.warn("You must install and enable Token Magic FX to use this feature");
         log_msg(module_name, "Refusing to convert token to hologram because TokenMagic is not loaded");
     }
@@ -12,8 +12,8 @@ export function convert_to_hologram() {
         log_msg(module_name, "Refusing to convert token to hologram because no token is selected");
     }
 
-    let filter_id = 'hologram';
-    let tokens = canvas.activeLayer.placeables.filter(p => p.controlled === true) || [];
+    let filter_id = "hologram";
+    let tokens = canvas.activeLayer.placeables.filter((p) => p.controlled === true) || [];
 
     tokens.forEach(function (element) {
         if (TokenMagic.hasFilterId(element, filter_id)) {
@@ -30,18 +30,17 @@ export function convert_to_hologram() {
                     thickness: 1,
                     quality: 5,
                     zOrder: 9,
-                    animated:
-                        {
-                            thickness:
-                                {
-                                    active: true,
-                                    loopDuration: 3000,
-                                    animType: "syncCosOscillation",
-                                    val1: 0,
-                                    val2: 4
-                                }
-                        }
-                }, {
+                    animated: {
+                        thickness: {
+                            active: true,
+                            loopDuration: 3000,
+                            animType: "syncCosOscillation",
+                            val1: 0,
+                            val2: 4,
+                        },
+                    },
+                },
+                {
                     filterType: "wave",
                     filterId: "myWaves",
                     time: 0,
@@ -49,36 +48,33 @@ export function convert_to_hologram() {
                     anchorY: 1000,
                     strength: 0.005,
                     frequency: 1000,
-                    color: 0x99CCFF,
+                    color: 0x99ccff,
                     maxIntensity: 1.1,
                     minIntensity: 0.9,
                     padding: 5,
-                    animated:
-                        {
-                            time:
-                                {
-                                    active: true,
-                                    speed: 0.0035,
-                                    animType: "move"
-                                },
-                            anchorX:
-                                {
-                                    active: false,
-                                    val1: 0.15,
-                                    val2: 0.85,
-                                    animType: "syncChaoticOscillation",
-                                    loopDuration: 20000
-                                },
-                            anchorY:
-                                {
-                                    active: false,
-                                    val1: 0.15,
-                                    val2: 0.85,
-                                    animType: "syncSinOscillation",
-                                    loopDuration: 20000
-                                }
-                        }
-                }, {
+                    animated: {
+                        time: {
+                            active: true,
+                            speed: 0.0035,
+                            animType: "move",
+                        },
+                        anchorX: {
+                            active: false,
+                            val1: 0.15,
+                            val2: 0.85,
+                            animType: "syncChaoticOscillation",
+                            loopDuration: 20000,
+                        },
+                        anchorY: {
+                            active: false,
+                            val1: 0.15,
+                            val2: 0.85,
+                            animType: "syncSinOscillation",
+                            loopDuration: 20000,
+                        },
+                    },
+                },
+                {
                     filterType: "adjustment",
                     filterId: "myAdjust",
                     saturation: 1,
@@ -89,18 +85,16 @@ export function convert_to_hologram() {
                     green: 1,
                     blue: 1,
                     alpha: 0.75,
-                    animated:
-                        {
-                            alpha:
-                                {
-                                    active: true,
-                                    loopDuration: 500,
-                                    animType: "syncCosOscillation",
-                                    val1: 0.75,
-                                    val2: 0.85
-                                }
-                        }
-                }
+                    animated: {
+                        alpha: {
+                            active: true,
+                            loopDuration: 500,
+                            animType: "syncCosOscillation",
+                            val1: 0.75,
+                            val2: 0.85,
+                        },
+                    },
+                },
             ];
             TokenMagic.addUpdateFiltersOnSelected(params);
         }

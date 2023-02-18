@@ -1,27 +1,23 @@
-import { init as settings_init } from './scripts/settings.js'
-import {FfgEnhancementsLayer, log_msg as log} from './scripts/util.js'
-import {
-    init as attack_animation_init,
-    attack_animation_check,
-    attack_animation
-} from './scripts/animation.js'
-import { init as opening_crawl_init, ready as opening_crawl_ready } from './scripts/opening_crawl.js'
-import { init as hyperspace_init, ready as hyperspace_ready } from './scripts/hyperspace.js'
-import { init as rename_init, rename_combatant } from './scripts/rename.js'
+import { init as settings_init } from "./scripts/settings.js";
+import { FfgEnhancementsLayer, log_msg as log } from "./scripts/util.js";
+import { init as attack_animation_init, attack_animation_check, attack_animation } from "./scripts/animation.js";
+import { init as opening_crawl_init, ready as opening_crawl_ready } from "./scripts/opening_crawl.js";
+import { init as hyperspace_init, ready as hyperspace_ready } from "./scripts/hyperspace.js";
+import { init as rename_init, rename_combatant } from "./scripts/rename.js";
 import {
     init as dice_helper_init,
     dice_helper,
-    create_and_populate_journal as dice_helper_setup
-} from './scripts/dice_helper.js'
-import { init as strain_reminder_init, strain_reminder } from './scripts/strain_reminder.js'
-import { init as talent_checker_init, talent_checker } from './scripts/talent_checker.js'
+    create_and_populate_journal as dice_helper_setup,
+} from "./scripts/dice_helper.js";
+import { init as strain_reminder_init, strain_reminder } from "./scripts/strain_reminder.js";
+import { init as talent_checker_init, talent_checker } from "./scripts/talent_checker.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
-import { stim_sync} from "./scripts/stim_sync.js";
+import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
 
-Hooks.once('init', async function() {
-    log('base_module', 'Initializing');
+Hooks.once("init", async function () {
+    log("base_module", "Initializing");
 
     register_layers();
     settings_init();
@@ -34,7 +30,7 @@ Hooks.once('init', async function() {
     shop_generator_init();
     hyperspace_init();
 
-    log('base_module', 'registering helpers');
+    log("base_module", "registering helpers");
     Handlebars.registerHelper("iff_custom", function (a, operator, b, opts) {
         var bool = false;
         switch (operator) {
@@ -78,26 +74,25 @@ Hooks.once('init', async function() {
         var i;
         var data = {};
 
-        if ( times ) {
-            for ( i = 0; i < times; i += 1 ) {
+        if (times) {
+            for (i = 0; i < times; i += 1) {
                 data.index = i;
                 out += opts.fn(this, {
-                    data: data
+                    data: data,
                 });
             }
         } else {
-
             out = opts.inverse(this);
         }
 
         return out;
     });
 
-    log('base_module', 'Done registering helpers');
-    log('base_module', 'Initializing finished');
+    log("base_module", "Done registering helpers");
+    log("base_module", "Initializing finished");
 });
 
-Hooks.once('ready', () => {
+Hooks.once("ready", () => {
     /* register functionality here */
     attack_animation_check();
     opening_crawl_ready();
@@ -110,42 +105,43 @@ Hooks.once('ready', () => {
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {
-    if (!game.user.isGM) {return}
+    if (!game.user.isGM) {
+        return;
+    }
     register_controls(controls);
 });
 
 Hooks.on("createCombatant", (combatant) => {
     strain_reminder(combatant);
-})
-Hooks.on("preCreateCombatant", combatant => {
+});
+Hooks.on("preCreateCombatant", (combatant) => {
     rename_combatant(combatant);
 });
 
 Hooks.on("updateActor", (...args) => {
-    stim_sync('updateActor', ...args);
+    stim_sync("updateActor", ...args);
 });
 
 Hooks.on("canvasReady", (...args) => {
-    stim_sync('scene', ...args);
+    stim_sync("scene", ...args);
 });
 
 Hooks.on("updateActor", (...args) => {
-    minionsize_sync('updateActor', ...args);
+    minionsize_sync("updateActor", ...args);
 });
 
 Hooks.on("canvasReady", (...args) => {
-    minionsize_sync('canvasReady', ...args);
+    minionsize_sync("canvasReady", ...args);
 });
 
 Hooks.on("createToken", async (...args) => {
-    minionsize_sync('createToken', ...args);
+    minionsize_sync("createToken", ...args);
 });
-
 
 function register_hooks() {
     libWrapper.register(
-        'ffg-star-wars-enhancements',
-        'game.ffg.RollFFG.prototype.toMessage',
+        "ffg-star-wars-enhancements",
+        "game.ffg.RollFFG.prototype.toMessage",
         function (wrapped, ...args) {
             /*
                 we may want to monkeypatch a different function in the future. this location doesn't seem to have access
@@ -158,5 +154,5 @@ function register_hooks() {
 }
 
 function register_layers() {
-    CONFIG.Canvas.layers.ffgenhancements = { layerClass: FfgEnhancementsLayer, group: "interface"};
+    CONFIG.Canvas.layers.ffgenhancements = { layerClass: FfgEnhancementsLayer, group: "interface" };
 }

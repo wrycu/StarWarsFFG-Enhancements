@@ -1,18 +1,18 @@
-import { log_msg as log } from './util.js'
+import { log_msg as log } from "./util.js";
 
 /**
  * Register settings used by hyperspace.
  */
 export function init() {
-    log('hyperspace', 'Initialized');
+    log("hyperspace", "Initialized");
 }
 
 /**
  * Ready handler that listens on the ffg-star-wars-enhancements socket.
  */
 export function ready() {
-    log('hyperspace', 'ready');
-    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
+    log("hyperspace", "ready");
+    game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
 }
 
 /**
@@ -20,14 +20,14 @@ export function ready() {
  * @param {object} data
  */
 export function launch_hyperspace(data) {
-    log('hyperspace', 'launching');
+    log("hyperspace", "launching");
 
     data = mergeObject(data, {
         type: "hyperspace",
     });
-    game.socket.emit('module.ffg-star-wars-enhancements', data);
+    game.socket.emit("module.ffg-star-wars-enhancements", data);
     socket_listener(data);
-    log('hyperspace', 'event emmitted');
+    log("hyperspace", "event emmitted");
 }
 
 /**
@@ -37,7 +37,7 @@ export function launch_hyperspace(data) {
  * @param {object} data object passed to HyperspaceApplication
  */
 function socket_listener(data) {
-    log('socket', data);
+    log("socket", data);
     if (data.type == "hyperspace") {
         run_hyperspace(data);
     }
@@ -52,24 +52,24 @@ class HyperspaceSelectApplication extends FormApplication {
         return mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/hyperspace_select.html",
             id: "ffg-star-wars-enhancements-hyperspace-select",
-            title: game.i18n.localize('ffg-star-wars-enhancements.controls.hyperspace.title'),
+            title: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.title"),
         });
     }
     async getData() {
-        const scenes = game.scenes.map(scene => {
+        const scenes = game.scenes.map((scene) => {
             return {
                 id: scene.id,
                 name: scene.name,
                 enter: scene.name == "Hyperspace (Enter)",
                 exit: scene.name == "Hyperspace (Exit)",
-            }
+            };
         });
         return { scenes };
     }
 
     _updateObject(event, data) {
         launch_hyperspace(data);
-        log('hyperspace', 'select');
+        log("hyperspace", "select");
     }
 }
 
@@ -93,7 +93,7 @@ async function run_hyperspace(data) {
     let video = undefined;
 
     // Hide the loading bar
-    $("#loading").css({ "left": -10000 });
+    $("#loading").css({ left: -10000 });
 
     // Checking negation to enter hyperspace for both enter and quick jump
     if (data.transition_type !== "exit_hyperspace") {
@@ -106,7 +106,7 @@ async function run_hyperspace(data) {
         await video.play();
 
         // wait for the video to end
-        await new Promise(resolve => {
+        await new Promise((resolve) => {
             log("hyperspace", "Enter adding on-end hook");
             video.onended = () => {
                 log("hyperspace", "Enter video ended");
@@ -125,7 +125,7 @@ async function run_hyperspace(data) {
         await video.play();
 
         // wait for the video to end
-        await new Promise(resolve => {
+        await new Promise((resolve) => {
             log("hyperspace", "Exit adding on-end hook");
             video.onended = () => {
                 log("hyperspace", "Exit video ended");
@@ -146,18 +146,14 @@ async function run_hyperspace(data) {
  * @param {object} canvas canvas object
  */
 function find_video_layer(canvas) {
-    let to_search = [
-        'RenderedCanvasGroup',
-        'EnvironmentCanvasGroup',
-        'PrimaryCanvasGroup',
-    ];
+    let to_search = ["RenderedCanvasGroup", "EnvironmentCanvasGroup", "PrimaryCanvasGroup"];
     let layer = canvas.app.stage.children;
 
     for (let i = 0; i < to_search.length; i++) {
-        layer = _find_layer(layer, to_search[i])['children'];
+        layer = _find_layer(layer, to_search[i])["children"];
     }
     // find the SpiteMesh layer, where the actual video is
-    layer = _find_layer(layer, 'SpriteMesh');
+    layer = _find_layer(layer, "SpriteMesh");
     if (!layer.isVideo) {
         // this is not a video, ignore it
         return false;
@@ -175,5 +171,5 @@ function find_video_layer(canvas) {
  * @private
  */
 function _find_layer(layers, layer_name) {
-    return layers.filter(i => i.constructor.name === layer_name)[0];
+    return layers.filter((i) => i.constructor.name === layer_name)[0];
 }
