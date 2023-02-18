@@ -8,9 +8,9 @@ Cypress automates front end testing by emulating user interactions within a brow
 
 ## Testing locally
 
-> :warning: Cypress tests run against FoundryVTT's default port of 30000 by default. The tests take actions that may be harmful to any real games running in that environment. See Configuration below to change the default.
+> :warning: Cypress tests run against FoundryVTT's default port of 30001 by default. The tests take actions that may be harmful to any real games running in that environment. See Configuration below to change the default.
 
-Cypress itself does not orchestrate launching FoundryVTT. By default, it expects a fresh FoundryVTT instance to be running on `http://localhost:30000`.
+Cypress itself does not orchestrate launching FoundryVTT. By default, it expects a fresh FoundryVTT instance to be running on `http://localhost:30001`.
 
 To run Cypress [headless](https://en.wikipedia.org/wiki/Headless_browser) from the commandline:
 
@@ -43,7 +43,7 @@ The default Cypress configuration can be customized by creating a `cypress.env.j
 
 ```json
 {
-  "baseUrl": "http://localhost:30001"
+  "baseUrl": "http://localhost:8080"
 }
 ```
 

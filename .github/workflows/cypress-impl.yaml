@@ -62,10 +62,10 @@ jobs:
                       --env FOUNDRY_USERNAME=${{ secrets.FOUNDRY_USERNAME }}
                       --env FOUNDRY_PASSWORD=${{ secrets.FOUNDRY_PASSWORD }}
                       --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-                      --publish 30000:30000/tcp
+                      --publish 30000:30001/tcp
                       --volume ${{ github.workspace }}/data:/data
                       felddy/foundryvtt:release
-                  wait-on: "http://localhost:30000"
+                  wait-on: "http://localhost:30001"
                   wait-on-timeout: 120
 
             - if: ${{ steps.container_cache.outputs.cache-hit == 'true' }}
@@ -77,10 +77,10 @@ jobs:
                       --name foundryvtt
                       --env FOUNDRY_ADMIN_KEY=test-admin-key
                       --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-                      --publish 30000:30000/tcp
+                      --publish 30000:30001/tcp
                       --volume ${{ github.workspace }}/data:/data
                       felddy/foundryvtt:release
-                  wait-on: "http://localhost:30000"
+                  wait-on: "http://localhost:30001"
                   wait-on-timeout: 120
 
             - if: ${{ always() }}

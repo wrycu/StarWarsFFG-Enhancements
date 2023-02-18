@@ -12,7 +12,7 @@ module.exports = defineConfig({
       }
       return config;
     },
-    baseUrl: 'http://localhost:30000',
+    baseUrl: 'http://localhost:30001',
   },
   viewportWidth: 1440,
   viewportHeight: 900,
