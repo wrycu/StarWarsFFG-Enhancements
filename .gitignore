@@ -9,3 +9,7 @@ node_modules
 
 # Ignore local cypress environment overrides for setting baseUrl
 cypress.env.json
+
+# Ignore docker compose environment
+secrets.json
+docker-compose.override.yaml

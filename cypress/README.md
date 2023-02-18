@@ -50,12 +50,13 @@ The default Cypress configuration can be customized by creating a `cypress.env.j
 ### Docker Compose
 
 To test FoundryVTT with Docker, use the `felddy/foundryvtt` docker image. This is what our GitHub Actions use.
-
-TODO: Add `docker-compose.yaml` example.
-
-Use Docker Compose to ease the setup and tear-down of FoundryVTT for testing.
+To make this simpler, a `docker-compose.yaml` has been included in the root of this repository. It can be used to setup/tear-down FoundryVTT for quick testing.
 
 ```shell
+
+# Copy the secrets distribution file and populate it with your foundryvtt.com credentials and license key
+cp secrets.json.dist secrets.json
+
 # Launch FoundryVTT
 docker compose up -d
 
@@ -64,6 +65,24 @@ docker attach foundryvtt
 
 # Teardown FoundryVTT
 docker compose down
+```
+
+To override the `docker-compose.yaml` defaults create a [docker-compose.override.yaml](https://docs.docker.com/compose/extends/).
+
+```yaml
+services:
+  foundry-dev:
+    # See https://github.com/felddy/foundryvtt-docker for other environment variables
+    environment:
+      # Change the UID/GID to match your development environment to avoid FoundryVTT overwriting permissions
+      - FOUNDRY_UID=1000
+      - FOUNDRY_GID=1000
+
+    # Remind port mapping
+    ports:
+      - target: 30000
+        published: 8080
+        protocol: tcp
 ```
 
 ## Configuring Github Actions
