@@ -389,7 +389,7 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
             var lower_bound = 1;
             var num_shots = 1;
         } else {
-            var lower_bound = 2;
+            var lower_bound = 1;
             // noinspection JSDuplicatedDeclaration
             var num_shots = Math.floor(Math.random() * 6 + 1);
         }
