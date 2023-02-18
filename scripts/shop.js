@@ -1,6 +1,6 @@
 import { log_msg as log } from "./util.js";
 
-let module_name = 'shop_generator';
+let module_name = "shop_generator";
 
 class Shop {
     constructor(shady, specialization, min_items, max_items, location, actor, base_price) {
@@ -35,71 +35,52 @@ class Shop {
              actor: string - ID of the actor we should use to roll to see if items are in the shop or not
              base_price: int - % price to report (100 is no change, 50 is half, 200 is double)
          */
-        log(module_name, 'Initializing shop object');
+        log(module_name, "Initializing shop object");
         let specialization_mapping = {
-            'general': {
-                'compendiums': [
-                    'world.oggdudearmor',
-                    'world.oggdudegear',
-                    'world.oggdudeweapons',
-                    'world.oggdudeitemattachments',
+            general: {
+                compendiums: [
+                    "world.oggdudearmor",
+                    "world.oggdudegear",
+                    "world.oggdudeweapons",
+                    "world.oggdudeitemattachments",
                 ],
-                'types': [
-                    'weapon',
-                    'gear',
-                    'armour',
-                    'armor', // attachments use the US spelling while items use the UK spelling
-                    'itemattachment',
-                ],
-            },
-            'armor': {
-                'compendiums': [
-                    'world.oggdudearmor',
-                    'world.oggdudeitemattachments',
-                ],
-                'types': [
-                    'armour',
-                    'armor', // attachments use the US spelling while items use the UK spelling
-                    'itemattachment',
+                types: [
+                    "weapon",
+                    "gear",
+                    "armour",
+                    "armor", // attachments use the US spelling while items use the UK spelling
+                    "itemattachment",
                 ],
             },
-            'gear': {
-                'compendiums': [
-                    'world.oggdudegear',
-                    'world.oggdudeitemattachments',
-                ],
-                'types': [
-                    'gear',
-                    'itemattachment',
+            armor: {
+                compendiums: ["world.oggdudearmor", "world.oggdudeitemattachments"],
+                types: [
+                    "armour",
+                    "armor", // attachments use the US spelling while items use the UK spelling
+                    "itemattachment",
                 ],
             },
-            'weapon': {
-                'compendiums': [
-                    'world.oggdudeweapons',
-                    'world.oggdudeitemattachments',
-                ],
-                'types': [
-                    'weapon',
-                    'itemattachment',
-                ],
+            gear: {
+                compendiums: ["world.oggdudegear", "world.oggdudeitemattachments"],
+                types: ["gear", "itemattachment"],
             },
-            'nerf_herder': {
-                'compendiums': [
-                    'world.oggdudegear',
-                ],
-                'types': [
-                    'gear',
-                ],
+            weapon: {
+                compendiums: ["world.oggdudeweapons", "world.oggdudeitemattachments"],
+                types: ["weapon", "itemattachment"],
+            },
+            nerf_herder: {
+                compendiums: ["world.oggdudegear"],
+                types: ["gear"],
             },
         };
         let location_mapping = {
-            'minus_two': -2,
-            'minus_one': -1,
-            'no_change': 0,
-            'plus_one': 1,
-            'plus_two': 2,
-            'plus_three': 3,
-            'plus_four': 4
+            minus_two: -2,
+            minus_one: -1,
+            no_change: 0,
+            plus_one: 1,
+            plus_two: 2,
+            plus_three: 3,
+            plus_four: 4,
         };
         let price_mapping = {
             0: 1,
@@ -107,10 +88,10 @@ class Shop {
             2: 2,
             3: 3,
             4: 4,
-        }
+        };
         this.shady = shady;
-        this.compendiums = specialization_mapping[specialization]['compendiums'];
-        this.item_types = specialization_mapping[specialization]['types'];
+        this.compendiums = specialization_mapping[specialization]["compendiums"];
+        this.item_types = specialization_mapping[specialization]["types"];
         this.min_items = parseInt(min_items);
         this.max_items = parseInt(max_items);
         // do some basic error checking for min and max numbers... you know how people are
@@ -129,7 +110,7 @@ class Shop {
         }
         this.actor_id = actor;
         this.base_price = parseInt(base_price);
-        log(module_name, 'Shop Initialized!');
+        log(module_name, "Shop Initialized!");
     }
 
     /*
@@ -141,7 +122,7 @@ class Shop {
     async shop() {
         log(module_name, "Let's go shopping!");
         /* generate random number */
-        let generate_count = Math.floor((Math.random() * (this.max_items - this.min_items)) + this.min_items);
+        let generate_count = Math.floor(Math.random() * (this.max_items - this.min_items) + this.min_items);
         let possible_items_raw = [];
         /* build the raw item array */
         for (let i = 0; i < this.compendiums.length; i++) {
@@ -149,11 +130,11 @@ class Shop {
                 let compendium_items = await game.packs.get(this.compendiums[i]).getDocuments();
                 for (let x = 0; x < compendium_items.length; x++) {
                     possible_items_raw.push({
-                        'compendium': this.compendiums[i],
-                        'item': compendium_items[x],
+                        compendium: this.compendiums[i],
+                        item: compendium_items[x],
                     });
                 }
-            } catch ( e ) {
+            } catch (e) {
                 log(module_name, "Unable to find compendium " + this.compendiums[i]);
             }
         }
@@ -162,83 +143,121 @@ class Shop {
         while (selected_items.length < generate_count) {
             /* check to see if it's even possible to create items up to our desired amount */
             if (possible_items_raw.length < selected_items) {
-                log(module_name, "Unable to find sufficient items - aborting with " + selected_items.length + " items in shop inventory");
+                log(
+                    module_name,
+                    "Unable to find sufficient items - aborting with " +
+                        selected_items.length +
+                        " items in shop inventory"
+                );
                 break;
             }
             /* look up the details and see if it makes the shop */
-            let possible_item_index = Math.floor((Math.random() * possible_items_raw.length));
+            let possible_item_index = Math.floor(Math.random() * possible_items_raw.length);
             // get item details
-            let possible_item = await game.packs.get(possible_items_raw[possible_item_index]['compendium']).getDocument(possible_items_raw[possible_item_index]['item']['id']);
+            let possible_item = await game.packs
+                .get(possible_items_raw[possible_item_index]["compendium"])
+                .getDocument(possible_items_raw[possible_item_index]["item"]["id"]);
             // check if it's OK
             if (possible_item.system.rarity.isrestricted === true && this.shady === false) {
-                log(module_name, "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)");
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)"
+                );
             } else if (this.item_types.includes(possible_item.type) === false) {
-                log(module_name, "Rejected item " + possible_item.name + " (item is not an accepted type for this kind of store)");
-            } else if (possible_item.system.type === 'itemattachment' && this.item_types.includes(possible_item.type) === false) {
-                log(module_name, "Rejected item " + possible_item.name + " (item is a mod for an item type not accepted for this kind of store)");
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (item is not an accepted type for this kind of store)"
+                );
+            } else if (
+                possible_item.system.type === "itemattachment" &&
+                this.item_types.includes(possible_item.type) === false
+            ) {
+                log(
+                    module_name,
+                    "Rejected item " +
+                        possible_item.name +
+                        " (item is a mod for an item type not accepted for this kind of store)"
+                );
             } else {
                 // the item is a fit for our shop, roll to see if the actor finds it or not
                 log(module_name, "Rolling to see if we find the item in the shop or not");
                 // make the check to see if we find the item
-                let difficulty = this.rarity_to_difficulty(possible_item.system.rarity.adjusted + this.location_modifier);
+                let difficulty = this.rarity_to_difficulty(
+                    possible_item.system.rarity.adjusted + this.location_modifier
+                );
                 if (possible_item.system.rarity.isrestricted === true) {
                     // legal items use negotiation
-                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'streetwise');
+                    var pool = await this.build_dice_pool(
+                        this.actor_id,
+                        difficulty["difficulty"],
+                        difficulty["challenge"],
+                        "streetwise"
+                    );
                 } else {
                     // illegal items use streetwise
-                    var pool = await this.build_dice_pool(this.actor_id, difficulty['difficulty'], difficulty['challenge'], 'negotiation');
+                    var pool = await this.build_dice_pool(
+                        this.actor_id,
+                        difficulty["difficulty"],
+                        difficulty["challenge"],
+                        "negotiation"
+                    );
                 }
                 let result = new game.ffg.RollFFG(pool.renderDiceExpression()).roll().ffg;
 
                 // see if the check was successful or not
-                if (result['success'] >= 1) {
+                if (result["success"] >= 1) {
                     // we passed the check, count the item as added! woot!
                     /* build the result string (the normal [su] shortcut doesn't render properly here) */
-                    let result_string = '';
-                    for (let i = 0; i<result['success']; i++) {
+                    let result_string = "";
+                    for (let i = 0; i < result["success"]; i++) {
                         result_string += '<span class="dietype starwars success">s</span>';
                     }
-                    for (let i = 0; i<result['advantage']; i++) {
+                    for (let i = 0; i < result["advantage"]; i++) {
                         result_string += '<span class="dietype starwars advantage">a</span>';
                     }
-                    for (let i = 0; i<result['triumph']; i++) {
+                    for (let i = 0; i < result["triumph"]; i++) {
                         result_string += '<span class="dietype starwars triumph">x</span>';
                     }
-                    for (let i = 0; i<result['threat']; i++) {
+                    for (let i = 0; i < result["threat"]; i++) {
                         result_string += '<span class="dietype starwars threat">t</span>';
                     }
-                    for (let i = 0; i<result['despair']; i++) {
+                    for (let i = 0; i < result["despair"]; i++) {
                         result_string += '<span class="dietype starwars despair">y</span>';
                     }
 
                     // attempt to use a custom default image if one isn't set
-                    let base_path = 'modules/ffg-star-wars-enhancements/icons/';
+                    let base_path = "modules/ffg-star-wars-enhancements/icons/";
                     let image_mapping = {
-                        'gear': base_path + 'gym-bag.svg',
-                        'weapon': base_path + 'bolter-gun.svg',
-                        'armour': base_path + 'breastplate.svg',
+                        gear: base_path + "gym-bag.svg",
+                        weapon: base_path + "bolter-gun.svg",
+                        armour: base_path + "breastplate.svg",
                     };
-                    if (possible_items_raw[possible_item_index]['item']['img'] === "icons/svg/mystery-man.svg" && possible_item.type in image_mapping) {
+                    if (
+                        possible_items_raw[possible_item_index]["item"]["img"] === "icons/svg/mystery-man.svg" &&
+                        possible_item.type in image_mapping
+                    ) {
                         var image = image_mapping[possible_item.type];
                     } else {
-                        var image = possible_items_raw[possible_item_index]['item']['img'];
+                        var image = possible_items_raw[possible_item_index]["item"]["img"];
                     }
 
                     // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
-                    let price = parseInt((parseInt(possible_item.system.price.value) * this.price_modifier) * (this.base_price / 100));
+                    let price = parseInt(
+                        parseInt(possible_item.system.price.value) * this.price_modifier * (this.base_price / 100)
+                    );
                     log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
                     selected_items.push({
-                        'item': {
-                            'id': possible_item.id,
-                            'name': possible_item.name,
-                            'image': image,
-                            'type': possible_item.type,
-                            'compendium': possible_items_raw[possible_item_index]['compendium'],
-                            'restricted': possible_item.system.rarity.isrestricted,
+                        item: {
+                            id: possible_item.id,
+                            name: possible_item.name,
+                            image: image,
+                            type: possible_item.type,
+                            compendium: possible_items_raw[possible_item_index]["compendium"],
+                            restricted: possible_item.system.rarity.isrestricted,
                         },
-                        'price': price,
-                        'roll': result_string,
-                        'dice_string': pool.renderDiceExpression(),
+                        price: price,
+                        roll: result_string,
+                        dice_string: pool.renderDiceExpression(),
                     });
                 } else {
                     log(module_name, "Rejected item " + possible_item.name + " (failed check to find it)");
@@ -250,7 +269,7 @@ class Shop {
         log(module_name, "Completed building the shop inventory!");
         log(module_name, JSON.stringify(selected_items));
         return selected_items;
-    };
+    }
 
     /*
     Converts the rarity number to the difficulty of the roll
@@ -259,14 +278,14 @@ class Shop {
     rarity_to_difficulty(rarity) {
         if (rarity <= 10) {
             return {
-                "difficulty": Math.floor(rarity / 2),
-                "challenge": 0,
-            }
+                difficulty: Math.floor(rarity / 2),
+                challenge: 0,
+            };
         } else {
             return {
-                "difficulty": 5 - rarity % 10,
-                "challenge": rarity % 10,
-            }
+                difficulty: 5 - (rarity % 10),
+                challenge: rarity % 10,
+            };
         }
     }
 
@@ -277,10 +296,10 @@ class Shop {
     async build_dice_pool(actor_id, difficulty, upgrades, shop_skill) {
         // stripped down version of https://github.com/StarWarsFoundryVTT/StarWarsFFG/blob/6606003c3a87de394c7ccd74401d838c17bc0b42/modules/helpers/dice-helpers.js#L7
         let actor = game.actors.get(actor_id);
-        if (shop_skill === 'negotiation') {
+        if (shop_skill === "negotiation") {
             var skill = actor.system.skills.Negotiation;
             var characteristic = actor.system.characteristics[skill.characteristic].value;
-        } else if (shop_skill === 'streetwise') {
+        } else if (shop_skill === "streetwise") {
             var skill = actor.system.skills.Streetwise;
             var characteristic = actor.system.characteristics[skill.characteristic].value;
         }
@@ -313,10 +332,10 @@ class Shop {
 Helper function to return a list of actors owned by players
  */
 async function get_player_actors() {
-    let actors = game.actors.filter(actor => actor);
-    let pcs = []
+    let actors = game.actors.filter((actor) => actor);
+    let pcs = [];
     for (let i = 0; i < actors.length; i++) {
-        if (actors[i].hasPlayerOwner === true && actors[i].type !== 'vehicle') {
+        if (actors[i].hasPlayerOwner === true && actors[i].type !== "vehicle") {
             pcs.push(actors[i]);
         }
     }
@@ -328,7 +347,7 @@ Provides a GUI for configuring the shop
 Passes the results to the shop object and generates the shop inventory
  */
 class ShopGenerator extends FormApplication {
-    constructor(actor_id=null) {
+    constructor(actor_id = null) {
         super();
         // allows us to tie the shop generation to a specific, already existing actor
         this.actor_id = actor_id;
@@ -352,32 +371,32 @@ class ShopGenerator extends FormApplication {
         let actors = await get_player_actors();
         let vendor_actor = game.actors.get(this.actor_id);
         let vendor_data = vendor_actor.getFlag("ffg-star-wars-enhancements", "vendor-data");
-        if (vendor_data === undefined || vendor_data === null || !('type' in vendor_data['meta'])) {
-            log(module_name, 'Found no existing vendor data, using defaults');
+        if (vendor_data === undefined || vendor_data === null || !("type" in vendor_data["meta"])) {
+            log(module_name, "Found no existing vendor data, using defaults");
             // there is no stored data for this vendor, use the defaults
             var shop = {
-                'base_price': 100,
-                'price_modifier': 1,
-                'type': 'general',
-                'min_items': 5,
-                'max_items': 15,
-                'location': 'no_change',
-                'restricted': false,
-                'pc': null,
-            }
+                base_price: 100,
+                price_modifier: 1,
+                type: "general",
+                min_items: 5,
+                max_items: 15,
+                location: "no_change",
+                restricted: false,
+                pc: null,
+            };
         } else {
-            log(module_name, 'Found existing vendor data, using it');
+            log(module_name, "Found existing vendor data, using it");
             // there is stored data for this vendor, use the previous settings
             var shop = {
-                'base_price': parseInt(vendor_data['meta']['base_price']),
-                'price_modifier': parseInt(vendor_data['meta']['price_modifier']),
-                'type': vendor_data['meta']['type'],
-                'min_items': vendor_data['meta']['min_items'],
-                'max_items': vendor_data['meta']['max_items'],
-                'location': vendor_data['meta']['location'],
-                'restricted': vendor_data['meta']['restricted'],
-                'pc': vendor_data['meta']['pc'],
-            }
+                base_price: parseInt(vendor_data["meta"]["base_price"]),
+                price_modifier: parseInt(vendor_data["meta"]["price_modifier"]),
+                type: vendor_data["meta"]["type"],
+                min_items: vendor_data["meta"]["min_items"],
+                max_items: vendor_data["meta"]["max_items"],
+                location: vendor_data["meta"]["location"],
+                restricted: vendor_data["meta"]["restricted"],
+                pc: vendor_data["meta"]["pc"],
+            };
         }
         log(module_name, JSON.stringify(shop));
         return {
@@ -393,11 +412,19 @@ class ShopGenerator extends FormApplication {
      */
     async _updateObject(event, data) {
         log(module_name, "Shop generation request started");
-        if (data['shop_actor'] === "") {
+        if (data["shop_actor"] === "") {
             ui.notifications.warn("You must choose a player-owned character to populate the store");
             return;
         }
-        let myshop = new Shop(data['shady'], data['shop_type'], data['min_item_count'], data['max_item_count'], data['shop_location'], data['shop_actor'], data['shop_base_price']);
+        let myshop = new Shop(
+            data["shady"],
+            data["shop_type"],
+            data["min_item_count"],
+            data["max_item_count"],
+            data["shop_location"],
+            data["shop_actor"],
+            data["shop_base_price"]
+        );
         let inventory = await myshop.shop();
 
         /* set the store data as a flag on the actor we got passed in (assuming one was) */
@@ -405,7 +432,7 @@ class ShopGenerator extends FormApplication {
         let actor_id = this.actor_id;
         let vendor = game.actors.get(actor_id);
         // modify the inventory format into the flag format
-        let flag_data = {}
+        let flag_data = {};
         // this is a different iteration than the one below because we trigger a data update on the lower one and
         // we want the flag set before we trigger that
         for (let x = 0; x < inventory.length; x++) {
@@ -418,11 +445,11 @@ class ShopGenerator extends FormApplication {
                 compendium: item.item.compendium,
                 flagged_id: item.item.id,
                 restricted: item.item.restricted,
-            }
+            };
         }
         // set up to delete items from the vendor
         let to_delete = [];
-        let current_inventory = vendor.items.filter(item => item);
+        let current_inventory = vendor.items.filter((item) => item);
         for (let x = 0; x < current_inventory.length; x++) {
             to_delete.push(current_inventory[x].id);
         }
@@ -437,13 +464,13 @@ class ShopGenerator extends FormApplication {
         // add the price modifier so we can apply it to drag-and-dropped items
         // we could actually save all shop settings here, but I am too lazy to do that atm
         let location_mapping = {
-            'minus_two': -2,
-            'minus_one': -1,
-            'no_change': 0,
-            'plus_one': 1,
-            'plus_two': 2,
-            'plus_three': 3,
-            'plus_four': 4
+            minus_two: -2,
+            minus_one: -1,
+            no_change: 0,
+            plus_one: 1,
+            plus_two: 2,
+            plus_three: 3,
+            plus_four: 4,
         };
         let price_mapping = {
             0: 1,
@@ -451,27 +478,27 @@ class ShopGenerator extends FormApplication {
             2: 2,
             3: 3,
             4: 4,
-        }
+        };
 
-        if (location_mapping[data['shop_location']] in price_mapping) {
-            var price_modifier = price_mapping[location_mapping[data['shop_location']]];
+        if (location_mapping[data["shop_location"]] in price_mapping) {
+            var price_modifier = price_mapping[location_mapping[data["shop_location"]]];
         } else {
             // you can't have negative numbers as keys for some weirdo reason reeee
             var price_modifier = 1;
         }
 
         flag_data = {
-            'items': flag_data,
-            'meta': {
-                'base_price': parseInt(data['shop_base_price']),
-                'price_modifier': price_modifier,
-                'type': data['shop_type'],
-                'min_items': data['min_item_count'],
-                'max_items': data['max_item_count'],
-                'location': data['shop_location'],
-                'restricted': data['shady'],
-                'pc': data['shop_actor'],
-            }
+            items: flag_data,
+            meta: {
+                base_price: parseInt(data["shop_base_price"]),
+                price_modifier: price_modifier,
+                type: data["shop_type"],
+                min_items: data["min_item_count"],
+                max_items: data["max_item_count"],
+                location: data["shop_location"],
+                restricted: data["shady"],
+                pc: data["shop_actor"],
+            },
         };
         // set the extended data as a flag
         log(module_name, "Setting flag data: " + JSON.stringify(flag_data));
@@ -479,22 +506,16 @@ class ShopGenerator extends FormApplication {
         vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
         // actually delete the old items
-        await vendor.deleteEmbeddedDocuments(
-            "Item",
-            to_delete,
-        );
+        await vendor.deleteEmbeddedDocuments("Item", to_delete);
         // actually create the new items
-        await vendor.createEmbeddedDocuments(
-            "Item",
-            to_create,
-        );
+        await vendor.createEmbeddedDocuments("Item", to_create);
     }
 }
 
 /*
 Helper function to render the ShopGenerator UI
  */
-export function open_shop_generator(actor_id=null) {
+export function open_shop_generator(actor_id = null) {
     log(module_name, "shop generator for " + actor_id);
     new ShopGenerator(actor_id).render(true);
 }
@@ -504,7 +525,7 @@ Super basic GUI to create a vendor
 This probably isn't needed, but in the interest of increasing visibility of the functionality I wanted to make a GUI flow available
  */
 class ShopCreator extends FormApplication {
-    constructor(actor_id=null) {
+    constructor(actor_id = null) {
         super();
         this.actor_id = actor_id;
     }
@@ -529,12 +550,12 @@ class ShopCreator extends FormApplication {
         // create it, logging the ID
         // open the sheet and call open_shop_generator
         let actor = await game.ffg.ActorFFG.create({
-            name: data['actor_name'],
-            type: 'character',
-        })
+            name: data["actor_name"],
+            type: "character",
+        });
         // swap the sheet type to vendor
         // I'm not sure how to do it by default, but this seems reasonably fast
-        game.actors.get(actor.id).setFlag("core", "sheetClass", "ffg.Vendor")
+        game.actors.get(actor.id).setFlag("core", "sheetClass", "ffg.Vendor");
         new ShopGenerator(actor.id).render(true);
     }
 }

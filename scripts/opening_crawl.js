@@ -1,23 +1,23 @@
-import { setting_image, setting_audio } from './settings.js'
-import { log_msg as log } from './util.js'
+import { setting_image, setting_audio } from "./settings.js";
+import { log_msg as log } from "./util.js";
 
 /**
  * Register settings used by the opening crawl.
  */
 export function init() {
-    log('opening-crawl', 'Initializing');
+    log("opening-crawl", "Initializing");
     game.settings.registerMenu("ffg-star-wars-enhancements", "opening-crawl_UISettings", {
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.ui.name'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.ui.hint'),
-        label: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.ui.label'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.ui.name"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.ui.hint"),
+        label: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.ui.label"),
         icon: "fas fa-cut",
         type: opening_crawl_UISettings,
         restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-folder", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-folder-hint"),
         scope: "world",
         config: false,
         type: String,
@@ -25,28 +25,28 @@ export function init() {
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-music"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'audio',
+        filePicker: "audio",
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-logo", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-logo-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'folder',
+        filePicker: "folder",
         default: "",
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-music-delay", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-music-delay-hint"),
         scope: "world",
         config: false,
         type: Number,
@@ -54,8 +54,8 @@ export function init() {
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-right", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-right-hint"),
         scope: "world",
         config: false,
         type: Number,
@@ -63,8 +63,8 @@ export function init() {
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-image-bottom", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-image-bottom-hint"),
         scope: "world",
         config: false,
         type: Number,
@@ -72,14 +72,14 @@ export function init() {
     });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-font-size", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-font-size-hint"),
         scope: "world",
         config: false,
         type: Number,
         default: 350,
     });
-    log('opening-crawl', 'Initialized');
+    log("opening-crawl", "Initialized");
 }
 
 /**
@@ -91,29 +91,29 @@ class OpeningCrawlApplication extends Application {
      * @param {object} options additional options for the application
      */
     constructor(data, options) {
-      super({}, options);
-      this.data = data;
-    };
+        super({}, options);
+        this.data = data;
+    }
 
     /**
      * Configure a "full" screen with minimal controls that will display the
      * Opening Crawl.
      */
     static get defaultOptions() {
-      return mergeObject(super.defaultOptions, {
-        template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
-        id: "ffg-star-wars-enhancements-opening-crawl",
-        title: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title'),
-        minimizable: false,
-        editable: false,
-        resizable: true,
-        popOut: true,
-        shareable: false,
-        top: 0,
-        left: 0,
-        width: 4096,
-        height: 2160,
-      });
+        return mergeObject(super.defaultOptions, {
+            template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
+            id: "ffg-star-wars-enhancements-opening-crawl",
+            title: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title"),
+            minimizable: false,
+            editable: false,
+            resizable: true,
+            popOut: true,
+            shareable: false,
+            top: 0,
+            left: 0,
+            width: 4096,
+            height: 2160,
+        });
     }
 
     /**
@@ -138,11 +138,11 @@ class OpeningCrawlApplication extends Application {
         let audio_helper = game.audio;
         const that = this;
 
-        audio_helper.preload(this.data.music).then( async (sound) => {
+        audio_helper.preload(this.data.music).then(async (sound) => {
             callback();
             await sleep(game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay"));
             sound.play({
-                volume: volume
+                volume: volume,
             });
             that.sound = sound;
         });
@@ -153,7 +153,7 @@ class OpeningCrawlApplication extends Application {
      * @param {jQuery} html
      */
     activateListeners(html) {
-        log('opening-crawl', 'active listeners');
+        log("opening-crawl", "active listeners");
         super.activateListeners(html);
 
         // When music is configured, hide the HTML until the audio loaded is
@@ -183,8 +183,8 @@ class OpeningCrawlApplication extends Application {
  * Ready handler that listens on the ffg-star-wars-enhancements socket.
  */
 export function ready() {
-    log('opening-crawl', 'ready');
-    game.socket.on('module.ffg-star-wars-enhancements', socket_listener);
+    log("opening-crawl", "ready");
+    game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
 }
 
 /**
@@ -200,11 +200,11 @@ function parse_journal(journal) {
     let title_html = journal_html.find("h2");
 
     if (episode_html.length == 0) {
-        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-episode'));
+        ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.missing-episode"));
         return null;
     }
     if (title_html.length == 0) {
-        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-title'));
+        ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.missing-title"));
         return null;
     }
 
@@ -215,15 +215,18 @@ function parse_journal(journal) {
         // Once the image has been extracted, remove it
         journal_html.find("img").remove();
     } else {
-        log('opening-crawl', 'no image to pan to found in journal');
+        log("opening-crawl", "no image to pan to found in journal");
     }
 
-    let body = journal_html.find("p").map(function()  {
-        return $(this).text();
-    }).toArray();
+    let body = journal_html
+        .find("p")
+        .map(function () {
+            return $(this).text();
+        })
+        .toArray();
 
     if (body.length == 0) {
-        ui.notifications.warn(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-body'));
+        ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.missing-body"));
         return null;
     }
 
@@ -240,16 +243,16 @@ function parse_journal(journal) {
  * @param {object} data
  */
 export function launch_opening_crawl(data) {
-    log('opening-crawl', 'launching');
+    log("opening-crawl", "launching");
 
     data = mergeObject(data, {
         type: "opening-crawl",
-        logo: game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-logo'),
-        music: game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-music'),
+        logo: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-logo"),
+        music: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music"),
     });
-    game.socket.emit('module.ffg-star-wars-enhancements', data);
+    game.socket.emit("module.ffg-star-wars-enhancements", data);
     socket_listener(data);
-    log('opening-crawl', 'event emmitted');
+    log("opening-crawl", "event emmitted");
 }
 
 /**
@@ -259,7 +262,7 @@ export function launch_opening_crawl(data) {
  * @param {object} data object passed to OpeningCrawlApplication
  */
 function socket_listener(data) {
-    log('socket', data);
+    log("socket", data);
     if (data.type == "opening-crawl") {
         new OpeningCrawlApplication(data).render(true);
     }
@@ -274,16 +277,16 @@ class OpeningCrawlSelectApplication extends FormApplication {
         return mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
             id: "ffg-star-wars-enhancements-opening-crawl-select",
-            title: game.i18n.localize('ffg-star-wars-enhancements.controls.opening-crawl.title'),
+            title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
         });
     }
     async getData() {
         let folder = await get_journal_folder();
-        let journals = folder.contents.map(journal => {
+        let journals = folder.contents.map((journal) => {
             return {
                 id: journal._id,
                 name: journal.name,
-            }
+            };
         });
 
         return {
@@ -291,7 +294,7 @@ class OpeningCrawlSelectApplication extends FormApplication {
         };
     }
     _updateObject(event, data) {
-        log('opening-crawl', 'select | journal selected');
+        log("opening-crawl", "select | journal selected");
 
         if (event.submitter.className == "create") {
             create_opening_crawl();
@@ -300,18 +303,18 @@ class OpeningCrawlSelectApplication extends FormApplication {
 
         let journal = game.journal.get(data.journal_id);
         if (!journal) {
-            log('opening-crawl', 'select | failed to open journal after selection');
+            log("opening-crawl", "select | failed to open journal after selection");
             return;
         }
 
         var data = parse_journal(journal);
         if (!data) {
-            log('opening-crawl', 'select | failed to parse journal');
+            log("opening-crawl", "select | failed to parse journal");
             return;
         }
 
         launch_opening_crawl(data);
-        log('opening-crawl', 'select | journal selection complete');
+        log("opening-crawl", "select | journal selection complete");
     }
 }
 
@@ -319,13 +322,15 @@ class OpeningCrawlSelectApplication extends FormApplication {
  * Get the opening crawls journal folder.
  */
 async function get_journal_folder() {
-    let folder_name = game.settings.get('ffg-star-wars-enhancements', 'opening-crawl-folder');
+    let folder_name = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-folder");
 
     let folder = game.folders.getName(folder_name);
     if (!folder) {
-        let missing_folder = game.i18n.format('ffg-star-wars-enhancements.opening-crawl.create-folder', {folder: folder_name});
+        let missing_folder = game.i18n.format("ffg-star-wars-enhancements.opening-crawl.create-folder", {
+            folder: folder_name,
+        });
         let confirmation = await Dialog.confirm({
-            title: game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.title'),
+            title: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title"),
             content: `<p>${missing_folder}</p>`,
         });
         if (confirmation) {
@@ -333,10 +338,9 @@ async function get_journal_folder() {
                 name: folder_name,
                 type: "JournalEntry",
             });
-
         } else {
-            ui.notifications.error(game.i18n.localize('ffg-star-wars-enhancements.opening-crawl.missing-folder'));
-            throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings"
+            ui.notifications.error(game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.missing-folder"));
+            throw "ffg-star-wars-enhancements | opening-crawl | opening crawl folder not configured in settings";
         }
     }
     return folder;
@@ -345,11 +349,14 @@ async function get_journal_folder() {
 export async function create_opening_crawl() {
     let folder = await get_journal_folder();
     let data = {
-        "name": "Episode X",
-        "folder": folder.id,
-        "content": "<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><img src=\"modules/ffg-star-wars-enhancements/artwork/planet.png\"/>",
+        name: "Episode X",
+        folder: folder.id,
+        content:
+            '<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><img src="modules/ffg-star-wars-enhancements/artwork/planet.png"/>',
     };
-    JournalEntry.create(data).then(journal => {journal.sheet.render(true)});
+    JournalEntry.create(data).then((journal) => {
+        journal.sheet.render(true);
+    });
 }
 
 /**
@@ -358,7 +365,7 @@ export async function create_opening_crawl() {
  * @returns {Promise<unknown>}
  */
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // noinspection DuplicatedCode
@@ -379,7 +386,7 @@ class opening_crawl_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: {title: game.system.title, menus: [], settings: []},
+            system: { title: game.system.title, menus: [], settings: [] },
         };
 
         // Classify all settings
@@ -449,8 +456,7 @@ class opening_crawl_UISettings extends FormApplication {
                 let input = form[k];
                 if (input && input.type === "checkbox") {
                     input.checked = v.default;
-                }
-                else if (input) {
+                } else if (input) {
                     input.value = v.default;
                 }
             }

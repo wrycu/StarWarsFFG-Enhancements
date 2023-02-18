@@ -1,21 +1,21 @@
-import { log_msg as log } from './util.js'
+import { log_msg as log } from "./util.js";
 
-let module_name = 'talent_checker';
+let module_name = "talent_checker";
 
-export function init () {
-    log(module_name, 'Initializing');
+export function init() {
+    log(module_name, "Initializing");
     game.settings.registerMenu("ffg-star-wars-enhancements", "talent_checker_UISettings", {
-        name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.conf'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.conf-hint'),
-        label: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.ui.label'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.conf"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.conf-hint"),
+        label: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.ui.label"),
         icon: "fas fa-cut",
         type: talent_checker_UISettings,
         restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "talent-checker-enable", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.enable'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.enable-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.enable"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.enable-hint"),
         scope: "world",
         config: false,
         type: Boolean,
@@ -23,18 +23,18 @@ export function init () {
     });
     game.settings.register("ffg-star-wars-enhancements", "talent-checker-status", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.status'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.talent-checker.status-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.status"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-checker.status-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'image',
-        default: 'icons/svg/regen.svg',
+        filePicker: "image",
+        default: "icons/svg/regen.svg",
     });
     game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-enable", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-enable'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-enable-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-enable"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-enable-hint"),
         scope: "world",
         config: false,
         type: Boolean,
@@ -42,28 +42,28 @@ export function init () {
     });
     game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-status", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-status"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-status-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'image',
-        default: 'modules/ffg-star-wars-enhancements/artwork/minionsize.png',
+        filePicker: "image",
+        default: "modules/ffg-star-wars-enhancements/artwork/minionsize.png",
     });
     game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-status-zero", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-zero'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.minionsize-sync-status-zero-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-status-zero"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.minionsize-sync-status-zero-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'image',
-        default: 'modules/ffg-star-wars-enhancements/artwork/minionskull.png',
+        filePicker: "image",
+        default: "modules/ffg-star-wars-enhancements/artwork/minionskull.png",
     });
     game.settings.register("ffg-star-wars-enhancements", "stimpack-sync-enable", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-enable'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-enable-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.stimpack-sync-enable"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.stimpack-sync-enable-hint"),
         scope: "world",
         config: false,
         type: Boolean,
@@ -71,35 +71,43 @@ export function init () {
     });
     game.settings.register("ffg-star-wars-enhancements", "stimpack-sync-status", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-status'),
-        hint: game.i18n.localize('ffg-star-wars-enhancements.stimpack-sync-status-hint'),
+        name: game.i18n.localize("ffg-star-wars-enhancements.stimpack-sync-status"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.stimpack-sync-status-hint"),
         scope: "world",
         config: false,
         type: String,
-        filePicker: 'image',
-        default: 'modules/ffg-star-wars-enhancements/artwork/stimpack.png',
+        filePicker: "image",
+        default: "modules/ffg-star-wars-enhancements/artwork/stimpack.png",
     });
-    log(module_name, 'Done initializing');
+    log(module_name, "Done initializing");
 }
 
 export function talent_checker() {
     Hooks.on("canvasReady", async (canvas) => {
         if (game.user.isGM) {
-            log(module_name, 'Detected scene load.');
-            for (let i=0; i < canvas.tokens.placeables.length; i++) {
+            log(module_name, "Detected scene load.");
+            for (let i = 0; i < canvas.tokens.placeables.length; i++) {
                 // begin javascript sucks
                 let actor = game.actors.get(canvas.tokens.placeables[i].actor.id);
                 let token = canvas.tokens.placeables[i];
                 if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
-                    log(module_name, 'Found token ' + actor.name + '; searching for Adversary talent');
+                    log(module_name, "Found token " + actor.name + "; searching for Adversary talent");
                     let ranks = get_ranks(actor);
-                    await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                    await update_status(
+                        token,
+                        ranks,
+                        game.settings.get("ffg-star-wars-enhancements", "talent-checker-status")
+                    );
                 }
                 if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
                     let stimpack_used = get_stimpack_used(actor);
                     if (stimpack_used !== null) {
-                        log(module_name, 'Actor ' + actor.name + ' has used ' + stimpack_used + 'stimpacks');
-                        await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
+                        log(module_name, "Actor " + actor.name + " has used " + stimpack_used + "stimpacks");
+                        await update_status(
+                            token,
+                            stimpack_used,
+                            game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status")
+                        );
                     }
                 }
             }
@@ -116,13 +124,21 @@ export function talent_checker() {
             // end javascript sucks
             if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
                 let ranks = get_ranks(actor);
-                await update_status(token, ranks, game.settings.get("ffg-star-wars-enhancements", "talent-checker-status"));
+                await update_status(
+                    token,
+                    ranks,
+                    game.settings.get("ffg-star-wars-enhancements", "talent-checker-status")
+                );
             }
             if (game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-enable") && window.EffectCounter) {
                 let stimpack_used = get_stimpack_used(actor);
                 if (stimpack_used !== null && stimpack_used !== undefined) {
-                    log(module_name, 'Actor ' + actor.name + ' has used ' + stimpack_used + ' stimpacks');
-                    await update_status(token, stimpack_used, game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status"));
+                    log(module_name, "Actor " + actor.name + " has used " + stimpack_used + " stimpacks");
+                    await update_status(
+                        token,
+                        stimpack_used,
+                        game.settings.get("ffg-star-wars-enhancements", "stimpack-sync-status")
+                    );
                 }
             }
         }
@@ -130,11 +146,11 @@ export function talent_checker() {
 }
 
 function get_stimpack_used(actor) {
-    if (actor.type === 'character') {
-        log(module_name, 'Found actor being added: ' + actor.name);
+    if (actor.type === "character") {
+        log(module_name, "Found actor being added: " + actor.name);
         return actor?.system?.stats?.medical?.uses;
     } else {
-        log(module_name, 'Found non-actor group being added: ' + actor.name);
+        log(module_name, "Found non-actor group being added: " + actor.name);
         return null;
     }
 }
@@ -148,15 +164,15 @@ function find_actor(token_id) {
 }
 
 function get_ranks(actor) {
-    let actor_items = actor.items.filter(item => item);
+    let actor_items = actor.items.filter((item) => item);
     let ranks = 0;
-    for (let x=0; x < actor_items.length; x++) {
+    for (let x = 0; x < actor_items.length; x++) {
         let item = actor_items[x];
-        if (item.type === 'talent' && item.name === 'Adversary') {
+        if (item.type === "talent" && item.name === "Adversary") {
             ranks += item.system.ranks.current;
         }
     }
-    log(module_name, 'Found ' + ranks + ' ranks of Adversary');
+    log(module_name, "Found " + ranks + " ranks of Adversary");
     return ranks;
 }
 
@@ -164,13 +180,10 @@ export async function update_status(token, ranks, icon_path) {
     let active = ranks !== 0;
     if (!window.EffectCounter) {
         // the user doesn't have status icon counters installed; they don't get a count
-        log(module_name, 'Adding status to token');
-        token.toggleEffect(
-            icon_path,
-            {'active': active}
-        );
+        log(module_name, "Adding status to token");
+        token.toggleEffect(icon_path, { active: active });
     } else {
-        log(module_name, 'Adding status rank ' + ranks + ' to token');
+        log(module_name, "Adding status rank " + ranks + " to token");
         // no need to search for the effect ourselves, as this is done in the underlying libraries
         let new_counter = new EffectCounter(ranks, icon_path, token);
         // render it
@@ -199,13 +212,19 @@ class talent_checker_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: {title: game.system.title, menus: [], settings: []},
+            system: { title: game.system.title, menus: [], settings: [] },
         };
 
         // Classify all settings
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if ((!setting.key.includes("talent-checker-") && !setting.key.includes("minionsize-sync-") && !setting.key.includes("stimpack-sync-")) || (!canConfigure && setting.scope !== "client")) continue;
+            if (
+                (!setting.key.includes("talent-checker-") &&
+                    !setting.key.includes("minionsize-sync-") &&
+                    !setting.key.includes("stimpack-sync-")) ||
+                (!canConfigure && setting.scope !== "client")
+            )
+                continue;
 
             // Update setting data
             const s = duplicate(setting);
@@ -220,7 +239,12 @@ class talent_checker_UISettings extends FormApplication {
 
             // Classify setting
             const name = s.module;
-            if (s.key.includes("talent-checker-") || s.key.includes("minionsize-sync-") || s.key.includes("stimpack-sync-")) data.system.settings.push(s);
+            if (
+                s.key.includes("talent-checker-") ||
+                s.key.includes("minionsize-sync-") ||
+                s.key.includes("stimpack-sync-")
+            )
+                data.system.settings.push(s);
         }
 
         // Return data
@@ -268,8 +292,7 @@ class talent_checker_UISettings extends FormApplication {
                 let input = form[k];
                 if (input && input.type === "checkbox") {
                     input.checked = v.default;
-                }
-                else if (input) {
+                } else if (input) {
                     input.value = v.default;
                 }
             }

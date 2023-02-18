@@ -1,22 +1,23 @@
 {
-  "name": "ffg-star-wars-enhancements",
-  "version": "0.0.0",
-  "description": "A collection of enhancements for the amazing FFG Star Wars system",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress:open": "cypress open"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wrycu/StarWarsFFG-Enhancements.git"
-  },
-  "author": "Wrycu",
-  "license": "LICENSE",
-  "bugs": {
-    "url": "https://github.com/wrycu/StarWarsFFG-Enhancements/issues"
-  },
-  "homepage": "https://github.com/wrycu/StarWarsFFG-Enhancements",
-  "devDependencies": {
-    "cypress": "^12.5.1"
-  }
+    "name": "ffg-star-wars-enhancements",
+    "version": "0.0.0",
+    "description": "A collection of enhancements for the amazing FFG Star Wars system",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "cypress:open": "cypress open"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wrycu/StarWarsFFG-Enhancements.git"
+    },
+    "author": "Wrycu",
+    "license": "LICENSE",
+    "bugs": {
+        "url": "https://github.com/wrycu/StarWarsFFG-Enhancements/issues"
+    },
+    "homepage": "https://github.com/wrycu/StarWarsFFG-Enhancements",
+    "devDependencies": {
+        "cypress": "^12.5.1",
+        "prettier": "2.8.4"
+    }
 }

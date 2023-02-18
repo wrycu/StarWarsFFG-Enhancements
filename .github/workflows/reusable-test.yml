@@ -1,94 +1,93 @@
-
 name: Reusable FoundryVTT Cypress workflow
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        # The official schema doesn't allow Environment to be set to null.
-        # However passing the environment in optionally as an input works around
-        # that limitation.
-        required: false
-        type: string
-    secrets:
-      FOUNDRY_USERNAME:
-        required: true
-      FOUNDRY_PASSWORD:
-        required: true
-      FOUNDRY_LICENSE_KEY:
-        required: true
+    workflow_call:
+        inputs:
+            environment:
+                # The official schema doesn't allow Environment to be set to null.
+                # However passing the environment in optionally as an input works around
+                # that limitation.
+                required: false
+                type: string
+        secrets:
+            FOUNDRY_USERNAME:
+                required: true
+            FOUNDRY_PASSWORD:
+                required: true
+            FOUNDRY_LICENSE_KEY:
+                required: true
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+    tests:
+        runs-on: ubuntu-latest
 
-    # Use an environment to require manual approval.
-    environment: ${{ inputs.environment }}
+        # Use an environment to require manual approval.
+        environment: ${{ inputs.environment }}
 
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
 
-      # This directory caches the foundryvtt install avoiding abusive downloads.
-      - name: Restore FoundryVTT CONTAINER_CACHE
-        uses: actions/cache@v3
-        id: container_cache
-        with:
-          key: container_cache
-          path: data/container_cache
+            # This directory caches the foundryvtt install avoiding abusive downloads.
+            - name: Restore FoundryVTT CONTAINER_CACHE
+              uses: actions/cache@v3
+              id: container_cache
+              with:
+                  key: container_cache
+                  path: data/container_cache
 
-      # Ensure the directory exists for the volume mount
-      - name: Initialized data directory
-        run: mkdir -p data
+            # Ensure the directory exists for the volume mount
+            - name: Initialized data directory
+              run: mkdir -p data
 
-      # Executing the pull separately declutters the docker run command output.
-      - name: Pull FoundryVTT Container
-        run: sudo docker pull felddy/foundryvtt:release
+            # Executing the pull separately declutters the docker run command output.
+            - name: Pull FoundryVTT Container
+              run: sudo docker pull felddy/foundryvtt:release
 
-      # There are two steps for the foundryvtt container, because if the
-      # username/password is provided, the container makes an unnecessary set of
-      # API calls to the foundry API, even if it ultimately uses the cached
-      # download.
-      - if: ${{ steps.container_cache.outputs.cache-hit != 'true' }}
-        name: Launch FoundryVTT and run Cypress Tests
-        uses: cypress-io/github-action@v5
-        with:
-          start: >-
-            sudo docker run
-            --name foundryvtt
-            --env FOUNDRY_ADMIN_KEY=test-admin-key
-            --env FOUNDRY_USERNAME=${{ secrets.FOUNDRY_USERNAME }}
-            --env FOUNDRY_PASSWORD=${{ secrets.FOUNDRY_PASSWORD }}
-            --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-            --publish 30000:30000/tcp
-            --volume ${{ github.workspace }}/data:/data
-            felddy/foundryvtt:release
-          wait-on: 'http://localhost:30000'
-          wait-on-timeout: 120
+            # There are two steps for the foundryvtt container, because if the
+            # username/password is provided, the container makes an unnecessary set of
+            # API calls to the foundry API, even if it ultimately uses the cached
+            # download.
+            - if: ${{ steps.container_cache.outputs.cache-hit != 'true' }}
+              name: Launch FoundryVTT and run Cypress Tests
+              uses: cypress-io/github-action@v5
+              with:
+                  start: >-
+                      sudo docker run
+                      --name foundryvtt
+                      --env FOUNDRY_ADMIN_KEY=test-admin-key
+                      --env FOUNDRY_USERNAME=${{ secrets.FOUNDRY_USERNAME }}
+                      --env FOUNDRY_PASSWORD=${{ secrets.FOUNDRY_PASSWORD }}
+                      --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
+                      --publish 30000:30000/tcp
+                      --volume ${{ github.workspace }}/data:/data
+                      felddy/foundryvtt:release
+                  wait-on: "http://localhost:30000"
+                  wait-on-timeout: 120
 
-      - if: ${{ steps.container_cache.outputs.cache-hit == 'true' }}
-        name: Launch FoundryVTT and run Cypress Tests (container cached)
-        uses: cypress-io/github-action@v5
-        with:
-          start: >-
-            sudo docker run
-            --name foundryvtt
-            --env FOUNDRY_ADMIN_KEY=test-admin-key
-            --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-            --publish 30000:30000/tcp
-            --volume ${{ github.workspace }}/data:/data
-            felddy/foundryvtt:release
-          wait-on: 'http://localhost:30000'
-          wait-on-timeout: 120
+            - if: ${{ steps.container_cache.outputs.cache-hit == 'true' }}
+              name: Launch FoundryVTT and run Cypress Tests (container cached)
+              uses: cypress-io/github-action@v5
+              with:
+                  start: >-
+                      sudo docker run
+                      --name foundryvtt
+                      --env FOUNDRY_ADMIN_KEY=test-admin-key
+                      --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
+                      --publish 30000:30000/tcp
+                      --volume ${{ github.workspace }}/data:/data
+                      felddy/foundryvtt:release
+                  wait-on: "http://localhost:30000"
+                  wait-on-timeout: 120
 
-      - name: List contents of data dir for troubleshooting
-        run: find data
+            - name: List contents of data dir for troubleshooting
+              run: find data
 
-      # Capture the cypress test videos as an artifact even upon failure
-      - if: ${{ always() }}
-        name: Publish test videos
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-test-videos
-          path: cypress/videos/
+            # Capture the cypress test videos as an artifact even upon failure
+            - if: ${{ always() }}
+              name: Publish test videos
+              uses: actions/upload-artifact@v2
+              with:
+                  name: cypress-test-videos
+                  path: cypress/videos/

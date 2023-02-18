@@ -1,16 +1,16 @@
-import { log_msg as log } from './util.js'
+import { log_msg as log } from "./util.js";
 
 export async function create_datapad_journal() {
     const templates = {
-        "datapad": '<div class="swdatapad"><p></p></div>',
-        "bounty": (await getTemplate('modules/ffg-star-wars-enhancements/templates/datapads_bounty.html'))(),
+        datapad: '<div class="swdatapad"><p></p></div>',
+        bounty: (await getTemplate("modules/ffg-star-wars-enhancements/templates/datapads_bounty.html"))(),
     };
 
-    const datapad_template = game.i18n.localize('ffg-star-wars-enhancements.datapads.datapad-template');
-    const datapad = game.i18n.localize('ffg-star-wars-enhancements.datapads.datapad');
-    const bounty = game.i18n.localize('ffg-star-wars-enhancements.datapads.bounty');
+    const datapad_template = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad-template");
+    const datapad = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad");
+    const bounty = game.i18n.localize("ffg-star-wars-enhancements.datapads.bounty");
     let d = new Dialog({
-        title: game.i18n.localize('ffg-star-wars-enhancements.datapads.title'),
+        title: game.i18n.localize("ffg-star-wars-enhancements.datapads.title"),
         content: `
             <form>
                 <div class="form-group">
@@ -25,25 +25,27 @@ export async function create_datapad_journal() {
         buttons: {
             cancel: {
                 icon: '<i class="fas fa-times"></i>',
-                label: game.i18n.localize('ffg-star-wars-enhancements.datapads.cancel'),
+                label: game.i18n.localize("ffg-star-wars-enhancements.datapads.cancel"),
             },
             create: {
                 icon: '<i class="fas fa-check"></i>',
-                label: game.i18n.localize('ffg-star-wars-enhancements.datapads.create'),
+                label: game.i18n.localize("ffg-star-wars-enhancements.datapads.create"),
                 callback: (html) => {
                     let template = html.find('[name="template"]').val();
-                    log('template', template);
+                    log("template", template);
 
                     let data = {
-                        "name": template,
-                        "content": templates[template],
+                        name: template,
+                        content: templates[template],
                     };
 
-                    JournalEntry.create(data).then(journal => { journal.sheet.render(true) });
-                }
+                    JournalEntry.create(data).then((journal) => {
+                        journal.sheet.render(true);
+                    });
+                },
             },
         },
-        default: 'create',
-        close: () => {}
-    }).render(true)
+        default: "create",
+        close: () => {},
+    }).render(true);
 }
