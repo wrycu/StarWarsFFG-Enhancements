@@ -22,7 +22,7 @@ npm install
 npx cypress run
 ```
 
-## Developing locally
+## Testing locally
 
 Running Cypress in its interactive mode can simplify troubleshooting or developing new tests.
 
@@ -39,7 +39,7 @@ Once Cypress is open:
 
 ### Configuration
 
-The default Cypress configuration can be customized with a `cypress.env.json`. For example, to change the instance of FoundryVTT being tested to another port:
+The default Cypress configuration can be optionally customized with a `cypress.env.json`. For example, to change the instance of FoundryVTT being tested to another port, populate the file with:
 
 ```json
 {
@@ -90,7 +90,7 @@ Configure the FoundryVTT user credentials and license key to launch FoundryVTT.
 
 ### 2. Environment
 
-Configure the `requires-approval` environment to require specific approvers to run the Cypress tests on a fork.
+Configure the `requires-approval` environment to require specific approvers to run the Cypress tests from a fork.
 
 1. Navigate to the repository > Settings > Environments
 2. Click "New environment"
@@ -102,7 +102,7 @@ Note: No environment variables need to be configured here. They're inherited fro
 
 ### 3. Actions permissions (Optional)
 
-Review the repository Actions permissions.
+Review the repository Actions permissions. The defaults are sensible, but these settings provide optional hardening configuration.
 
 1. Navigate to the repository > Settings > Actions > General
 2. Review all settings, specifically "Fork pull request workflows from outside collaborators"
