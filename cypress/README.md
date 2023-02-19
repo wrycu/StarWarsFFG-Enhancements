@@ -43,7 +43,7 @@ The default Cypress configuration can be customized by creating a `cypress.env.j
 
 ```json
 {
-  "baseUrl": "http://localhost:8080"
+    "baseUrl": "http://localhost:8080"
 }
 ```
 
@@ -71,18 +71,18 @@ To override the `docker-compose.yaml` defaults create a [docker-compose.override
 
 ```yaml
 services:
-  foundry-test:
-    # See https://github.com/felddy/foundryvtt-docker for other environment variables
-    environment:
-      # Change the UID/GID to match your development environment to avoid FoundryVTT overwriting permissions
-      - FOUNDRY_UID=1000
-      - FOUNDRY_GID=1000
+    foundry-test:
+        # See https://github.com/felddy/foundryvtt-docker for other environment variables
+        environment:
+            # Change the UID/GID to match your development environment to avoid FoundryVTT overwriting permissions
+            - FOUNDRY_UID=1000
+            - FOUNDRY_GID=1000
 
-    # Remind port mapping
-    ports:
-      - target: 30000
-        published: 8080
-        protocol: tcp
+        # Remind port mapping
+        ports:
+            - target: 30000
+              published: 8080
+              protocol: tcp
 ```
 
 ## Configuring Github Actions
@@ -99,9 +99,9 @@ Configure the FoundryVTT user credentials and license key to launch FoundryVTT.
 
 1. Navigate to the repository > Settings > Secrets and variables > Actions
 2. Repeat following for `FOUNDRY_LICENSE_KEY`, `FOUNDRY_PASSWORD`, and `FOUNDRY_USERNAME`:
-   1. Click "New repository secret"
-   2. Populate the secret name and its value
-   3. Click "Add secret"
+    1. Click "New repository secret"
+    2. Populate the secret name and its value
+    3. Click "Add secret"
 
 ### 2. Environment
 
