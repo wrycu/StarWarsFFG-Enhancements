@@ -77,6 +77,9 @@ function handlesSetup() {
             installsModule($moduleList, "lib-wrapper");
             installsModule($moduleList, "statuscounter");
 
+            // For Quench tests
+            installsModule($moduleList, "quench");
+
             // There's a quirk here where the close button isn't immediately ready to go. Double clicking just to hide it.
             cy.get("#install-package .header-button.close").dblclick();
             //cy.pause();
@@ -209,6 +212,9 @@ function activateModules() {
 
         // Accept the dialog to select all dependencies
         cy.get(".window-content > .dialog-buttons > .yes").click();
+
+        // Enable Quench
+        cy.get('#module-list [data-module-id="quench"] input[type="checkbox"]').check();
 
         // Save
         cy.get('#module-management footer button[type="submit"]').click();
