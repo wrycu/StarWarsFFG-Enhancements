@@ -249,6 +249,7 @@ describe("ffg-star-wars-enhancements", () => {
     it("passes quench tests", () => {
         waitUntilReady();
 
+        cy.window().should("have.property", "quench");
         cy.window().then(async (window) => {
             const quenchReports = Cypress.$.Deferred();
             window.Hooks.once("quenchReports", (reports) => {
