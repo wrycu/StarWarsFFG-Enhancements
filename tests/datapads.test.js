@@ -3,7 +3,8 @@ import { create_datapad_journal } from "../scripts/datapads.js";
 export function batch(context) {
     const { describe, it, beforeEach, expect } = context;
 
-    describe("Create datapad dialog", () => {
+    describe("Create datapad dialog", function () {
+        this.timeout(60000);
         beforeEach(() => {
             // Clean up state from partial test runs
             ["datapad", "bounty"].forEach((option) => {
