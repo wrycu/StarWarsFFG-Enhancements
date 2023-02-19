@@ -71,7 +71,7 @@ To override the `docker-compose.yaml` defaults create a [docker-compose.override
 
 ```yaml
 services:
-  foundry-dev:
+  foundry-test:
     # See https://github.com/felddy/foundryvtt-docker for other environment variables
     environment:
       # Change the UID/GID to match your development environment to avoid FoundryVTT overwriting permissions

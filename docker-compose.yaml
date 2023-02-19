@@ -6,7 +6,7 @@ secrets:
     file: secrets.json
 
 services:
-  foundry-dev:
+  foundry-test:
     image: felddy/foundryvtt:latest
     restart: "unless-stopped"
     volumes:
