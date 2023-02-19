@@ -83,6 +83,14 @@ jobs:
                   wait-on: "http://localhost:30001"
                   wait-on-timeout: 120
 
+            # Save the CONTIANER_CACHE even on failure
+            - if: ${{ steps.container_cache.outputs.cache-hit != 'true' && failure() }}
+              name: Save FoundryVTT CONTAINER_CACHE on failure
+              uses: actions/cache/save@v3
+              with:
+                  key: container_cache
+                  path: data/container_cache
+
             - if: ${{ always() }}
               name: List contents of data dir for troubleshooting
               run: find data
