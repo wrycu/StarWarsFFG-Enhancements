@@ -218,6 +218,14 @@ function activateModules() {
 
         // Save
         cy.get('#module-management footer button[type="submit"]').click();
+
+        // Accept the dialog to reload
+        cy.get(".window-content > .dialog-buttons > .yes").click();
+
+        // The above triggers a page reload
+        cy.visit("/game");
+        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
+        waitUntilReady();
     });
 }
 
