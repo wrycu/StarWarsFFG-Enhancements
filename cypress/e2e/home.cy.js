@@ -226,7 +226,6 @@ function activateModules() {
  */
 function initializeWorld() {
     waitUntilReady();
-
     activateModules();
 }
 
