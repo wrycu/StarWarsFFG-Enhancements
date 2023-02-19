@@ -224,14 +224,43 @@ function initializeWorld() {
     activateModules();
 }
 
-describe.only("ffg-star-wars-enhancements", () => {
+describe("ffg-star-wars-enhancements", () => {
     before(() => {
         handlesSetup();
         join();
         initializeWorld();
     });
 
-    it.only("creates and launches an opening crawl", () => {
+    it("passes quench tests", () => {
+        cy.visit("/game");
+        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
+
+        waitUntilReady();
+
+        cy.window().then(async (window) => {
+            const quenchReports = Cypress.$.Deferred();
+            window.Hooks.once("quenchReports", (reports) => {
+                quenchReports.resolve(reports);
+            });
+
+            const runner = await window.quench.runBatches("**");
+            const reports = JSON.parse((await quenchReports.promise()).json);
+
+            console.log(reports);
+            const errors = reports.failures.map((failure) => {
+                return `${failure.fullTitle} (${failure.duration}ms): ${failure.err?.message}`;
+            });
+            if (errors.length > 0) {
+                throw errors.join("\n");
+            }
+
+            expect(runner.stats.failures).to.equal(0); // Shouldn't be reachable
+            expect(runner.stats.pending).to.equal(0);
+            expect(runner.stats.tests).to.equal(runner.stats.passes);
+        });
+    });
+
+    it("creates and launches an opening crawl", () => {
         cy.visit("/game");
         cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
 
