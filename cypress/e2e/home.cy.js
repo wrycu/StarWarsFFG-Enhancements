@@ -227,14 +227,13 @@ function initializeWorld() {
 describe("ffg-star-wars-enhancements", () => {
     before(() => {
         handlesSetup();
+    });
+    beforeEach(() => {
         join();
         initializeWorld();
     });
 
     it("passes quench tests", () => {
-        cy.visit("/game");
-        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
-
         waitUntilReady();
 
         cy.window().then(async (window) => {
@@ -261,9 +260,6 @@ describe("ffg-star-wars-enhancements", () => {
     });
 
     it("creates and launches an opening crawl", () => {
-        cy.visit("/game");
-        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
-
         waitUntilReady();
 
         // Clean-up crawls if they exist
