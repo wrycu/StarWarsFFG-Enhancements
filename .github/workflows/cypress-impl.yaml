@@ -62,7 +62,7 @@ jobs:
                       --env FOUNDRY_USERNAME=${{ secrets.FOUNDRY_USERNAME }}
                       --env FOUNDRY_PASSWORD=${{ secrets.FOUNDRY_PASSWORD }}
                       --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-                      --publish 30000:30001/tcp
+                      --publish 30001:30000/tcp
                       --volume ${{ github.workspace }}/data:/data
                       felddy/foundryvtt:release
                   wait-on: "http://localhost:30001"
@@ -77,7 +77,7 @@ jobs:
                       --name foundryvtt
                       --env FOUNDRY_ADMIN_KEY=test-admin-key
                       --env FOUNDRY_LICENSE_KEY=${{ secrets.FOUNDRY_LICENSE_KEY }}
-                      --publish 30000:30001/tcp
+                      --publish 30001:30000/tcp
                       --volume ${{ github.workspace }}/data:/data
                       felddy/foundryvtt:release
                   wait-on: "http://localhost:30001"
