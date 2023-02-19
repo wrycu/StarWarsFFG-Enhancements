@@ -1,10 +1,6 @@
 describe("ffg-star-wars-enhancements opening crawl", () => {
-    before(() => {
-        cy.setup();
-    });
     beforeEach(() => {
         cy.join();
-        cy.initializeWorld();
         cy.waitUntilReady();
     });
 

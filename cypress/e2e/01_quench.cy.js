@@ -1,10 +1,6 @@
 describe("ffg-star-wars-enhancements quench", () => {
-    before(() => {
-        cy.setup();
-    });
     beforeEach(() => {
         cy.join();
-        cy.initializeWorld();
         cy.waitUntilReady();
     });
 
