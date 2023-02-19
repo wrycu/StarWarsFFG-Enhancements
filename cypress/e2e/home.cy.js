@@ -141,9 +141,14 @@ function closeInitialPopups() {
         cy.get('.app > .window-header > .window-title')
           .contains('FFG Star Wars Enhancements')
           .parent()
-          .find('.header-button.close')
-          .click({force: true}); // Forced because dialogs can overlap
+          .parent()
+          .find('.dialog-button')
+          .click({force: true}) // Forced because dialogs can overlap
+          .should('not.exist');
+
         // The above triggers a page reload due to it setting animations to off.
+        cy.visit("/game");
+        cy.url().should('eq', `${Cypress.config("baseUrl")}/game`);
         waitUntilReady();
       }
 
@@ -152,7 +157,8 @@ function closeInitialPopups() {
         cy.get('.app > .window-header > .window-title')
           .contains('Warning')
           .parent()
-          .find('.header-button.close')
+          .parent()
+          .find('.dialog-button')
           .click({force: true}); // Forced because dialogs can overlap
       }
     });
