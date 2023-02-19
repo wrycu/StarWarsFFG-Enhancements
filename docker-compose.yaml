@@ -1,0 +1,26 @@
+version: "3.8"
+
+secrets:
+  config_json:
+    # Create this file from secrets.dist.json
+    file: secrets.json
+
+services:
+  foundry-dev:
+    image: felddy/foundryvtt:latest
+    restart: "unless-stopped"
+    volumes:
+      - type: bind
+        source: data
+        target: /data
+      - type: bind
+        source: .
+        target: /data/Data/modules/ffg-star-wars-enhancements
+    environment: []
+    ports:
+      - target: 30000
+        published: 30001
+        protocol: tcp
+    secrets:
+      - source: config_json
+        target: config.json

@@ -1,0 +1,4 @@
+# Ignoring this directory because the docker compose configuration mounts it for game data.
+*
+
+!.gitignore
