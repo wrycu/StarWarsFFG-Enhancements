@@ -1,0 +1,18 @@
+name: Clean Workflow Runs
+on:
+    schedule:
+        # Run at six am on the first of the month
+        - cron: "0 6 1 * *"
+    workflow_dispatch:
+
+jobs:
+    delete_runs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clean workflow runs - Cypress
+              uses: dmvict/clean-workflow-runs@eb79c892f36b3c481c55f57be9dda4b609955a3c # v1.2.0
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  workflow_id: cypress.yaml
+                  save_min_runs_number: 3 # Retain at least 3 runs
+                  save_period: 7 # Save for 7 days
