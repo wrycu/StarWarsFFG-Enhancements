@@ -9,7 +9,7 @@ export async function create_datapad_journal() {
     const datapad_template = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad-template");
     const datapad = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad");
     const bounty = game.i18n.localize("ffg-star-wars-enhancements.datapads.bounty");
-    let d = new Dialog({
+    return new Dialog({
         title: game.i18n.localize("ffg-star-wars-enhancements.datapads.title"),
         content: `
             <form>

@@ -77,6 +77,9 @@ function handlesSetup() {
             installsModule($moduleList, "lib-wrapper");
             installsModule($moduleList, "statuscounter");
 
+            // For Quench tests
+            installsModule($moduleList, "quench");
+
             // There's a quirk here where the close button isn't immediately ready to go. Double clicking just to hide it.
             cy.get("#install-package .header-button.close").dblclick();
             //cy.pause();
@@ -210,8 +213,19 @@ function activateModules() {
         // Accept the dialog to select all dependencies
         cy.get(".window-content > .dialog-buttons > .yes").click();
 
+        // Enable Quench
+        cy.get('#module-list [data-module-id="quench"] input[type="checkbox"]').check();
+
         // Save
         cy.get('#module-management footer button[type="submit"]').click();
+
+        // Accept the dialog to reload
+        cy.get(".window-content > .dialog-buttons > .yes").click();
+
+        // The above triggers a page reload
+        cy.visit("/game");
+        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
+        waitUntilReady();
     });
 }
 
@@ -220,21 +234,46 @@ function activateModules() {
  */
 function initializeWorld() {
     waitUntilReady();
-
     activateModules();
 }
 
-describe.only("ffg-star-wars-enhancements", () => {
+describe("ffg-star-wars-enhancements", () => {
     before(() => {
         handlesSetup();
+    });
+    beforeEach(() => {
         join();
         initializeWorld();
     });
 
-    it.only("creates and launches an opening crawl", () => {
-        cy.visit("/game");
-        cy.url().should("eq", `${Cypress.config("baseUrl")}/game`);
+    it("passes quench tests", () => {
+        waitUntilReady();
 
+        cy.window().should("have.property", "quench");
+        cy.window().then(async (window) => {
+            const quenchReports = Cypress.$.Deferred();
+            window.Hooks.once("quenchReports", (reports) => {
+                quenchReports.resolve(reports);
+            });
+
+            const runner = await window.quench.runBatches("**");
+            const reports = JSON.parse((await quenchReports.promise()).json);
+
+            console.log(reports);
+            const errors = reports.failures.map((failure) => {
+                return `${failure.fullTitle} (${failure.duration}ms): ${failure.err?.message}`;
+            });
+            if (errors.length > 0) {
+                throw errors.join("\n");
+            }
+
+            expect(runner.stats.failures).to.equal(0); // Shouldn't be reachable
+            expect(runner.stats.pending).to.equal(0);
+            expect(runner.stats.tests).to.equal(runner.stats.passes);
+        });
+    });
+
+    it("creates and launches an opening crawl", () => {
         waitUntilReady();
 
         // Clean-up crawls if they exist
