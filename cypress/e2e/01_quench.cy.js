@@ -1,4 +1,4 @@
-describe("ffg-star-wars-enhancements", () => {
+describe("ffg-star-wars-enhancements quench", () => {
     before(() => {
         cy.setup();
     });
