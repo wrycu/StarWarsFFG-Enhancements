@@ -16,6 +16,8 @@ import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
 
+import { init as quench_tests_init } from "./tests/quench.js";
+
 Hooks.once("init", async function () {
     log("base_module", "Initializing");
 
@@ -29,6 +31,7 @@ Hooks.once("init", async function () {
     opening_crawl_init();
     shop_generator_init();
     hyperspace_init();
+    quench_tests_init(); // Will have no effect unless Quench is active
 
     log("base_module", "registering helpers");
     Handlebars.registerHelper("iff_custom", function (a, operator, b, opts) {
