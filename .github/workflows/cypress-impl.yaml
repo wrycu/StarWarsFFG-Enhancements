@@ -85,7 +85,7 @@ jobs:
 
             # Save the CONTIANER_CACHE even on failure
             - if: ${{ steps.container_cache.outputs.cache-hit != 'true' && failure() }}
-              name: Save FoundryVTT CONTAINER_CACHE
+              name: Save FoundryVTT CONTAINER_CACHE on failure
               uses: actions/cache/save@v3
               with:
                   key: container_cache
