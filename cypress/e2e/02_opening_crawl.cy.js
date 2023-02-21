@@ -16,7 +16,7 @@ describe("ffg-star-wars-enhancements opening crawl", () => {
             cy.get("#context-menu > .context-items > .context-item").contains("Delete All").click();
 
             // Confirm
-            cy.get(".window-content > .dialog-buttons > .yes").click();
+            cy.get(".window-content > .dialog-buttons > .yes").click().should("not.exist");
         });
 
         // Open the crawl dialog
