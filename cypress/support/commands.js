@@ -181,6 +181,10 @@ function join(user = "Gamemaster") {
 }
 
 function waitUntilReady() {
+    cy.window().then((window) => {
+        cy.log(`Window is reporting hasFocus of ${window.document.hasFocus()}`);
+    });
+
     // Verify that both the game and canvas are ready before continuing
     cy.window().its("game").and("have.property", "ready").and("be.true");
     cy.window().its("game").should("have.property", "canvas").and("have.property", "ready").and("be.true");
