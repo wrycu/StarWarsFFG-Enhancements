@@ -1,11 +1,4 @@
-/***
- * Clears the entire chat history
- */
-function clear_chat() {
-    cy.get(".fa-comments").click();
-    cy.get(".delete > .fas").click();
-    cy.get(".yes").click();
-}
+import { clear_chat, cleanup_actors } from "../support/common.js";
 
 /***
  * Rolls the specified skill within an open actor sheet
@@ -36,19 +29,7 @@ describe("ffg-star-wars-enhancements dice helper", () => {
 
     it("creates and stats an actor, then generates and clicks dice helper button", () => {
         clear_chat();
-        /*
-            Delete old actors (if any)
-         */
-        cy.get('[data-tab="actors"] > .fas').click();
-        cy.get("#actors > .directory-list").then(($actorList) => {
-            if ($actorList[0].children.length === 0) {
-                return;
-            }
-            // Confirm
-            cy.get(".actor > .document-name > a").rightclick();
-            cy.get(".context-items > :nth-child(1)").click();
-            cy.get(".yes").click();
-        });
+        cleanup_actors();
         /*
             Create an actor and give it stats, so we can roll
          */
