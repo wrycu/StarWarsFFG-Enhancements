@@ -41,7 +41,7 @@ describe("ffg-star-wars-enhancements dice helper", () => {
          */
         cy.get('[data-tab="actors"] > .fas').click();
         cy.get("#actors > .directory-list").then(($actorList) => {
-            if ($actorList.length === 0) {
+            if ($actorList[0].children.length === 0) {
                 return;
             }
             // Confirm
