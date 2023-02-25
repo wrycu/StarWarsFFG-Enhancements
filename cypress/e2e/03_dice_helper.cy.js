@@ -65,5 +65,6 @@ describe("ffg-star-wars-enhancements dice helper", () => {
         cy.get(".fa-comments").click();
         cy.get(".effg-die-result").should("be.visible").click();
         cy.get(".dice_helper").contains("for spending result");
+        cleanup_actors();
     });
 });
