@@ -27,6 +27,8 @@ npx cypress run
 Running Cypress in its interactive mode can simplify troubleshooting or developing new tests.
 
 There are a number of ways to [launch Cypress](https://docs.cypress.io/guides/getting-started/opening-the-app) interactively.
+(Note: When testing interactively, keep the window in focus or use Chrome devtools to emulate a focused page. See [#158](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/158).)
+
 If you're developing in the same environment as the code base with no virtualization/container layers, try `npx cypress open`.
 Otherwise, [install Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress) manually.
 
