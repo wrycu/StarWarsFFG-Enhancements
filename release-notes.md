@@ -1,3 +1,7 @@
+`2.0.3` - 2023-03-01
+
+-   FIX: Break fix release build missing test files causing an error ([#162](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/162))
+
 `2.0.2` - 2023-02-28
 
 -   FIX: Fix for opening crawl improperly not including custom images ([#136](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/136))
