@@ -1,3 +1,9 @@
+`2.0.2` - 2023-02-28
+
+-   FIX: Fix for opening crawl improperly not including custom images ([#136](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/136))
+-   FIX: Multiple fixes with attack animations not playing correctly ([#129](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/129), [#124](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/124))
+-   NOTE: We have begun to add both integration and end-to-end tests. Hopefully, this leads to fewer regressions going forward.
+
 `2.0.1` - 2023-02-12
 
 -   FIX: Correct Dice Helper not working for Ranged Attacks ([#120](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/120))
