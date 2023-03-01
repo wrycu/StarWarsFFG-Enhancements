@@ -115,6 +115,7 @@ jobs:
                     lang/                                \
                     packs/                               \
                     scripts/                             \
+                    tests/                               \
                     styles/                              \
                     templates/                           \
                     CONTRIBUTING.md                      \
