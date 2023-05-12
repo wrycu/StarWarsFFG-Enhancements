@@ -1,3 +1,7 @@
+`2.0.4` - ?
+
+-   Add Brazilian translation (thanks `neour#4842`!)
+
 `2.0.3` - 2023-03-01
 
 -   FIX: Break fix release build missing test files causing an error ([#162](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/162))
