@@ -18,7 +18,7 @@ export function init() {
         label: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.ui.label"),
         icon: "fas fa-cut",
         type: attack_animation_UISettings,
-        restricted: true
+        restricted: true,
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-enable", {
         module: "ffg-star-wars-enhancements",
@@ -28,7 +28,7 @@ export function init() {
         config: false,
         type: Boolean,
         default: true,
-        onChange: (rule) => window.location.reload()
+        onChange: (rule) => window.location.reload(),
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-animation", {
         module: "ffg-star-wars-enhancements",
@@ -38,7 +38,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-brawl-sound", {
         module: "ffg-star-wars-enhancements",
@@ -48,7 +48,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/brawl.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/brawl.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation", {
         module: "ffg-star-wars-enhancements",
@@ -58,7 +58,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/LaserSword01_01_Regular_Blue_800x600.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound", {
         module: "ffg-star-wars-enhancements",
@@ -68,7 +68,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/lightsaber.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/lightsaber.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-animation", {
         module: "ffg-star-wars-enhancements",
@@ -78,7 +78,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Melee/Sword01_01_Regular_White_800x600.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-melee-sound", {
         module: "ffg-star-wars-enhancements",
@@ -88,7 +88,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/melee.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/melee.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-animation", {
         module: "ffg-star-wars-enhancements",
@@ -98,7 +98,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Green_30ft_1600x400.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-gunnery-sound", {
         module: "ffg-star-wars-enhancements",
@@ -108,7 +108,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/gunnery.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/gunnery.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation", {
         module: "ffg-star-wars-enhancements",
@@ -118,7 +118,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Blue_30ft_1600x400.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound", {
         module: "ffg-star-wars-enhancements",
@@ -128,7 +128,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/blaster_heavy.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation", {
         module: "ffg-star-wars-enhancements",
@@ -138,7 +138,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm"
+        default: base_path + "/Library/Generic/Weapon_Attacks/Ranged/LaserShot_01_Regular_Red_30ft_1600x400.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound", {
         module: "ffg-star-wars-enhancements",
@@ -148,7 +148,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/blaster.mp3"
+        default: "modules/ffg-star-wars-enhancements/audio/blaster.mp3",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-animation", {
         module: "ffg-star-wars-enhancements",
@@ -158,7 +158,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "video",
-        default: base_path + "/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm"
+        default: base_path + "/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm",
     });
     game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-sound", {
         module: "ffg-star-wars-enhancements",
@@ -168,7 +168,7 @@ export function init() {
         config: false,
         type: String,
         filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/explosion.wav"
+        default: "modules/ffg-star-wars-enhancements/audio/explosion.wav",
     });
     log("attack_animation", "Initialized");
 }
@@ -186,11 +186,11 @@ export function attack_animation_check() {
                     "JB2A (free or Patreon) is not loaded.<br>This module supports automatic attack animations, but these are disabled until you load the JB2A (free or paid) module.<br>The animations have been disabled.",
                 buttons: {
                     one: {
-                        icon: "<i class=\"fas fa-check\"></i>",
-                        label: "Ok"
-                    }
+                        icon: '<i class="fas fa-check"></i>',
+                        label: "Ok",
+                    },
                 },
-                close: (html) => game.settings.set("ffg-star-wars-enhancements", "attack-animation-enable", false)
+                close: (html) => game.settings.set("ffg-star-wars-enhancements", "attack-animation-enable", false),
             });
             d.render(true);
             log("attack_animation", "Feature disabled - required modules are not loaded");
@@ -241,42 +241,42 @@ export function attack_animation(...args) {
     // brawl
     combat_skills[game.i18n.localize("SWFFG.SkillsNameBrawl")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-brawl-sound"),
     };
     // lightsaber
     combat_skills[game.i18n.localize("SWFFG.SkillsNameLightsaber")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-lightsaber-sound"),
     };
     // melee
     combat_skills[game.i18n.localize("SWFFG.SkillsNameMelee")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-melee-sound"),
     };
     /* ranged animations */
     // gunnery
     combat_skills[game.i18n.localize("SWFFG.SkillsNameGunnery")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-gunnery-sound"),
     };
     // ranged heavy
     combat_skills[game.i18n.localize("SWFFG.SkillsNameRangedHeavy").replace(" ", " ")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-heavy-sound"),
     };
     // ranged light
     combat_skills[game.i18n.localize("SWFFG.SkillsNameRangedLight").replace(" ", " ")] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
     };
     // grenade
     combat_skills["grenade"] = {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-sound")
+        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-sound"),
     };
 
     if (skill in combat_skills) {
-        log("attack_animation", "Determined that \"" + skill + "\" is a combat skill");
+        log("attack_animation", 'Determined that "' + skill + '" is a combat skill');
         /* check if things are configured for us to continue */
         if (game.user.targets.size === 0) {
             ui.notifications.warn("You must target at least one token as a target or disable attack animations");
@@ -335,7 +335,7 @@ export function attack_animation(...args) {
             // check if the item is a grenade and override the skill if it is
             if (item_name && item_name.toLowerCase().includes("grenade")) {
                 // the item was a grenade, we've got to change some stuff around
-                log("attack_animation", "Item being rolled is a grenade, swapping animation to \"grenade\"");
+                log("attack_animation", 'Item being rolled is a grenade, swapping animation to "grenade"');
                 // noinspection JSDuplicatedDeclaration
                 var animation_file = combat_skills["grenade"]["animation_file"];
                 // noinspection JSDuplicatedDeclaration
@@ -400,9 +400,9 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     file: animation_file,
                     anchor: {
                         x: 0.5,
-                        y: 0.5
+                        y: 0.5,
                     },
-                    angle: -90
+                    angle: -90,
                 };
             } else if (skill.toLowerCase().includes("ranged")) {
                 var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
@@ -411,13 +411,13 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     file: animation_file,
                     anchor: {
                         x: 0.125, //default = 0.125
-                        y: 0.5 //default is 0.5
+                        y: 0.5, //default is 0.5
                     },
                     angle: -(ray.angle * 57.3),
                     scale: {
                         x: ray.distance / 1200, //default is ray.distance / 1200
-                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200 //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
-                    }
+                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
+                    },
                 };
             } else {
                 var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
@@ -426,13 +426,13 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     file: animation_file,
                     anchor: {
                         x: 0.4, //default = 0.125
-                        y: 0.5 //default is 0.5
+                        y: 0.5, //default is 0.5
                     },
                     angle: -(ray.angle * 57.3),
                     scale: {
                         x: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance / 1200
-                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200 //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
-                    }
+                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
+                    },
                 };
             }
             canvas.specials.playVideo(animation_config);
@@ -453,7 +453,7 @@ class attack_animation_UISettings extends FormApplication {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
-            template: "modules/ffg-star-wars-enhancements/templates/settings.html"
+            template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }
 
@@ -463,7 +463,7 @@ class attack_animation_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: { title: game.system.title, menus: [], settings: [] }
+            system: { title: game.system.title, menus: [], settings: [] },
         };
 
         // Classify all settings
@@ -493,14 +493,14 @@ class attack_animation_UISettings extends FormApplication {
             user: game.user,
             canConfigure: canConfigure,
             systemTitle: game.system.title,
-            data: data
+            data: data,
         };
     }
 
     activateListeners(html) {
         super.activateListeners(html);
         html.find(".submenu button").click(this._onClickSubmenu.bind(this));
-        html.find("button[name=\"reset\"]").click(this._onResetDefaults.bind(this));
+        html.find('button[name="reset"]').click(this._onResetDefaults.bind(this));
         html.find("button.filepicker").click(this._onFilePicker.bind(this));
     }
 
@@ -552,7 +552,7 @@ class attack_animation_UISettings extends FormApplication {
                 //this._onSubmit(event);
             },
             top: this.position.top + 40,
-            left: this.position.left + 10
+            left: this.position.left + 10,
         });
         return fp.browse();
     }
@@ -581,14 +581,14 @@ class ConfigureAttackAnimation extends FormApplication {
         return mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/configure_attack_animations.html",
             id: "ffg-star-wars-enhancements-attack-animation-configure",
-            title: "Attack Animation"
+            title: "Attack Animation",
         });
     }
 
     activateListeners(html) {
         // for whatever reason, the old wrap does not work, so instead we'll override the listener
         super.activateListeners(html);
-        html.find("button[name=\"create\"]").click(this._saveChanges.bind(this));
+        html.find('button[name="create"]').click(this._saveChanges.bind(this));
     }
 
     async _saveChanges(event) {
@@ -602,7 +602,7 @@ class ConfigureAttackAnimation extends FormApplication {
             item: event.target.parentElement[1].value,
             animation_file: event.target.parentElement[2].value,
             animation_count: event.target.parentElement[4].value,
-            sound_file: event.target.parentElement[5].value
+            sound_file: event.target.parentElement[5].value,
         };
     }
 
@@ -646,7 +646,7 @@ class ConfigureAttackAnimation extends FormApplication {
                         name: items[i].name,
                         animation: animation,
                         sound: sound,
-                        count: count
+                        count: count,
                     });
                 }
             }
@@ -660,12 +660,12 @@ class ConfigureAttackAnimation extends FormApplication {
                 actors.push({
                     id: tmp_actors[x]["id"],
                     name: actor_name,
-                    items: tmp_items
+                    items: tmp_items,
                 });
             }
         }
         return {
-            actors: actors
+            actors: actors,
         };
     }
 
@@ -689,7 +689,7 @@ class ConfigureAttackAnimation extends FormApplication {
         let flag_data = {
             sound_file: data["sound_file"],
             animation_file: data["animation_file"],
-            animation_count: data["animation_count"]
+            animation_count: data["animation_count"],
         };
         game.actors
             .get(data["actor"])
