@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSUnresolvedFunction,ES6ConvertVarToLetConst
 
-import { setting_image, setting_audio } from "./settings.js";
-import { log_msg as log } from "./util.js";
+import {setting_image, setting_audio} from "./settings.js";
+import {log_msg as log} from "./util.js";
 
 export function init() {
     log("attack_animation", "Initializing");
@@ -404,26 +404,41 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     },
                     angle: -90,
                 };
+            } else if (skill.toLowerCase().includes("ranged")) {
+                var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
+                var animation_config = {
+                    position: tokens[0].center,
+                    file: animation_file,
+                    anchor: {
+                        x: 0.125, //default = 0.125
+                        y: 0.5, //default is 0.5
+                    },
+                    angle: -(ray.angle * 57.3),
+                    scale: {
+                        x: ray.distance / 1200, //default is ray.distance / 1200
+                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
+                    },
+                };
             } else {
                 var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
                 var animation_config = {
                     position: tokens[0].center,
                     file: animation_file,
                     anchor: {
-                        x: 0.125,
-                        y: 0.5,
+                        x: 0.4, //default = 0.125
+                        y: 0.5, //default is 0.5
                     },
                     angle: -(ray.angle * 57.3),
                     scale: {
-                        x: ray.distance / 1200,
-                        y: ray.distance <= 200 ? 0.66 : ray.distance / 1200,
+                        x: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance / 1200
+                        y: ray.distance / 1200 <= 200 ? 0.66 : ray.distance / 1200, //default is ray.distance <= 200 ? 0.66 : ray.distance / 1200
                     },
-                };
+                }
             }
             canvas.specials.playVideo(animation_config);
             game.socket.emit("module.fxmaster", animation_config);
 
-            AudioHelper.play({ src: sound_file, volume: 0.3, autoplay: true, loop: false }, true);
+            AudioHelper.play({src: sound_file, volume: 0.3, autoplay: true, loop: false}, true);
             await sleepNow(250);
         }
     }
@@ -448,7 +463,7 @@ class attack_animation_UISettings extends FormApplication {
         const canConfigure = game.user.can("SETTINGS_MODIFY");
 
         const data = {
-            system: { title: game.system.title, menus: [], settings: [] },
+            system: {title: game.system.title, menus: [], settings: []},
         };
 
         // Classify all settings
