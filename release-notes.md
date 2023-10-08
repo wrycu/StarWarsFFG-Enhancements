@@ -2,6 +2,7 @@
 
 -   Add Brazilian translation (thanks `neour#4842`!)
 -   FIX: Correct Melee animation looking squished ([#102](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/102)) (thanks `tim-bersau` for reporting and `SourTarte` for providing a fix!)
+-   IMPROVEMENT: Combat actors can now have custom images set ([#168](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/168))
 
 `2.0.3` - 2023-03-01
 
