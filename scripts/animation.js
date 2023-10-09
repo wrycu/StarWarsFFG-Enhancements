@@ -384,7 +384,7 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                 var lower_bound = 2;
                 var num_shots = parseInt(count);
             }
-        } else if (["Melee", "Brawl", "Lightsaber"].indexOf(skill) > -1) {
+        } else if (["Melee", "Brawl", "Lightsaber"].indexOf(skill) > -1 || skill === "grenade") {
             // noinspection JSDuplicatedDeclaration
             var lower_bound = 1;
             var num_shots = 1;
@@ -404,7 +404,7 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     },
                     angle: -90,
                 };
-            } else if (skill.toLowerCase().includes("ranged")) {
+            } else if (skill.toLowerCase().includes("ranged") || skill.toLowerCase().includes("gunnery")) {
                 var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
                 var animation_config = {
                     position: tokens[0].center,
