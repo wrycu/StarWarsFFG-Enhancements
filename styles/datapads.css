@@ -26,6 +26,21 @@
     font-size: 12px;
 }
 
+.swdatapadlarge {
+    background-image: url('../artwork/datapad-large-template-2250w.png');
+    background-repeat: no-repeat;
+    min-width: 2250px;
+    height: 2840px;
+    display: block;
+    padding: 50px 90px;
+    color: #d0faff;
+    font-size: 14px;
+    font-family: Temporarium;
+}
+.swdatapadlarge table {
+    font-size: 12px
+}
+
 .swdatapad-wanted {
     background-image: url("../artwork/datapad-template-wanted-700w.png");
     background-repeat: no-repeat;
