@@ -40,7 +40,7 @@ export function minionsize_sync(source, ...args) {
                     } else {
                         log(module_name, "Updating an unlinked token");
                         let token = canvas.tokens.placeables.find(
-                            (searchedtoken) => searchedtoken._id === actor.parent._id
+                            (searchedtoken) => searchedtoken.actor._id === actor._id
                         );
                         update_minion_status(token, minionSize);
                     }
