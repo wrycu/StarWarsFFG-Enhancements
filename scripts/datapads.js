@@ -3,13 +3,13 @@ import { log_msg as log } from "./util.js";
 export async function create_datapad_journal() {
     const templates = {
         datapad: '<div class="swdatapad"><p></p></div>',
-		datapadlarge: '<div class="swdatapadlarge"><p></p></div>',
+        datapadlarge: '<div class="swdatapadlarge"><p></p></div>',
         bounty: (await getTemplate("modules/ffg-star-wars-enhancements/templates/datapads_bounty.html"))(),
     };
 
     const datapad_template = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad-template");
     const datapad = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad");
-	const datapad_large = game.i18n.localize('ffg-star-wars-enhancements.datapads.datapad-large');
+    const datapad_large = game.i18n.localize("ffg-star-wars-enhancements.datapads.datapad-large");
     const bounty = game.i18n.localize("ffg-star-wars-enhancements.datapads.bounty");
     return new Dialog({
         title: game.i18n.localize("ffg-star-wars-enhancements.datapads.title"),
