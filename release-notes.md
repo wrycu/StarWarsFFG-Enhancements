@@ -1,4 +1,7 @@
-`2.0.4` - ?
+`2.0.5` - ?
+-   FIX: Minion group size should once again display ([#164](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/164))
+
+`2.0.4` - 2023-10-09
 
 -   Add Brazilian translation (thanks `neour#4842`!)
 -   FIX: Correct Melee animation looking squished ([#102](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/102)) (thanks `tim-bersau` for reporting and `SourTarte` for providing a fix!)
