@@ -1,5 +1,6 @@
-`2.0.5` - ?
+`2.0.5` - 2023-12-29
 -   FIX: Minion group size should once again display ([#164](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/164))
+-   IMPROVEMENT: Add large datapad (thanks `Spocky69`!) 
 
 `2.0.4` - 2023-10-09
 
