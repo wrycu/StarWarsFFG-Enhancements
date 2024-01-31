@@ -1,3 +1,5 @@
+- FIX: Module settings popup windows titles corrected
+
 `2.0.5` - 2023-12-29
 
 - FIX: Minion group size should once again
