@@ -452,7 +452,7 @@ class attack_animation_UISettings extends FormApplication {
         return mergeObject(super.defaultOptions, {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
-            title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
+            title: `${game.i18n.localize("ffg-star-wars-enhancements.attack-animation.ui.name")}`,
             template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }
