@@ -375,7 +375,7 @@ class opening_crawl_UISettings extends FormApplication {
         return mergeObject(super.defaultOptions, {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
-            title: `${game.i18n.localize("SWFFG.UISettingsLabel")}`,
+            title: `${game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.ui.name")}`,
             template: "modules/ffg-star-wars-enhancements/templates/settings.html",
         });
     }

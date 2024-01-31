@@ -58,7 +58,6 @@
 <form autocomplete="off" class="flexcol">
     <section class="content" id="config-tabs">
         <div class="settings-list">
-            <h2 class="module-header">{{ localize data.system.title }}</h2>
             {{#each data.system.menus}} {{> menuPartial}} {{/each}} {{#each data.system.settings}} {{> settingPartialCustom}}
             {{else}}
             <p class="notes">{{localize 'SETTINGS.None'}}</p>
