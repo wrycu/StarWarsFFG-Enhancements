@@ -40,3 +40,22 @@
         </div>
     </div>
 </div>
+
+<head>
+    <style>
+        :root{
+            --intro-text-delay: {{intro_text_delay}}s; /* Time since start */
+            --intro-text-duration: {{intro_text_duration}}s;
+
+            --intro-logo-delay: calc({{intro_logo_delay}}s + var(--intro-text-delay) + var(--intro-text-duration));  /* Time since intro text finished */
+            --intro-logo-duration: {{intro_logo_duration}}s;
+
+            --intro-crawl-duration-adjust : {{intro_crawl_duration_adjust}}s; /* Can be used to shorten or increase the length of the crawl */
+            --intro-crawl-delay: calc({{intro_crawl_delay}}s + var(--intro-text-delay) + var(--intro-text-duration)); /* Time since intro text finished */
+            --intro-crawl-duration: calc({{intro_crawl_duration}}s + var(--intro-crawl-duration-adjust));
+
+            --intro-ending-delay: calc(({{intro_pan_delay}}s + var(--intro-crawl-duration) + var(--intro-crawl-delay))); /* Time since crawl finished */
+            --intro-ending-duration: {{intro_pan_duration}}s;
+        }
+    </style>
+</head>
