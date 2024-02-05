@@ -79,6 +79,98 @@ export function init() {
         type: Number,
         default: 350,
     });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-text-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-text-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-text-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 1,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-text-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-text-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-text-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 6,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-logo-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-logo-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-logo-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 2,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-logo-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-logo-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-logo-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 11,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 6,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 73,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-duration-adjust", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-duration-adjust"),
+        hint: game.i18n.localize(
+            "ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-duration-adjust-hint"
+        ),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 0,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-pan-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-pan-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-pan-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 0,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-pan-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-pan-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-pan-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 7,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-close-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-close-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-close-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 3,
+    });
     log("opening-crawl", "Initialized");
 }
 
@@ -126,6 +218,21 @@ class OpeningCrawlApplication extends Application {
         data.img.bottom = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-bottom");
         data.img.right = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-right");
         data.size = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-font-size");
+        data.intro_text_delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-text-delay");
+        data.intro_text_duration = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-text-duration");
+        data.intro_logo_delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-logo-delay");
+        data.intro_logo_duration = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-logo-duration");
+        data.intro_crawl_delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-delay");
+        data.intro_crawl_duration = game.settings.get(
+            "ffg-star-wars-enhancements",
+            "opening-crawl-intro-crawl-duration"
+        );
+        data.intro_crawl_duration_adjust = game.settings.get(
+            "ffg-star-wars-enhancements",
+            "opening-crawl-intro-crawl-duration-adjust"
+        );
+        data.intro_pan_delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-delay");
+        data.intro_pan_duration = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-duration");
         return data;
     }
 
@@ -261,10 +368,14 @@ export function launch_opening_crawl(data) {
  *
  * @param {object} data object passed to OpeningCrawlApplication
  */
-function socket_listener(data) {
+async function socket_listener(data) {
     log("socket", data);
     if (data.type == "opening-crawl") {
-        new OpeningCrawlApplication(data).render(true);
+        let crawl = new OpeningCrawlApplication(data).render(true);
+        if (game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-close-delay") != 0) {
+            await sleep(get_total_intro_duration() * 1000);
+            crawl.close();
+        }
     }
 }
 
@@ -280,6 +391,7 @@ class OpeningCrawlSelectApplication extends FormApplication {
             title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
         });
     }
+
     async getData() {
         let folder = await get_journal_folder();
         let journals = folder.contents.map((journal) => {
@@ -293,6 +405,7 @@ class OpeningCrawlSelectApplication extends FormApplication {
             journals: journals,
         };
     }
+
     _updateObject(event, data) {
         log("opening-crawl", "select | journal selected");
 
@@ -357,6 +470,19 @@ export async function create_opening_crawl() {
     JournalEntry.create(data).then((journal) => {
         journal.sheet.render(true);
     });
+}
+
+function get_total_intro_duration() {
+    return (
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-text-delay") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-text-duration") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-delay") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-duration") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-duration-adjust") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-delay") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-duration") +
+        game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-close-delay")
+    );
 }
 
 /**

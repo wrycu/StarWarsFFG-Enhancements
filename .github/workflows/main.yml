@@ -30,7 +30,7 @@
 #   - Has the module's entry on FoundryVTT's module administration site
 #     (https://foundryvtt.com/admin) been updated?
 #
-name: Create Module Files For GitHub Release
+name: Create Release
 
 env:
     # The URL used for the module's "Project URL" link on FoundryVTT's website.
@@ -140,3 +140,11 @@ jobs:
                   artifacts: "./module.json, ./module.zip"
                   tag: ${{ github.event.release.tag_name }}
                   body: ${{ github.event.release.body }}
+            - name: Publish System to FoundryVTT Website
+              id: publish-to-foundry-website
+              uses: cs96and/FoundryVTT-release-package@v1
+              with:
+                  package-token: ${{ secrets.PACKAGE_TOKEN }}
+                  manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/system.json
+                  notes-url: https://github.com/${{github.repository}}/releases/tag/${{github.event.release.tag_name}}
+                  dry-run: false
