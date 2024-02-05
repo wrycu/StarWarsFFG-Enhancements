@@ -44,7 +44,7 @@ export function launch_title_cards(data) {
 
     data = mergeObject(data, {
         type: "title-cards",
-        logo: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-logo"),
+        logo: game.settings.get("ffg-star-wars-enhancements", "title-cards-logo"),
         music: game.settings.get("ffg-star-wars-enhancements", "title-cards-music"),
     });
     game.socket.emit("module.ffg-star-wars-enhancements", data);
@@ -66,10 +66,20 @@ export function init() {
         type: title_cards_UISettings,
         restricted: true,
     });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-logo", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-hint"),
+        scope: "world",
+        config: false,
+        type: String,
+        filePicker: "folder",
+        default: "",
+    });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-music", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title-cards-music"),
-        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title-cards-music-hint"),
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-music"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-music-hint"),
         scope: "world",
         config: false,
         type: String,
@@ -78,14 +88,85 @@ export function init() {
     });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-music-delay", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title-cards-music-delay"),
-        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title-cards-music-delay-hint"),
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-music-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-music-delay-hint"),
         scope: "world",
         config: false,
         type: Number,
         default: 0.0,
     });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-top-font-size", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 150,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-bottom-font-size", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-bottom-font-size"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-bottom-font-size-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 50,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-logo-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 5.7,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-logo-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 4.5,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-text-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 10.7,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-text-duration", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-duration"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-duration-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 5,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-close-delay", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-close-delay"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-close-delay-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 1,
+    });
     log("title-cards", "Initialized");
+}
+
+function get_total_duration() {
+    return (
+        game.settings.get("ffg-star-wars-enhancements", "title-cards-text-delay") +
+        game.settings.get("ffg-star-wars-enhancements", "title-cards-text-duration") +
+        game.settings.get("ffg-star-wars-enhancements", "title-cards-close-delay")
+    );
 }
 
 /**
@@ -102,12 +183,17 @@ export function ready() {
  *
  * @param {object} data object passed to TitleCardsApplication
  */
-function socket_listener(data) {
+async function socket_listener(data) {
     log("socket", data);
     if (data.type == "title-cards") {
-        new TitleCardsApplication(data).render(true);
+        let titles = new TitleCardsApplication(data).render(true);
+        if (game.settings.get("ffg-star-wars-enhancements", "title-cards-close-delay") != 0) {
+            await sleep(get_total_duration() * 1000);
+            titles.close();
+        }
     }
 }
+
 
 /**
  * Helper function to delay code execution by an arbitrary amount
@@ -139,7 +225,7 @@ class TitleCardsApplication extends Application {
         return mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/title_cards.html",
             id: "ffg-star-wars-enhancements-title-cards",
-            title: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title"),
+            title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
             minimizable: false,
             editable: false,
             resizable: true,
@@ -158,10 +244,12 @@ class TitleCardsApplication extends Application {
      */
     getData() {
         let data = this.data;
-        data.img = {};
-        data.img.bottom = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-bottom");
-        data.img.right = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-right");
-        data.size = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-font-size");
+        data.topSize = game.settings.get("ffg-star-wars-enhancements", "title-cards-top-font-size");
+        data.bottomSize = game.settings.get("ffg-star-wars-enhancements", "title-cards-bottom-font-size");
+        data.logoDelay = game.settings.get("ffg-star-wars-enhancements", "title-cards-logo-delay");
+        data.logoDuration = game.settings.get("ffg-star-wars-enhancements", "title-cards-logo-duration");
+        data.textDelay = game.settings.get("ffg-star-wars-enhancements", "title-cards-text-delay");
+        data.textDuration = game.settings.get("ffg-star-wars-enhancements", "title-cards-text-duration");
         return data;
     }
 

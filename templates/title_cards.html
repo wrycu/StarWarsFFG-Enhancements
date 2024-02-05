@@ -30,7 +30,7 @@
             width: 50%;
             height: 50%;
             opacity: 0;
-            animation: logoAnimation 4.5s ease-out 5.7s;
+            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s;
             display: flex;
             justify-content: center;
         }
@@ -65,7 +65,7 @@
             width: 100%;
             height: 50%;
             opacity: 0;
-            animation: textFadeAnimation 5s ease-out 10.7s;
+            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s;
             font-family: "News Cycle";
             font-weight: bolder;
         }
@@ -79,12 +79,12 @@
         }
 
         .top-text {
-            font-size: 150px;
+            font-size: {{topSize}}px;
             align-items: flex-end;
         }
 
         .bottom-text {
-            font-size: 50px;
+            font-size: {{bottomSize}}px;
             align-items: flex-start;
         }
 
