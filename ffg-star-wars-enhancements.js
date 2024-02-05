@@ -2,6 +2,7 @@ import { init as settings_init } from "./scripts/settings.js";
 import { FfgEnhancementsLayer, log_msg as log } from "./scripts/util.js";
 import { init as attack_animation_init, attack_animation_check, attack_animation } from "./scripts/animation.js";
 import { init as opening_crawl_init, ready as opening_crawl_ready } from "./scripts/opening_crawl.js";
+import { init as title_cards_init, ready as title_cards_ready } from "./scripts/title_cards.js";
 import { init as hyperspace_init, ready as hyperspace_ready } from "./scripts/hyperspace.js";
 import { init as rename_init, rename_combatant } from "./scripts/rename.js";
 import {
@@ -29,6 +30,7 @@ Hooks.once("init", async function () {
     strain_reminder_init();
     talent_checker_init();
     opening_crawl_init();
+    title_cards_init();
     shop_generator_init();
     hyperspace_init();
     quench_tests_init(); // Will have no effect unless Quench is active
@@ -99,6 +101,7 @@ Hooks.once("ready", () => {
     /* register functionality here */
     attack_animation_check();
     opening_crawl_ready();
+    title_cards_ready();
     shop_sheet_ready();
     dice_helper();
     talent_checker();

@@ -1,3 +1,4 @@
+- IMPROVEMENT: Opening crawl timing can be configured in the settings
 - FIX: Module settings popup windows titles corrected
 
 `2.0.5` - 2023-12-29

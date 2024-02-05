@@ -1,4 +1,5 @@
 import { select_opening_crawl } from "./opening_crawl.js";
+import { title_cards_dialog } from "./title_cards.js";
 import { select_hyperspace } from "./hyperspace.js";
 import { create_datapad_journal } from "./datapads.js";
 import { shop_creator } from "./shop.js";
@@ -23,6 +24,15 @@ export const register_controls = (controls) => {
                 button: true,
                 onClick: () => {
                     select_opening_crawl();
+                },
+            },
+            {
+                name: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.name"),
+                title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
+                icon: "fas fa-book",
+                button: true,
+                onClick: () => {
+                    title_cards_dialog();
                 },
             },
             {
