@@ -5,7 +5,7 @@ import { log_msg as log } from "./util.js";
 export function title_cards_dialog() {
     new Dialog({
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
-        content:`
+        content: `
           <form>
             <div class="form-group">
             <p>
@@ -18,20 +18,21 @@ export function title_cards_dialog() {
               </p>
             </div>
           </form>`,
-        buttons:{
+        buttons: {
             yes: {
                 icon: "<i class='fas fa-check'></i>",
-                label: `Launch Title Cards`
-            }},
-        default:'yes',
-        close: html => {
-            let data = {
-                toptext: html.find('input[name=\'toptext\']').val(),
-                bottomtext: html.find('input[name=\'bottomtext\']').val()
+                label: `${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.launch")}`,
+                callback: html => {
+                    let data = {
+                        toptext: html.find('input[name=\'toptext\']').val(),
+                        bottomtext: html.find('input[name=\'bottomtext\']').val()
+                    }
+                    launch_title_cards(data);
+                }
             }
-          launch_title_cards(data);
-          }
-      }).render(true);
+        },
+        default: 'yes'
+    }).render(true);
 }
 
 
