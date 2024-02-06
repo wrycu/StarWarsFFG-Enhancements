@@ -1,0 +1,109 @@
+<div class="title-cards-bg">
+    <div class="title-cards-logo">
+        <img src="{{logo}}">
+    </div>
+
+    <div class="title-cards-text">
+        <div class="top-text">{{toptext}}</div>
+        <div class="bottom-text">{{bottomtext}}</div>
+    </div>
+
+</div>
+
+<head>
+    <style>
+        .title-cards-bg {
+            position: relative;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #ffd54e;
+            overflow: hidden;
+        }
+
+        .title-cards-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: auto;
+            opacity: 0;
+            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s;
+            display: flex;
+            justify-content: center;
+        }
+
+        @keyframes logoAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            0.1% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .title-cards-text {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 50%;
+            opacity: 0;
+            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s;
+            font-family: "News Cycle";
+            font-weight: bolder;
+        }
+
+        .top-text,
+        .bottom-text {
+            flex: 1;
+            display: flex;
+            line-height: 100%;
+
+        }
+
+        .top-text {
+            font-size: {{topSize}}px;
+            align-items: flex-end;
+        }
+
+        .bottom-text {
+            font-size: {{bottomSize}}px;
+            align-items: flex-start;
+        }
+
+        @keyframes textFadeAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            0.1% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
