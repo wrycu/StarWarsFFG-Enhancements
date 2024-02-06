@@ -1,7 +1,5 @@
 import { log_msg as log } from "./util.js";
 
-
-
 export function title_cards_dialog() {
     new Dialog({
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
@@ -22,19 +20,18 @@ export function title_cards_dialog() {
             yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: `${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.launch")}`,
-                callback: html => {
+                callback: (html) => {
                     let data = {
-                        toptext: html.find('input[name=\'toptext\']').val(),
-                        bottomtext: html.find('input[name=\'bottomtext\']').val()
-                    }
+                        toptext: html.find("input[name='toptext']").val(),
+                        bottomtext: html.find("input[name='bottomtext']").val(),
+                    };
                     launch_title_cards(data);
-                }
-            }
+                },
+            },
         },
-        default: 'yes'
+        default: "yes",
     }).render(true);
 }
-
 
 /**
  * Launch the title cards.
@@ -52,7 +49,6 @@ export function launch_title_cards(data) {
     socket_listener(data);
     log("title-cards", "event emmitted");
 }
-
 
 /**
  * Register settings used by title cards
@@ -194,7 +190,6 @@ async function socket_listener(data) {
         }
     }
 }
-
 
 /**
  * Helper function to delay code execution by an arbitrary amount
