@@ -14,6 +14,7 @@ This module is designed to supplement the
 ### Features
 
 -   Launch a customizable Opening Crawl based upon the [Kassel Labs Star Wars Intro Creator](https://github.com/KasselLabs/StarWarsIntroCreator)
+-   Launch customisable Book of Boba Fett-style title cards
 -   A shop generator
 -   Easily create Bounties and Datapada entries for showing players
 -   Provides support for automatic, configurable attack animations (with sounds!)
