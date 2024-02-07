@@ -200,7 +200,10 @@ export function attack_animation_check() {
 
 export function attack_animation(...args) {
     // take our custom arg out of the array so we don't return it
-    let that = args[0];
+    const roll_data = args[0];
+    console.log(roll_data);
+    const hit = roll_data.ffg.success > 0;
+    console.log(hit);
     args = args.splice(1);
 
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
@@ -311,14 +314,14 @@ export function attack_animation(...args) {
             actor_id = args[0]["speaker"]["actor"]["_id"];
         }
 
-        if (that["data"] === null || jQuery.isEmptyObject(that["data"])) {
+        if (roll_data["data"] === null || jQuery.isEmptyObject(roll_data["data"])) {
             // this was a roll from a skill
             var flag_data = null;
             var item_name = null;
         } else {
             // this was a roll from an item
-            let item_id = that["data"]["_id"];
-            var item_name = that["data"]["name"];
+            let item_id = roll_data["data"]["_id"];
+            var item_name = roll_data["data"]["name"];
             let the_item = game.actors.get(actor_id).items.get(item_id);
             if (the_item !== null && the_item !== undefined) {
                 var flag_data = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
@@ -361,7 +364,7 @@ export function attack_animation(...args) {
         // todo: based on dice results, we could have the animation miss
         log("attack_animation", "Playing the attack animation: " + animation_file + " / " + sound_file);
         // noinspection JSIgnoredPromiseFromCall
-        play_animation(animation_file, sound_file, skill, source, count);
+        play_animation(animation_file, sound_file, skill, source, count, hit);
         return args;
     } else {
         // not a combat skill; ignore it
@@ -371,9 +374,12 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-async function play_animation(animation_file, sound_file, skill, source, count) {
+async function play_animation(animation_file, sound_file, skill, source, count, hit) {
     const tokens = source;
+    let min_miss_offset = 30;
+    let max_miss_offset = 50;
     var arrayLength = game.user.targets.size;
+    let position;
     for (var i = 0; i < arrayLength; i++) {
         if (count !== null) {
             var range = count.split("-");
@@ -394,9 +400,46 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
             var num_shots = Math.floor(Math.random() * 6 + 1);
         }
         for (var x = lower_bound - 1; x < num_shots; x++) {
+            const center = Array.from(game.user.targets)[i].center;
+            // pick a random spot to draw the ray to (based on if the attack hit or not)
+            if (hit) {
+                min_miss_offset = 2;
+                max_miss_offset = 15;
+            } else {
+                min_miss_offset = 40;
+                max_miss_offset = 55;
+            }
+            let dir = Math.floor(Math.random() * 4);
+            switch (dir) {
+                case 0:
+                    position = {
+                        x: center["x"] - Math.floor(Math.random() * max_miss_offset) - min_miss_offset,
+                        y: center["y"] - Math.floor(Math.random() * max_miss_offset) - min_miss_offset,
+                    };
+                    break;
+                case 1:
+                    position = {
+                        x: center["x"] - Math.floor(Math.random() * max_miss_offset) - min_miss_offset,
+                        y: center["y"] + Math.floor(Math.random() * max_miss_offset) + min_miss_offset,
+                    };
+                    break;
+                case 2:
+                    position = {
+                        x: center["x"] + Math.floor(Math.random() * max_miss_offset) + min_miss_offset,
+                        y: center["y"] - Math.floor(Math.random() * max_miss_offset) - min_miss_offset,
+                    };
+                    break;
+                case 3:
+                    position = {
+                        x: center["x"] + Math.floor(Math.random() * max_miss_offset) + min_miss_offset,
+                        y: center["y"] + Math.floor(Math.random() * max_miss_offset) + min_miss_offset,
+                    };
+                    break;
+            }
+            // configure the animation
             if (skill === "grenade") {
                 var animation_config = {
-                    position: Array.from(game.user.targets)[i].center,
+                    position: position,
                     file: animation_file,
                     anchor: {
                         x: 0.5,
@@ -405,7 +448,7 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     angle: -90,
                 };
             } else if (skill.toLowerCase().includes("ranged") || skill.toLowerCase().includes("gunnery")) {
-                var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
+                var ray = new Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
                     file: animation_file,
@@ -420,7 +463,7 @@ async function play_animation(animation_file, sound_file, skill, source, count) 
                     },
                 };
             } else {
-                var ray = new Ray(tokens[0].center, Array.from(game.user.targets)[i].center);
+                var ray = new Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
                     file: animation_file,
