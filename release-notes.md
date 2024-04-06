@@ -5,6 +5,7 @@
 -   FIX: Module settings popup windows titles corrected
 -   NEW FEATURE: Attack animations now take into account if the attack hit or not. Have fun watching blaster bolts go
     everywhere but your target!
+-   NOTE: The generic slots feature now defaults to OFF as the system implements it natively (and better)
 
 `2.0.5` - 2023-12-29
 

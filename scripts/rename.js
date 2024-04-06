@@ -8,7 +8,7 @@ export function init() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: true,
+        default: false,
     });
     game.settings.register("ffg-star-wars-enhancements", "auto-rename-actors_friendly", {
         name: game.i18n.localize("ffg-star-wars-enhancements.rename.auto-friendly"),
