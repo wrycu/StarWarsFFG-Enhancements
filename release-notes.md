@@ -1,5 +1,7 @@
--   NEW FEATURE: Configurable Book of Boba Fett-style title cards can be played like the opening crawl
--   IMPROVEMENT: Opening crawl timing can be configured in the settings
+`2.0.6` - 2024-04-06
+
+-   NEW FEATURE: Configurable Book of Boba Fett-style title cards can be played like the opening crawl (thanks `grafeisen`!)
+-   IMPROVEMENT: Opening crawl timing can be configured in the settings (thanks `grafeisen`!
 -   FIX: Module settings popup windows titles corrected
 -   NEW FEATURE: Attack animations now take into account if the attack hit or not. Have fun watching blaster bolts go
     everywhere but your target!
