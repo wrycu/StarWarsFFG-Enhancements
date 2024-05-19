@@ -199,7 +199,7 @@ export async function update_status(token, ranks, icon_path) {
 class talent_checker_UISettings extends FormApplication {
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             id: "talent-checker",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("ffg-star-wars-enhancements.talent-checker.title")}`,
@@ -227,7 +227,7 @@ class talent_checker_UISettings extends FormApplication {
                 continue;
 
             // Update setting data
-            const s = duplicate(setting);
+            const s = foundry.utils.duplicate(setting);
             s.name = game.i18n.localize(s.name);
             s.hint = game.i18n.localize(s.hint);
             s.value = game.settings.get(s.module, s.key);
@@ -320,7 +320,7 @@ class talent_checker_UISettings extends FormApplication {
 
     /** @override */
     async _updateObject(event, formData) {
-        for (let [k, v] of Object.entries(flattenObject(formData))) {
+        for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
             let s = game.settings.settings.get(k);
             let current = game.settings.get(s.module, s.key);
             if (v !== current) {

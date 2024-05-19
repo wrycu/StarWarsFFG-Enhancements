@@ -39,10 +39,10 @@ class Shop {
         let specialization_mapping = {
             general: {
                 compendiums: [
-                    "world.oggdudearmor",
-                    "world.oggdudegear",
-                    "world.oggdudeweapons",
-                    "world.oggdudeitemattachments",
+                    "starwarsffg.oggdudearmor",
+                    "starwarsffg.oggdudegear",
+                    "starwarsffg.oggdudeweapons",
+                    "starwarsffg.oggdudeitemattachments",
                 ],
                 types: [
                     "weapon",
@@ -53,7 +53,7 @@ class Shop {
                 ],
             },
             armor: {
-                compendiums: ["world.oggdudearmor", "world.oggdudeitemattachments"],
+                compendiums: ["starwarsffg.oggdudearmor", "starwarsffg.oggdudeitemattachments"],
                 types: [
                     "armour",
                     "armor", // attachments use the US spelling while items use the UK spelling
@@ -61,15 +61,15 @@ class Shop {
                 ],
             },
             gear: {
-                compendiums: ["world.oggdudegear", "world.oggdudeitemattachments"],
+                compendiums: ["starwarsffg.oggdudegear", "starwarsffg.oggdudeitemattachments"],
                 types: ["gear", "itemattachment"],
             },
             weapon: {
-                compendiums: ["world.oggdudeweapons", "world.oggdudeitemattachments"],
+                compendiums: ["starwarsffg.oggdudeweapons", "starwarsffg.oggdudeitemattachments"],
                 types: ["weapon", "itemattachment"],
             },
             nerf_herder: {
-                compendiums: ["world.oggdudegear"],
+                compendiums: ["starwarsffg.oggdudegear"],
                 types: ["gear"],
             },
         };
@@ -202,7 +202,8 @@ class Shop {
                         "negotiation"
                     );
                 }
-                let result = new game.ffg.RollFFG(pool.renderDiceExpression()).roll().ffg;
+                let result = await new game.ffg.RollFFG(pool.renderDiceExpression()).roll();
+                result = result.ffg;
 
                 // see if the check was successful or not
                 if (result["success"] >= 1) {
@@ -357,7 +358,7 @@ class ShopGenerator extends FormApplication {
     No idea what this does, but it is in stuff I'm basing the module off of so it's here too
      */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/shop/setup.html",
             id: "ffg-star-wars-enhancements-shop-generator-setup",
             title: "Shop Generator",
@@ -503,7 +504,7 @@ class ShopGenerator extends FormApplication {
         // set the extended data as a flag
         log(module_name, "Setting flag data: " + JSON.stringify(flag_data));
         // actually set the flag data
-        vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
+        await vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
         // actually delete the old items
         await vendor.deleteEmbeddedDocuments("Item", to_delete);
@@ -531,7 +532,7 @@ class ShopCreator extends FormApplication {
     }
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/shop/create.html",
             id: "ffg-star-wars-enhancements-shop-generator-create",
             title: "Shop Creator",
@@ -555,7 +556,7 @@ class ShopCreator extends FormApplication {
         });
         // swap the sheet type to vendor
         // I'm not sure how to do it by default, but this seems reasonably fast
-        game.actors.get(actor.id).setFlag("core", "sheetClass", "ffg.Vendor");
+        await game.actors.get(actor.id).setFlag("core", "sheetClass", "ffg.Vendor");
         new ShopGenerator(actor.id).render(true);
     }
 }

@@ -325,7 +325,19 @@ export async function create_and_populate_journal() {
         let suggestions = await $.getJSON(jsonFilePath);
         let data = {
             name: journal_name,
-            content: JSON.stringify(suggestions),
+            pages: [
+                {
+                    name: "dice_helper",
+                    type: "text",
+                    text: {
+                        content: JSON.stringify(suggestions),
+                        format: CONST.JOURNAL_ENTRY_PAGE_FORMATS.HTML,
+                    },
+                },
+            ],
+            ownership: {
+                default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
+            },
         };
         JournalEntry.create(data);
     }

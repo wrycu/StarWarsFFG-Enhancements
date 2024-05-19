@@ -22,7 +22,7 @@ export function ready() {
 export function launch_hyperspace(data) {
     log("hyperspace", "launching");
 
-    data = mergeObject(data, {
+    data = foundry.utils.mergeObject(data, {
         type: "hyperspace",
     });
     game.socket.emit("module.ffg-star-wars-enhancements", data);
@@ -49,7 +49,7 @@ export function select_hyperspace() {
 
 class HyperspaceSelectApplication extends FormApplication {
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/hyperspace_select.html",
             id: "ffg-star-wars-enhancements-hyperspace-select",
             title: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.title"),
