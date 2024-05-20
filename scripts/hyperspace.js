@@ -100,7 +100,7 @@ async function run_hyperspace(data) {
         log("hyperspace", "Entering hyperspace");
         // change to the hyperspace enter scene
         await enter_scene.view();
-        video = find_video_layer(canvas);
+        video = canvas.primary.background.sourceElement;
         video.loop = false;
         video.currentTime = 0;
         await video.play();
@@ -119,7 +119,7 @@ async function run_hyperspace(data) {
         log("hyperspace", "Exiting hyperspace");
         // change to the hyperspace enter scene
         await exit_scene.view();
-        video = find_video_layer(canvas);
+        video = canvas.primary.background.sourceElement;
         video.loop = false;
         video.currentTime = 0;
         await video.play();
@@ -139,37 +139,4 @@ async function run_hyperspace(data) {
 
     // Restore the loading bar
     $("#loading").css("left", "");
-}
-
-/**
- * Search the PIXI layers for the specified layer
- * @param {object} canvas canvas object
- */
-function find_video_layer(canvas) {
-    let to_search = ["RenderedCanvasGroup", "EnvironmentCanvasGroup", "PrimaryCanvasGroup"];
-    let layer = canvas.app.stage.children;
-
-    for (let i = 0; i < to_search.length; i++) {
-        layer = _find_layer(layer, to_search[i])["children"];
-    }
-    // find the SpiteMesh layer, where the actual video is
-    layer = _find_layer(layer, "SpriteMesh");
-    if (!layer.isVideo) {
-        // this is not a video, ignore it
-        return false;
-    } else {
-        // return the HTML5 video element
-        return layer.sourceElement;
-    }
-}
-
-/**
- * Given a list of layers, find a specific layer
- * this is a bit brittle (it assumes the layer exists) but oh well. not worth the effort to fix it
- * @param layers  layers within the canvas, e.g. canvas.app.stage.children
- * @param layer_name name of the layer to look for
- * @private
- */
-function _find_layer(layers, layer_name) {
-    return layers.filter((i) => i.constructor.name === layer_name)[0];
 }
