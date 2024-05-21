@@ -2,6 +2,7 @@
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12
 -   FIX: Correct Bounty CSS datapad breaking after editing
+-   FIX: Attack animations are now properly aligned when the system is set to any language other than English
 
 `2.0.6` - 2024-04-06
 

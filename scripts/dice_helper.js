@@ -68,7 +68,7 @@ export function dice_helper() {
                     }
 
                     var msg = {
-                        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                        type: CONST.CHAT_MESSAGE_STYLES.OTHER,
                         content:
                             '<button class="effg-die-result" ' +
                             'data-ad="' +
