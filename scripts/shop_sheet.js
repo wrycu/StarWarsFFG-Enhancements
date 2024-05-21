@@ -117,7 +117,7 @@ export class Vendor extends ActorSheetFFGV2 {
     static get defaultOptions() {
         const options = super.defaultOptions;
 
-        mergeObject(options, {
+        foundry.utils.mergeObject(options, {
             classes: ["starwarsffg", "sheet", "actor", "v2", "ffg-sw-enhanced", "vendor"],
             template: "modules/ffg-star-wars-enhancements/templates/shop/inventory.html",
             width: 710,
@@ -132,7 +132,7 @@ export class Vendor extends ActorSheetFFGV2 {
     }
 
     async getData() {
-        const sheetData = super.getData();
+        const sheetData = await super.getData();
         let vendor_data = this.document.getFlag("ffg-star-wars-enhancements", "vendor-data");
         // validate that we got flag data before trying to index into it
         if (vendor_data === undefined || vendor_data === null) {

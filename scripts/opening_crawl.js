@@ -192,7 +192,7 @@ class OpeningCrawlApplication extends Application {
      * Opening Crawl.
      */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
             id: "ffg-star-wars-enhancements-opening-crawl",
             title: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title"),
@@ -352,7 +352,7 @@ function parse_journal(journal) {
 export function launch_opening_crawl(data) {
     log("opening-crawl", "launching");
 
-    data = mergeObject(data, {
+    data = foundry.utils.mergeObject(data, {
         type: "opening-crawl",
         logo: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-logo"),
         music: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music"),
@@ -385,7 +385,7 @@ export function select_opening_crawl() {
 
 class OpeningCrawlSelectApplication extends FormApplication {
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
             id: "ffg-star-wars-enhancements-opening-crawl-select",
             title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
@@ -464,8 +464,17 @@ export async function create_opening_crawl() {
     let data = {
         name: "Episode X",
         folder: folder.id,
-        content:
-            '<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><img src="modules/ffg-star-wars-enhancements/artwork/planet.png"/>',
+        pages: [
+            {
+                name: "Opening Crawl",
+                type: "text",
+                text: {
+                    content:
+                        '<h1>Episode X</h1><h2>Episode Title</h2><p>Replace the h1 and h2 above with your episode and title. Then, replace this block of text with the paragraphs of your opening crawl. Lastly, the opening crawl will pan to the image below. Replace the image with a planet, ship, or simply remove the image entirely to pan to open space.</p><img src="modules/ffg-star-wars-enhancements/artwork/planet.png"/>',
+                    format: CONST.JOURNAL_ENTRY_PAGE_FORMATS.HTML,
+                },
+            },
+        ],
     };
     JournalEntry.create(data).then((journal) => {
         journal.sheet.render(true);
@@ -498,7 +507,7 @@ function sleep(ms) {
 class opening_crawl_UISettings extends FormApplication {
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.ui.name")}`,
@@ -522,7 +531,7 @@ class opening_crawl_UISettings extends FormApplication {
             if (!setting.key.includes("opening-crawl-") || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
-            const s = duplicate(setting);
+            const s = foundry.utils.duplicate(setting);
             s.name = game.i18n.localize(s.name);
             s.hint = game.i18n.localize(s.hint);
             s.value = game.settings.get(s.module, s.key);
@@ -611,7 +620,7 @@ class opening_crawl_UISettings extends FormApplication {
     // noinspection JSUnusedGlobalSymbols
     /** @override */
     async _updateObject(event, formData) {
-        for (let [k, v] of Object.entries(flattenObject(formData))) {
+        for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
             let s = game.settings.settings.get(k);
             let current = game.settings.get(s.module, s.key);
             if (v !== current) {

@@ -50,11 +50,12 @@ export function minionsize_sync(source, ...args) {
             } else if (source === "canvasReady") {
                 log(module_name, "caught scene-transition, looking for minions");
                 let tokens = canvas.tokens.placeables.filter(
-                    (searchedtoken) => searchedtoken.document.actor.type == "minion"
+                    (searchedtoken) => searchedtoken.document.actor?.type == "minion"
                 );
                 for (var x = 0; x < tokens.length; x++) {
                     let token = tokens[x];
-                    minionSize = token?.document?._actor?.system?.quantity.value;
+                    log(module_name, `found token ${token.name}`);
+                    minionSize = token?.document?.actor?.system?.quantity.value;
                     update_minion_status(token, minionSize);
                 }
             } else {

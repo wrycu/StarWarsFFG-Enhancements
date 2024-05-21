@@ -201,9 +201,7 @@ export function attack_animation_check() {
 export function attack_animation(...args) {
     // take our custom arg out of the array so we don't return it
     const roll_data = args[0];
-    console.log(roll_data);
     const hit = roll_data.ffg.success > 0;
-    console.log(hit);
     args = args.splice(1);
 
     if (!game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
@@ -481,7 +479,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             canvas.specials.playVideo(animation_config);
             game.socket.emit("module.fxmaster", animation_config);
 
-            AudioHelper.play({ src: sound_file, volume: 0.3, autoplay: true, loop: false }, true);
+            foundry.audio.AudioHelper.play({ src: sound_file, volume: 0.3, autoplay: true, loop: false }, true);
             await sleepNow(250);
         }
     }
@@ -492,7 +490,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
 class attack_animation_UISettings extends FormApplication {
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("ffg-star-wars-enhancements.attack-animation.ui.name")}`,
@@ -516,7 +514,7 @@ class attack_animation_UISettings extends FormApplication {
             if (!setting.key.includes("attack-animation-") || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
-            const s = duplicate(setting);
+            const s = foundry.utils.duplicate(setting);
             s.name = game.i18n.localize(s.name);
             s.hint = game.i18n.localize(s.hint);
             s.value = game.settings.get(s.module, s.key);
@@ -605,7 +603,7 @@ class attack_animation_UISettings extends FormApplication {
     // noinspection JSUnusedGlobalSymbols
     /** @override */
     async _updateObject(event, formData) {
-        for (let [k, v] of Object.entries(flattenObject(formData))) {
+        for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
             let s = game.settings.settings.get(k);
             let current = game.settings.get(s.module, s.key);
             if (v !== current) {
@@ -621,7 +619,7 @@ class ConfigureAttackAnimation extends FormApplication {
     }
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/configure_attack_animations.html",
             id: "ffg-star-wars-enhancements-attack-animation-configure",
             title: "Attack Animation",

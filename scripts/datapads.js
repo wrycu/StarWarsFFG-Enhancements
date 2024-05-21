@@ -39,7 +39,16 @@ export async function create_datapad_journal() {
 
                     let data = {
                         name: template,
-                        content: templates[template],
+                        pages: [
+                            {
+                                name: template,
+                                type: "text",
+                                text: {
+                                    content: templates[template],
+                                    format: CONST.JOURNAL_ENTRY_PAGE_FORMATS.HTML,
+                                },
+                            },
+                        ],
                     };
 
                     JournalEntry.create(data).then((journal) => {

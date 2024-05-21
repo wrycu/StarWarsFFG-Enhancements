@@ -40,7 +40,7 @@ export function title_cards_dialog() {
 export function launch_title_cards(data) {
     log("title-cards", "launching");
 
-    data = mergeObject(data, {
+    data = foundry.utils.mergeObject(data, {
         type: "title-cards",
         logo: game.settings.get("ffg-star-wars-enhancements", "title-cards-logo"),
         music: game.settings.get("ffg-star-wars-enhancements", "title-cards-music"),
@@ -218,7 +218,7 @@ class TitleCardsApplication extends Application {
      * Opening Crawl.
      */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/title_cards.html",
             id: "ffg-star-wars-enhancements-title-cards",
             title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
@@ -303,7 +303,7 @@ class TitleCardsApplication extends Application {
 class title_cards_UISettings extends FormApplication {
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             id: "data-importer",
             classes: ["starwarsffg", "data-import"],
             title: `${game.i18n.localize("ffg-star-wars-enhancements.title-cards.ui.name")}`,
@@ -327,7 +327,7 @@ class title_cards_UISettings extends FormApplication {
             if (!setting.key.includes("title-cards-") || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
-            const s = duplicate(setting);
+            const s = foundry.utils.duplicate(setting);
             s.name = game.i18n.localize(s.name);
             s.hint = game.i18n.localize(s.hint);
             s.value = game.settings.get(s.module, s.key);
@@ -416,7 +416,7 @@ class title_cards_UISettings extends FormApplication {
     // noinspection JSUnusedGlobalSymbols
     /** @override */
     async _updateObject(event, formData) {
-        for (let [k, v] of Object.entries(flattenObject(formData))) {
+        for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
             let s = game.settings.settings.get(k);
             let current = game.settings.get(s.module, s.key);
             if (v !== current) {
