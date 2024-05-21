@@ -19,7 +19,7 @@ export function init() {
         scope: "world",
         config: false,
         type: Boolean,
-        default: true,
+        default: false,
     });
     game.settings.register("ffg-star-wars-enhancements", "talent-checker-status", {
         module: "ffg-star-wars-enhancements",
@@ -38,7 +38,7 @@ export function init() {
         scope: "world",
         config: false,
         type: Boolean,
-        default: true,
+        default: false,
     });
     game.settings.register("ffg-star-wars-enhancements", "minionsize-sync-status", {
         module: "ffg-star-wars-enhancements",
