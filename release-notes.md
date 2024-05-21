@@ -1,6 +1,7 @@
 `2.1.0` - ?
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12
+-   FIX: Correct Bounty CSS datapad breaking after editing
 
 `2.0.6` - 2024-04-06
 
