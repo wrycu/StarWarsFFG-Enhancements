@@ -88,7 +88,10 @@ export function talent_checker() {
             log(module_name, "Detected scene load.");
             for (let i = 0; i < canvas.tokens.placeables.length; i++) {
                 // begin javascript sucks
-                let actor = game.actors.get(canvas.tokens.placeables[i].actor.id);
+                let actor = game.actors.get(canvas.tokens.placeables[i].actor?.id);
+                if (!actor) {
+                    continue;
+                }
                 let token = canvas.tokens.placeables[i];
                 if (game.settings.get("ffg-star-wars-enhancements", "talent-checker-enable")) {
                     log(module_name, "Found token " + actor.name + "; searching for Adversary talent");

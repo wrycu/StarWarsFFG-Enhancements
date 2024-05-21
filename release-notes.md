@@ -1,3 +1,7 @@
+`2.1.0` - ?
+
+-   COMPATABILITY: Module updated to work with FoundryVTT v12
+
 `2.0.6` - 2024-04-06
 
 -   NEW FEATURE: Configurable Book of Boba Fett-style title cards can be played like the opening crawl (thanks `grafeisen`!)
