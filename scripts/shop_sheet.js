@@ -12,6 +12,43 @@ export function init() {
         label: "ffg-sw-enhanced-vendor",
         makeDefault: false,
     });
+    game.settings.register("ffg-star-wars-enhancements", "general_shop_compendiums", {
+        name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.general.name"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.general.hint"),
+        scope: "world",
+        config: true,
+        type: Array,
+        default: [
+            "starwarsffg.oggdudearmor",
+            "starwarsffg.oggdudegear",
+            "starwarsffg.oggdudeweapons",
+            "starwarsffg.oggdudegenericattachments",
+        ],
+    });
+    game.settings.register("ffg-star-wars-enhancements", "armor_shop_compendiums", {
+        name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.armor.name"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.armor.hint"),
+        scope: "world",
+        config: true,
+        type: Array,
+        default: ["starwarsffg.oggdudearmor", "starwarsffg.oggdudearmorattachments"],
+    });
+    game.settings.register("ffg-star-wars-enhancements", "gear_shop_compendiums", {
+        name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.gear.name"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.gear.hint"),
+        scope: "world",
+        config: true,
+        type: Array,
+        default: ["starwarsffg.oggdudegear", "starwarsffg.oggdudegenericattachments"],
+    });
+    game.settings.register("ffg-star-wars-enhancements", "weapon_shop_compendiums", {
+        name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.weapon.name"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.weapon.hint"),
+        scope: "world",
+        config: true,
+        type: Array,
+        default: ["starwarsffg.oggdudeweapons", "starwarsffg.oggdudeweaponattachments"],
+    });
 }
 
 /*

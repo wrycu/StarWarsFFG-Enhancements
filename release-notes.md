@@ -1,6 +1,7 @@
 `2.1.0` - ?
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12
+-   NEW FEATURE: You can specify compendiums from which shops will auto-build inventories
 -   FIX: Correct Bounty CSS datapad breaking after editing
 -   FIX: Attack animations are now properly aligned when the system is set to any language other than English
 
