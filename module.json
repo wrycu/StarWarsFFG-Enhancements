@@ -64,6 +64,16 @@
                     "verified": "2.0.15"
                 }
             }
+        ],
+        "recommends": [
+            {
+                "id": "JB2A_DnD5e",
+                "type": "module",
+                "compatability": {
+                    "minimum": "0.6.3",
+                    "verified": "0.6.3"
+                }
+            }
         ]
     },
     "socket": true,
