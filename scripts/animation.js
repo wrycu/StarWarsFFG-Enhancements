@@ -360,7 +360,10 @@ export function attack_animation(...args) {
         }
 
         // todo: based on dice results, we could have the animation miss
-        log("attack_animation", "Playing the attack animation: " + animation_file + " / " + sound_file);
+        log(
+            "attack_animation",
+            "Playing the attack animation: " + animation_file + " / " + sound_file + ", hit: " + hit
+        );
         // noinspection JSIgnoredPromiseFromCall
         play_animation(animation_file, sound_file, skill, source, count, hit);
         return args;
@@ -378,6 +381,17 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
     let max_miss_offset = 50;
     var arrayLength = game.user.targets.size;
     let position;
+    const ranged_skills = [
+        game.i18n.localize("SWFFG.SkillsNameRangedLight"),
+        game.i18n.localize("SWFFG.SkillsNameRangedHeavy"),
+        game.i18n.localize("SWFFG.SkillsNameGunnery"),
+    ];
+    const melee_skills = [
+        game.i18n.localize("SWFFG.SkillsNameMelee"),
+        game.i18n.localize("SWFFG.SkillsNameBrawl"),
+        game.i18n.localize("SWFFG.SkillsNameLightsaber"),
+    ];
+
     for (var i = 0; i < arrayLength; i++) {
         if (count !== null) {
             var range = count.split("-");
@@ -388,7 +402,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var lower_bound = 2;
                 var num_shots = parseInt(count);
             }
-        } else if (["Melee", "Brawl", "Lightsaber"].indexOf(skill) > -1 || skill === "grenade") {
+        } else if (melee_skills.indexOf(skill) > -1 || skill === "grenade") {
             // noinspection JSDuplicatedDeclaration
             var lower_bound = 1;
             var num_shots = 1;
@@ -445,7 +459,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                     },
                     angle: -90,
                 };
-            } else if (skill.toLowerCase().includes("ranged") || skill.toLowerCase().includes("gunnery")) {
+            } else if (ranged_skills.includes(skill)) {
                 var ray = new Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,

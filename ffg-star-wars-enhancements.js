@@ -148,11 +148,12 @@ function register_hooks() {
     libWrapper.register(
         "ffg-star-wars-enhancements",
         "game.ffg.RollFFG.prototype.toMessage",
-        function (wrapped, ...args) {
+        async function (wrapped, ...args) {
             /*
                 we may want to monkeypatch a different function in the future. this location doesn't seem to have access
                 to the actual weapon in use. I'm not sure if we actually care yet, but worth considering.
              */
+            if (!this.evaluated) await this.evaluate();
             var data = attack_animation(this, ...args);
             return wrapped(...data);
         }
