@@ -3,7 +3,7 @@ import { title_cards_dialog } from "./title_cards.js";
 import { select_hyperspace } from "./hyperspace.js";
 import { create_datapad_journal } from "./datapads.js";
 import { shop_creator } from "./shop.js";
-import { configure_attack_animation } from "./animation.js";
+import { configure_attack_animation, configure_custom_attack_animation } from "./animation.js";
 import { convert_to_hologram } from "./hologram.js";
 
 export const register_controls = (controls) => {
@@ -54,21 +54,30 @@ export const register_controls = (controls) => {
                 },
             },
             {
-                name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
-                title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
-                icon: "fas fa-bullseye",
-                button: true,
-                onClick: () => {
-                    configure_attack_animation();
-                },
-            },
-            {
                 name: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.title"),
                 icon: "fas fa-rocket",
                 button: true,
                 onClick: () => {
                     select_hyperspace();
+                },
+            },
+            {
+                name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
+                title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
+                icon: "fas fa-bullseye",
+                button: true,
+                onClick: async () => {
+                    await configure_attack_animation();
+                },
+            },
+            {
+                name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.global-custom.button-name"),
+                title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.global-custom.button-title"),
+                icon: "fa-duotone fa-bow-arrow",
+                button: true,
+                onClick: async () => {
+                    await configure_custom_attack_animation();
                 },
             },
         ],
