@@ -1,0 +1,153 @@
+<form autocomplete="off" class="{{cssClass}} character" style="width: 400px;">
+    <div class="form-group">
+        <label for="item">{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.select-item-name.label" }}</label>
+        <select id="item" name="item">
+            {{#each items as |item|}}
+                <option value="{{item.name}}" data-animation="{{item.animation}}" data-animation_count="{{item.animation_count}}" data-sound="{{item.sound}}" data-focus_target="{{item.focus_target}}" data-index="{{@key}}">{{item.name}}</option>
+            {{/each}}
+            <option value="new_item">[new item]</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <!-- Item name -->
+        <label><i class="fa-solid fa-star-of-life"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.item-name.label" }}</label>
+        <input data-dtype="String" id="item_name" name="item_name" type="text"/>
+        <input data-dtype="String" id="item_index" name="item_index" type="text" hidden/>
+    </div>
+    <div class="form-group">
+        <!-- Animation file -->
+        <label for="animation"><i class="fas fa-video"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.animation.generic" }}</label>
+        <input data-dtype="Image" id="animation" name="custom_animation_file" type="text" value="placeholder"/>
+        <button class="file-picker" data-target="custom_animation_file" data-type="video" type="button">
+            <i class="fas fa-file-import"></i>
+        </button>
+    </div>
+    <div class="form-group">
+        <!-- Animation count -->
+        <label><i class="fas fa-hashtag"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.animation.generic-count" }}</label>
+        <input data-dtype="String" id="animation_count" name="animation_count" type="text" value="placeholder"/>
+    </div>
+    <div class="form-group">
+        <!-- Sound file -->
+        <label><i class="fas fa-volume-up"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.custom.sound.generic" }}</label>
+        <input data-dtype="setting_audio" id="sound" name="custom_sound_file" type="text" value="placeholder"/>
+        <button class="file-picker" data-target="custom_sound_file" data-type="audio">
+            <i class="fas fa-file-import"></i>
+        </button>
+    </div>
+    <div class="form-group">
+        <!-- focus animation on target -->
+        <label><i class="fa-duotone fa-arrows-to-eye"></i>&nbsp;{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.focus-target.label" }}</label>
+        <input data-dtype="Boolean" id="focus_target" name="custom_focus_target" type="checkbox"/>
+    </div>
+    <div class="form-group">
+        <!-- Add/remove buttons -->
+        <button class="add_changes" value="add_changes"><i class="fa-solid fa-pencil"></i>{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.update-selected.label" }}</button>
+        <button class="delete_entry" value="delete_entry"><i class="fa-solid fa-eraser"></i>{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.delete-selected.label" }}</button>
+    </div>
+    <button name="commit" type="submit" class="commit" value="delete_entry"><i class="fa-solid fa-floppy-disk-circle-arrow-right"></i>{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.commit-changes.label" }}</button>
+    <i class="fa-solid fa-triangle-exclamation"></i>{{localize "ffg-star-wars-enhancements.attack-animation.global-custom.commit-changes.warning" }}
+</form>
+
+<script>
+    if (items === undefined) {
+        var items = [];
+    }
+    {{#each items as |item|}}
+        items.push({
+            "name": "{{item.name}}",
+            "animation": "{{item.animation}}",
+            "animation_count": "{{item.animation_count}}",
+            "sound": "{{item.sound}}",
+            "focus_target": "{{item.focus_target}}",
+        });
+    {{/each}}
+
+    $("#item").on("change", function (e) {
+        e.preventDefault();
+        update_data();
+    });
+    $(".add_changes").on("click", function(e) {
+        e.preventDefault();
+        commit_entry();
+        refresh_options(false);
+    });
+    $(".delete_entry").on("click", function(e) {
+        e.preventDefault();
+        remove_entry();
+        update_data();
+    });
+
+    update_data();
+
+    function update_data() {
+        const select_picker = $("#item")[0];
+        const selected_entry = $(select_picker.options[select_picker.selectedIndex]);
+        const selected_value = selected_entry.val();
+        if (selected_value === "new_item") {
+            new_entry();
+            return;
+        }
+        $("#item_name").val(selected_value);
+        $("#animation").val(selected_entry.data('animation'));
+        $("#animation_count").val(selected_entry.data('animation_count'));
+        $("#sound").val(selected_entry.data('sound'));
+        $("#focus_target").prop('checked', selected_entry.data('focus_target') || false);
+        console.log(selected_entry.data('index'))
+        $("#item_index").val(selected_entry.data('index').toString());
+    }
+    function new_entry() {
+        $("#item_name").val("new item");
+        $("#animation").val("modules/JB2A_DnD5e/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm");
+        $("#animation_count").val("1-2");
+        $("#sound").val("modules/ffg-star-wars-enhancements/audio/explosion.wav");
+        $("#focus_target").prop('checked', false);
+        $("#item_index").val(items.length);
+    }
+    function commit_entry() {
+        const item_name = $("#item_name").val();
+        const animation = $("#animation").val();
+        const animation_count = $("#animation_count").val();
+        const sound = $("#sound").val();
+        const focus_target = $("#focus_target").prop('checked');
+        const item_index = $("#item_index").val();
+        if (item_index >= items.length) {
+            items.push({
+                "name": item_name,
+                "animation": animation,
+                "animation_count": animation_count,
+                "focus_target": focus_target,
+                "sound": sound,
+            });
+        } else {
+            items[item_index] = {
+                "name": item_name,
+                "animation": animation,
+                "animation_count": animation_count,
+                "focus_target": focus_target,
+                "sound": sound,
+            };
+        }
+    }
+    function remove_entry() {
+        const selected_index =  parseInt($("#item_index").val());
+        items.splice(selected_index, 1)
+        // set it to a known-good value
+        $("#item_index").val('0');
+        refresh_options();
+    }
+    function refresh_options() {
+        const selected_index =  parseInt($("#item_index").val());
+        let html = '';
+        for (var x = 0; x < items.length; x++) {
+            let selected = "";
+            if (x === selected_index) {
+                selected = "selected";
+            }
+            html += `<option value="${items[x]['name']}" data-animation="${items[x]['animation']}" data-animation_count="${items[x]['animation_count']}" data-sound="${items[x]['sound']}" data-focus_target="${items[x]['focus_target']}" data-index="${x}" ${selected}>${items[x]['name']}</option>`;
+        }
+        html += `<option value="new_item">[new item]</option>`;
+        $("#item").html(html);
+    }
+
+</script>

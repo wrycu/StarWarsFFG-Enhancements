@@ -2,6 +2,8 @@
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12
 -   NEW FEATURE: You can specify compendiums from which shops will auto-build inventories
+-   NEW FEATURE: Attack animations can now be specified by item name
+    -   For example, you can set custom animations for `*disrupter*` to change the behavior of all disruptor weapons on any actor
 -   FIX: Correct Bounty CSS datapad breaking after editing
 -   FIX: Attack animations are now properly aligned when the system is set to any language other than English
 

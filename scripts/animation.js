@@ -150,25 +150,20 @@ export function init() {
         filePicker: "audio",
         default: "modules/ffg-star-wars-enhancements/audio/blaster.mp3",
     });
-    game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-animation", {
+    game.settings.register("ffg-star-wars-enhancements", "attack-animation-custom-entries", {
         module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.grenade-animation"),
-        hint: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.grenade-animation-hint"),
         scope: "world",
         config: false,
-        type: String,
-        filePicker: "video",
-        default: base_path + "/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm",
-    });
-    game.settings.register("ffg-star-wars-enhancements", "attack-animation-grenade-sound", {
-        module: "ffg-star-wars-enhancements",
-        name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.grenade-sound"),
-        hint: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.grenade-sound-hint"),
-        scope: "world",
-        config: false,
-        type: String,
-        filePicker: "audio",
-        default: "modules/ffg-star-wars-enhancements/audio/explosion.wav",
+        type: Array,
+        default: [
+            {
+                name: "grenade",
+                animation: "modules/JB2A_DnD5e/Library/Generic/Impact/Impact_07_Regular_Yellow_400x400.webm",
+                animation_count: "1-1",
+                focus_target: false,
+                sound: "modules/ffg-star-wars-enhancements/audio/explosion.wav",
+            },
+        ],
     });
     log("attack_animation", "Initialized");
 }
@@ -270,11 +265,6 @@ export function attack_animation(...args) {
         animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-animation"),
         sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-ranged-light-sound"),
     };
-    // grenade
-    combat_skills["grenade"] = {
-        animation_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-animation"),
-        sound_file: game.settings.get("ffg-star-wars-enhancements", "attack-animation-grenade-sound"),
-    };
 
     if (skill in combat_skills) {
         log("attack_animation", 'Determined that "' + skill + '" is a combat skill');
@@ -330,30 +320,41 @@ export function attack_animation(...args) {
         }
 
         var count = null;
+        let animation_file;
+        let sound_file;
+        let focus_target = false;
         /* check to see if there is custom stuff set for this item */
         if (flag_data === undefined || flag_data === null) {
             log("attack_animation", "Got animation from config");
             // check if the item is a grenade and override the skill if it is
-            if (item_name && item_name.toLowerCase().includes("grenade")) {
-                // the item was a grenade, we've got to change some stuff around
-                log("attack_animation", 'Item being rolled is a grenade, swapping animation to "grenade"');
-                // noinspection JSDuplicatedDeclaration
-                var animation_file = combat_skills["grenade"]["animation_file"];
-                // noinspection JSDuplicatedDeclaration
-                var sound_file = combat_skills["grenade"]["sound_file"];
-                skill = "grenade";
+            const custom_item_animations = game.settings.get(
+                "ffg-star-wars-enhancements",
+                "attack-animation-custom-entries"
+            );
+            const matching_custom_setting = custom_item_animations.find((i) =>
+                item_name?.toLowerCase()?.includes(i.name)
+            );
+            if (item_name && matching_custom_setting) {
+                log(
+                    "attack_animation",
+                    `Found custom item animation: ${custom_item_animations.name}, using these settings`
+                );
+                animation_file = matching_custom_setting.animation;
+                count = matching_custom_setting.animation_count;
+                sound_file = matching_custom_setting.sound;
+                focus_target = matching_custom_setting.focus_target;
             } else {
                 // noinspection JSDuplicatedDeclaration
-                var animation_file = combat_skills[skill]["animation_file"];
+                animation_file = combat_skills[skill]["animation_file"];
                 // noinspection JSDuplicatedDeclaration
-                var sound_file = combat_skills[skill]["sound_file"];
+                sound_file = combat_skills[skill]["sound_file"];
             }
         } else {
             log("attack_animation", "Got animation from flag data");
             // noinspection JSDuplicatedDeclaration
-            var animation_file = flag_data["animation_file"];
+            animation_file = flag_data["animation_file"];
             // noinspection JSDuplicatedDeclaration
-            var sound_file = flag_data["sound_file"];
+            sound_file = flag_data["sound_file"];
             if (flag_data.hasOwnProperty("animation_count")) {
                 count = flag_data["animation_count"];
             }
@@ -365,7 +366,7 @@ export function attack_animation(...args) {
             "Playing the attack animation: " + animation_file + " / " + sound_file + ", hit: " + hit
         );
         // noinspection JSIgnoredPromiseFromCall
-        play_animation(animation_file, sound_file, skill, source, count, hit);
+        play_animation(animation_file, sound_file, skill, source, count, hit, focus_target);
         return args;
     } else {
         // not a combat skill; ignore it
@@ -375,15 +376,16 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-async function play_animation(animation_file, sound_file, skill, source, count, hit) {
+async function play_animation(animation_file, sound_file, skill, source, count, hit, focus_target) {
     const tokens = source;
     let min_miss_offset = 30;
     let max_miss_offset = 50;
     var arrayLength = game.user.targets.size;
     let position;
     const ranged_skills = [
-        game.i18n.localize("SWFFG.SkillsNameRangedLight"),
-        game.i18n.localize("SWFFG.SkillsNameRangedHeavy"),
+        // note: replaces nbsp with normal space
+        game.i18n.localize("SWFFG.SkillsNameRangedLight").replace(String.fromCharCode(160), " "),
+        game.i18n.localize("SWFFG.SkillsNameRangedHeavy").replace(String.fromCharCode(160), " "),
         game.i18n.localize("SWFFG.SkillsNameGunnery"),
     ];
     const melee_skills = [
@@ -402,7 +404,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var lower_bound = 2;
                 var num_shots = parseInt(count);
             }
-        } else if (melee_skills.indexOf(skill) > -1 || skill === "grenade") {
+        } else if (melee_skills.indexOf(skill) > -1) {
             // noinspection JSDuplicatedDeclaration
             var lower_bound = 1;
             var num_shots = 1;
@@ -449,7 +451,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                     break;
             }
             // configure the animation
-            if (skill === "grenade") {
+            if (focus_target) {
                 var animation_config = {
                     position: position,
                     file: animation_file,
@@ -636,7 +638,7 @@ class ConfigureAttackAnimation extends FormApplication {
         return foundry.utils.mergeObject(super.defaultOptions, {
             template: "modules/ffg-star-wars-enhancements/templates/configure_attack_animations.html",
             id: "ffg-star-wars-enhancements-attack-animation-configure",
-            title: "Attack Animation",
+            title: "Attack Animation (Actor)",
         });
     }
 
@@ -756,6 +758,131 @@ class ConfigureAttackAnimation extends FormApplication {
     }
 }
 
+class ConfigureCustomAttackAnimation extends FormApplication {
+    constructor() {
+        super();
+    }
+
+    static get defaultOptions() {
+        return foundry.utils.mergeObject(super.defaultOptions, {
+            template: "modules/ffg-star-wars-enhancements/templates/configure_custom_attack_animations.html",
+            id: "ffg-star-wars-enhancements-custom-attack-animation-configure",
+            title: "Attack Animation (Item)",
+        });
+    }
+
+    activateListeners(html) {
+        // for whatever reason, the old wrap does not work, so instead we'll override the listener
+        super.activateListeners(html);
+        html.find('button[name="commit"]').click(this._saveChanges.bind(this));
+    }
+
+    async _saveChanges(event) {
+        event.preventDefault();
+        await this._updateObject(event, this._extractFormData(event));
+    }
+
+    _extractFormData(event) {
+        let entries = [];
+        const options = event.target.parentElement[0].options;
+        for (const option of options) {
+            if (option.value === "new_item") {
+                continue;
+            }
+            entries.push({
+                name: option.value,
+                animation: $(option).data("animation"),
+                animation_count: $(option).data("animation_count"),
+                focus_target: $(option).data("focus_target"),
+                sound: $(option).data("sound"),
+            });
+        }
+        return entries;
+    }
+
+    async getData() {
+        const existing_items = game.settings.get("ffg-star-wars-enhancements", "attack-animation-custom-entries");
+        return {
+            items: existing_items,
+        };
+
+        // list of actors in the game
+        let tmp_actors = game.actors.contents;
+        // list of actors to pass to the formapplication
+        let actors = [];
+        /* step over all actors in the game */
+        for (var x = 0; x < tmp_actors.length; x++) {
+            // pull items for the actor
+            var items = tmp_actors[x].items.contents;
+            // list of items to pass to the form application
+            let tmp_items = [];
+            /* step over all items so we can check if custom data is already set or not */
+            for (var i = 0; i < items.length; i++) {
+                // convert the item to an Item type object so we can read flag data off of it
+                let the_item = tmp_actors[x].items.get(items[i]._id);
+                // validate it's a weapon, since you can only roll attacks with weapons
+                if (the_item.type === "weapon") {
+                    // read the flag data if it's present
+                    let flag = the_item.getFlag("ffg-star-wars-enhancements", "attack-animation");
+                    if (flag === undefined || flag === null) {
+                        // set a default if it isn't
+                        var animation = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        var sound = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        var count = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                    } else {
+                        // display the currently configured data if it exists
+                        var animation = flag["animation_file"];
+                        var sound = flag["sound_file"];
+                        if (flag.hasOwnProperty("animation_count")) {
+                            var count = flag["animation_count"];
+                        } else {
+                            var count = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.global");
+                        }
+                    }
+                    // add to the list of items for the formapplication
+                    tmp_items.push({
+                        id: items[i]._id,
+                        name: items[i].name,
+                        animation: animation,
+                        sound: sound,
+                        count: count,
+                    });
+                }
+            }
+            /* only add the actor if they have items to help reduce the number of items to search through */
+            if (tmp_items.length > 0) {
+                let actor_name = tmp_actors[x]["name"];
+                if (tmp_actors[x].hasPlayerOwner === true) {
+                    // help the GM find players by adding a note
+                    actor_name += " (PC)";
+                }
+                actors.push({
+                    id: tmp_actors[x]["id"],
+                    name: actor_name,
+                    items: tmp_items,
+                });
+            }
+        }
+        return {
+            actors: actors,
+        };
+    }
+
+    async _updateObject(event, data) {
+        log("attack_animation", "Got animation change request " + JSON.stringify(data));
+
+        game.settings.set("ffg-star-wars-enhancements", "attack-animation-custom-entries", data);
+
+        ui.notifications.notify(
+            game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.notification-success")
+        );
+    }
+}
+
 export async function configure_attack_animation() {
     new ConfigureAttackAnimation().render(true);
+}
+
+export async function configure_custom_attack_animation() {
+    new ConfigureCustomAttackAnimation().render(true);
 }
