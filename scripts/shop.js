@@ -38,7 +38,7 @@ class Shop {
         log(module_name, "Initializing shop object");
         let specialization_mapping = {
             general: {
-                compendiums: game.settings.get("ffg-star-wars-enhancements", "general_shop_compendiums"),
+                compendiums: game.settings.get("ffg-star-wars-enhancements", "general_shop_compendiums").split(","),
                 types: [
                     "weapon",
                     "gear",
@@ -48,7 +48,7 @@ class Shop {
                 ],
             },
             armor: {
-                compendiums: game.settings.get("ffg-star-wars-enhancements", "armor_shop_compendiums"),
+                compendiums: game.settings.get("ffg-star-wars-enhancements", "armor_shop_compendiums").split(","),
                 types: [
                     "armour",
                     "armor", // attachments use the US spelling while items use the UK spelling
@@ -56,11 +56,11 @@ class Shop {
                 ],
             },
             gear: {
-                compendiums: game.settings.get("ffg-star-wars-enhancements", "gear_shop_compendiums"),
+                compendiums: game.settings.get("ffg-star-wars-enhancements", "gear_shop_compendiums").split(","),
                 types: ["gear", "itemattachment"],
             },
             weapon: {
-                compendiums: game.settings.get("ffg-star-wars-enhancements", "weapon_shop_compendiums"),
+                compendiums: game.settings.get("ffg-star-wars-enhancements", "weapon_shop_compendiums").split(","),
                 types: ["weapon", "itemattachment"],
             },
             nerf_herder: {
