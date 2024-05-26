@@ -1,4 +1,4 @@
-`2.1.0` - ?
+`2.1.0` - 2024-05-26
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12
 -   NEW FEATURE: You can specify compendiums from which shops will auto-build inventories
