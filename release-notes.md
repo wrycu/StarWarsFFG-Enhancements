@@ -1,3 +1,7 @@
+`2.1.1` - ?
+
+-   FIX: Status Icons now work again ([#200](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/200))
+
 `2.1.0` - 2024-05-26
 
 -   COMPATABILITY: Module updated to work with FoundryVTT v12

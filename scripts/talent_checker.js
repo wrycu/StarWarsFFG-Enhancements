@@ -188,7 +188,7 @@ export async function update_status(token, ranks, icon_path) {
     } else {
         log(module_name, "Adding status rank " + ranks + " to token");
         // no need to search for the effect ourselves, as this is done in the underlying libraries
-        let new_counter = new EffectCounter(ranks, icon_path, token);
+        let new_counter = new ActiveEffectCounter(ranks, icon_path, token.document);
         // render it
         if (active) {
             await new_counter.update();
