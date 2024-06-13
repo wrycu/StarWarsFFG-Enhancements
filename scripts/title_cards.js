@@ -5,15 +5,27 @@ export function title_cards_dialog() {
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
         content: `
           <form>
+            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-head")}</h1>
             <div class="form-group">
-            <p>
-              <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.toptext-label")}</label>
-              <input type='text' name='toptext'></input>
-              </p>
-              <p>
-              <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.bottomtext-label")}</label>
-              <input type='text' name='bottomtext'></input>
-              </p>
+                <p>
+                <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.toptext-label-2")}</label>
+                <input type='text' name='toptext-2' margin-right: 10px margin-left: 10px></input>
+                </p>
+                <p>
+                <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.bottomtext-label-2")}</label>
+                <input type='text' name='bottomtext-2'></input>
+                </p>
+            </div>
+            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-episode-head")}</h1><br>
+			<div class="form-group">
+                <p>
+                <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.toptext-label")}</label>
+                <input type='text' name='toptext' margin-right: 10px margin-left: 10px></input>
+                </p>
+                <p>
+                <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.bottomtext-label")}</label>
+                <input type='text' name='bottomtext'></input>
+                </p>
             </div>
           </form>`,
         buttons: {
@@ -22,6 +34,8 @@ export function title_cards_dialog() {
                 label: `${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.launch")}`,
                 callback: (html) => {
                     let data = {
+                        toptext2: html.find("input[name='toptext-2']").val(),
+                        bottomtext2: html.find("input[name='bottomtext-2']").val(),
                         toptext: html.find("input[name='toptext']").val(),
                         bottomtext: html.find("input[name='bottomtext']").val(),
                     };
@@ -73,6 +87,15 @@ export function init() {
         filePicker: "folder",
         default: "",
     });
+	game.settings.register("ffg-star-wars-enhancements", "title-cards-text-color", { 
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-color"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-color-hint"),
+        scope: "world",
+        config: false,
+        type: String,
+        default: "#ffd54e",
+    });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-music", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-music"),
@@ -92,6 +115,24 @@ export function init() {
         type: Number,
         default: 0.0,
     });
+	game.settings.register("ffg-star-wars-enhancements", "title-cards-top-font-size-2", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size-2"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size-hint-2"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 50,
+    });
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-bottom-font-size-2", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-bottom-font-size-2"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-bottom-font-size-hint-2"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 150,
+    });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-top-font-size", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size"),
@@ -99,7 +140,7 @@ export function init() {
         scope: "world",
         config: false,
         type: Number,
-        default: 150,
+        default: 30,
     });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-bottom-font-size", {
         module: "ffg-star-wars-enhancements",
@@ -108,7 +149,7 @@ export function init() {
         scope: "world",
         config: false,
         type: Number,
-        default: 50,
+        default: 100,
     });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-logo-delay", {
         module: "ffg-star-wars-enhancements",
@@ -145,6 +186,15 @@ export function init() {
         config: false,
         type: Number,
         default: 5,
+    });
+	game.settings.register("ffg-star-wars-enhancements", "title-cards-zoom-speed", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-zoom-speed"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-zoom-speed-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        default: 35,
     });
     game.settings.register("ffg-star-wars-enhancements", "title-cards-close-delay", {
         module: "ffg-star-wars-enhancements",
@@ -240,12 +290,16 @@ class TitleCardsApplication extends Application {
      */
     getData() {
         let data = this.data;
+        data.textColor = game.settings.get("ffg-star-wars-enhancements", "title-cards-text-color");
         data.topSize = game.settings.get("ffg-star-wars-enhancements", "title-cards-top-font-size");
         data.bottomSize = game.settings.get("ffg-star-wars-enhancements", "title-cards-bottom-font-size");
+        data.topSize2 = game.settings.get("ffg-star-wars-enhancements", "title-cards-top-font-size-2");
+        data.bottomSize2 = game.settings.get("ffg-star-wars-enhancements", "title-cards-bottom-font-size-2");
         data.logoDelay = game.settings.get("ffg-star-wars-enhancements", "title-cards-logo-delay");
         data.logoDuration = game.settings.get("ffg-star-wars-enhancements", "title-cards-logo-duration");
         data.textDelay = game.settings.get("ffg-star-wars-enhancements", "title-cards-text-delay");
         data.textDuration = game.settings.get("ffg-star-wars-enhancements", "title-cards-text-duration");
+        data.zoomSpeed = game.settings.get("ffg-star-wars-enhancements", "title-cards-zoom-speed");
         return data;
     }
 
@@ -425,3 +479,4 @@ class title_cards_UISettings extends FormApplication {
         }
     }
 }
+

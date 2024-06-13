@@ -1,6 +1,15 @@
 <div class="title-cards-bg">
-    <div class="title-cards-logo">
-        <img src="{{logo}}">
+    <div class="title-cards-logo">	
+        <div class="logo noselect">
+            {{#if logo}}
+            <img src="{{logo}}">
+            {{else}}
+            <div class="title-cards-text-logo">
+                <div class="top-text-logo">{{toptext2}}</div>
+                <div class="bottom-text-logo">{{bottomtext2}}</div>
+            </div>
+            {{/if}}
+        </div>
     </div>
 
     <div class="title-cards-text">
@@ -18,7 +27,7 @@
             width: 100%;
             height: 100%;
             background-color: #000;
-            color: #ffd54e;
+            color: {{textColor}};
             overflow: hidden;
         }
 
@@ -30,9 +39,26 @@
             width: 50%;
             height: auto;
             opacity: 0;
-            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s, zoomIn 40s forwards;
+            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s, zoomIn {{zoomSpeed}}s forwards;
             display: flex;
             justify-content: center;
+        }
+		
+        .title-cards-text-logo {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: auto;
+            opacity: 0;
+            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s, zoomIn {{zoomSpeed}}s forwards;
+            font-family: "News Cycle";
+            font-weight: bolder;
         }
 
         @keyframes logoAnimation {
@@ -63,9 +89,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
-            height: 50%;
+            height: auto;
             opacity: 0;
-            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s, zoomIn 40s forwards;
+            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s, zoomIn {{zoomSpeed}}s forwards;
             font-family: "News Cycle";
             font-weight: bolder;
         }
@@ -85,6 +111,24 @@
 
         .bottom-text {
             font-size: {{bottomSize}}px;
+            align-items: flex-start;
+        }
+		
+        .top-text-logo,
+        .bottom-text-logo {
+            flex: 1;
+            display: flex;
+            line-height: 100%;
+
+        }
+		
+        .top-text-logo {
+            font-size: {{topSize2}}px;
+            align-items: flex-end;
+        }
+
+        .bottom-text-logo {
+            font-size: {{bottomSize2}}px;
             align-items: flex-start;
         }
 
