@@ -30,7 +30,7 @@
             width: 50%;
             height: auto;
             opacity: 0;
-            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s;
+            animation: logoAnimation {{logoDuration}}s ease-out {{logoDelay}}s, zoomIn 40s forwards;
             display: flex;
             justify-content: center;
         }
@@ -65,7 +65,7 @@
             width: 100%;
             height: 50%;
             opacity: 0;
-            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s;
+            animation: textFadeAnimation {{textDuration}}s ease-out {{textDelay}}s, zoomIn 40s forwards;
             font-family: "News Cycle";
             font-weight: bolder;
         }
@@ -105,5 +105,14 @@
                 opacity: 0;
             }
         }
+		
+		@keyframes zoomIn {
+			from {
+				transform: translate(-50%, -50%) scale(1);
+			}
+			to {
+				transform: translate(-50%, -50%) scale(1.5);
+			}
+		}
     </style>
 </head>
