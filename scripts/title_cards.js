@@ -5,7 +5,8 @@ export function title_cards_dialog() {
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
         content: `
           <form>
-            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-head")}</h1>
+            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-head")}</h2>
+            <h4>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-logo-head-hint")}</h4>
             <div class="form-group">
                 <p>
                 <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.toptext-label-2")}</label>
@@ -16,7 +17,7 @@ export function title_cards_dialog() {
                 <input type='text' name='bottomtext-2'></input>
                 </p>
             </div>
-            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-episode-head")}</h1><br>
+            <h2>${game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-episode-head")}</h2><br>
 			<div class="form-group">
                 <p>
                 <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.toptext-label")}</label>

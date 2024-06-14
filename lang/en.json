@@ -251,5 +251,6 @@
     "ffg-star-wars-enhancements.title-cards.title-cards-close-delay": "Window close delay",
     "ffg-star-wars-enhancements.title-cards.title-cards-logo-head": "Logo",
     "ffg-star-wars-enhancements.title-cards.title-cards-episode-head": "Episode",
+    "ffg-star-wars-enhancements.title-cards.title-cards-logo-head-hint": "It works if you don't specify an logo image in the settings",
     "ffg-star-wars-enhancements.title-cards.title-cards-close-delay-hint": "Time in seconds since the text disappeared to close the window. If 0, will not close the window"
 }
