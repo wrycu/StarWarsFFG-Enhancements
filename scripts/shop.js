@@ -252,6 +252,7 @@ class Shop {
                             restricted: possible_item.system.rarity.isrestricted,
                         },
                         price: price,
+                        msrp: parseInt(possible_item.system.price.value),
                         roll: result_string,
                         dice_string: pool.renderDiceExpression(),
                     });
@@ -435,6 +436,7 @@ class ShopGenerator extends FormApplication {
             let item = inventory[x];
             flag_data[item.item.name] = {
                 price: item.price,
+                msrp: item.msrp,
                 roll: item.roll,
                 dice_string: item.dice_string,
                 image: item.item.image,
@@ -482,6 +484,8 @@ class ShopGenerator extends FormApplication {
             // you can't have negative numbers as keys for some weirdo reason reeee
             var price_modifier = 1;
         }
+
+        await vendor.unsetFlag("ffg-star-wars-enhancements", "vendor-data");
 
         flag_data = {
             items: flag_data,

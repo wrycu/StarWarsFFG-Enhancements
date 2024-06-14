@@ -1,5 +1,9 @@
 `2.1.1` - ?
 
+-   IMPROVEMENT: Various title card improvements ([#203](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/203)) (thanks `KamiliaBlow!`)
+    -   Font color can now be configured
+    -   Text zoom amount and speed can now be configured
+    -   You can now use 2 lines of text for the logo, instead of an image
 -   FIX: Status Icons now work again ([#200](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/200))
 
 `2.1.0` - 2024-05-26
