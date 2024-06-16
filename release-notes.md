@@ -1,4 +1,4 @@
-`2.1.1` - ?
+`2.1.1` - 2024-06-15
 
 -   IMPROVEMENT: Various title card improvements ([#203](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/203)) (thanks `KamiliaBlow!`)
     -   Font color can now be configured

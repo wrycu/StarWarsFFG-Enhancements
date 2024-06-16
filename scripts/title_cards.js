@@ -13,7 +13,9 @@ export function title_cards_dialog() {
                 <input type='text' name='toptext-2' margin-right: 10px margin-left: 10px></input>
                 </p>
                 <p>
-                <label>${game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.bottomtext-label-2")}</label>
+                <label>${game.i18n.localize(
+                    "ffg-star-wars-enhancements.controls.title-cards.bottomtext-label-2"
+                )}</label>
                 <input type='text' name='bottomtext-2'></input>
                 </p>
             </div>
@@ -88,7 +90,7 @@ export function init() {
         filePicker: "folder",
         default: "",
     });
-	game.settings.register("ffg-star-wars-enhancements", "title-cards-text-color", { 
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-text-color", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-color"),
         hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-text-color-hint"),
@@ -116,7 +118,7 @@ export function init() {
         type: Number,
         default: 0.0,
     });
-	game.settings.register("ffg-star-wars-enhancements", "title-cards-top-font-size-2", {
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-top-font-size-2", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size-2"),
         hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-top-font-size-hint-2"),
@@ -188,7 +190,7 @@ export function init() {
         type: Number,
         default: 5,
     });
-	game.settings.register("ffg-star-wars-enhancements", "title-cards-zoom-speed", {
+    game.settings.register("ffg-star-wars-enhancements", "title-cards-zoom-speed", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-zoom-speed"),
         hint: game.i18n.localize("ffg-star-wars-enhancements.title-cards.title-cards-zoom-speed-hint"),
@@ -480,4 +482,3 @@ class title_cards_UISettings extends FormApplication {
         }
     }
 }
-
