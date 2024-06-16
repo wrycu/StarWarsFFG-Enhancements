@@ -50,9 +50,7 @@
 </form>
 
 <script>
-    if (items === undefined) {
-        var items = [];
-    }
+    var items = [];
     {{#each items as |item|}}
         items.push({
             "name": "{{item.name}}",

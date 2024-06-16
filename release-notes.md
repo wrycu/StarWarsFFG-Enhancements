@@ -5,6 +5,7 @@
     -   Text zoom amount and speed can now be configured
     -   You can now use 2 lines of text for the logo, instead of an image
 -   FIX: Status Icons now work again ([#200](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/200))
+-   FIX: Attack animations by items should stop being wacky when adding/removing entries ([#206](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/206))
 
 `2.1.0` - 2024-05-26
 
