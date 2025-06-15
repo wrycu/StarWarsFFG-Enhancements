@@ -19,7 +19,7 @@ export function init() {
         config: true,
         type: String,
         default:
-            "starwarsffg.oggdudearmor,starwarsffg.oggdudegear,starwarsffg.oggdudeweapons,starwarsffg.oggdudegenericattachments",
+            "world.oggdudearmor,world.oggdudegear,world.oggdudeweapons,world.oggdudegenericattachments",
     });
     game.settings.register("ffg-star-wars-enhancements", "armor_shop_compendiums", {
         name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.armor.name"),
@@ -27,7 +27,7 @@ export function init() {
         scope: "world",
         config: true,
         type: String,
-        default: "starwarsffg.oggdudearmor,starwarsffg.oggdudearmorattachments",
+        default: "world.oggdudearmor,world.oggdudearmorattachments",
     });
     game.settings.register("ffg-star-wars-enhancements", "gear_shop_compendiums", {
         name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.gear.name"),
@@ -35,7 +35,7 @@ export function init() {
         scope: "world",
         config: true,
         type: String,
-        default: "starwarsffg.oggdudegear,starwarsffg.oggdudegenericattachments",
+        default: "world.oggdudegear,world.oggdudegenericattachments",
     });
     game.settings.register("ffg-star-wars-enhancements", "weapon_shop_compendiums", {
         name: game.i18n.localize("ffg-star-wars-enhancements.shop.setting.weapon.name"),
@@ -43,7 +43,7 @@ export function init() {
         scope: "world",
         config: true,
         type: String,
-        default: "starwarsffg.oggdudeweapons,starwarsffg.oggdudeweaponattachments",
+        default: "world.oggdudeweapons,world.oggdudeweaponattachments",
     });
 }
 
