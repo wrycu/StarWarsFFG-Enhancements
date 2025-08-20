@@ -332,7 +332,7 @@ export function attack_animation(...args) {
                 "attack-animation-custom-entries"
             );
             const matching_custom_setting = custom_item_animations.find((i) =>
-                (i && i.name != "" && item_name?.toLowerCase()?.includes(i.name.toLowerCase()))
+                (i && i.name != "" && item_name?.toLowerCase()?.includes(i.name?.toLowerCase()))
             );
             if (item_name && matching_custom_setting) {
                 log(
