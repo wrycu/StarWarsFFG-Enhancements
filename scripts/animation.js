@@ -332,12 +332,12 @@ export function attack_animation(...args) {
                 "attack-animation-custom-entries"
             );
             const matching_custom_setting = custom_item_animations.find((i) =>
-                item_name?.toLowerCase()?.includes(i.name)
+                (i && i.name != "" && item_name?.toLowerCase()?.includes(i.name.toLowerCase()))
             );
             if (item_name && matching_custom_setting) {
                 log(
                     "attack_animation",
-                    `Found custom item animation: ${custom_item_animations.name}, using these settings`
+                    `Found custom item animation: ${matching_custom_setting.name}, using these settings`
                 );
                 animation_file = matching_custom_setting.animation;
                 count = matching_custom_setting.animation_count;
