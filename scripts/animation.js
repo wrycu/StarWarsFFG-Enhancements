@@ -462,7 +462,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                     angle: -90,
                 };
             } else if (ranged_skills.includes(skill)) {
-                var ray = new Ray(tokens[0].center, position);
+                var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
                     file: animation_file,
@@ -477,7 +477,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                     },
                 };
             } else {
-                var ray = new Ray(tokens[0].center, position);
+                var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
                     file: animation_file,

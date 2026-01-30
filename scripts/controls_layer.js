@@ -16,93 +16,87 @@ export const register_controls = (controls) => {
         layer: "ffgenhancements",
         icon: "fa fa-jedi",
         visible: game.user.isGM,
-        tools: [
-            {
+        tools: {
+            crawl: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
                 icon: "fas fa-journal-whills",
                 button: true,
-                onClick: () => {
+                onChange: () => {
                     select_opening_crawl();
                 },
             },
-            {
+            title_cards: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.title"),
                 icon: "fas fa-book",
                 button: true,
-                onClick: () => {
+                onChange: () => {
                     title_cards_dialog();
                 },
             },
-            {
+            datapad_journal: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.controls.new-journal-template.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.controls.new-journal-template.title"),
                 icon: "fas fa-book-medical",
                 button: true,
-                onClick: () => {
+                onChange: () => {
                     create_datapad_journal();
                 },
             },
-            {
+            shop_tool: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.shop.html.scene.title"),
                 icon: "fas fa-shopping-cart",
                 button: true,
-                onClick: () => {
+                onChange: () => {
                     shop_creator();
                 },
             },
-            {
+            hyperspace: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.controls.hyperspace.title"),
                 icon: "fas fa-rocket",
                 button: true,
-                onClick: () => {
+                onChange: () => {
                     select_hyperspace();
                 },
             },
-            {
+            attack_animations: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.custom.button-title"),
                 icon: "fas fa-bullseye",
                 button: true,
-                onClick: async () => {
+                onChange: async () => {
                     await configure_attack_animation();
                 },
             },
-            {
+            custom_attack_animations: {
                 name: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.global-custom.button-name"),
                 title: game.i18n.localize("ffg-star-wars-enhancements.attack-animation.global-custom.button-title"),
                 icon: "fa-duotone fa-bow-arrow",
                 button: true,
-                onClick: async () => {
+                onChange: async () => {
                     await configure_custom_attack_animation();
                 },
-            },
-        ],
+            }
+        }
     };
 
     // grab the existing scene controls
-    let additional_token_controls = controls[controls.findIndex((e) => e.name === "token")];
+    // update the built-in token section
+    let additional_token_controls = controls.tokens;
     // add the hologram button
-    additional_token_controls["tools"].push({
+    additional_token_controls.tools["ffg-star-wars-holo"] = {
         name: game.i18n.localize("ffg-star-wars-enhancements.controls.holo.name"),
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.holo.title"),
         icon: "fas fa-globe",
         button: true,
-        onClick: () => {
+        onChange: () => {
             convert_to_hologram();
         },
-    });
+    };
 
     // create the enhancements control section
-    //controls.splice(controls.findIndex(e => e.name === 'notes') + 1, 0, ffg_sw_enhancements_controls)
-    // update the built-in token section
-    controls.splice(
-        controls.findIndex((e) => e.name === "token"),
-        1,
-        additional_token_controls
-    );
-    controls.push(ffg_sw_enhancements_controls);
+    controls["ffg-star-wars-enhancement-controls"] = ffg_sw_enhancements_controls;
 };
