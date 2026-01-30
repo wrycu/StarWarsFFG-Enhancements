@@ -13,3 +13,5 @@ cypress.env.json
 # Ignore docker compose environment
 secrets.json
 docker-compose.override.yaml
+/.idea
+/packs
