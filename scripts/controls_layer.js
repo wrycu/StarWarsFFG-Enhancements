@@ -87,7 +87,7 @@ export const register_controls = (controls) => {
     // update the built-in token section
     let additional_token_controls = controls.tokens;
     // add the hologram button
-    additional_token_controls.tools["ffg-star-wars-holo"] = {
+    additional_token_controls.tools["Convert to Hologram"] = {
         name: game.i18n.localize("ffg-star-wars-enhancements.controls.holo.name"),
         title: game.i18n.localize("ffg-star-wars-enhancements.controls.holo.title"),
         icon: "fas fa-globe",
