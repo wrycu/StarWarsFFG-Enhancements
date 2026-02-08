@@ -35,7 +35,11 @@
     </header>
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-        <h2>{{localize "ffg-star-wars-enhancements.shop.html.inventory.header"}}&nbsp;{{#if inventory.meta.is_gm}}<a class="refresh"><i class="fas fa-redo"></i></a>{{/if}}</h2>
+        <h2>{{localize "ffg-star-wars-enhancements.shop.html.inventory.header"}}&nbsp;
+            {{#if inventory.meta.is_gm}}
+                <a class="refresh" title="Regenerate Inventory"><i class="fas fa-redo"></i></a>
+            {{/if}}
+        </h2>
         <div class="inventory">
             <table border="1"  class="vendor_item" >
                 <tbody>
