@@ -67,5 +67,9 @@
         <label for="shop_base_price">{{localize "ffg-star-wars-enhancements.shop.html.setup.price"}}</label>
         <input id="shop_base_price" name="shop_base_price" placeholder="100" type="text" value="{{setup.base_price}}">
     </div>
+    <div class="form-group">
+        <label for="keep_existing">{{localize "ffg-star-wars-enhancements.shop.html.setup.keep_existing"}}</label>
+        <input id="keep_existing" name="keep_existing" type="checkbox" {{#if setup.keep_existing}}checked{{/if}}>
+    </div>
     <button class="create" type="submit" value="create"><i class="fas fa-plus"></i>{{localize "ffg-star-wars-enhancements.shop.html.setup.button"}}</button>
 </form>

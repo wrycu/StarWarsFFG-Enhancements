@@ -380,6 +380,7 @@ class ShopGenerator extends FormApplication {
                 location: "no_change",
                 restricted: false,
                 pc: null,
+                keep_existing: false,
             };
         } else {
             log(module_name, "Found existing vendor data, using it");
@@ -393,6 +394,7 @@ class ShopGenerator extends FormApplication {
                 location: vendor_data["meta"]["location"],
                 restricted: vendor_data["meta"]["restricted"],
                 pc: vendor_data["meta"]["pc"],
+                keep_existing: false,
             };
         }
         log(module_name, JSON.stringify(shop));
@@ -422,6 +424,7 @@ class ShopGenerator extends FormApplication {
             data["shop_actor"],
             data["shop_base_price"]
         );
+        const keep_inventory = data["keep_existing"];
         let inventory = await myshop.shop();
 
         /* set the store data as a flag on the actor we got passed in (assuming one was) */
@@ -505,8 +508,10 @@ class ShopGenerator extends FormApplication {
         // actually set the flag data
         await vendor.setFlag("ffg-star-wars-enhancements", "vendor-data", flag_data);
 
-        // actually delete the old items
-        await vendor.deleteEmbeddedDocuments("Item", to_delete);
+        if (!keep_inventory) {
+            // actually delete the old items
+            await vendor.deleteEmbeddedDocuments("Item", to_delete);
+        }
         // actually create the new items
         await vendor.createEmbeddedDocuments("Item", to_create);
     }
