@@ -69,7 +69,11 @@
                         </a>
                     </td>
                     <td>{{type}}</td>
-                    <td>{{price}}</td>
+                    <td>
+                        <span{{#if ../inventory.meta.is_gm}} title="MSRP: {{ msrp }}"{{/if}}>
+                            {{price}}
+                        </span>
+                    </td>
                     <td>{{{roll}}}</td>
                     <td>
                         {{#if ../inventory.meta.is_gm}}
