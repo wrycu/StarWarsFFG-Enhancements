@@ -68,6 +68,14 @@
         <input id="shop_base_price" name="shop_base_price" placeholder="100" type="text" value="{{setup.base_price}}">
     </div>
     <div class="form-group">
+        <label for="tags_must_contain">{{{localize "ffg-star-wars-enhancements.shop.html.setup.tags"}}}</label>
+        <input id="tags_must_contain" name="tags_must_contain" placeholder="Comma Separated List" type="text" value="{{setup.tags_must_contain}}">
+    </div>
+    <div class="form-group">
+        <label for="tags_must_not_contain">{{{localize "ffg-star-wars-enhancements.shop.html.setup.tags_not"}}}</label>
+        <input id="tags_must_not_contain" name="tags_must_not_contain" placeholder="Comma Separated List" type="text" value="{{setup.tags_must_not_contain}}">
+    </div>
+    <div class="form-group">
         <label for="keep_existing">{{localize "ffg-star-wars-enhancements.shop.html.setup.keep_existing"}}</label>
         <input id="keep_existing" name="keep_existing" type="checkbox" {{#if setup.keep_existing}}checked{{/if}}>
     </div>

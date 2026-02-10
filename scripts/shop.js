@@ -3,7 +3,7 @@ import { log_msg as log } from "./util.js";
 let module_name = "shop_generator";
 
 class Shop {
-    constructor(shady, specialization, min_items, max_items, location, actor, base_price) {
+    constructor(shady, specialization, min_items, max_items, location, actor, base_price, tags_must_contain, tags_must_not_contain) {
         /*
         Shop generator
         PURPOSE:
@@ -34,6 +34,8 @@ class Shop {
                  plus_four
              actor: string - ID of the actor we should use to roll to see if items are in the shop or not
              base_price: int - % price to report (100 is no change, 50 is half, 200 is double)
+             tags_must_contain: comma separated list of tags which items must contain
+             tags_must_not_contain: comma separated list of tags which items must not contain
          */
         log(module_name, "Initializing shop object");
         let specialization_mapping = {
@@ -105,6 +107,10 @@ class Shop {
         }
         this.actor_id = actor;
         this.base_price = parseInt(base_price);
+        this.tags_must_contain = tags_must_contain ?
+            tags_must_contain.split(",").map(t => t.trim().toLowerCase()).filter(t => t.length > 0): [];
+        this.tags_must_not_contain = tags_must_not_contain ?
+            tags_must_not_contain.split(",").map(t => t.trim().toLowerCase()).filter(t => t.length > 0): [];
         log(module_name, "Shop Initialized!");
     }
 
@@ -172,6 +178,22 @@ class Shop {
                     "Rejected item " +
                         possible_item.name +
                         " (item is a mod for an item type not accepted for this kind of store)"
+                );
+            } else if (
+                this.tags_must_contain.length > 0 &&
+                !this.tags_must_contain.every(tag => possible_item.system.metadata?.tags?.map(t => t.toLowerCase()).includes(tag))
+            ) {
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (missing required tags)"
+                );
+            } else if (
+                this.tags_must_not_contain.length > 0 &&
+                this.tags_must_not_contain.some(tag => possible_item.system.metadata?.tags?.map(t => t.toLowerCase()).includes(tag))
+            ) {
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (has excluded tags)"
                 );
             } else {
                 // the item is a fit for our shop, roll to see if the actor finds it or not
@@ -380,6 +402,8 @@ class ShopGenerator extends FormApplication {
                 location: "no_change",
                 restricted: false,
                 pc: null,
+                tags_must_contain: [],
+                tags_must_not_contain: [],
                 keep_existing: false,
             };
         } else {
@@ -394,6 +418,8 @@ class ShopGenerator extends FormApplication {
                 location: vendor_data["meta"]["location"],
                 restricted: vendor_data["meta"]["restricted"],
                 pc: vendor_data["meta"]["pc"],
+                tags_must_contain: vendor_data["meta"]["tags_must_contain"] || [],
+                tags_must_not_contain: vendor_data["meta"]["tags_must_not_contain"] || [],
                 keep_existing: false,
             };
         }
@@ -422,7 +448,9 @@ class ShopGenerator extends FormApplication {
             data["max_item_count"],
             data["shop_location"],
             data["shop_actor"],
-            data["shop_base_price"]
+            data["shop_base_price"],
+            data["tags_must_contain"],
+            data["tags_must_not_contain"],
         );
         const keep_inventory = data["keep_existing"];
         let inventory = await myshop.shop();
@@ -500,6 +528,8 @@ class ShopGenerator extends FormApplication {
                 max_items: data["max_item_count"],
                 location: data["shop_location"],
                 restricted: data["shady"],
+                tags_must_contain: data["tags_must_contain"] || [],
+                tags_must_not_contain: data["tags_must_not_contain"] || [],
                 pc: data["shop_actor"],
             },
         };

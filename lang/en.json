@@ -182,6 +182,8 @@
     "ffg-star-wars-enhancements.shop.html.setup.pc": "Player Character",
     "ffg-star-wars-enhancements.shop.html.setup.price": "Base Price Percent",
     "ffg-star-wars-enhancements.shop.html.setup.button": "Create Shop",
+    "ffg-star-wars-enhancements.shop.html.setup.tags": "Tags <b>Must</b> Include",
+    "ffg-star-wars-enhancements.shop.html.setup.tags_not": "Tags <b>Must Not</b> Include",
     "ffg-star-wars-enhancements.shop.setting.general.name": "General Shop Compendiums",
     "ffg-star-wars-enhancements.shop.setting.general.hint": "Comma seperated list of compendiums to pull items from when generating the inventory (no spaces)",
     "ffg-star-wars-enhancements.shop.setting.armor.name": "Armor Shop Compendiums",
