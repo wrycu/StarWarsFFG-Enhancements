@@ -36,22 +36,31 @@ async function socket_listener(data) {
 
 export function dice_helper() {
     game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
-    Hooks.on("createChatMessage", (messageData, meta_data, id) => {
+    Hooks.on("createChatMessage", (message, options, userId) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
-            if (is_roll(messageData) === true) {
+            if (is_roll(message) === true) {
                 // as of some v10 version, chat messages can contain >1 roll. let's just read the first
-                messageData["_roll"] = messageData.rolls[0];
-                let skill = messageData["flavor"]
+                if (!message.rolls || message.rolls.length === 0) {
+                    return;
+                }
+
+                message["_roll"] = message.rolls[0];
+
+                if (!message["_roll"]?.ffg) {
+                    return;
+                }
+
+                let skill = message["flavor"]
                     .replace(game.i18n.localize("SWFFG.Rolling") + " ", "")
                     .replace("...", "")
                     .replace(/\s/g, " ");
                 let roll_result = {
-                    advantage: messageData["_roll"]["ffg"]["advantage"],
-                    triumph: messageData["_roll"]["ffg"]["triumph"],
-                    threat: messageData["_roll"]["ffg"]["threat"],
-                    despair: messageData["_roll"]["ffg"]["despair"],
-                    success: messageData["_roll"]["ffg"]["success"],
-                    failure: messageData["_roll"]["ffg"]["failure"],
+                    advantage: message["_roll"]["ffg"]["advantage"],
+                    triumph: message["_roll"]["ffg"]["triumph"],
+                    threat: message["_roll"]["ffg"]["threat"],
+                    despair: message["_roll"]["ffg"]["despair"],
+                    success: message["_roll"]["ffg"]["success"],
+                    failure: message["_roll"]["ffg"]["failure"],
                 };
                 if (
                     roll_result["advantage"] > 0 ||
@@ -105,7 +114,7 @@ export function dice_helper() {
         }
     });
 
-    Hooks.on("renderChatMessage", (app, html, messageData) => {
+    Hooks.on("renderChatMessage", (message, html, data) => {
         /*
         this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
         hook and the user enables it after the game starts, it doesn't actually enable
@@ -115,31 +124,23 @@ export function dice_helper() {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
             html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(messageData);
+                await dice_helper_clicked(message);
             });
         }
     });
 }
 
 function is_roll(message_data) {
-    if (game.user.isGM && message_data["rolls"].length > 0) {
-        if (message_data["flavor"] === undefined) {
-            return false;
-        }
-        return true;
-        if (
-            message_data.message.content.search("Initiative") === -1 ||
-            message_data.message.content.search(
-                game.i18n.localize("ffg-star-wars-enhancements.dice-helper-button-text")
-            ) === -1 ||
-            message_data.message.content.search(
-                game.i18n.localize("ffg-star-wars-enhancements.dice-helper-message-content-3")
-            ) === -1
-        ) {
-            return true;
-        }
+    if (!game.user.isGM) {
+        return false;
     }
-    return false;
+    if (!message_data || !message_data["rolls"] || message_data["rolls"].length === 0) {
+        return false;
+    }
+    if (message_data["flavor"] === undefined) {
+        return false;
+    }
+    return true;
 }
 
 async function dice_helper_clicked(object) {
@@ -199,7 +200,7 @@ async function fetch_suggestions(results) {
     // categories suggestions can exist for
     let suggestion_categories = ["su", "fa", "ad", "th", "tr", "de"];
 
-    let skill = results["skill"].toLowerCase().replace("&", "&amp;").replace(" ", " ");
+    let skill = results["skill"].toLowerCase().replace("&", "&amp;").replace(" ", " ");
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {
@@ -262,7 +263,14 @@ function load_data() {
      *  }
      */
     let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
-    let journal = game.journal.filter((journal) => journal.name === journal_name);
+
+    // Handle both v12 (array) and v13 (Collection) journal structures
+    let journal;
+    if (game.journal instanceof foundry.utils.Collection) {
+        journal = Array.from(game.journal.values()).filter((j) => j.name === journal_name);
+    } else {
+        journal = game.journal.filter((journal) => journal.name === journal_name);
+    }
 
     if (journal.length <= 0) {
         ui.notifications.warn("Failed to find journal - make sure it's created or something");
@@ -271,7 +279,13 @@ function load_data() {
     }
     log(feature_name, "Found journal " + journal_name);
 
-    let journal_pages = journal[0].pages.filter((i) => i.name === "dice_helper");
+    // Handle both v12 (array) and v13 (Collection) page structures
+    let journal_pages;
+    if (journal[0].pages instanceof foundry.utils.Collection) {
+        journal_pages = Array.from(journal[0].pages.values()).filter((i) => i.name === "dice_helper");
+    } else {
+        journal_pages = journal[0].pages.filter((i) => i.name === "dice_helper");
+    }
     if (journal_pages.length <= 0) {
         ui.notifications.warn("Failed to find journal with correct pages - make sure it's created or something");
         log(feature_name, "Unable to find journal with correct pages");
@@ -284,7 +298,7 @@ function load_data() {
         // Let translate the skill names if possible
         Object.keys(jsondata).forEach((skillname) => {
             if (skillname.includes("SWFFG.")) {
-                let localizedskill = game.i18n.localize(skillname).toLowerCase().replace(" ", " ");
+                let localizedskill = game.i18n.localize(skillname).toLowerCase().replace(" ", " ");
                 Object.defineProperty(jsondata, localizedskill, Object.getOwnPropertyDescriptor(jsondata, skillname));
                 delete jsondata[skillname];
             }
@@ -305,7 +319,14 @@ export async function create_and_populate_journal() {
 
     // otherwise check to see if the journal already exists
     let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
-    let journal = game.journal.filter((journal) => journal.name === journal_name);
+
+    // Handle both v12 (array) and v13 (Collection) journal structures
+    let journal;
+    if (game.journal instanceof foundry.utils.Collection) {
+        journal = Array.from(game.journal.values()).filter((j) => j.name === journal_name);
+    } else {
+        journal = game.journal.filter((journal) => journal.name === journal_name);
+    }
 
     if (journal.length === 0) {
         // journal doesn't exist
