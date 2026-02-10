@@ -1,3 +1,7 @@
+`2.1.3` - 2026-02-10
+
+-   FIX: Opening crawl now works with Foundry VTT v13 (migrated to ApplicationV2, updated audio preloading)
+
 `2.1.2` - 2025-06-15
 
 -  FIX: Default compendiums for the shop cannot be found ([#213](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/213))
