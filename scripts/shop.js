@@ -3,14 +3,13 @@ import { log_msg as log } from "./util.js";
 let module_name = "shop_generator";
 
 class Shop {
-    constructor(shady, specialization, min_items, max_items, location, actor, base_price, tags_must_contain, tags_must_not_contain) {
+    constructor(shady, specialization, min_items, max_items, location, actor, base_price, min_price, max_price, tags_must_contain, tags_must_not_contain) {
         /*
         Shop generator
         PURPOSE:
             Generates a shop with randomly selected items
             Note that this is not implemented in the rules, but https://www.swrpg-shop.com/ does a great job of it and
                 this is intended to implement similar functionality in-game
-            TODO: add a value / rarity upper bound option
         LIMITATIONS:
             Currently, the shop can only use items from compendiums (not items in the world itself)
             There is no way to modify the roll the actor makes, or to use two different people per roll type
@@ -34,6 +33,8 @@ class Shop {
                  plus_four
              actor: string - ID of the actor we should use to roll to see if items are in the shop or not
              base_price: int - % price to report (100 is no change, 50 is half, 200 is double)
+             min_price: int - the min price of items which will be allowed in the shop
+             max_price: int - the max price of items which will be allowed in the shop
              tags_must_contain: comma separated list of tags which items must contain
              tags_must_not_contain: comma separated list of tags which items must not contain
          */
@@ -107,6 +108,8 @@ class Shop {
         }
         this.actor_id = actor;
         this.base_price = parseInt(base_price);
+        this.min_price = parseInt(min_price);
+        this.max_price = parseInt(max_price);
         this.tags_must_contain = tags_must_contain ?
             tags_must_contain.split(",").map(t => t.trim().toLowerCase()).filter(t => t.length > 0): [];
         this.tags_must_not_contain = tags_must_not_contain ?
@@ -195,89 +198,24 @@ class Shop {
                     module_name,
                     "Rejected item " + possible_item.name + " (has excluded tags)"
                 );
+            } else if (parseInt(possible_item.system.price.value) < this.min_price) {
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (price below minimum)"
+                );
+            } else if (parseInt(possible_item.system.price.value) > this.max_price) {
+                log(
+                    module_name,
+                    "Rejected item " + possible_item.name + " (price above maximum)"
+                );
             } else {
                 // the item is a fit for our shop, roll to see if the actor finds it or not
                 log(module_name, "Rolling to see if we find the item in the shop or not");
-                // make the check to see if we find the item
-                let difficulty = this.rarity_to_difficulty(
-                    possible_item.system.rarity.adjusted + this.location_modifier
-                );
-                if (possible_item.system.rarity.isrestricted === true) {
-                    // legal items use negotiation
-                    var pool = await this.build_dice_pool(
-                        this.actor_id,
-                        difficulty["difficulty"],
-                        difficulty["challenge"],
-                        "streetwise"
-                    );
-                } else {
-                    // illegal items use streetwise
-                    var pool = await this.build_dice_pool(
-                        this.actor_id,
-                        difficulty["difficulty"],
-                        difficulty["challenge"],
-                        "negotiation"
-                    );
-                }
-                let result = await new game.ffg.RollFFG(pool.renderDiceExpression()).roll();
-                result = result.ffg;
 
                 // see if the check was successful or not
-                if (result["success"] >= 1) {
-                    // we passed the check, count the item as added! woot!
-                    /* build the result string (the normal [su] shortcut doesn't render properly here) */
-                    let result_string = "";
-                    for (let i = 0; i < result["success"]; i++) {
-                        result_string += '<span class="dietype starwars success">s</span>';
-                    }
-                    for (let i = 0; i < result["advantage"]; i++) {
-                        result_string += '<span class="dietype starwars advantage">a</span>';
-                    }
-                    for (let i = 0; i < result["triumph"]; i++) {
-                        result_string += '<span class="dietype starwars triumph">x</span>';
-                    }
-                    for (let i = 0; i < result["threat"]; i++) {
-                        result_string += '<span class="dietype starwars threat">t</span>';
-                    }
-                    for (let i = 0; i < result["despair"]; i++) {
-                        result_string += '<span class="dietype starwars despair">y</span>';
-                    }
-
-                    // attempt to use a custom default image if one isn't set
-                    let base_path = "modules/ffg-star-wars-enhancements/icons/";
-                    let image_mapping = {
-                        gear: base_path + "gym-bag.svg",
-                        weapon: base_path + "bolter-gun.svg",
-                        armour: base_path + "breastplate.svg",
-                    };
-                    if (
-                        possible_items_raw[possible_item_index]["item"]["img"] === "icons/svg/mystery-man.svg" &&
-                        possible_item.type in image_mapping
-                    ) {
-                        var image = image_mapping[possible_item.type];
-                    } else {
-                        var image = possible_items_raw[possible_item_index]["item"]["img"];
-                    }
-
-                    // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
-                    let price = parseInt(
-                        parseInt(possible_item.system.price.value) * this.price_modifier * (this.base_price / 100)
-                    );
-                    log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
-                    selected_items.push({
-                        item: {
-                            id: possible_item.id,
-                            name: possible_item.name,
-                            image: image,
-                            type: possible_item.type,
-                            compendium: possible_items_raw[possible_item_index]["compendium"],
-                            restricted: possible_item.system.rarity.isrestricted,
-                        },
-                        price: price,
-                        msrp: parseInt(possible_item.system.price.value),
-                        roll: result_string,
-                        dice_string: pool.renderDiceExpression(),
-                    });
+                const result = await this.roll_for_item(possible_item, possible_items_raw, possible_item_index);
+                if (result["accepted"] === true) {
+                    selected_items.push(result["item"]);
                 } else {
                     log(module_name, "Rejected item " + possible_item.name + " (failed check to find it)");
                 }
@@ -345,6 +283,98 @@ class Shop {
         }
         return dicePool;
     }
+
+    async roll_for_item(possible_item, possible_items_raw, possible_item_index) {
+        // make the check to see if we find the item
+        let difficulty = this.rarity_to_difficulty(
+            possible_item.system.rarity.adjusted + this.location_modifier
+        );
+        if (possible_item.system.rarity.isrestricted === true) {
+            // legal items use negotiation
+            var pool = await this.build_dice_pool(
+                this.actor_id,
+                difficulty["difficulty"],
+                difficulty["challenge"],
+                "streetwise"
+            );
+        } else {
+            // illegal items use streetwise
+            var pool = await this.build_dice_pool(
+                this.actor_id,
+                difficulty["difficulty"],
+                difficulty["challenge"],
+                "negotiation"
+            );
+        }
+        let result = await new game.ffg.RollFFG(pool.renderDiceExpression()).roll();
+        result = result.ffg;
+
+        // see if the check was successful or not
+        if (result["success"] >= 1) {
+            // we passed the check, count the item as added! woot!
+            /* build the result string (the normal [su] shortcut doesn't render properly here) */
+            let result_string = "";
+            for (let i = 0; i < result["success"]; i++) {
+                result_string += '<span class="dietype starwars success">s</span>';
+            }
+            for (let i = 0; i < result["advantage"]; i++) {
+                result_string += '<span class="dietype starwars advantage">a</span>';
+            }
+            for (let i = 0; i < result["triumph"]; i++) {
+                result_string += '<span class="dietype starwars triumph">x</span>';
+            }
+            for (let i = 0; i < result["threat"]; i++) {
+                result_string += '<span class="dietype starwars threat">t</span>';
+            }
+            for (let i = 0; i < result["despair"]; i++) {
+                result_string += '<span class="dietype starwars despair">y</span>';
+            }
+
+            // attempt to use a custom default image if one isn't set
+            let base_path = "modules/ffg-star-wars-enhancements/icons/";
+            let image_mapping = {
+                gear: base_path + "gym-bag.svg",
+                weapon: base_path + "bolter-gun.svg",
+                armour: base_path + "breastplate.svg",
+            };
+            if (
+                possible_items_raw[possible_item_index]["item"]["img"] === "icons/svg/mystery-man.svg" &&
+                possible_item.type in image_mapping
+            ) {
+                var image = image_mapping[possible_item.type];
+            } else {
+                var image = possible_items_raw[possible_item_index]["item"]["img"];
+            }
+
+            // the price is modified by where in the galaxy the shop is (and furthermore by the vendor modifier)
+            let price = parseInt(
+                parseInt(possible_item.system.price.value) * this.price_modifier * (this.base_price / 100)
+            );
+            log(module_name, "We passed our check! Woot! Adding " + possible_item.name + "to shop inventory");
+            return {
+                accepted: true,
+                item: {
+                    item: {
+                        id: possible_item.id,
+                        name: possible_item.name,
+                        image: image,
+                        type: possible_item.type,
+                        compendium: possible_items_raw[possible_item_index]["compendium"],
+                        restricted: possible_item.system.rarity.isrestricted,
+                    },
+                    price: price,
+                    msrp: parseInt(possible_item.system.price.value),
+                    roll: result_string,
+                    dice_string: pool.renderDiceExpression(),
+                },
+            }
+        } else {
+            return {
+                accepted: false,
+                item: {},
+            };
+        }
+    }
 }
 
 /*
@@ -395,6 +425,8 @@ class ShopGenerator extends FormApplication {
             // there is no stored data for this vendor, use the defaults
             var shop = {
                 base_price: 100,
+                min_price: 0,
+                max_price: 1000,
                 price_modifier: 1,
                 type: "general",
                 min_items: 5,
@@ -411,6 +443,8 @@ class ShopGenerator extends FormApplication {
             // there is stored data for this vendor, use the previous settings
             var shop = {
                 base_price: parseInt(vendor_data["meta"]["base_price"]),
+                min_price: parseInt(vendor_data["meta"]["min_price"]) || 0,
+                max_price: parseInt(vendor_data["meta"]["max_price"]) || 1000,
                 price_modifier: parseInt(vendor_data["meta"]["price_modifier"]),
                 type: vendor_data["meta"]["type"],
                 min_items: vendor_data["meta"]["min_items"],
@@ -449,6 +483,8 @@ class ShopGenerator extends FormApplication {
             data["shop_location"],
             data["shop_actor"],
             data["shop_base_price"],
+            data["min_price"],
+            data["max_price"],
             data["tags_must_contain"],
             data["tags_must_not_contain"],
         );
@@ -522,6 +558,8 @@ class ShopGenerator extends FormApplication {
             items: flag_data,
             meta: {
                 base_price: parseInt(data["shop_base_price"]),
+                min_price: parseInt(data["min_price"]),
+                max_price: parseInt(data["max_price"]),
                 price_modifier: price_modifier,
                 type: data["shop_type"],
                 min_items: data["min_item_count"],

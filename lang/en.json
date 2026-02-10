@@ -181,6 +181,8 @@
     "ffg-star-wars-enhancements.shop.html.setup.keep_existing": "Keep Existing Shop Inventory",
     "ffg-star-wars-enhancements.shop.html.setup.pc": "Player Character",
     "ffg-star-wars-enhancements.shop.html.setup.price": "Base Price Percent",
+    "ffg-star-wars-enhancements.shop.html.setup.min_price": "Minium Base Price",
+    "ffg-star-wars-enhancements.shop.html.setup.max_price": "Maximum Base Price",
     "ffg-star-wars-enhancements.shop.html.setup.button": "Create Shop",
     "ffg-star-wars-enhancements.shop.html.setup.tags": "Tags <b>Must</b> Include",
     "ffg-star-wars-enhancements.shop.html.setup.tags_not": "Tags <b>Must Not</b> Include",
