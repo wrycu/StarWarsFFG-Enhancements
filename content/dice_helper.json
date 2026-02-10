@@ -670,5 +670,903 @@
                 "required": 1
             }
         ]
+    },
+    "SWFFG.SkillsNameKnowledgeCoreWorlds": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeEducation": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeLore": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeOuterRim": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeUnderworld": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeXenology": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeScience": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameKnowledgeWarfare": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Pieces of knowledge / speed of gaining knowledge",
+                "required": 1
+            },
+            {
+                "text": "Particularly useful piece of knowledge",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Extremely useful piece of knowledge (i.e. weakness)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Omits vital detail or context",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Seeds misinformation / outright falsehood",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameAthletics": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Reduce time / increase distance traveled",
+                "required": 1
+            },
+            {
+                "text": "+1 movement-based maneuver",
+                "required": 2
+            },
+            {
+                "text": "+[bo] on other physical checks",
+                "required": 3
+            }
+        ],
+        "tr": [],
+        "fa": [],
+        "th": [
+            {
+                "text": "+1 strain",
+                "required": 1
+            },
+            {
+                "text": "Fall prone",
+                "required": 2
+            },
+            {
+                "text": "+1 wound",
+                "required": 3
+            }
+        ],
+        "de": [
+            {
+                "text": "Critical Injury",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameCharm": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Extend support for +1 scene",
+                "required": 1
+            },
+            {
+                "text": "Affect subjects beyond original target",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Target becomes recurring ally",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Reduce number of people influenced",
+                "required": 1
+            },
+            {
+                "text": "Turn people other than target against them",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Target or other NPC becomes recurring adversary",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameCoercion": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Target suffers +1 strain",
+                "required": 2
+            },
+            {
+                "text": "Affect subjects beyond original target",
+                "required": 3
+            }
+        ],
+        "tr": [
+            {
+                "text": "Target becomes recurring subjugated ally",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Building resentment in the NPC",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Coercer reveals something about their true intentions",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameComputers": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Reduce time required",
+                "required": 1
+            },
+            {
+                "text": "Uncover additional information (additional assets, owner's personal journals, well-concealed defenses)",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Conceal the system slice",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Security systems are alerted, other slicers gain +[se] against character",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Character can be traced / identified, +[se] against future Computer checks targeting the slicer",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameCool": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Additional insight into situation",
+                "required": 1
+            }
+        ],
+        "tr": [
+            {
+                "text": "-3 strain",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Miss vital detail/event",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Staggered for 1 round",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameCoordination": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Increase distance by 25%",
+                "required": 1
+            },
+            {
+                "text": "Decrease time",
+                "required": 2
+            },
+            {
+                "text": "+1 maneuver",
+                "required": 3
+            }
+        ],
+        "tr": [],
+        "fa": [],
+        "th": [
+            {
+                "text": "Lose free maneuver for 1 turn",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "+1 wound / lose piece of equipment",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameDeception": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Extend duration of deception",
+                "required": 1
+            },
+            {
+                "text": "Increase value of goods/services gained",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Target believes character is trustworthy; future checks are not opposed (GM assigns difficulty based on lie)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Target sees through part of lie / knows he's been lied to",
+                "required": 1
+            },
+            {
+                "text": "Target spreads word of the deception",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Target turns lie to their advantage (bad info / goods)",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameDiscipline": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Downgrade difficulty on next action",
+                "required": 1
+            },
+            {
+                "text": "Additional insight into situation",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "+[bo] to ally's Discipline checks for 1 round",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "+[se] to next action, character's resolve undermined",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Loses action / can only perform 1 maneuver next round",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameLeadership": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Extend duration of support",
+                "required": 1
+            },
+            {
+                "text": "Affect subjects beyond original target",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "NPC becomes recurring faithful follower",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Ordered actions take longer or done poorly",
+                "required": 1
+            },
+            {
+                "text": "+[se] to future Leadership checks until rep repaired",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Target becomes recurring problem, refusing to take orders or turning others against character",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameMechanics": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Reduce time required by 10-20%",
+                "required": 1
+            },
+            {
+                "text": "Superior Repairs: +[bo] using item for 1 session / Item gains Superior quality for 1 session",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Give device a new, single-use function",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Item malfunctions in the near future",
+                "required": 1
+            },
+            {
+                "text": "Additional damage to target",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Related components begin to malfunction",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameNegotiation": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Increase length of contract / profit by 5%",
+                "required": 1
+            },
+            {
+                "text": "Gain perk / concession from target",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "NPC becomes regular client / vendor",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Increase cost / decrease value / shorten contract",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Agreement contains serious loophole",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNamePerception": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Reveal additional details",
+                "required": 1
+            },
+            {
+                "text": "Recall additional information about object noticed",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Notice useful details, gain +[bo] on future interactions",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Conceal vital detail",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "False information",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNamePilotingPlanetary": {
+        "su": [],
+        "ad": [
+            {
+                "text": "+[bo] vs. opponent's piloting style",
+                "required": 1
+            }
+        ],
+        "tr": [
+            {
+                "text": "+1 maneuver with vehicle",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Opponent gains +[bo] vs. character",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Damage vehicle",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNamePilotingSpace": {
+        "su": [],
+        "ad": [
+            {
+                "text": "+[bo] vs. opponent's piloting style",
+                "required": 1
+            }
+        ],
+        "tr": [
+            {
+                "text": "+1 maneuver with vehicle",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Opponent gains +[bo] vs. character",
+                "required": 2
+            }
+        ],
+        "de": [
+            {
+                "text": "Damage vehicle",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameResilience": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Extend time before next Resilience check",
+                "required": 1
+            },
+            {
+                "text": "Identify method of gaining +[bo] on future Resilience checks (including for allies)",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "-3 strain",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "+[se] on next Resilience check",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "+1 wound or minor Critical Injury",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameSkulduggery": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Gain additional items / identify additional target",
+                "required": 1
+            },
+            {
+                "text": "Gain extra value / information",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Gain permanent bypass",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "NPC opportunity to catch them after the act",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Evidence left behind / lost equipment",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameStealth": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Add +[bo] to allied character",
+                "required": 1
+            },
+            {
+                "text": "Reduce time required",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Identify method of distracting opponent for entire scene",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Increase time required by 25%",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Evidence left behind / lost equipment",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameStreetwise": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Reduce required time / cost",
+                "required": 1
+            },
+            {
+                "text": "Gain additional rumor / alternative source",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "Gain semi-permanent NPC contact",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [
+            {
+                "text": "Information includes falsehood",
+                "required": 1
+            }
+        ],
+        "de": [
+            {
+                "text": "Character's questions / intention detected",
+                "required": 1
+            }
+        ]
+    },
+    "SWFFG.SkillsNameSurvival": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Add +[bo] to allied character",
+                "required": 1
+            },
+            {
+                "text": "Gain additional supplies",
+                "required": 2
+            },
+            {
+                "text": "Identify method of gaining +[bo] on future Survival checks (including for allies)",
+                "required": 2
+            },
+            {
+                "text": "(Tracking) Learn detail about target (numbers, species, age of tracks)",
+                "required": 2
+            }
+        ],
+        "tr": [
+            {
+                "text": "(Handle Animals) Animal is now permanent companion",
+                "required": 1
+            },
+            {
+                "text": "(Tracking) Learn detail about target (destination, disposition, presence of prisoners / cargo)",
+                "required": 1
+            }
+        ],
+        "fa": [],
+        "th": [],
+        "de": []
+    },
+    "SWFFG.SkillsNameVigilance": {
+        "su": [],
+        "ad": [
+            {
+                "text": "Important resource is available",
+                "required": 1
+            },
+            {
+                "text": "Spot environmental advantage (cover, escape route, +[bo])",
+                "required": 2
+            }
+        ],
+        "tr": [],
+        "fa": [],
+        "th": [
+            {
+                "text": "Miss information about situation / environment",
+                "required": 1
+            }
+        ],
+        "de": []
     }
 }
