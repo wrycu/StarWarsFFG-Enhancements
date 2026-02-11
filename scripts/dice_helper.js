@@ -155,22 +155,60 @@ export function dice_helper() {
         we can probably overcome that, but it requires a bunch more work and who has time for that?!
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
-            // Remove any existing handlers to prevent duplicates
-            html.off("click", ".effg-die-result");
+            // Check if this message has a button
+            let buttons = html.find(".effg-die-result");
             
-            // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
-            html.on("click", ".effg-die-result", async function (event) {
-                event.preventDefault();
-                event.stopPropagation();
+            if (buttons.length > 0) {
+                // Remove any existing handlers to prevent duplicates
+                html.off("click", ".effg-die-result");
                 
-                // messageData is the ChatMessage document, so we need to wrap it for dice_helper_clicked
-                // Create a wrapper object that matches what dice_helper_clicked expects
-                let wrapper = {
-                    message: messageData,
-                    _id: messageData._id
-                };
-                await dice_helper_clicked(wrapper);
-            });
+                // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
+                html.on("click", ".effg-die-result", async function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    // Find the message element that contains this button (same as document-level handler)
+                    let messageElement = $(this).closest(".message");
+                    
+                    let messageId = null;
+                    if (messageElement.length > 0) {
+                        // Get the message ID from the data attribute or message element
+                        messageId = messageElement.data("message-id") || messageElement.attr("data-message-id");
+                        if (!messageId) {
+                            // Try to get it from the message element's ID
+                            let messageIdAttr = messageElement.attr("id");
+                            if (messageIdAttr) {
+                                messageId = messageIdAttr.replace("chat-message-", "");
+                            }
+                        }
+                    }
+                    
+                    // Fallback: try to get from messageData if available
+                    if (!messageId && messageData?._id) {
+                        messageId = messageData._id;
+                    } else if (!messageId && messageData?.id) {
+                        messageId = messageData.id;
+                    }
+                    
+                    if (!messageId) {
+                        return;
+                    }
+                    
+                    // Get the message document from the collection
+                    let msg = game.messages.get(messageId);
+                    
+                    if (!msg) {
+                        return;
+                    }
+                    
+                    // Create wrapper for dice_helper_clicked
+                    let wrapper = {
+                        message: msg,
+                        _id: msg._id
+                    };
+                    await dice_helper_clicked(wrapper);
+                });
+            }
         }
     });
 }
