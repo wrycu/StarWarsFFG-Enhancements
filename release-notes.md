@@ -1,7 +1,7 @@
 `3.0.0` - ?
+- Fix Actors.registerSheet deprecation callout for FoundryVTT v13+ (thanks `DukeVenator`!)
 - FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
   - Fixes
-    - Fix Actors.registerSheet deprecation warning for FoundryVTT v13+ (thanks `DukeVenator`!)
     - Correct shop table width
     - Correct shop table height
     - Correct GM-only label of "buy item" to correctly show "delete item"
