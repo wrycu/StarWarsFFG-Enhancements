@@ -1,9 +1,13 @@
 `3.0.0` - ?
+
 - FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
   - Fixes
     - Correct shop table width
     - Correct shop table height
     - Correct GM-only label of "buy item" to correctly show "delete item"
+    - Opening crawl speed multiplier and toolbar improvements ([#212](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/212)) (thanks `DukeVenator`!)
+      - Added crawl text speed multiplier setting to fix long text display issues
+      - Fixed toolbar opening crawl menu button not being clickable
   - Enhancements
     - Shops can now keep inventory when regenerating
     - Add label to regenerate inventory button
@@ -11,6 +15,12 @@
     - Added GM functionality to show shop to players (they must have access to the actor)
     - Add the ability to require the presence or absense of item tags when generating shop inventory
     - Add minimum and maximum price limits
+    - Opening crawl speed multiplier improvements (thanks `DukeVenator`!)
+      - Speed multiplier (default 1.0) allows independent control of text movement speed
+      - Higher values (e.g., 1.3) make text move faster, allowing longer text to fully display
+      - Works with duration setting: effective movement = duration ÷ speed
+      - Updated all crawl-related tooltips with better explanations of duration and speed relationship
+      - Enhanced tooltips provide guidance for when to use speed vs duration for long text issues
 
 `2.1.2` - 2025-06-15
 

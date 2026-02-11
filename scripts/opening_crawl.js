@@ -144,6 +144,16 @@ export function init() {
         type: Number,
         default: 0,
     });
+    game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-speed", {
+        module: "ffg-star-wars-enhancements",
+        name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-speed"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-crawl-speed-hint"),
+        scope: "world",
+        config: false,
+        type: Number,
+        range: { min: 0.1, max: 5.0, step: 0.1 },
+        default: 1.0,
+    });
     game.settings.register("ffg-star-wars-enhancements", "opening-crawl-intro-pan-delay", {
         module: "ffg-star-wars-enhancements",
         name: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.opening-crawl-intro-pan-delay"),
@@ -231,6 +241,7 @@ class OpeningCrawlApplication extends Application {
             "ffg-star-wars-enhancements",
             "opening-crawl-intro-crawl-duration-adjust"
         );
+        data.intro_crawl_speed = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-crawl-speed");
         data.intro_pan_delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-delay");
         data.intro_pan_duration = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-pan-duration");
         return data;
