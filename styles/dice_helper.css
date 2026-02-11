@@ -1,3 +1,50 @@
 .effg-die-result {
     cursor: pointer;
 }
+
+.dice_helper {
+    display: block;
+    margin-top: 0.5em;
+}
+
+.dice-helper-divider {
+    border: none;
+    border-top: 1px solid;
+    margin: 0.5em 0;
+    /* Use a color that works in both light and dark modes - default to darker for light mode */
+    border-top-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark mode - lighter divider */
+.app.dark .dice-helper-divider,
+body.dark .dice-helper-divider,
+:root[data-theme="dark"] .dice-helper-divider,
+.chat-message.dark .dice-helper-divider {
+    border-top-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Light mode - darker divider */
+.app.light .dice-helper-divider,
+body.light .dice-helper-divider,
+:root[data-theme="light"] .dice-helper-divider,
+.chat-message.light .dice-helper-divider {
+    border-top-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Fallback for prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+    .dice-helper-divider {
+        border-top-color: rgba(255, 255, 255, 0.25);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .dice-helper-divider {
+        border-top-color: rgba(0, 0, 0, 0.4);
+    }
+}
+
+.dice-helper-suggestion {
+    margin: 0.25em 0;
+    line-height: 1.4;
+}

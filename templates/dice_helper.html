@@ -2,10 +2,13 @@
 {{localize "ffg-star-wars-enhancements.dice-helper-message-content-1"}} <b>{{localize "ffg-star-wars-enhancements.dice-helper-message-content-2"}}</b> {{localize "ffg-star-wars-enhancements.dice-helper-message-content-3"}} <b>{{this.skill}}</b>:<br>
 
 {{#each this.suggestions}}
+    {{#if @index}}<hr class="dice-helper-divider">{{/if}}
     {{#each this.suggestions}}
-        {{#times this.required}}[{{../this.category}}]{{/times}}
-        :&nbsp;
-        {{this.text}}<br>
+        <div class="dice-helper-suggestion">
+            {{#times this.required}}[{{../this.category}}]{{/times}}
+            :&nbsp;
+            {{this.text}}
+        </div>
     {{/each}}
 {{/each}}
 </span>
