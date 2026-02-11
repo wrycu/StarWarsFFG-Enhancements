@@ -35,21 +35,12 @@
     </header>
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-        <style>
-            .inventory {
-                width: 100%;
-                height: 100%;
-                overflow-y: scroll;
-            }
-
-            .vendor_item {
-                display: flex;
-                justify-content: center;
-                height: calc(100% + 3.5rem);
-            }
-        </style>
-
-        <h2>{{localize "ffg-star-wars-enhancements.shop.html.inventory.header"}}&nbsp;{{#if inventory.meta.is_gm}}<a class="refresh"><i class="fas fa-redo"></i></a>{{/if}}</h2>
+        <h2>{{localize "ffg-star-wars-enhancements.shop.html.inventory.header"}}&nbsp;
+            {{#if inventory.meta.is_gm}}
+                <a class="refresh" title="Regenerate Inventory"><i class="fas fa-redo"></i></a>
+                <a class="show-to-players" title="Show to Players - they must have permission"><i class="fa-sharp-duotone fa-regular fa-eyes"></i></a>
+            {{/if}}
+        </h2>
         <div class="inventory">
             <table border="1"  class="vendor_item" >
                 <tbody>
@@ -60,7 +51,7 @@
                     <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.price"}}</td>
                     <td>{{localize "ffg-star-wars-enhancements.shop.html.inventory.result"}}</td>
                     <td>
-                        {{#if ../inventory.meta.is_gm}}
+                        {{#if inventory.meta.is_gm}}
                         {{localize "ffg-star-wars-enhancements.shop.html.inventory.delete"}}
                         {{else}}
                         {{localize "ffg-star-wars-enhancements.shop.html.inventory.buy"}}
@@ -79,7 +70,11 @@
                         </a>
                     </td>
                     <td>{{type}}</td>
-                    <td>{{price}}</td>
+                    <td>
+                        <span{{#if ../inventory.meta.is_gm}} title="MSRP: {{ msrp }}"{{/if}}>
+                            {{price}}
+                        </span>
+                    </td>
                     <td>{{{roll}}}</td>
                     <td>
                         {{#if ../inventory.meta.is_gm}}

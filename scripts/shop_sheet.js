@@ -125,6 +125,15 @@ async function socket_listener(data) {
         } else {
             log(module_name, "rejected message as it isn't for us");
         }
+    } else if (data.type === "display") {
+        log(module_name, "Detected display request");
+        const actor_uuid = data.actor_uuid;
+        const actor = await fromUuid(actor_uuid);
+        if (!actor) {
+            log(module_name, "No actor to display found!");
+            return;
+        }
+        await actor.sheet.render(true);
     }
 }
 
@@ -196,6 +205,7 @@ export class Vendor extends ActorSheetFFGV2 {
                     compendium: vendor_data[item.name].compendium,
                     image: vendor_data[item.name].image,
                     price: vendor_data[item.name].price,
+                    msrp: vendor_data[item.name].msrp,
                     roll: vendor_data[item.name].roll,
                     type: item.type,
                     restricted: vendor_data[item.name].restricted,
@@ -215,6 +225,7 @@ export class Vendor extends ActorSheetFFGV2 {
                     id: id,
                     image: item.img,
                     price: price,
+                    msrp: item.system.price.value,
                     roll: "Manually Added",
                     type: item.type,
                     restricted: item.system.rarity.isrestricted,
@@ -245,6 +256,8 @@ export class Vendor extends ActorSheetFFGV2 {
         html.find(".item-remove").click((ev) => this._remove_item(ev));
         // refresh inventory
         html.find(".refresh").click((ev) => this._refresh_stock(ev));
+        // show to players inventory
+        html.find(".show-to-players").click((ev) => this._show_to_players(ev));
 
         // Copied code from the character sheet, because original item-edit
         // handler is only applied if the user is an owner of the actor. Since
@@ -331,5 +344,14 @@ export class Vendor extends ActorSheetFFGV2 {
     async _refresh_stock(event, all = 0) {
         log(module_name, "refreshing stock for " + this.document.id);
         open_shop_generator(this.document.id);
+    }
+
+    async _show_to_players(event) {
+        log(module_name, "Showing players vendor");
+        const show_packet = {
+            type: "display",
+            actor_uuid: this.object.uuid,
+        };
+        game.socket.emit("module.ffg-star-wars-enhancements", show_packet);
     }
 }
