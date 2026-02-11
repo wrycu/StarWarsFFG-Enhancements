@@ -36,31 +36,64 @@ async function socket_listener(data) {
 
 export function dice_helper() {
     game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
-    Hooks.on("createChatMessage", (message, options, userId) => {
+    
+    // Use document-level event delegation for button clicks (works after page refresh)
+    $(document).off("click", ".effg-die-result"); // Remove any existing handlers
+    $(document).on("click", ".effg-die-result", async function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Find the message element that contains this button
+        let messageElement = $(this).closest(".message");
+        
+        if (messageElement.length === 0) {
+            return;
+        }
+        
+        // Get the message ID from the data attribute or message element
+        let messageId = messageElement.data("message-id") || messageElement.attr("data-message-id");
+        if (!messageId) {
+            // Try to get it from the message element's ID
+            let messageIdAttr = messageElement.attr("id");
+            if (messageIdAttr) {
+                messageId = messageIdAttr.replace("chat-message-", "");
+            }
+        }
+        
+        if (!messageId) {
+            return;
+        }
+        
+        // Get the message document
+        let msg = game.messages.get(messageId);
+        if (!msg) {
+            return;
+        }
+        
+        // Create wrapper for dice_helper_clicked
+        let wrapper = {
+            message: msg,
+            _id: msg._id
+        };
+        await dice_helper_clicked(wrapper);
+    });
+    
+    Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
-            if (is_roll(message) === true) {
+            if (is_roll(messageData) === true) {
                 // as of some v10 version, chat messages can contain >1 roll. let's just read the first
-                if (!message.rolls || message.rolls.length === 0) {
-                    return;
-                }
-
-                message["_roll"] = message.rolls[0];
-
-                if (!message["_roll"]?.ffg) {
-                    return;
-                }
-
-                let skill = message["flavor"]
+                messageData["_roll"] = messageData.rolls[0];
+                let skill = messageData["flavor"]
                     .replace(game.i18n.localize("SWFFG.Rolling") + " ", "")
                     .replace("...", "")
                     .replace(/\s/g, " ");
                 let roll_result = {
-                    advantage: message["_roll"]["ffg"]["advantage"],
-                    triumph: message["_roll"]["ffg"]["triumph"],
-                    threat: message["_roll"]["ffg"]["threat"],
-                    despair: message["_roll"]["ffg"]["despair"],
-                    success: message["_roll"]["ffg"]["success"],
-                    failure: message["_roll"]["ffg"]["failure"],
+                    advantage: messageData["_roll"]["ffg"]["advantage"],
+                    triumph: messageData["_roll"]["ffg"]["triumph"],
+                    threat: messageData["_roll"]["ffg"]["threat"],
+                    despair: messageData["_roll"]["ffg"]["despair"],
+                    success: messageData["_roll"]["ffg"]["success"],
+                    failure: messageData["_roll"]["ffg"]["failure"],
                 };
                 if (
                     roll_result["advantage"] > 0 ||
@@ -114,7 +147,7 @@ export function dice_helper() {
         }
     });
 
-    Hooks.on("renderChatMessage", (message, html, data) => {
+    Hooks.on("renderChatMessage", (app, html, messageData) => {
         /*
         this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
         hook and the user enables it after the game starts, it doesn't actually enable
@@ -122,25 +155,45 @@ export function dice_helper() {
         we can probably overcome that, but it requires a bunch more work and who has time for that?!
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
+            // Remove any existing handlers to prevent duplicates
+            html.off("click", ".effg-die-result");
+            
             // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
-            html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(message);
+            html.on("click", ".effg-die-result", async function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // messageData is the ChatMessage document, so we need to wrap it for dice_helper_clicked
+                // Create a wrapper object that matches what dice_helper_clicked expects
+                let wrapper = {
+                    message: messageData,
+                    _id: messageData._id
+                };
+                await dice_helper_clicked(wrapper);
             });
         }
     });
 }
 
 function is_roll(message_data) {
-    if (!game.user.isGM) {
-        return false;
+    if (game.user.isGM && message_data["rolls"].length > 0) {
+        if (message_data["flavor"] === undefined) {
+            return false;
+        }
+        return true;
+        if (
+            message_data.message.content.search("Initiative") === -1 ||
+            message_data.message.content.search(
+                game.i18n.localize("ffg-star-wars-enhancements.dice-helper-button-text")
+            ) === -1 ||
+            message_data.message.content.search(
+                game.i18n.localize("ffg-star-wars-enhancements.dice-helper-message-content-3")
+            ) === -1
+        ) {
+            return true;
+        }
     }
-    if (!message_data || !message_data["rolls"] || message_data["rolls"].length === 0) {
-        return false;
-    }
-    if (message_data["flavor"] === undefined) {
-        return false;
-    }
-    return true;
+    return false;
 }
 
 async function dice_helper_clicked(object) {
@@ -159,22 +212,70 @@ async function dice_helper_clicked(object) {
         });
         return;
     }
-
-    var data = determine_data(object.message.content);
+    
+    // Try to determine the correct content path
+    let content = null;
+    
+    if (object?.message?.content) {
+        content = object.message.content;
+    } else if (object?.content) {
+        content = object.content;
+    } else if (object?.data?.content) {
+        content = object.data.content;
+    } else if (object?.toObject) {
+        let objData = object.toObject();
+        if (objData?.content) {
+            content = objData.content;
+        } else if (objData?.message?.content) {
+            content = objData.message.content;
+        }
+    }
+    
+    if (!content) {
+        return;
+    }
+    
+    var data = determine_data(content);
     log(feature_name, JSON.stringify(data));
 
     let skill = data["skill"];
     let suggestions = await fetch_suggestions(data);
 
-    var msg = new ChatMessage(object.message);
+    // Get the actual ChatMessage document from the collection
+    // Handle both cases: wrapper object with message property, or direct ChatMessage document
+    let msg = null;
+    let messageId = null;
+    
+    if (object?.message?._id) {
+        // Wrapper object case (from socket or renderChatMessage wrapper)
+        messageId = object.message._id;
+        msg = game.messages.get(messageId);
+    } else if (object?._id && object.constructor?.name === "ChatMessage") {
+        // Direct ChatMessage document case
+        messageId = object._id;
+        msg = object; // Already have the document
+    } else if (object?._id) {
+        // Fallback: try to get by ID
+        messageId = object._id;
+        msg = game.messages.get(messageId);
+    } else {
+        return;
+    }
+    
+    if (!msg) {
+        return;
+    }
+    
     let context = {
         suggestions: suggestions,
         skill: skill,
     };
-    object.message.content = (await getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(
+    let newContent = (await getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(
         context
     );
-    msg.update(object.message);
+    
+    // Update only the content field
+    await msg.update({ content: newContent });
     log(feature_name, "Updated the message");
 }
 
@@ -200,7 +301,7 @@ async function fetch_suggestions(results) {
     // categories suggestions can exist for
     let suggestion_categories = ["su", "fa", "ad", "th", "tr", "de"];
 
-    let skill = results["skill"].toLowerCase().replace("&", "&amp;").replace(" ", " ");
+    let skill = results["skill"].toLowerCase().replace(/&/g, "&amp;").replace(/\s+/g, " ").trim();
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {
@@ -241,7 +342,20 @@ function is_supported_skill(skill, data) {
      * returns true/false
      */
     log(feature_name, "Checking if " + skill + " has any helpers");
-    return skill in data;
+    let result = skill in data;
+    
+    // Try case-insensitive check as fallback
+    if (!result && data) {
+        const lowerSkill = skill.toLowerCase();
+        const matchingKey = Object.keys(data).find(key => key.toLowerCase() === lowerSkill);
+        if (matchingKey) {
+            // Update the data to use the correct key
+            data[skill] = data[matchingKey];
+            result = true;
+        }
+    }
+    
+    return result;
 }
 
 function load_data() {
@@ -263,14 +377,7 @@ function load_data() {
      *  }
      */
     let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
-
-    // Handle both v12 (array) and v13 (Collection) journal structures
-    let journal;
-    if (game.journal instanceof foundry.utils.Collection) {
-        journal = Array.from(game.journal.values()).filter((j) => j.name === journal_name);
-    } else {
-        journal = game.journal.filter((journal) => journal.name === journal_name);
-    }
+    let journal = game.journal.filter((journal) => journal.name === journal_name);
 
     if (journal.length <= 0) {
         ui.notifications.warn("Failed to find journal - make sure it's created or something");
@@ -279,13 +386,7 @@ function load_data() {
     }
     log(feature_name, "Found journal " + journal_name);
 
-    // Handle both v12 (array) and v13 (Collection) page structures
-    let journal_pages;
-    if (journal[0].pages instanceof foundry.utils.Collection) {
-        journal_pages = Array.from(journal[0].pages.values()).filter((i) => i.name === "dice_helper");
-    } else {
-        journal_pages = journal[0].pages.filter((i) => i.name === "dice_helper");
-    }
+    let journal_pages = journal[0].pages.filter((i) => i.name === "dice_helper");
     if (journal_pages.length <= 0) {
         ui.notifications.warn("Failed to find journal with correct pages - make sure it's created or something");
         log(feature_name, "Unable to find journal with correct pages");
@@ -298,7 +399,8 @@ function load_data() {
         // Let translate the skill names if possible
         Object.keys(jsondata).forEach((skillname) => {
             if (skillname.includes("SWFFG.")) {
-                let localizedskill = game.i18n.localize(skillname).toLowerCase().replace(" ", " ");
+                let localized = game.i18n.localize(skillname);
+                let localizedskill = localized.toLowerCase().replace(/\s+/g, " ").trim();
                 Object.defineProperty(jsondata, localizedskill, Object.getOwnPropertyDescriptor(jsondata, skillname));
                 delete jsondata[skillname];
             }
@@ -319,14 +421,7 @@ export async function create_and_populate_journal() {
 
     // otherwise check to see if the journal already exists
     let journal_name = game.settings.get("ffg-star-wars-enhancements", "dice-helper-data");
-
-    // Handle both v12 (array) and v13 (Collection) journal structures
-    let journal;
-    if (game.journal instanceof foundry.utils.Collection) {
-        journal = Array.from(game.journal.values()).filter((j) => j.name === journal_name);
-    } else {
-        journal = game.journal.filter((journal) => journal.name === journal_name);
-    }
+    let journal = game.journal.filter((journal) => journal.name === journal_name);
 
     if (journal.length === 0) {
         // journal doesn't exist
