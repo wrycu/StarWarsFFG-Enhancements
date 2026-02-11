@@ -35,7 +35,6 @@ export const register_controls = (controls) => {
                 select_opening_crawl();
             }
         };
-        ffg_sw_enhancements_controls.activeTool = crawlName;
         let titleCardsName = game.i18n.localize("ffg-star-wars-enhancements.controls.title-cards.name");
         ffg_sw_enhancements_controls.tools[titleCardsName] = {
             name: titleCardsName,
