@@ -1,5 +1,14 @@
 `3.0.0` - ?
-- FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
+- FIX: Opening crawl speed multiplier and toolbar improvements ([#212](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/212))
+  - Added crawl text speed multiplier setting to fix long text display issues
+    - Speed multiplier (default 1.0) allows independent control of text movement speed
+    - Higher values (e.g., 1.3) make text move faster, allowing longer text to fully display
+    - Works with duration setting: effective movement = duration ÷ speed
+  - Updated all crawl-related tooltips for better clarity
+    - Enhanced tooltips explain relationship between duration and speed settings
+    - Added guidance for when to use speed vs duration for long text issues
+  - Fixed toolbar opening crawl menu button not being clickable
+    - Removed incorrect activeTool assignment that was preventing button clicks
   - Fixes
     - Correct shop table width
     - Correct shop table height
