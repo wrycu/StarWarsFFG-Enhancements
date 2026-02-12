@@ -146,7 +146,7 @@ class Shop {
         let selected_items = [];
         while (selected_items.length < generate_count) {
             /* check to see if it's even possible to create items up to our desired amount */
-            if (possible_items_raw.length <= selected_items.length) {
+            if (possible_items_raw.length < selected_items.length) {
                 log(
                     module_name,
                     "Unable to find sufficient items - aborting with " +
