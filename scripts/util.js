@@ -1,6 +1,10 @@
 export function log_msg(feature, message) {
-    if (game.settings.get("starwarsffg", "enableDebug")) {
-        console.log("ffg-star-wars-enhancements | " + feature + " | " + message);
+    try {
+        if (game.settings.get("starwarsffg", "enableDebug")) {
+            console.log("ffg-star-wars-enhancements | " + feature + " | " + message);
+        }
+    } catch (e) {
+        // Setting may not be registered yet during init phase
     }
 }
 
