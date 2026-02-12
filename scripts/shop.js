@@ -146,7 +146,7 @@ class Shop {
         let selected_items = [];
         while (selected_items.length < generate_count) {
             /* check to see if it's even possible to create items up to our desired amount */
-            if (possible_items_raw.length < selected_items) {
+            if (possible_items_raw.length <= selected_items.length) {
                 log(
                     module_name,
                     "Unable to find sufficient items - aborting with " +
@@ -162,7 +162,7 @@ class Shop {
                 .get(possible_items_raw[possible_item_index]["compendium"])
                 .getDocument(possible_items_raw[possible_item_index]["item"]["id"]);
             // check if it's OK
-            if (possible_item.system.rarity.isrestricted === true && this.shady === false) {
+            if (possible_item.system?.rarity?.isrestricted === true && this.shady === false) {
                 log(
                     module_name,
                     "Rejected item " + possible_item.name + " (item is restricted and this is not a shady store)"

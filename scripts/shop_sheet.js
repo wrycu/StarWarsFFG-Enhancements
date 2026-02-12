@@ -98,8 +98,7 @@ async function socket_listener(data) {
             } else {
                 await buyer.createEmbeddedDocuments("Item", [item]);
                 await seller.deleteEmbeddedDocuments("Item", [data.item_id]);
-                /* this doesn't seem to actually get reflected on the character sheet */
-                buyer.system.stats.credits.value -= parseInt(data.price);
+                await buyer.update({ "system.stats.credits.value": buyer.system.stats.credits.value - parseInt(data.price) });
                 ChatMessage.create({
                     content:
                         '<a class="content-link" draggable="true" data-entity="Actor" data-uuid="' +
