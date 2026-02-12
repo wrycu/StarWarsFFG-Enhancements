@@ -105,17 +105,18 @@ export function dice_helper() {
         }
     });
 
-    Hooks.on("renderChatMessage", (app, html, messageData) => {
+    Hooks.on("renderChatMessageHTML", (message, html) => {
         /*
         this is slightly less performant than doing the settings check outside of the hook, but if we do it above the
         hook and the user enables it after the game starts, it doesn't actually enable
-
         we can probably overcome that, but it requires a bunch more work and who has time for that?!
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
-            html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(messageData);
+            html.addEventListener("click", async function (event) {
+                if (event.target.closest(".effg-die-result")) {
+                    await dice_helper_clicked({ message: message });
+                }
             });
         }
     });
