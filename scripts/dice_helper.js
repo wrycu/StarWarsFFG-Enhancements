@@ -169,7 +169,7 @@ async function dice_helper_clicked(object) {
         suggestions: suggestions,
         skill: skill,
     };
-    let newContent = (await getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(context);
+    let newContent = (await foundry.applications.handlebars.getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(context);
     var msg = game.messages.get(object.message._id);
     await msg.update({ content: newContent });
     log(feature_name, "Updated the message");
