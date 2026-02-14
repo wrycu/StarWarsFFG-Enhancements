@@ -1,5 +1,9 @@
 
 `3.0.0` - ?
+- IMPROVEMENT: Enhanced dice helper suggestions with visual dividers and improved styling for light/dark mode
+  - Added dividers between suggestion categories for better readability
+  - Improved spacing and layout of suggestions
+  - Enhanced visibility in both light and dark themes
 - FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
   - Fixes
     - Correct shop table width
