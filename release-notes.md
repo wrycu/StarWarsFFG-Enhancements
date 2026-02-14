@@ -7,7 +7,6 @@
     - Correct shop table width
     - Correct shop table height
     - Correct GM-only label of "buy item" to correctly show "delete item"
-    - Opening crawl now works with Foundry VTT v13 migrated to ApplicationV2, updated audio preloading
   - Enhancements
     - Shops can now keep inventory when regenerating
     - Add label to regenerate inventory button
