@@ -1,15 +1,16 @@
 
 `3.0.0` - ?
-- IMPROVEMENT: Enhanced dice helper suggestions with visual dividers and improved styling for light/dark mode
-  - Added dividers between suggestion categories for better readability
-  - Improved spacing and layout of suggestions
-  - Enhanced visibility in both light and dark themes
+- FIX: Dice helper now works with Foundry VTT v13 (thanks `@dukevenator`!)
+  - Updated `createChatMessage` hook signature to match v13 API
+  - Fixed Collection handling to use `game.messages.get()` for retrieving ChatMessage documents
+  - Added guards against missing rolls and improved error handling
+  - Improved ChatMessage document handling to support both wrapper objects and direct document access
+  - Enhanced message retrieval to work correctly with v13's Collection system
 - FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
   - Fixes
     - Correct shop table width
     - Correct shop table height
     - Correct GM-only label of "buy item" to correctly show "delete item"
-    - Dice helper now works with Foundry VTT v13 (updated hook signatures, Collection handling, guard against missing rolls)
   - Enhancements
     - Shops can now keep inventory when regenerating
     - Add label to regenerate inventory button
