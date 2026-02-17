@@ -1,4 +1,7 @@
 `3.0.0` - ?
+- FIX: Opening crawl now works with Foundry VTT v13 (thanks `@dukevenator`!)
+  - Migrated to ApplicationV2
+  - Updated audio preloading
 - Fix Actors.registerSheet deprecation callout for FoundryVTT v13+ (thanks `DukeVenator`!)
 - FIX: Various shop fixes & enhancements ([#196](https://github.com/wrycu/StarWarsFFG-Enhancements/issues/196))
   - Fixes
