@@ -8,7 +8,7 @@ let module_name = "shop_sheet";
 /* Register the vendor sheet */
 export function init() {
     log(module_name, "Registering sheet");
-    Actors.registerSheet("ffg", Vendor, {
+    foundry.documents.collections.Actors.registerSheet("ffg", Vendor, {
         label: "ffg-sw-enhanced-vendor",
         makeDefault: false,
     });
