@@ -1,4 +1,11 @@
+
 `3.0.0` - ?
+- FIX: Dice helper now works with Foundry VTT v13 (thanks `@dukevenator`!)
+  - Updated `createChatMessage` hook signature to match v13 API
+  - Fixed Collection handling to use `game.messages.get()` for retrieving ChatMessage documents
+  - Added guards against missing rolls and improved error handling
+  - Improved ChatMessage document handling to support both wrapper objects and direct document access
+  - Enhanced message retrieval to work correctly with v13's Collection system
 - FIX: Opening crawl now works with Foundry VTT v13 (thanks `@dukevenator`!)
   - Migrated to ApplicationV2
   - Updated audio preloading
