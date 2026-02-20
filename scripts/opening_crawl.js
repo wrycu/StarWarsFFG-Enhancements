@@ -187,13 +187,15 @@ export function init() {
 /**
  * Application that displays the Opening Crawl.
  */
-class OpeningCrawlApplication extends Application {
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
+class OpeningCrawlApplication extends HandlebarsApplicationMixin(ApplicationV2) {
     /**
      * @param {object} data object to provide the opening crawl template
      * @param {object} options additional options for the application
      */
     constructor(data, options) {
-        super({}, options);
+        super(options);
         this.data = data;
     }
 
@@ -201,28 +203,34 @@ class OpeningCrawlApplication extends Application {
      * Configure a "full" screen with minimal controls that will display the
      * Opening Crawl.
      */
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html",
+    static get DEFAULT_OPTIONS() {
+        return foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
             id: "ffg-star-wars-enhancements-opening-crawl",
-            title: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title"),
-            minimizable: false,
-            editable: false,
-            resizable: true,
-            popOut: true,
-            shareable: false,
-            top: 0,
-            left: 0,
-            width: 4096,
-            height: 2160,
+            window: {
+                title: game.i18n.localize("ffg-star-wars-enhancements.opening-crawl.title"),
+                minimizable: false,
+                resizable: true,
+            },
+            position: {
+                width: 4096,
+                height: 2160,
+            },
         });
     }
+
+    /**
+     * Define the template parts for Handlebars rendering.
+     * Using 'content' as the main part name which is the default for ApplicationV2.
+     */
+    static PARTS = {
+        content: { template: "modules/ffg-star-wars-enhancements/templates/opening_crawl.html" },
+    };
 
     /**
      * Provide the data object for the template.
      * @returns object provided to the constructor
      */
-    getData() {
+    _prepareContext(options) {
         let data = this.data;
         data.img = {};
         data.img.bottom = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-image-bottom");
@@ -249,51 +257,47 @@ class OpeningCrawlApplication extends Application {
 
     /**
      * Play this.data.music using the Playlist volume.
-     * @param {function} callback callback to execute once playback has started
+     * The sound should already be preloaded in socket_listener.
      */
-    async play_music(callback) {
-        let volume = game.settings.get("core", "globalPlaylistVolume");
-        let audio_helper = game.audio;
-        const that = this;
+    async play_music() {
+        if (!this.data.sound) {
+            log("opening-crawl", "no sound available to play");
+            return;
+        }
 
-        audio_helper.preload(this.data.music).then(async (sound) => {
-            callback();
-            await sleep(game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay"));
-            sound.play({
-                volume: volume,
-            });
-            that.sound = sound;
+        let volume = game.settings.get("core", "globalPlaylistVolume");
+        const sound = this.data.sound;
+        const delay = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music-delay") * 1000;
+        
+        await sleep(delay);
+        sound.play({
+            volume: volume,
         });
+        this.sound = sound;
     }
 
     /**
      * Listener that times the audio playing the audio with the opening crawl.
-     * @param {jQuery} html
+     * @param {object} context the rendered context
+     * @param {object} options render options
      */
-    activateListeners(html) {
+    _onRender(context, options) {
         log("opening-crawl", "active listeners");
-        super.activateListeners(html);
+        super._onRender(context, options);
 
-        // When music is configured, hide the HTML until the audio loaded is
-        // loaded. Once it's loaded, redisplay the HTML to retrigger the
-        // animation.
-        if (this.data.music) {
-            function start_animation() {
-                html[0].style.display = "block";
-            }
-
-            html[0].style.display = "none";
-
-            this.play_music(start_animation);
+        // When music is configured, start playing it (already preloaded)
+        if (this.data.music && this.data.sound) {
+            // Sound is already preloaded, start playing it
+            this.play_music();
         }
     }
 
-    close() {
+    close(options) {
         if (this.sound) {
             this.sound.stop();
             this.sound = null;
         }
-        return super.close();
+        return super.close(options);
     }
 }
 
@@ -363,11 +367,20 @@ function parse_journal(journal) {
 export function launch_opening_crawl(data) {
     log("opening-crawl", "launching");
 
+    const musicSetting = game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music");
+    // Only set music if it's a non-empty string
+    const music = musicSetting && typeof musicSetting === "string" && musicSetting.trim() !== "" ? musicSetting : null;
+    
+    if (!music) {
+        log("opening-crawl", "no music configured");
+    }
+
     data = foundry.utils.mergeObject(data, {
         type: "opening-crawl",
         logo: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-logo"),
-        music: game.settings.get("ffg-star-wars-enhancements", "opening-crawl-music"),
+        music: music,
     });
+    
     game.socket.emit("module.ffg-star-wars-enhancements", data);
     socket_listener(data);
     log("opening-crawl", "event emmitted");
@@ -382,6 +395,19 @@ export function launch_opening_crawl(data) {
 async function socket_listener(data) {
     log("socket", data);
     if (data.type == "opening-crawl") {
+        // Preload audio before rendering the application to avoid timing issues
+        if (data.music && data.music.trim() !== "") {
+            log("opening-crawl", "preloading audio before render");
+            try {
+                const sound = await game.audio.preload(data.music);
+                data.sound = sound;
+                log("opening-crawl", "audio preloaded successfully");
+            } catch (error) {
+                log("opening-crawl", "error preloading audio: " + error);
+                data.sound = null;
+            }
+        }
+        
         let crawl = new OpeningCrawlApplication(data).render(true);
         if (game.settings.get("ffg-star-wars-enhancements", "opening-crawl-intro-close-delay") != 0) {
             await sleep(get_total_intro_duration() * 1000);
@@ -394,16 +420,21 @@ export function select_opening_crawl() {
     new OpeningCrawlSelectApplication().render(true);
 }
 
-class OpeningCrawlSelectApplication extends FormApplication {
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html",
+class OpeningCrawlSelectApplication extends HandlebarsApplicationMixin(ApplicationV2) {
+    static get DEFAULT_OPTIONS() {
+        return foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
             id: "ffg-star-wars-enhancements-opening-crawl-select",
-            title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
+            window: {
+                title: game.i18n.localize("ffg-star-wars-enhancements.controls.opening-crawl.title"),
+            },
         });
     }
 
-    async getData() {
+    static PARTS = {
+        content: { template: "modules/ffg-star-wars-enhancements/templates/opening_crawl_select.html" },
+    };
+
+    async _prepareContext(options) {
         let folder = await get_journal_folder();
         let journals = folder.contents.map((journal) => {
             return {
@@ -417,15 +448,38 @@ class OpeningCrawlSelectApplication extends FormApplication {
         };
     }
 
-    _updateObject(event, data) {
+    _onRender(context, options) {
+        super._onRender(context, options);
+        
+        // Handle form submission - ApplicationV2 uses this.element which is a jQuery object or HTMLElement
+        const element = this.element instanceof jQuery ? this.element[0] : this.element;
+        const form = element?.querySelector("form");
+        if (form) {
+            form.addEventListener("submit", this._onSubmit.bind(this));
+        }
+    }
+
+    async _onSubmit(event) {
+        event.preventDefault();
         log("opening-crawl", "select | journal selected");
 
-        if (event.submitter.className == "create") {
+        const form = event.target;
+        const formData = new FormData(form);
+        const submitter = event.submitter;
+
+        if (submitter?.classList.contains("create")) {
             create_opening_crawl();
+            this.close();
             return;
         }
 
-        let journal = game.journal.get(data.journal_id);
+        const journalId = formData.get("journal_id");
+        if (!journalId) {
+            log("opening-crawl", "select | no journal selected");
+            return;
+        }
+
+        let journal = game.journal.get(journalId);
         if (!journal) {
             log("opening-crawl", "select | failed to open journal after selection");
             return;
@@ -437,6 +491,7 @@ class OpeningCrawlSelectApplication extends FormApplication {
             return;
         }
 
+        this.close();
         launch_opening_crawl(data);
         log("opening-crawl", "select | journal selection complete");
     }
