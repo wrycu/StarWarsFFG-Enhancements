@@ -36,6 +36,48 @@ async function socket_listener(data) {
 
 export function dice_helper() {
     game.socket.on("module.ffg-star-wars-enhancements", socket_listener);
+    
+    // Use document-level event delegation for button clicks (works after page refresh)
+    $(document).off("click", ".effg-die-result"); // Remove any existing handlers
+    $(document).on("click", ".effg-die-result", async function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Find the message element that contains this button
+        let messageElement = $(this).closest(".message");
+        
+        if (messageElement.length === 0) {
+            return;
+        }
+        
+        // Get the message ID from the data attribute or message element
+        let messageId = messageElement.data("message-id") || messageElement.attr("data-message-id");
+        if (!messageId) {
+            // Try to get it from the message element's ID
+            let messageIdAttr = messageElement.attr("id");
+            if (messageIdAttr) {
+                messageId = messageIdAttr.replace("chat-message-", "");
+            }
+        }
+        
+        if (!messageId) {
+            return;
+        }
+        
+        // Get the message document
+        let msg = game.messages.get(messageId);
+        if (!msg) {
+            return;
+        }
+        
+        // Create wrapper for dice_helper_clicked
+        let wrapper = {
+            message: msg,
+            _id: msg._id
+        };
+        await dice_helper_clicked(wrapper);
+    });
+    
     Hooks.on("createChatMessage", (messageData, meta_data, id) => {
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
             if (is_roll(messageData) === true) {
@@ -113,9 +155,21 @@ export function dice_helper() {
         we can probably overcome that, but it requires a bunch more work and who has time for that?!
          */
         if (game.settings.get("ffg-star-wars-enhancements", "dice-helper")) {
+            // Remove any existing handlers to prevent duplicates
+            html.off("click", ".effg-die-result");
+            
             // this would need to remain in renderchatmessage since we don't have easy access to the HTML later
-            html.on("click", ".effg-die-result", async function () {
-                await dice_helper_clicked(messageData);
+            html.on("click", ".effg-die-result", async function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // messageData is the ChatMessage document, so we need to wrap it for dice_helper_clicked
+                // Create a wrapper object that matches what dice_helper_clicked expects
+                let wrapper = {
+                    message: messageData,
+                    _id: messageData._id
+                };
+                await dice_helper_clicked(wrapper);
             });
         }
     });
@@ -158,22 +212,70 @@ async function dice_helper_clicked(object) {
         });
         return;
     }
-
-    var data = determine_data(object.message.content);
+    
+    // Try to determine the correct content path
+    let content = null;
+    
+    if (object?.message?.content) {
+        content = object.message.content;
+    } else if (object?.content) {
+        content = object.content;
+    } else if (object?.data?.content) {
+        content = object.data.content;
+    } else if (object?.toObject) {
+        let objData = object.toObject();
+        if (objData?.content) {
+            content = objData.content;
+        } else if (objData?.message?.content) {
+            content = objData.message.content;
+        }
+    }
+    
+    if (!content) {
+        return;
+    }
+    
+    var data = determine_data(content);
     log(feature_name, JSON.stringify(data));
 
     let skill = data["skill"];
     let suggestions = await fetch_suggestions(data);
 
-    var msg = new ChatMessage(object.message);
+    // Get the actual ChatMessage document from the collection
+    // Handle both cases: wrapper object with message property, or direct ChatMessage document
+    let msg = null;
+    let messageId = null;
+    
+    if (object?.message?._id) {
+        // Wrapper object case (from socket or renderChatMessage wrapper)
+        messageId = object.message._id;
+        msg = game.messages.get(messageId);
+    } else if (object?._id && object.constructor?.name === "ChatMessage") {
+        // Direct ChatMessage document case
+        messageId = object._id;
+        msg = object; // Already have the document
+    } else if (object?._id) {
+        // Fallback: try to get by ID
+        messageId = object._id;
+        msg = game.messages.get(messageId);
+    } else {
+        return;
+    }
+    
+    if (!msg) {
+        return;
+    }
+    
     let context = {
         suggestions: suggestions,
         skill: skill,
     };
-    object.message.content = (await getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(
+    let newContent = (await getTemplate("modules/ffg-star-wars-enhancements/templates/dice_helper.html"))(
         context
     );
-    msg.update(object.message);
+    
+    // Update only the content field
+    await msg.update({ content: newContent });
     log(feature_name, "Updated the message");
 }
 
@@ -199,7 +301,7 @@ async function fetch_suggestions(results) {
     // categories suggestions can exist for
     let suggestion_categories = ["su", "fa", "ad", "th", "tr", "de"];
 
-    let skill = results["skill"].toLowerCase().replace("&", "&amp;").replace(" ", " ");
+    let skill = results["skill"].toLowerCase().replace(/&/g, "&amp;").replace(/\s+/g, " ").trim();
     let data = load_data();
 
     if (!is_supported_skill(skill, data)) {
@@ -240,7 +342,20 @@ function is_supported_skill(skill, data) {
      * returns true/false
      */
     log(feature_name, "Checking if " + skill + " has any helpers");
-    return skill in data;
+    let result = skill in data;
+    
+    // Try case-insensitive check as fallback
+    if (!result && data) {
+        const lowerSkill = skill.toLowerCase();
+        const matchingKey = Object.keys(data).find(key => key.toLowerCase() === lowerSkill);
+        if (matchingKey) {
+            // Update the data to use the correct key
+            data[skill] = data[matchingKey];
+            result = true;
+        }
+    }
+    
+    return result;
 }
 
 function load_data() {
@@ -284,7 +399,8 @@ function load_data() {
         // Let translate the skill names if possible
         Object.keys(jsondata).forEach((skillname) => {
             if (skillname.includes("SWFFG.")) {
-                let localizedskill = game.i18n.localize(skillname).toLowerCase().replace(" ", " ");
+                let localized = game.i18n.localize(skillname);
+                let localizedskill = localized.toLowerCase().replace(/\s+/g, " ").trim();
                 Object.defineProperty(jsondata, localizedskill, Object.getOwnPropertyDescriptor(jsondata, skillname));
                 delete jsondata[skillname];
             }
