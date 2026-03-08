@@ -15,7 +15,7 @@ import { init as talent_checker_init, talent_checker } from "./scripts/talent_ch
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
 import {
     init as talent_skill_association_init,
-    talent_skill_association_ready,
+    talent_skill_association_hooks,
 } from "./scripts/talent_skill_association.js";
 import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
@@ -37,6 +37,7 @@ Hooks.once("init", async function () {
     title_cards_init();
     shop_generator_init();
     talent_skill_association_init();
+    talent_skill_association_hooks();
     hyperspace_init();
     quench_tests_init(); // Will have no effect unless Quench is active
 
@@ -112,7 +113,6 @@ Hooks.once("ready", async () => {
     talent_checker();
     register_hooks();
     await dice_helper_setup();
-    talent_skill_association_ready();
     hyperspace_ready();
 });
 

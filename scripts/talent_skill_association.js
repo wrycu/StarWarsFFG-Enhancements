@@ -61,11 +61,7 @@ export function init() {
     log(feature_name, "Initialized");
 }
 
-export function talent_skill_association_ready() {
-    if (!game.settings.get("ffg-star-wars-enhancements", "talent-skill-association")) {
-        return;
-    }
-
+export function talent_skill_association_hooks() {
     // Inject dropdown into talent item sheets
     Hooks.on("renderItemSheet", (app, html, data) => {
         if (!game.settings.get("ffg-star-wars-enhancements", "talent-skill-association")) {
