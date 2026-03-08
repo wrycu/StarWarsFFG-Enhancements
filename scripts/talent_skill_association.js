@@ -195,11 +195,7 @@ function inject_skill_dropdown(item, html) {
         // Attach change handler
         wrapper.find(".effg-skill-select").on("change", async (event) => {
             const newValue = event.target.value;
-            if (newValue === "") {
-                await item.unsetFlag("ffg-star-wars-enhancements", "associatedSkill");
-            } else {
-                await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", newValue);
-            }
+            await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", newValue);
         });
     } else {
         log(feature_name, "Could not find containers in talent sheet header");
