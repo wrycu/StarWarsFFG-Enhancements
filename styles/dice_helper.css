@@ -1,3 +1,36 @@
 .effg-die-result {
     cursor: pointer;
 }
+
+.effg-talent-pills {
+    margin-top: 5px;
+    padding: 3px 0;
+}
+
+.effg-talent-pills-label {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.effg-talent-pill {
+    display: inline-block;
+    list-style-type: none;
+    padding: 0 5px;
+    background-color: #aaa;
+    border-radius: 3px;
+    margin: 2px;
+    font-size: 0.9em;
+    line-height: 20px;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.effg-talent-pill:hover {
+    background-color: #999;
+}
+
+.effg-talent-rank {
+    font-style: normal;
+    padding-left: 2px;
+    font-weight: bold;
+}
