@@ -284,8 +284,9 @@ export function build_talent_pills_html(talents) {
     if (!talents || talents.length === 0) {
         return "";
     }
-
-    let html = `<span class="effg-talent-pills-label">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-talents")}:</span> `;
+    
+    let html = `<details>
+        <summary><span class="effg-talent-pills-label">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-talents")}:<br></span> </summary>`;
 
     for (const talent of talents) {
         const rankDisplay = talent.rank !== null ? ` ${talent.rank}` : "";
@@ -295,13 +296,15 @@ export function build_talent_pills_html(talents) {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
 
-        html += `<div class="item-pill-hover hover-tooltip" data-item-embed-name="${talent.name}" data-desc="${talentDesc}" data-item-ranks="${talent.rank}" data-tooltip="Loading...">`;
+        html += `<div class="effg-talent-pill item-pill-hover hover-tooltip" data-item-embed-name="${talent.name}" data-desc="${talentDesc}" data-item-ranks="${talent.rank}" data-tooltip="Loading...">`;
         html += `${talent.name}`;
         if (talent.rank !== null) {
             html += ` ${talent.rank}`;
         }
-        html += `</div>`;
+        html += `</div> <br> `;
     }
+    
+    html+= `</details>`
 
     return html;
 }
