@@ -255,12 +255,13 @@ export function find_associated_talents(actor, skillName) {
  * Give a custom, Star Wars FFG talent description on hover
  * @param event
  */
-export function itemPillHover(event) {
+export async function itemPillHover(event) {
     event.preventDefault();
 
     const li = $(event.currentTarget);
     const itemName = li.data("item-embed-name");
     let desc = li.data("desc");
+    desc = await foundry.applications.ux.TextEditor.enrichHTML(desc);
     
     let embeddedContent = `
     <section class="chat-msg-tooltip content">
