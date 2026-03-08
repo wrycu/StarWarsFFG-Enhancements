@@ -80,7 +80,7 @@ export function talent_skill_association_ready() {
         inject_skill_dropdown(item, html);
     });
 
-    Hooks.on("renderChatMessage", (message, html, messageData) => {
+    Hooks.on("renderChatMessage", async (message, html, messageData) => {
         // Inject talent pills into roll messages
         if (!game.settings.get("ffg-star-wars-enhancements", "talent-skill-association")) {
             return;
@@ -119,8 +119,28 @@ export function talent_skill_association_ready() {
             return;
         }
 
-        const pillsHtml = build_talent_pills_html(talents);
-        html.append(pillsHtml);
+        const pillDivs = build_talent_pills_html(talents);
+
+        let specials = html.find(".specials");
+        if (specials.length > 0) {
+            specials.append(pillDivs);
+        }
+
+        const htmlString =
+            `<div class="item-display">
+            <div class="specials">
+                <h5>
+                  ${pillDivs}
+                </h5>
+            </div>
+        </div>`;
+
+        html.append(htmlString);
+
+        // item card tooltips
+        html.find(".item-display .specials .hover-tooltip").on("mouseover", (event) => {
+            itemPillHover(event);
+        });
     });
 }
 
@@ -232,6 +252,31 @@ export function find_associated_talents(actor, skillName) {
 }
 
 /**
+ * Give a custom, Star Wars FFG talent description on hover
+ * @param event
+ */
+export function itemPillHover(event) {
+    event.preventDefault();
+
+    const li = $(event.currentTarget);
+    const itemName = li.data("item-embed-name");
+    let desc = li.data("desc");
+    
+    let embeddedContent = `
+    <section class="chat-msg-tooltip content">
+      <section class="header">
+        <div class="title">${itemName}</div>
+      </section>
+      <section class="description">
+        ${desc}
+      </section>
+    </section>
+  `;
+    
+    li.attr("data-tooltip", embeddedContent);
+}
+
+/**
  * Build HTML for talent pills to display in chat messages.
  */
 export function build_talent_pills_html(talents) {
@@ -239,8 +284,7 @@ export function build_talent_pills_html(talents) {
         return "";
     }
 
-    let html = `<div class="effg-talent-pills">`;
-    html += `<span class="effg-talent-pills-label">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-talents")}:</span> `;
+    let html = `<span class="effg-talent-pills-label">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-talents")}:</span> `;
 
     for (const talent of talents) {
         const rankDisplay = talent.rank !== null ? ` ${talent.rank}` : "";
@@ -250,21 +294,13 @@ export function build_talent_pills_html(talents) {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
 
-        // html += 
-        //     `<div class="item-pill-hover hover-tooltip" data-item-type="itemmodifier" data-item-embed-name="&{talent.name}"
-        //      data-desc="&{talentDesc}"
-        //      data-item-ranks="${talent.rank}" data-tooltip="Loading...">
-        //     &{talentDesc}
-        // </div>`
-        
-        html += `<div class="effg-talent-pill" title="${talentDesc}">`;
+        html += `<div class="item-pill-hover hover-tooltip" data-item-embed-name="${talent.name}" data-desc="${talentDesc}" data-item-ranks="${talent.rank}" data-tooltip="Loading...">`;
         html += `${talent.name}`;
         if (talent.rank !== null) {
-            html += ` <i class="effg-talent-rank">${talent.rank}</i>`;
+            html += ` ${talent.rank}`;
         }
         html += `</div>`;
     }
 
-    html += `</div>`;
     return html;
 }
