@@ -145,17 +145,59 @@ export function talent_skill_association_ready() {
 }
 
 /**
- * Inject an "Associated Skill" dropdown into the talent sheet header.
+ * Get the current associated skills array from an item, handling backward compatibility
+ * with the old single-string format.
  */
-function inject_skill_dropdown(item, html) {
-    const currentValue = item.getFlag("ffg-star-wars-enhancements", "associatedSkill") || "";
-    const skillOptions = get_skill_options();
+function get_associated_skills(item) {
+    const flagValue = item.getFlag("ffg-star-wars-enhancements", "associatedSkill");
+    if (!flagValue) {
+        return [""];
+    }
+    // Backward compatibility: convert old string format to array
+    if (typeof flagValue === "string") {
+        return [flagValue];
+    }
+    if (Array.isArray(flagValue)) {
+        return flagValue.length > 0 ? flagValue : [""];
+    }
+    return [""];
+}
 
-    // Build the dropdown HTML to match the system's ffg-block style
+/**
+ * Build the HTML for a single skill dropdown row.
+ */
+function build_skill_row(skillOptions, currentValue, index, totalRows) {
     let optionsHtml = `<option value="">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-none")}</option>`;
     for (const skill of skillOptions) {
         const selected = skill.value === currentValue ? "selected" : "";
         optionsHtml += `<option value="${skill.value}" ${selected}>${skill.label}</option>`;
+    }
+
+    let buttonsHtml = `<a class="effg-skill-add" title="${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-add")}"><i class="fas fa-plus"></i></a>`;
+    if (totalRows > 1) {
+        buttonsHtml += ` <a class="effg-skill-remove" data-index="${index}" title="${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-remove")}"><i class="fas fa-minus"></i></a>`;
+    }
+
+    return `
+        <div class="effg-skill-row" data-index="${index}" style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+            <select style="text-align: center; flex: 1;" class="effg-skill-select" data-index="${index}">
+                ${optionsHtml}
+            </select>
+            ${buttonsHtml}
+        </div>
+    `;
+}
+
+/**
+ * Inject an "Associated Skill" dropdown into the talent sheet header.
+ */
+function inject_skill_dropdown(item, html) {
+    const currentValues = get_associated_skills(item);
+    const skillOptions = get_skill_options();
+
+    let rowsHtml = "";
+    for (let i = 0; i < currentValues.length; i++) {
+        rowsHtml += build_skill_row(skillOptions, currentValues[i], i, currentValues.length);
     }
 
     const blockHtml = `
@@ -165,10 +207,8 @@ function inject_skill_dropdown(item, html) {
                     <div class="block-title">
                         ${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-label")}
                     </div>
-                    <div class="block-attribute">
-                        <select style="text-align: center;" class="effg-skill-select">
-                            ${optionsHtml}
-                        </select>
+                    <div class="block-attribute effg-skill-rows">
+                        ${rowsHtml}
                     </div>
                 </div>
             </div>
@@ -178,7 +218,6 @@ function inject_skill_dropdown(item, html) {
     // Find the last container in the header-fields and append our block
     const headerFields = html.find(".header-fields");
     if (headerFields.length === 0) {
-        // Try alternative: find in the element itself (Foundry v13 compatibility)
         const altHeader = html.is(".header-fields") ? html : html.find(".header-fields");
         if (altHeader.length === 0) {
             log(feature_name, "Could not find header-fields in talent sheet");
@@ -186,16 +225,38 @@ function inject_skill_dropdown(item, html) {
         }
     }
 
-    // Insert after the last .container in header-fields
     const containers = headerFields.find(".container.flex-group-center");
     if (containers.length > 0) {
         const wrapper = $(`<div class="container flex-group-center">${blockHtml}</div>`);
         containers.last().after(wrapper);
 
-        // Attach change handler
-        wrapper.find(".effg-skill-select").on("change", async (event) => {
+        // Change handler for dropdowns
+        wrapper.on("change", ".effg-skill-select", async (event) => {
+            const index = parseInt($(event.target).data("index"));
             const newValue = event.target.value;
-            await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", newValue);
+            const skills = get_associated_skills(item);
+            skills[index] = newValue;
+            await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", skills);
+        });
+
+        // Add button handler
+        wrapper.on("click", ".effg-skill-add", async (event) => {
+            event.preventDefault();
+            const skills = get_associated_skills(item);
+            skills.push("");
+            await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", skills);
+        });
+
+        // Remove button handler
+        wrapper.on("click", ".effg-skill-remove", async (event) => {
+            event.preventDefault();
+            const index = parseInt($(event.currentTarget).data("index"));
+            const skills = get_associated_skills(item);
+            skills.splice(index, 1);
+            if (skills.length === 0) {
+                skills.push("");
+            }
+            await item.setFlag("ffg-star-wars-enhancements", "associatedSkill", skills);
         });
     } else {
         log(feature_name, "Could not find containers in talent sheet header");
@@ -215,13 +276,16 @@ export function find_associated_talents(actor, skillName) {
     const results = [];
 
     for (const talent of talents) {
-        const associatedSkill = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
-        if (!associatedSkill) {
+        const flagValue = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
+        if (!flagValue) {
             continue;
         }
 
-        // Case-insensitive comparison to handle localization differences
-        if (associatedSkill.toLowerCase() === skillName.toLowerCase()) {
+        // Normalize to array for backward compatibility
+        const associatedSkills = Array.isArray(flagValue) ? flagValue : [flagValue];
+        const hasMatch = associatedSkills.some(s => s && s.toLowerCase() === skillName.toLowerCase());
+
+        if (hasMatch) {
             const isRanked = talent.system?.ranks?.ranked;
             const rank = isRanked ? (talent.system?.ranks?.current || 0) : null;
             // Get the short description (first 200 chars of description text)

@@ -260,7 +260,9 @@
     "ffg-star-wars-enhancements.title-cards.title-cards-close-delay-hint": "Time in seconds since the text disappeared to close the window. If 0, will not close the window",
     "ffg-star-wars-enhancements.talent-skill-association": "Enable Talent Skill Association",
     "ffg-star-wars-enhancements.talent-skill-association-hint": "Allows associating talents with skills. Associated talents will be displayed in dice roll chat messages.",
-    "ffg-star-wars-enhancements.talent-skill-association-label": "Associated Skill",
+    "ffg-star-wars-enhancements.talent-skill-association-label": "Associated Skills",
     "ffg-star-wars-enhancements.talent-skill-association-none": "None",
-    "ffg-star-wars-enhancements.talent-skill-association-talents": "Associated talents"
+    "ffg-star-wars-enhancements.talent-skill-association-talents": "Associated talents",
+    "ffg-star-wars-enhancements.talent-skill-association-add": "Add associated skill",
+    "ffg-star-wars-enhancements.talent-skill-association-remove": "Remove associated skill"
 }
