@@ -120,25 +120,10 @@ export function talent_skill_association_ready() {
         }
 
         const pillDivs = build_talent_pills_html(talents);
-
-        let specials = html.find(".specials");
-        if (specials.length > 0) {
-            specials.append(pillDivs);
-        }
-
-        const htmlString =
-            `<div class="item-display">
-            <div class="specials">
-                <h5>
-                  ${pillDivs}
-                </h5>
-            </div>
-        </div>`;
-
-        html.append(htmlString);
+        html.append(pillDivs);
 
         // item card tooltips
-        html.find(".item-display .specials .hover-tooltip").on("mouseover", (event) => {
+        html.find(".hover-tooltip").on("mouseover", (event) => {
             itemPillHover(event);
         });
     });
