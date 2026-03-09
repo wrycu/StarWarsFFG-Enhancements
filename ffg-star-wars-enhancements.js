@@ -16,7 +16,7 @@ import { init as shop_generator_init, ready as shop_sheet_ready } from "./script
 import {
     init as talent_skill_association_init,
     talent_skill_association_hooks,
-} from "./scripts/talent_skill_association.js";
+} from "./scripts/talentsAutomation/talent_skill_association.js";
 import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";

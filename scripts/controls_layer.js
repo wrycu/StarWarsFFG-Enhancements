@@ -5,7 +5,7 @@ import { create_datapad_journal } from "./datapads.js";
 import { shop_creator } from "./shop.js";
 import { configure_attack_animation, configure_custom_attack_animation } from "./animation.js";
 import { convert_to_hologram } from "./hologram.js";
-import { open_bulk_update_dialog } from "./talent_bulk_update.js";
+import { open_bulk_update_dialog } from "./talentsAutomation/talent_bulk_update.js";
 
 export const register_controls = (controls) => {
     if (canvas === null) {
