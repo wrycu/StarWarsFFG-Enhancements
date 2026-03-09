@@ -1,5 +1,6 @@
 
 `3.0.0` - ?
+- Improvement: Ukrainian localization provided
 - FIX: Dice helper now works with Foundry VTT v13 (thanks `@dukevenator`!)
   - Updated `createChatMessage` hook signature to match v13 API
   - Fixed Collection handling to use `game.messages.get()` for retrieving ChatMessage documents

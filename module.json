@@ -16,7 +16,7 @@
         },
         {
             "lang": "ua",
-            "name": "Ukrainian",
+            "name": "Ukrainian (Українська)",
             "path": "lang/ua.json"
         }
     ],
@@ -26,6 +26,9 @@
         },
         {
             "name": "x0d0a"
+        },
+        {
+            "name": "YeNov"
         }
     ],
     "version": "2.1.2",
