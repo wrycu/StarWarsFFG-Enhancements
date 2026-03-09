@@ -8,6 +8,7 @@ const CSS_SOURCE_OPTION = ".effg-bulk-source-option";
 const CSS_SOURCE_HIGHLIGHT = "effg-bulk-source-highlight";
 const DATA_ROW_INDEX = "row-index";
 const DATA_SKILL_INDEX = "skill-index";
+const DATA_SOURCE_INDEX = "source-index";
 
 /**
  * Open the bulk talent skill association dialog.
@@ -20,6 +21,7 @@ class TalentBulkUpdateApp extends FormApplication {
     constructor() {
         super();
         this.rows = [{ talentNames: [], skills: [""] }];
+        this.selectedSources = [{ value: "", label: "" }];
     }
 
     static get defaultOptions() {
@@ -37,28 +39,31 @@ class TalentBulkUpdateApp extends FormApplication {
     getData() {
         const skillOptions = get_skill_options();
 
-        // Build source options
-        const sources = [];
+        // Build source options list
+        const sourceOptions = [];
 
-        // Compendium packs that contain items
         for (const pack of game.packs) {
             if (pack.metadata.type === "Item") {
-                sources.push({
+                sourceOptions.push({
                     value: `compendium:${pack.collection}`,
                     label: `${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.source-compendium")}: ${pack.metadata.label}`,
-                    group: "compendium",
                 });
             }
         }
 
-        // Actors
         for (const actor of game.actors) {
-            sources.push({
+            sourceOptions.push({
                 value: `actor:${actor.id}`,
                 label: `${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.source-actor")}: ${actor.name}`,
-                group: "actor",
             });
         }
+
+        // Build source rows for template
+        const sourceRows = this.selectedSources.map((src, idx) => ({
+            value: src.value,
+            label: src.label,
+            showRemove: this.selectedSources.length > 1,
+        }));
 
         // Build template-ready rows with pre-built optionsHtml
         const templateRows = this.rows.map((row, rowIndex) => {
@@ -90,7 +95,8 @@ class TalentBulkUpdateApp extends FormApplication {
 
         return {
             rows: templateRows,
-            sources: sources,
+            sourceOptions: sourceOptions,
+            sourceRows: sourceRows,
             presets: presets,
         };
     }
@@ -98,80 +104,68 @@ class TalentBulkUpdateApp extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
 
-        // Searchable source dropdown
-        const searchInput = html.find(".effg-bulk-source-search");
-        const sourceList = html.find(".effg-bulk-source-list");
-        const sourceHidden = html.find(".effg-bulk-source-value");
-        const allOptions = html.find(CSS_SOURCE_OPTION);
-
-        // Restore selected source label if re-rendering
-        if (this._selectedSourceLabel) {
-            searchInput.val(this._selectedSourceLabel);
-        }
-
-        searchInput.on("focus", () => {
-            sourceList.show();
-            filterSourceOptions(searchInput.val());
+        // Searchable source dropdowns
+        html.on("focus", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            wrapper.find(".effg-bulk-source-list").show();
+            _filterSourceList(wrapper, $(event.target).val());
         });
 
-        searchInput.on("input", () => {
-            sourceList.show();
-            filterSourceOptions(searchInput.val());
+        html.on("input", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            wrapper.find(".effg-bulk-source-list").show();
+            _filterSourceList(wrapper, $(event.target).val());
+
+            // Clear the stored value if user edits the text
+            const idx = parseInt($(event.target).data(DATA_SOURCE_INDEX));
+            this.selectedSources[idx].value = "";
         });
 
-        // Select an option on click
-        allOptions.on("click", (event) => {
+        // Select a source option
+        html.on("click", CSS_SOURCE_OPTION, (event) => {
             const li = $(event.currentTarget);
             const value = li.data("value");
             const label = li.data("label");
-            sourceHidden.val(value);
-            searchInput.val(label);
-            this._selectedSourceValue = value;
-            this._selectedSourceLabel = label;
-            sourceList.hide();
+            const wrapper = li.closest(".effg-bulk-source-wrapper");
+            const input = wrapper.find(".effg-bulk-source-search");
+            const idx = parseInt(input.data(DATA_SOURCE_INDEX));
+
+            input.val(label);
+            wrapper.find(".effg-bulk-source-list").hide();
+            this.selectedSources[idx] = { value: value, label: label };
         });
 
-        // Hide dropdown when clicking outside
+        // Hide dropdowns when clicking outside
         $(document).on("mousedown.effg-bulk-source", (event) => {
             if (!$(event.target).closest(".effg-bulk-source-wrapper").length) {
-                sourceList.hide();
-                // If no valid selection, clear input
-                if (!this._selectedSourceValue) {
-                    searchInput.val("");
-                }
+                html.find(".effg-bulk-source-list").hide();
             }
         });
 
-        // Keyboard navigation
-        searchInput.on("keydown", (event) => {
-            const visible = sourceList.find(".effg-bulk-source-option:visible");
-            const highlighted = sourceList.find("." + CSS_SOURCE_HIGHLIGHT);
+        // Keyboard navigation for source dropdowns
+        html.on("keydown", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            const list = wrapper.find(".effg-bulk-source-list");
+            const visible = list.find(CSS_SOURCE_OPTION + ":visible");
+            const highlighted = list.find("." + CSS_SOURCE_HIGHLIGHT);
 
             if (event.key === "ArrowDown") {
                 event.preventDefault();
                 if (highlighted.length === 0) {
                     visible.first().addClass(CSS_SOURCE_HIGHLIGHT);
                 } else {
-                    const next = highlighted.nextAll(".effg-bulk-source-option:visible").first();
+                    const next = highlighted.nextAll(CSS_SOURCE_OPTION + ":visible").first();
                     highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
-                    if (next.length) {
-                        next.addClass(CSS_SOURCE_HIGHLIGHT);
-                    } else {
-                        visible.first().addClass(CSS_SOURCE_HIGHLIGHT);
-                    }
+                    (next.length ? next : visible.first()).addClass(CSS_SOURCE_HIGHLIGHT);
                 }
             } else if (event.key === "ArrowUp") {
                 event.preventDefault();
                 if (highlighted.length === 0) {
                     visible.last().addClass(CSS_SOURCE_HIGHLIGHT);
                 } else {
-                    const prev = highlighted.prevAll(".effg-bulk-source-option:visible").first();
+                    const prev = highlighted.prevAll(CSS_SOURCE_OPTION + ":visible").first();
                     highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
-                    if (prev.length) {
-                        prev.addClass(CSS_SOURCE_HIGHLIGHT);
-                    } else {
-                        visible.last().addClass(CSS_SOURCE_HIGHLIGHT);
-                    }
+                    (prev.length ? prev : visible.last()).addClass(CSS_SOURCE_HIGHLIGHT);
                 }
             } else if (event.key === "Enter") {
                 event.preventDefault();
@@ -179,26 +173,34 @@ class TalentBulkUpdateApp extends FormApplication {
                     highlighted.trigger("click");
                 }
             } else if (event.key === "Escape") {
-                sourceList.hide();
+                list.hide();
             }
         });
 
-        function filterSourceOptions(query) {
-            const lowerQuery = (query || "").toLowerCase();
-            allOptions.each((i, el) => {
-                const label = $(el).data("label").toLowerCase();
-                const match = !lowerQuery || label.includes(lowerQuery);
-                $(el).toggle(match);
-            });
-            allOptions.removeClass(CSS_SOURCE_HIGHLIGHT);
-        }
+        // Add source row
+        html.on("click", ".effg-bulk-add-source", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this.selectedSources.push({ value: "", label: "" });
+            this.render();
+        });
+
+        // Remove source row
+        html.on("click", ".effg-bulk-remove-source", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            const idx = parseInt($(event.currentTarget).data(DATA_SOURCE_INDEX));
+            if (this.selectedSources.length > 1) {
+                this.selectedSources.splice(idx, 1);
+                this.render();
+            }
+        });
 
         // Skill group preset buttons
         html.on("click", ".effg-bulk-preset", (event) => {
             event.preventDefault();
             this._syncFormData(html);
             const skills = $(event.currentTarget).data("skills").split(",");
-            // Replace current skills with the preset group
             this.rows[0].skills = skills;
             this.render();
         });
@@ -244,11 +246,11 @@ class TalentBulkUpdateApp extends FormApplication {
     }
 
     async _updateObject(event, formData) {
-        // Read current state from form
         this._syncFormData(this.element);
 
-        const source = formData.source;
-        if (!source) {
+        // Collect valid sources
+        const validSources = this.selectedSources.filter(s => s.value);
+        if (validSources.length === 0) {
             ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.no-source"));
             return;
         }
@@ -269,13 +271,15 @@ class TalentBulkUpdateApp extends FormApplication {
             return;
         }
 
-        const [sourceType, sourceId] = source.split(":", 2);
         let updatedCount = 0;
 
-        if (sourceType === "compendium") {
-            updatedCount = await this._updateCompendium(sourceId, mappings);
-        } else if (sourceType === "actor") {
-            updatedCount = await this._updateActor(sourceId, mappings);
+        for (const source of validSources) {
+            const [sourceType, sourceId] = source.value.split(":", 2);
+            if (sourceType === "compendium") {
+                updatedCount += await this._updateCompendium(sourceId, mappings);
+            } else if (sourceType === "actor") {
+                updatedCount += await this._updateActor(sourceId, mappings);
+            }
         }
 
         ui.notifications.info(
@@ -303,10 +307,6 @@ class TalentBulkUpdateApp extends FormApplication {
         });
     }
 
-    /**
-     * Update talents in a compendium pack.
-     * Finds the first talent matching each name and sets the associatedSkill flag.
-     */
     async _updateCompendium(packId, mappings) {
         const pack = game.packs.get(packId);
         if (!pack) {
@@ -333,10 +333,6 @@ class TalentBulkUpdateApp extends FormApplication {
         return count;
     }
 
-    /**
-     * Update talents on an actor.
-     * Updates standalone talent items and talents within specialization trees.
-     */
     async _updateActor(actorId, mappings) {
         const actor = game.actors.get(actorId);
         if (!actor) {
@@ -346,7 +342,6 @@ class TalentBulkUpdateApp extends FormApplication {
 
         let count = 0;
 
-        // Update standalone talent items on the actor
         const talentItems = actor.items.filter(item => item.type === "talent");
         for (const mapping of mappings) {
             const matchingTalents = talentItems.filter(
@@ -359,7 +354,6 @@ class TalentBulkUpdateApp extends FormApplication {
             }
         }
 
-        // Update talents within specialization items on the actor
         const specializations = actor.items.filter(item => item.type === "specialization");
         for (const spec of specializations) {
             if (!spec.system?.talents) continue;
@@ -391,9 +385,15 @@ class TalentBulkUpdateApp extends FormApplication {
     }
 }
 
-/**
- * Parse a multi-line text value into an array of non-empty talent names.
- */
+function _filterSourceList(wrapper, query) {
+    const lowerQuery = (query || "").toLowerCase();
+    wrapper.find(CSS_SOURCE_OPTION).each((i, el) => {
+        const label = $(el).data("label").toLowerCase();
+        $(el).toggle(!lowerQuery || label.includes(lowerQuery));
+    });
+    wrapper.find("." + CSS_SOURCE_HIGHLIGHT).removeClass(CSS_SOURCE_HIGHLIGHT);
+}
+
 function _parseNames(text) {
     return (text || "").split("\n").map(s => s.trim()).filter(s => s.length > 0);
 }

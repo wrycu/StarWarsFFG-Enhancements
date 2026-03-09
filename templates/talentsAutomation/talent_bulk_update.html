@@ -1,15 +1,22 @@
 <form autocomplete="off" class="effg-talent-bulk-update">
-    <div class="form-group">
-        <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.source-label"}}</label>
-        <div class="effg-bulk-source-wrapper" style="position: relative;">
-            <input type="hidden" name="source" class="effg-bulk-source-value" value="" />
-            <input type="text" class="effg-bulk-source-search" placeholder="-- {{localize 'ffg-star-wars-enhancements.talent-bulk-update.select-source'}} --" autocomplete="off" />
-            <ul class="effg-bulk-source-list" style="display: none; position: absolute; z-index: 100; background: var(--color-bg, #fff); border: 1px solid #ccc; max-height: 200px; overflow-y: auto; width: 100%; margin: 0; padding: 0; list-style: none;">
-                {{#each sources}}
-                <li class="effg-bulk-source-option" data-value="{{this.value}}" data-label="{{this.label}}" style="padding: 4px 8px; cursor: pointer;">{{this.label}}</li>
-                {{/each}}
-            </ul>
+    <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.source-label"}}</label>
+    <div class="effg-bulk-sources">
+        {{#each sourceRows}}
+        <div class="effg-bulk-source-row" style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+            <div class="effg-bulk-source-wrapper" style="position: relative; flex: 1;">
+                <input type="text" class="effg-bulk-source-search" data-source-index="{{@index}}" value="{{this.label}}" placeholder="-- {{localize 'ffg-star-wars-enhancements.talent-bulk-update.select-source'}} --" autocomplete="off" />
+                <ul class="effg-bulk-source-list" style="display: none; position: absolute; z-index: 100; background: var(--color-bg, #fff); border: 1px solid #ccc; max-height: 200px; overflow-y: auto; width: 100%; margin: 0; padding: 0; list-style: none;">
+                    {{#each ../sourceOptions}}
+                    <li class="effg-bulk-source-option" data-value="{{this.value}}" data-label="{{this.label}}" style="padding: 4px 8px; cursor: pointer;">{{this.label}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            <a class="effg-bulk-add-source" title="{{localize 'ffg-star-wars-enhancements.talent-bulk-update.add-row'}}"><i class="fas fa-plus"></i></a>
+            {{#iff_custom this.showRemove "==" true}}
+            <a class="effg-bulk-remove-source" data-source-index="{{@index}}" title="{{localize 'ffg-star-wars-enhancements.talent-bulk-update.remove-row'}}"><i class="fas fa-minus"></i></a>
+            {{/iff_custom}}
         </div>
+        {{/each}}
     </div>
 
     <hr>
