@@ -317,6 +317,7 @@ class TalentBulkUpdateApp extends FormApplication {
         const documents = await pack.getDocuments();
         let count = 0;
 
+        // Update standalone talent items
         for (const mapping of mappings) {
             const talent = documents.find(
                 doc => doc.type === "talent" && doc.name.toLowerCase() === mapping.talentName.toLowerCase()
@@ -325,8 +326,34 @@ class TalentBulkUpdateApp extends FormApplication {
                 await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
                 count++;
                 log(feature_name, `Updated compendium talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
-            } else {
-                log(feature_name, `Talent "${mapping.talentName}" not found in compendium ${packId}`);
+            }
+        }
+
+        // Update talents nested inside specialization items
+        const specializations = documents.filter(doc => doc.type === "specialization");
+        for (const spec of specializations) {
+            if (!spec.system?.talents) continue;
+
+            const talentKeys = Object.keys(spec.system.talents);
+            const updates = {};
+            let hasUpdates = false;
+
+            for (const key of talentKeys) {
+                const specTalent = spec.system.talents[key];
+                if (!specTalent?.name) continue;
+
+                for (const mapping of mappings) {
+                    if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
+                        updates[`system.talents.${key}.flags.${MODULE_ID}.${FLAG_ASSOCIATED_SKILL}`] = mapping.skills;
+                        hasUpdates = true;
+                        count++;
+                        log(feature_name, `Updated compendium specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
+                    }
+                }
+            }
+
+            if (hasUpdates) {
+                await spec.update(updates);
             }
         }
 

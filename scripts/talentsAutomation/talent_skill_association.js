@@ -305,8 +305,40 @@ function truncate_description(descHtml) {
 }
 
 /**
+ * Build a map of talent name (lowercase) -> associatedSkill flag value
+ * by scanning standalone talent items and specialization tree talents.
+ */
+function build_associated_skill_map(actor) {
+    const map = new Map();
+
+    // Standalone talent items (flags accessed via getFlag)
+    for (const talent of actor.items.filter(item => item.type === "talent")) {
+        const flagValue = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
+        if (flagValue) {
+            map.set(talent.name.toLowerCase(), flagValue);
+        }
+    }
+
+    // Specialization tree talents (flags stored in plain data)
+    for (const spec of actor.items.filter(item => item.type === "specialization")) {
+        if (!spec.system?.talents) continue;
+        for (const key of Object.keys(spec.system.talents)) {
+            const specTalent = spec.system.talents[key];
+            if (!specTalent?.name || !specTalent.islearned) continue;
+            if (map.has(specTalent.name.toLowerCase())) continue;
+            const flagValue = specTalent.flags?.["ffg-star-wars-enhancements"]?.associatedSkill;
+            if (flagValue) {
+                map.set(specTalent.name.toLowerCase(), flagValue);
+            }
+        }
+    }
+
+    return map;
+}
+
+/**
  * Find talents on an actor that are associated with a given skill name.
- * Checks both standalone talent items and talents embedded in specialization trees.
+ * Uses the system's pre-computed talentList for correct accumulated ranks.
  * Returns an array of { name, rank, description } objects.
  */
 export function find_associated_talents(actor, skillName) {
@@ -314,42 +346,21 @@ export function find_associated_talents(actor, skillName) {
         return [];
     }
 
-    const results = [];
-    const seen = new Set(); // avoid duplicates by talent name
-
-    // 1. Check standalone talent items
-    const talents = actor.items.filter(item => item.type === "talent");
-    for (const talent of talents) {
-        const talentAssociatedSkills = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
-        if (!flag_matches_skill(talentAssociatedSkills, skillName)) continue;
-
-        const isRanked = talent.system?.ranks?.ranked;
-        const rank = isRanked ? (talent.system?.ranks?.current || 0) : null;
-
-        results.push({ name: talent.name, rank: rank, description: talent.system?.description });
-        seen.add(talent.name.toLowerCase());
+    const talentList = actor.talentList;
+    if (!talentList || talentList.length === 0) {
+        return [];
     }
 
-    // 2. Check talents within specialization items
-    const specializations = actor.items.filter(item => item.type === "specialization");
-    for (const spec of specializations) {
-        if (!spec.system?.talents) continue;
+    const skillMap = build_associated_skill_map(actor);
+    const results = [];
 
-        for (const key of Object.keys(spec.system.talents)) {
-            const specTalent = spec.system.talents[key];
-            if (!specTalent?.name || !specTalent.islearned) continue;
+    for (const talent of talentList) {
+        const flagValue = skillMap.get(talent.name.toLowerCase());
+        if (!flag_matches_skill(flagValue, skillName)) continue;
 
-            // Skip if we already found this talent as a standalone item
-            if (seen.has(specTalent.name.toLowerCase())) continue;
+        const rank = talent.isRanked && talent.rank !== "N/A" ? talent.rank : null;
 
-            const flagValue = specTalent.flags?.["ffg-star-wars-enhancements"]?.associatedSkill;
-            if (!flag_matches_skill(flagValue, skillName)) continue;
-
-            const rank = specTalent.isRanked ? (specTalent.rank || 0) : null;
-
-            results.push({ name: specTalent.name, rank: rank, description: specTalent.description });
-            seen.add(specTalent.name.toLowerCase());
-        }
+        results.push({ name: talent.name, rank: rank, description: talent.description });
     }
 
     return results;
