@@ -245,7 +245,31 @@ function inject_skill_dropdown(item, html) {
 }
 
 /**
+ * Check if a flag value matches the given skill name.
+ */
+function flag_matches_skill(talentAssociatedSkills, skillName) {
+    if (!talentAssociatedSkills) return false;
+    const associatedSkills = Array.isArray(talentAssociatedSkills) ? talentAssociatedSkills : [talentAssociatedSkills];
+    return associatedSkills.some(s => s && s.toLowerCase() === skillName.toLowerCase());
+}
+
+/**
+ * Truncate a description string for tooltip display.
+ */
+function truncate_description(descHtml) {
+    if (!descHtml) return "";
+    const tmp = document.createElement("div");
+    tmp.innerHTML = descHtml;
+    let text = tmp.textContent || tmp.innerText || "";
+    if (text.length > 200) {
+        text = text.substring(0, 200) + "...";
+    }
+    return text;
+}
+
+/**
  * Find talents on an actor that are associated with a given skill name.
+ * Checks both standalone talent items and talents embedded in specialization trees.
  * Returns an array of { name, rank, description } objects.
  */
 export function find_associated_talents(actor, skillName) {
@@ -253,39 +277,41 @@ export function find_associated_talents(actor, skillName) {
         return [];
     }
 
-    const talents = actor.items.filter(item => item.type === "talent");
     const results = [];
+    const seen = new Set(); // avoid duplicates by talent name
 
+    // 1. Check standalone talent items
+    const talents = actor.items.filter(item => item.type === "talent");
     for (const talent of talents) {
-        const flagValue = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
-        if (!flagValue) {
-            continue;
-        }
+        const talentAssociatedSkills = talent.getFlag("ffg-star-wars-enhancements", "associatedSkill");
+        if (!flag_matches_skill(talentAssociatedSkills, skillName)) continue;
 
-        // Normalize to array for backward compatibility
-        const associatedSkills = Array.isArray(flagValue) ? flagValue : [flagValue];
-        const hasMatch = associatedSkills.some(s => s && s.toLowerCase() === skillName.toLowerCase());
+        const isRanked = talent.system?.ranks?.ranked;
+        const rank = isRanked ? (talent.system?.ranks?.current || 0) : null;
 
-        if (hasMatch) {
-            const isRanked = talent.system?.ranks?.ranked;
-            const rank = isRanked ? (talent.system?.ranks?.current || 0) : null;
-            // Get the short description (first 200 chars of description text)
-            let description = "";
-            if (talent.system?.description) {
-                // Strip HTML tags for tooltip
-                const tmp = document.createElement("div");
-                tmp.innerHTML = talent.system.description;
-                description = tmp.textContent || tmp.innerText || "";
-                if (description.length > 200) {
-                    description = description.substring(0, 200) + "...";
-                }
-            }
+        results.push({ name: talent.name, rank: rank, description: talent.system?.description });
+        seen.add(talent.name.toLowerCase());
+    }
 
-            results.push({
-                name: talent.name,
-                rank: rank,
-                description: description,
-            });
+    // 2. Check talents within specialization items
+    const specializations = actor.items.filter(item => item.type === "specialization");
+    for (const spec of specializations) {
+        if (!spec.system?.talents) continue;
+
+        for (const key of Object.keys(spec.system.talents)) {
+            const specTalent = spec.system.talents[key];
+            if (!specTalent?.name || !specTalent.islearned) continue;
+
+            // Skip if we already found this talent as a standalone item
+            if (seen.has(specTalent.name.toLowerCase())) continue;
+
+            const flagValue = specTalent.flags?.["ffg-star-wars-enhancements"]?.associatedSkill;
+            if (!flag_matches_skill(flagValue, skillName)) continue;
+
+            const rank = specTalent.isRanked ? (specTalent.rank || 0) : null;
+
+            results.push({ name: specTalent.name, rank: rank, description: specTalent.description });
+            seen.add(specTalent.name.toLowerCase());
         }
     }
 
@@ -337,10 +363,10 @@ export function build_talent_pills_html(talents) {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
 
-        html += `<div class="effg-talent-pill item-pill-hover hover-tooltip" data-item-embed-name="${talent.name}" data-desc="${talentDesc}" data-item-ranks="${talent.rank}" data-tooltip="Loading...">`;
+        html += `<div class="effg-talent-pill item-pill-hover hover-tooltip" data-item-embed-name="${talent.name}" data-desc="${talentDesc}" data-item-ranks="${rankDisplay}" data-tooltip="Loading...">`;
         html += `${talent.name}`;
         if (talent.rank !== null) {
-            html += ` ${talent.rank}`;
+            html += ` ${rankDisplay}`;
         }
         html += `</div> <br> `;
     }

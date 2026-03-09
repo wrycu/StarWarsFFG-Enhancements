@@ -1,7 +1,13 @@
 import { log_msg as log } from "./util.js";
 import { get_skill_options } from "./talent_skill_association.js";
 
-let feature_name = "talent_bulk_update";
+const feature_name = "talent_bulk_update";
+const MODULE_ID = "ffg-star-wars-enhancements";
+const FLAG_ASSOCIATED_SKILL = "associatedSkill";
+const CSS_SOURCE_OPTION = ".effg-bulk-source-option";
+const CSS_SOURCE_HIGHLIGHT = "effg-bulk-source-highlight";
+const DATA_ROW_INDEX = "row-index";
+const DATA_SKILL_INDEX = "skill-index";
 
 /**
  * Open the bulk talent skill association dialog.
@@ -13,7 +19,7 @@ export function open_bulk_update_dialog() {
 class TalentBulkUpdateApp extends FormApplication {
     constructor() {
         super();
-        this.rows = [{ talentName: "", skills: [""] }];
+        this.rows = [{ talentNames: [], skills: [""] }];
     }
 
     static get defaultOptions() {
@@ -70,7 +76,7 @@ class TalentBulkUpdateApp extends FormApplication {
                 };
             });
             return {
-                talentName: row.talentName,
+                talentNamesText: row.talentNames.join("\n"),
                 skillRows: skillRows,
             };
         });
@@ -84,27 +90,105 @@ class TalentBulkUpdateApp extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
 
-        // Add talent row
-        html.find(".effg-bulk-add-row").on("click", (event) => {
-            event.preventDefault();
-            this.rows.push({ talentName: "", skills: [""] });
-            this.render();
+        // Searchable source dropdown
+        const searchInput = html.find(".effg-bulk-source-search");
+        const sourceList = html.find(".effg-bulk-source-list");
+        const sourceHidden = html.find(".effg-bulk-source-value");
+        const allOptions = html.find(CSS_SOURCE_OPTION);
+
+        // Restore selected source label if re-rendering
+        if (this._selectedSourceLabel) {
+            searchInput.val(this._selectedSourceLabel);
+        }
+
+        searchInput.on("focus", () => {
+            sourceList.show();
+            filterSourceOptions(searchInput.val());
         });
 
-        // Remove talent row
-        html.on("click", ".effg-bulk-remove-row", (event) => {
-            event.preventDefault();
-            const index = parseInt($(event.currentTarget).data("row-index"));
-            if (this.rows.length > 1) {
-                this.rows.splice(index, 1);
-                this.render();
+        searchInput.on("input", () => {
+            sourceList.show();
+            filterSourceOptions(searchInput.val());
+        });
+
+        // Select an option on click
+        allOptions.on("click", (event) => {
+            const li = $(event.currentTarget);
+            const value = li.data("value");
+            const label = li.data("label");
+            sourceHidden.val(value);
+            searchInput.val(label);
+            this._selectedSourceValue = value;
+            this._selectedSourceLabel = label;
+            sourceList.hide();
+        });
+
+        // Hide dropdown when clicking outside
+        $(document).on("mousedown.effg-bulk-source", (event) => {
+            if (!$(event.target).closest(".effg-bulk-source-wrapper").length) {
+                sourceList.hide();
+                // If no valid selection, clear input
+                if (!this._selectedSourceValue) {
+                    searchInput.val("");
+                }
             }
         });
+
+        // Keyboard navigation
+        searchInput.on("keydown", (event) => {
+            const visible = sourceList.find(".effg-bulk-source-option:visible");
+            const highlighted = sourceList.find("." + CSS_SOURCE_HIGHLIGHT);
+
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                if (highlighted.length === 0) {
+                    visible.first().addClass(CSS_SOURCE_HIGHLIGHT);
+                } else {
+                    const next = highlighted.nextAll(".effg-bulk-source-option:visible").first();
+                    highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
+                    if (next.length) {
+                        next.addClass(CSS_SOURCE_HIGHLIGHT);
+                    } else {
+                        visible.first().addClass(CSS_SOURCE_HIGHLIGHT);
+                    }
+                }
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                if (highlighted.length === 0) {
+                    visible.last().addClass(CSS_SOURCE_HIGHLIGHT);
+                } else {
+                    const prev = highlighted.prevAll(".effg-bulk-source-option:visible").first();
+                    highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
+                    if (prev.length) {
+                        prev.addClass(CSS_SOURCE_HIGHLIGHT);
+                    } else {
+                        visible.last().addClass(CSS_SOURCE_HIGHLIGHT);
+                    }
+                }
+            } else if (event.key === "Enter") {
+                event.preventDefault();
+                if (highlighted.length) {
+                    highlighted.trigger("click");
+                }
+            } else if (event.key === "Escape") {
+                sourceList.hide();
+            }
+        });
+
+        function filterSourceOptions(query) {
+            const lowerQuery = (query || "").toLowerCase();
+            allOptions.each((i, el) => {
+                const label = $(el).data("label").toLowerCase();
+                const match = !lowerQuery || label.includes(lowerQuery);
+                $(el).toggle(match);
+            });
+            allOptions.removeClass(CSS_SOURCE_HIGHLIGHT);
+        }
 
         // Add skill to a row
         html.on("click", ".effg-bulk-add-skill", (event) => {
             event.preventDefault();
-            const rowIndex = parseInt($(event.currentTarget).data("row-index"));
+            const rowIndex = parseInt($(event.currentTarget).data(DATA_ROW_INDEX));
             this.rows[rowIndex].skills.push("");
             this.render();
         });
@@ -112,8 +196,8 @@ class TalentBulkUpdateApp extends FormApplication {
         // Remove skill from a row
         html.on("click", ".effg-bulk-remove-skill", (event) => {
             event.preventDefault();
-            const rowIndex = parseInt($(event.currentTarget).data("row-index"));
-            const skillIndex = parseInt($(event.currentTarget).data("skill-index"));
+            const rowIndex = parseInt($(event.currentTarget).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(event.currentTarget).data(DATA_SKILL_INDEX));
             if (this.rows[rowIndex].skills.length > 1) {
                 this.rows[rowIndex].skills.splice(skillIndex, 1);
                 this.render();
@@ -121,14 +205,14 @@ class TalentBulkUpdateApp extends FormApplication {
         });
 
         // Sync input changes back to this.rows before re-render
-        html.on("change", ".effg-bulk-talent-name", (event) => {
-            const rowIndex = parseInt($(event.target).data("row-index"));
-            this.rows[rowIndex].talentName = event.target.value;
+        html.on("change", ".effg-bulk-talent-names", (event) => {
+            const rowIndex = parseInt($(event.target).data(DATA_ROW_INDEX));
+            this.rows[rowIndex].talentNames = _parseNames(event.target.value);
         });
 
         html.on("change", ".effg-bulk-skill-select", (event) => {
-            const rowIndex = parseInt($(event.target).data("row-index"));
-            const skillIndex = parseInt($(event.target).data("skill-index"));
+            const rowIndex = parseInt($(event.target).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(event.target).data(DATA_SKILL_INDEX));
             this.rows[rowIndex].skills[skillIndex] = event.target.value;
         });
     }
@@ -143,26 +227,29 @@ class TalentBulkUpdateApp extends FormApplication {
             return;
         }
 
-        // Filter out rows with empty talent names
-        const mappings = this.rows.filter(r => r.talentName.trim() !== "");
+        // Expand rows: each talent name in a row shares the same skills
+        const mappings = [];
+        for (const row of this.rows) {
+            const skills = [...new Set(row.skills.filter(s => s !== ""))];
+            for (const name of row.talentNames) {
+                if (name.trim()) {
+                    mappings.push({ talentName: name.trim(), skills: skills });
+                }
+            }
+        }
+
         if (mappings.length === 0) {
             ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.no-mappings"));
             return;
         }
 
-        // Filter out empty skills from each mapping
-        const cleanMappings = mappings.map(m => ({
-            talentName: m.talentName.trim(),
-            skills: m.skills.filter(s => s !== ""),
-        }));
-
         const [sourceType, sourceId] = source.split(":", 2);
         let updatedCount = 0;
 
         if (sourceType === "compendium") {
-            updatedCount = await this._updateCompendium(sourceId, cleanMappings);
+            updatedCount = await this._updateCompendium(sourceId, mappings);
         } else if (sourceType === "actor") {
-            updatedCount = await this._updateActor(sourceId, cleanMappings);
+            updatedCount = await this._updateActor(sourceId, mappings);
         }
 
         ui.notifications.info(
@@ -175,15 +262,15 @@ class TalentBulkUpdateApp extends FormApplication {
      * Sync form data back to this.rows from the current DOM state.
      */
     _syncFormData(html) {
-        html.find(".effg-bulk-talent-name").each((i, el) => {
-            const rowIndex = parseInt($(el).data("row-index"));
+        html.find(".effg-bulk-talent-names").each((i, el) => {
+            const rowIndex = parseInt($(el).data(DATA_ROW_INDEX));
             if (this.rows[rowIndex]) {
-                this.rows[rowIndex].talentName = el.value;
+                this.rows[rowIndex].talentNames = _parseNames(el.value);
             }
         });
         html.find(".effg-bulk-skill-select").each((i, el) => {
-            const rowIndex = parseInt($(el).data("row-index"));
-            const skillIndex = parseInt($(el).data("skill-index"));
+            const rowIndex = parseInt($(el).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(el).data(DATA_SKILL_INDEX));
             if (this.rows[rowIndex]?.skills) {
                 this.rows[rowIndex].skills[skillIndex] = el.value;
             }
@@ -209,7 +296,7 @@ class TalentBulkUpdateApp extends FormApplication {
                 doc => doc.type === "talent" && doc.name.toLowerCase() === mapping.talentName.toLowerCase()
             );
             if (talent) {
-                await talent.setFlag("ffg-star-wars-enhancements", "associatedSkill", mapping.skills);
+                await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
                 count++;
                 log(feature_name, `Updated compendium talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
             } else {
@@ -221,8 +308,8 @@ class TalentBulkUpdateApp extends FormApplication {
     }
 
     /**
-     * Update talents on an actor's specialization trees.
-     * Finds all specializations on the actor, then updates matching talents as embedded items.
+     * Update talents on an actor.
+     * Updates standalone talent items and talents within specialization trees.
      */
     async _updateActor(actorId, mappings) {
         const actor = game.actors.get(actorId);
@@ -240,7 +327,7 @@ class TalentBulkUpdateApp extends FormApplication {
                 t => t.name.toLowerCase() === mapping.talentName.toLowerCase()
             );
             for (const talent of matchingTalents) {
-                await talent.setFlag("ffg-star-wars-enhancements", "associatedSkill", mapping.skills);
+                await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
                 count++;
                 log(feature_name, `Updated actor talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
             }
@@ -261,7 +348,7 @@ class TalentBulkUpdateApp extends FormApplication {
 
                 for (const mapping of mappings) {
                     if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
-                        updates[`system.talents.${key}.flags.ffg-star-wars-enhancements.associatedSkill`] = mapping.skills;
+                        updates[`system.talents.${key}.flags.${MODULE_ID}.${FLAG_ASSOCIATED_SKILL}`] = mapping.skills;
                         hasUpdates = true;
                         count++;
                         log(feature_name, `Updated specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
@@ -276,4 +363,11 @@ class TalentBulkUpdateApp extends FormApplication {
 
         return count;
     }
+}
+
+/**
+ * Parse a multi-line text value into an array of non-empty talent names.
+ */
+function _parseNames(text) {
+    return (text || "").split("\n").map(s => s.trim()).filter(s => s.length > 0);
 }

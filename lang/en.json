@@ -273,6 +273,8 @@
     "ffg-star-wars-enhancements.talent-bulk-update.source-compendium": "Compendium",
     "ffg-star-wars-enhancements.talent-bulk-update.source-actor": "Actor",
     "ffg-star-wars-enhancements.talent-bulk-update.talent-name": "Talent Name",
+    "ffg-star-wars-enhancements.talent-bulk-update.talent-names": "Talent Names",
+    "ffg-star-wars-enhancements.talent-bulk-update.talent-names-hint": "one per line",
     "ffg-star-wars-enhancements.talent-bulk-update.add-talent": "Add Talent",
     "ffg-star-wars-enhancements.talent-bulk-update.remove-talent": "Remove this talent",
     "ffg-star-wars-enhancements.talent-bulk-update.apply": "Apply",
