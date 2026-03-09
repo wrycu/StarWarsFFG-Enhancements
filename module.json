@@ -13,6 +13,11 @@
             "lang": "fr",
             "name": "French (Community)",
             "path": "lang/fr.json"
+        },
+        {
+            "lang": "ua",
+            "name": "Ukrainian",
+            "path": "lang/ua.json"
         }
     ],
     "authors": [
