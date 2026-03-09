@@ -1,5 +1,5 @@
-import { log_msg as log } from "./util.js";
-import { get_skill_options } from "./talent_skill_association.js";
+import { log_msg as log } from "../util.js";
+import { get_skill_options, get_skill_groups } from "./talent_skill_association.js";
 
 const feature_name = "talent_bulk_update";
 const MODULE_ID = "ffg-star-wars-enhancements";
@@ -26,7 +26,7 @@ class TalentBulkUpdateApp extends FormApplication {
         return foundry.utils.mergeObject(super.defaultOptions, {
             id: "effg-talent-bulk-update",
             title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.title"),
-            template: "modules/ffg-star-wars-enhancements/templates/talent_bulk_update.html",
+            template: "modules/ffg-star-wars-enhancements/templates/talentsAutomation/talent_bulk_update.html",
             width: 600,
             height: "auto",
             resizable: true,
@@ -81,9 +81,17 @@ class TalentBulkUpdateApp extends FormApplication {
             };
         });
 
+        // Build skill group presets
+        const skillGroups = get_skill_groups();
+        const presets = Object.keys(skillGroups).sort().map(groupName => ({
+            name: groupName,
+            skills: skillGroups[groupName],
+        }));
+
         return {
             rows: templateRows,
             sources: sources,
+            presets: presets,
         };
     }
 
@@ -184,6 +192,24 @@ class TalentBulkUpdateApp extends FormApplication {
             });
             allOptions.removeClass(CSS_SOURCE_HIGHLIGHT);
         }
+
+        // Skill group preset buttons
+        html.on("click", ".effg-bulk-preset", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            const skills = $(event.currentTarget).data("skills").split(",");
+            // Replace current skills with the preset group
+            this.rows[0].skills = skills;
+            this.render();
+        });
+
+        // Clear all skills
+        html.on("click", ".effg-bulk-clear-skills", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this.rows[0].skills = [""];
+            this.render();
+        });
 
         // Add skill to a row
         html.on("click", ".effg-bulk-add-skill", (event) => {

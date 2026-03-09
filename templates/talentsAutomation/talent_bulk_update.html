@@ -22,8 +22,14 @@
                 <textarea class="effg-bulk-talent-names" data-row-index="{{@index}}" rows="3">{{this.talentNamesText}}</textarea>
             </div>
 
-            <div class="form-group" style="flex-direction: column; align-items: stretch;">
-                <label>{{localize "ffg-star-wars-enhancements.talent-skill-association-label"}}</label>
+            <label>{{localize "ffg-star-wars-enhancements.talent-skill-association-label"}}</label>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap;">
+                {{#each ../presets}}
+                <button type="button" class="effg-bulk-preset" data-skills="{{this.skills}}" style="padding: 2px 6px; font-size: 11px; width: auto; display: inline-block;">{{this.name}}</button>
+                {{/each}}
+                <button type="button" class="effg-bulk-clear-skills" style="padding: 2px 6px; font-size: 11px; width: auto; display: inline-block;">{{localize "ffg-star-wars-enhancements.talent-bulk-update.clear-skills"}}</button>
+            </div>
+            <div>
                 {{#each this.skillRows}}
                 <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
                     <select class="effg-bulk-skill-select" data-row-index="{{this.rowIndex}}" data-skill-index="{{this.skillIndex}}" style="flex: 1;">

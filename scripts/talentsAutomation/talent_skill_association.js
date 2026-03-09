@@ -1,4 +1,4 @@
-import { log_msg as log } from "./util.js";
+import { log_msg as log } from "../util.js";
 
 let feature_name = "talent_skill_association";
 
@@ -46,6 +46,43 @@ export function get_skill_options() {
     });
 
     return options;
+}
+
+/**
+ * Get skills grouped by their type (e.g., Combat, General, Social, Knowledge).
+ * Returns an object mapping group name to an array of skill name strings.
+ */
+export function get_skill_groups() {
+    let skills = null;
+    const actors = game.actors?.contents;
+    if (actors && actors.length > 0) {
+        for (const actor of actors) {
+            if (actor.system?.skills && Object.keys(actor.system.skills).length > 0) {
+                skills = actor.system.skills;
+                break;
+            }
+        }
+    }
+
+    if (!skills) {
+        return {};
+    }
+
+    const groups = {};
+    for (const [skillName, skillData] of Object.entries(skills)) {
+        const type = skillData.type || "Other";
+        if (!groups[type]) {
+            groups[type] = [];
+        }
+        groups[type].push(skillName);
+    }
+
+    // Sort skill names within each group
+    for (const type of Object.keys(groups)) {
+        groups[type].sort();
+    }
+
+    return groups;
 }
 
 export function init() {

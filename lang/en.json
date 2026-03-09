@@ -280,5 +280,6 @@
     "ffg-star-wars-enhancements.talent-bulk-update.apply": "Apply",
     "ffg-star-wars-enhancements.talent-bulk-update.no-source": "Please select a source.",
     "ffg-star-wars-enhancements.talent-bulk-update.no-mappings": "Please add at least one talent name.",
+    "ffg-star-wars-enhancements.talent-bulk-update.clear-skills": "Clear",
     "ffg-star-wars-enhancements.talent-bulk-update.success": "{count} talent(s) updated successfully."
 }
