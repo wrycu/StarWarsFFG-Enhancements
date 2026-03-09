@@ -147,6 +147,11 @@ export function talent_skill_association_hooks() {
             return;
         }
 
+        // For GM-owned actors, only show talent pills to the GM
+        if (!actor.hasPlayerOwner && !game.user.isGM) {
+            return;
+        }
+
         const talents = find_associated_talents(actor, skill);
         if (talents.length === 0) {
             return;
