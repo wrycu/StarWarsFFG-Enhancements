@@ -264,5 +264,19 @@
     "ffg-star-wars-enhancements.talent-skill-association-none": "None",
     "ffg-star-wars-enhancements.talent-skill-association-talents": "Associated talents",
     "ffg-star-wars-enhancements.talent-skill-association-add": "Add associated skill",
-    "ffg-star-wars-enhancements.talent-skill-association-remove": "Remove associated skill"
+    "ffg-star-wars-enhancements.talent-skill-association-remove": "Remove associated skill",
+    "ffg-star-wars-enhancements.talent-bulk-update.title": "Bulk Talent Skill Update",
+    "ffg-star-wars-enhancements.talent-bulk-update.button-name": "Bulk Talent Update",
+    "ffg-star-wars-enhancements.talent-bulk-update.button-title": "Bulk update talent skill associations",
+    "ffg-star-wars-enhancements.talent-bulk-update.source-label": "Source",
+    "ffg-star-wars-enhancements.talent-bulk-update.select-source": "Select a source",
+    "ffg-star-wars-enhancements.talent-bulk-update.source-compendium": "Compendium",
+    "ffg-star-wars-enhancements.talent-bulk-update.source-actor": "Actor",
+    "ffg-star-wars-enhancements.talent-bulk-update.talent-name": "Talent Name",
+    "ffg-star-wars-enhancements.talent-bulk-update.add-talent": "Add Talent",
+    "ffg-star-wars-enhancements.talent-bulk-update.remove-talent": "Remove this talent",
+    "ffg-star-wars-enhancements.talent-bulk-update.apply": "Apply",
+    "ffg-star-wars-enhancements.talent-bulk-update.no-source": "Please select a source.",
+    "ffg-star-wars-enhancements.talent-bulk-update.no-mappings": "Please add at least one talent name.",
+    "ffg-star-wars-enhancements.talent-bulk-update.success": "{count} talent(s) updated successfully."
 }

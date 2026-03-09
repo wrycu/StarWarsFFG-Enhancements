@@ -7,7 +7,7 @@ let feature_name = "talent_skill_association";
  * Reads from the actor's skill data at runtime rather than importing the static default list,
  * since GMs can customize skills.
  */
-function get_skill_options() {
+export function get_skill_options() {
     // Try to get skills from an existing actor to capture any custom skills
     let skills = null;
     const actors = game.actors?.contents;

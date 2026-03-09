@@ -5,6 +5,7 @@ import { create_datapad_journal } from "./datapads.js";
 import { shop_creator } from "./shop.js";
 import { configure_attack_animation, configure_custom_attack_animation } from "./animation.js";
 import { convert_to_hologram } from "./hologram.js";
+import { open_bulk_update_dialog } from "./talent_bulk_update.js";
 
 export const register_controls = (controls) => {
     if (canvas === null) {
@@ -85,6 +86,16 @@ export const register_controls = (controls) => {
             onChange: async () => {
                 await configure_attack_animation();
             }
+        };
+        let bulkTalentUpdateToolName = game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.button-name");
+        ffg_sw_enhancements_controls.tools[bulkTalentUpdateToolName] = {
+            name: bulkTalentUpdateToolName,
+            title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.button-title"),
+            icon: "fas fa-list-check",
+            button: true,
+            onChange: () => {
+                open_bulk_update_dialog();
+            },
         };
         let customAttackAnimationsToolName = game.i18n.localize("ffg-star-wars-enhancements.attack-animation.global-custom.button-name");
         ffg_sw_enhancements_controls.tools[customAttackAnimationsToolName] = {

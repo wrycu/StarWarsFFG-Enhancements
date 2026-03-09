@@ -1,0 +1,47 @@
+<form autocomplete="off" class="effg-talent-bulk-update">
+    <div class="form-group">
+        <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.source-label"}}</label>
+        <select name="source" class="effg-bulk-source">
+            <option value="">-- {{localize "ffg-star-wars-enhancements.talent-bulk-update.select-source"}} --</option>
+            {{#each sources}}
+                <option value="{{this.value}}">{{this.label}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <hr>
+
+    <div class="effg-bulk-rows">
+        {{#each rows}}
+        <div class="effg-bulk-row" style="border: 1px solid #ccc; padding: 8px; margin-bottom: 6px; border-radius: 4px;">
+            <div class="form-group" style="margin-bottom: 4px;">
+                <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.talent-name"}}</label>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <input type="text" class="effg-bulk-talent-name" data-row-index="{{@index}}" value="{{this.talentName}}" style="flex: 1;" />
+                    <a class="effg-bulk-remove-row" data-row-index="{{@index}}" title="{{localize 'ffg-star-wars-enhancements.talent-bulk-update.remove-talent'}}"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{localize "ffg-star-wars-enhancements.talent-skill-association-label"}}</label>
+                {{#each this.skillRows}}
+                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                    <select class="effg-bulk-skill-select" data-row-index="{{this.rowIndex}}" data-skill-index="{{this.skillIndex}}" style="flex: 1;">
+                        {{{this.optionsHtml}}}
+                    </select>
+                    <a class="effg-bulk-add-skill" data-row-index="{{this.rowIndex}}" title="{{localize 'ffg-star-wars-enhancements.talent-skill-association-add'}}"><i class="fas fa-plus"></i></a>
+                    {{#iff_custom this.showRemove "==" true}}
+                    <a class="effg-bulk-remove-skill" data-row-index="{{this.rowIndex}}" data-skill-index="{{this.skillIndex}}" title="{{localize 'ffg-star-wars-enhancements.talent-skill-association-remove'}}"><i class="fas fa-minus"></i></a>
+                    {{/iff_custom}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <button type="button" class="effg-bulk-add-row"><i class="fas fa-plus"></i> {{localize "ffg-star-wars-enhancements.talent-bulk-update.add-talent"}}</button>
+        <button type="submit" name="submit"><i class="fas fa-save"></i> {{localize "ffg-star-wars-enhancements.talent-bulk-update.apply"}}</button>
+    </div>
+</form>
