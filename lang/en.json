@@ -293,5 +293,8 @@
     "ffg-star-wars-enhancements.talent-bulk-update.preset-save": "Save",
     "ffg-star-wars-enhancements.talent-bulk-update.preset-cancel": "Cancel",
     "ffg-star-wars-enhancements.talent-bulk-update.preset-name-empty": "Please enter a preset name.",
-    "ffg-star-wars-enhancements.talent-bulk-update.preset-saved": "Preset '{name}' saved successfully."
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-saved": "Preset '{name}' saved successfully.",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite": "Preset named '{name}' is already present. Overwrite?",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-yes": "Yes",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-no": "No"
 }

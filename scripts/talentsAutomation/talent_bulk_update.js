@@ -97,28 +97,65 @@ async function _loadPresets() {
 }
 
 /**
- * Save current targets as a preset to the compendium.
+ * Find an existing preset document by name in the compendium.
+ * Returns the document if found, null otherwise.
  */
-async function _savePreset(presetName, targets) {
+async function _findExistingPreset(presetName) {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+
+    let pack = null;
+    for (const p of game.packs) {
+        if (p.metadata.label === label && p.metadata.type === "JournalEntry") {
+            pack = p;
+            break;
+        }
+    }
+    if (!pack) return null;
+
+    const documents = await pack.getDocuments();
+    for (const doc of documents) {
+        if (!doc.name.startsWith(prefix)) continue;
+        const existingName = doc.name.substring(prefix.length);
+        if (existingName === presetName) {
+            return doc;
+        }
+    }
+    return null;
+}
+
+/**
+ * Save current targets as a preset to the compendium.
+ * If existingDoc is provided, it will be updated instead of creating a new one.
+ */
+async function _savePreset(presetName, targets, existingDoc) {
     const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
     const pack = await _getOrCreatePresetCompendium();
     const docName = prefix + presetName;
     const jsonContent = JSON.stringify(targets, null, 2);
 
-    await JournalEntry.create(
-        {
-            name: docName,
-            pages: [
-                {
-                    name: "data",
-                    type: "text",
-                    text: { content: jsonContent, format: 1 },
-                },
-            ],
-        },
-        { pack: pack.collection }
-    );
-    log(feature_name, "Saved preset: " + docName);
+    if (existingDoc) {
+        const page = existingDoc.pages?.contents?.[0];
+        if (page) {
+            await page.update({ "text.content": jsonContent });
+        }
+        log(feature_name, "Overwritten preset: " + docName);
+    } else {
+        await JournalEntry.create(
+            {
+                name: docName,
+                pages: [
+                    {
+                        name: "data",
+                        type: "text",
+                        text: { content: jsonContent, format: 1 },
+                    },
+                ],
+            },
+            { pack: pack.collection }
+        );
+        log(feature_name, "Saved preset: " + docName);
+    }
 }
 
 /**
@@ -462,14 +499,38 @@ class TalentBulkUpdateApp extends FormApplication {
                             ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-empty"));
                             return;
                         }
-                        await _savePreset(name, targets);
-                        ui.notifications.info(
-                            game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-saved")
-                                .replace("{name}", name)
-                        );
-                        // Reload presets and re-render
-                        app.targetPresets = await _loadPresets();
-                        app.render();
+
+                        const doSave = async (existingDoc) => {
+                            await _savePreset(name, targets, existingDoc);
+                            ui.notifications.info(
+                                game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-saved")
+                                    .replace("{name}", name)
+                            );
+                            app.targetPresets = await _loadPresets();
+                            app.render();
+                        };
+
+                        const existingDoc = await _findExistingPreset(name);
+                        if (existingDoc) {
+                            new Dialog({
+                                title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.save-preset"),
+                                content: `<p>${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite").replace("{name}", name)}</p>`,
+                                buttons: {
+                                    yes: {
+                                        icon: '<i class="fas fa-check"></i>',
+                                        label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-yes"),
+                                        callback: () => doSave(existingDoc),
+                                    },
+                                    no: {
+                                        icon: '<i class="fas fa-times"></i>',
+                                        label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-no"),
+                                    },
+                                },
+                                default: "no",
+                            }).render(true);
+                        } else {
+                            await doSave(null);
+                        }
                     },
                 },
                 cancel: {
