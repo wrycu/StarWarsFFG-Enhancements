@@ -305,5 +305,6 @@
     "ffg-star-wars-enhancements.special-ammo.warn-ammo-empty": "No ammo remaining for {name}!",
     "ffg-star-wars-enhancements.special-ammo.chat-used-with": "Used with",
     "ffg-star-wars-enhancements.special-ammo.chat-remaining": "Ammo remaining",
+    "ffg-star-wars-enhancements.special-ammo.chat-magazines-left": "Magazines left",
     "ffg-star-wars-enhancements.special-ammo.chat-out-of-ammo": "out of ammo!"
 }

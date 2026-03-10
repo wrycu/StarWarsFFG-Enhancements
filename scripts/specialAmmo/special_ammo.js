@@ -43,6 +43,7 @@ export function ready() {
         }
     });
 
+    // TODO: fix special ammo text disappearing on reload
     Hooks.on("renderChatMessage", async (message, html, messageData) => {
         if (!game.settings.get(MODULE_ID, SETTING_ENABLE)) return;
         if (!message.rolls || message.rolls.length === 0) return;
@@ -84,7 +85,10 @@ export function ready() {
         const ammoData = ammoItem.getFlag(MODULE_ID, FLAG_AMMO_DATA);
         if (!ammoData || !ammoData.canBeUsedAsAmmo) return;
 
-        const description = ammoItem.system?.description || "";
+        const rawDescription = ammoItem.system?.description || "";
+        const description = rawDescription
+            ? await TextEditor.enrichHTML(rawDescription)
+            : "";
         let newCurrent;
         let outOfAmmo = false;
 
@@ -124,6 +128,7 @@ export function ready() {
             }
         }
 
+        const magazinesLeft = ammoItem.system?.quantity?.value ?? ammoItem.system?.quantity ?? 0;
         const templateData = {
             ammoName: ammoItem.name,
             ammoImg: ammoItem.img,
@@ -132,6 +137,7 @@ export function ready() {
             ammoMax: ammoData.ammoMax,
             weaponName: weapon.name,
             outOfAmmo: outOfAmmo,
+            magazinesLeft: magazinesLeft,
         };
         const ammoHtml = await renderTemplate(
             `modules/${MODULE_ID}/templates/specialAmmo/ammo_chat_message.html`,
