@@ -9,6 +9,117 @@ const CSS_SOURCE_HIGHLIGHT = "effg-bulk-source-highlight";
 const DATA_ROW_INDEX = "row-index";
 const DATA_SKILL_INDEX = "skill-index";
 const DATA_SOURCE_INDEX = "source-index";
+const SETTING_PRESET_COMPENDIUM_LABEL = "talent-bulk-update-preset-compendium-label";
+const SETTING_PRESET_DOC_PREFIX = "talent-bulk-update-preset-doc-prefix";
+
+export function init() {
+    log(feature_name, "Initializing");
+    game.settings.register(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL, {
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label-hint"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "Talents Automation Data",
+    });
+    game.settings.register(MODULE_ID, SETTING_PRESET_DOC_PREFIX, {
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix-hint"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "Talents Bulk Editor Preset:",
+    });
+    log(feature_name, "Initialized");
+}
+
+/**
+ * Get or create the preset compendium.
+ */
+async function _getOrCreatePresetCompendium() {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const compendiumName = label.toLowerCase().replace(/\s+/g, "-");
+
+    // Look for existing compendium by label
+    for (const pack of game.packs) {
+        if (pack.metadata.label === label && pack.metadata.type === "JournalEntry") {
+            return pack;
+        }
+    }
+
+    // Create if not found
+    log(feature_name, "Creating preset compendium: " + label);
+    const pack = await CompendiumCollection.createCompendium({
+        label: label,
+        name: compendiumName,
+        type: "JournalEntry",
+        package: "world",
+    });
+    return pack;
+}
+
+/**
+ * Load presets from the compendium.
+ * Returns an array of { id, name, targets } objects.
+ */
+async function _loadPresets() {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+    const presets = [];
+
+    // Find the compendium by label
+    let pack = null;
+    for (const p of game.packs) {
+        if (p.metadata.label === label && p.metadata.type === "JournalEntry") {
+            pack = p;
+            break;
+        }
+    }
+    if (!pack) return presets;
+
+    const documents = await pack.getDocuments();
+    for (const doc of documents) {
+        if (!doc.name.startsWith(prefix)) continue;
+        const presetName = doc.name.substring(prefix.length);
+        // Read JSON from the first page's text content
+        const page = doc.pages?.contents?.[0];
+        if (!page) continue;
+        try {
+            // Strip HTML tags to get raw JSON
+            const raw = page.text?.content?.replace(/<[^>]*>/g, "") || "";
+            const targets = JSON.parse(raw);
+            presets.push({ id: doc.id, name: presetName, targets: targets });
+        } catch (e) {
+            log(feature_name, "Failed to parse preset '" + doc.name + "': " + e);
+        }
+    }
+    return presets;
+}
+
+/**
+ * Save current targets as a preset to the compendium.
+ */
+async function _savePreset(presetName, targets) {
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+    const pack = await _getOrCreatePresetCompendium();
+    const docName = prefix + presetName;
+    const jsonContent = JSON.stringify(targets, null, 2);
+
+    await JournalEntry.create(
+        {
+            name: docName,
+            pages: [
+                {
+                    name: "data",
+                    type: "text",
+                    text: { content: jsonContent, format: 1 },
+                },
+            ],
+        },
+        { pack: pack.collection }
+    );
+    log(feature_name, "Saved preset: " + docName);
+}
 
 /**
  * Open the bulk talent skill association dialog.
@@ -22,6 +133,8 @@ class TalentBulkUpdateApp extends FormApplication {
         super();
         this.rows = [{ talentNames: [], skills: [""] }];
         this.selectedSources = [{ value: "", label: "" }];
+        this.targetPresets = [];
+        this._presetsLoaded = false;
     }
 
     static get defaultOptions() {
@@ -36,7 +149,13 @@ class TalentBulkUpdateApp extends FormApplication {
         });
     }
 
-    getData() {
+    async getData() {
+        // Load presets on first render
+        if (!this._presetsLoaded) {
+            this.targetPresets = await _loadPresets();
+            this._presetsLoaded = true;
+        }
+
         const skillOptions = get_skill_options();
 
         // Build source options list
@@ -93,11 +212,18 @@ class TalentBulkUpdateApp extends FormApplication {
             skills: skillGroups[groupName],
         }));
 
+        // Build target preset options for the selector
+        const targetPresetOptions = this.targetPresets.map(p => ({
+            value: p.id,
+            label: p.name,
+        }));
+
         return {
             rows: templateRows,
             sourceOptions: sourceOptions,
             sourceRows: sourceRows,
             presets: presets,
+            targetPresets: targetPresetOptions,
         };
     }
 
@@ -243,6 +369,26 @@ class TalentBulkUpdateApp extends FormApplication {
             const skillIndex = parseInt($(event.target).data(DATA_SKILL_INDEX));
             this.rows[rowIndex].skills[skillIndex] = event.target.value;
         });
+
+        // Target preset selector
+        html.on("change", ".effg-bulk-target-preset-select", (event) => {
+            const presetId = event.target.value;
+            if (!presetId) return;
+            const preset = this.targetPresets.find(p => p.id === presetId);
+            if (!preset) return;
+            this.selectedSources = preset.targets.map(t => ({ value: t.value, label: t.label }));
+            if (this.selectedSources.length === 0) {
+                this.selectedSources = [{ value: "", label: "" }];
+            }
+            this.render();
+        });
+
+        // Save as preset button
+        html.on("click", ".effg-bulk-save-preset", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this._showSavePresetDialog();
+        });
     }
 
     async _updateObject(event, formData) {
@@ -286,6 +432,53 @@ class TalentBulkUpdateApp extends FormApplication {
             game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.success")
                 .replace("{count}", updatedCount)
         );
+    }
+
+    /**
+     * Show a dialog to enter a preset name and save.
+     */
+    _showSavePresetDialog() {
+        const targets = this.selectedSources.filter(s => s.value).map(s => ({ value: s.value, label: s.label }));
+        const app = this;
+
+        const dialogContent = `
+            <form>
+                <div class="form-group">
+                    <label>${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-label")}</label>
+                    <input type="text" name="preset-name" placeholder="${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-placeholder")}" />
+                </div>
+            </form>`;
+
+        new Dialog({
+            title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.save-preset"),
+            content: dialogContent,
+            buttons: {
+                save: {
+                    icon: '<i class="fas fa-save"></i>',
+                    label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-save"),
+                    callback: async (html) => {
+                        const name = html.find('input[name="preset-name"]').val().trim();
+                        if (!name) {
+                            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-empty"));
+                            return;
+                        }
+                        await _savePreset(name, targets);
+                        ui.notifications.info(
+                            game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-saved")
+                                .replace("{name}", name)
+                        );
+                        // Reload presets and re-render
+                        app.targetPresets = await _loadPresets();
+                        app.render();
+                    },
+                },
+                cancel: {
+                    icon: '<i class="fas fa-times"></i>',
+                    label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-cancel"),
+                },
+            },
+            default: "save",
+        }).render(true);
     }
 
     /**

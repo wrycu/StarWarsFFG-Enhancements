@@ -1,5 +1,16 @@
 <form autocomplete="off" class="effg-talent-bulk-update">
-    <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.source-label"}}</label>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <label>{{localize "ffg-star-wars-enhancements.talent-bulk-update.source-label"}}</label>
+        <div style="display: flex; align-items: center; gap: 4px;">
+            <select class="effg-bulk-target-preset-select" style="width: auto; min-width: 140px;">
+                <option value="">-- {{localize "ffg-star-wars-enhancements.talent-bulk-update.preset-select"}} --</option>
+                {{#each targetPresets}}
+                <option value="{{this.value}}">{{this.label}}</option>
+                {{/each}}
+            </select>
+            <button type="button" class="effg-bulk-save-preset" style="width: auto; padding: 2px 8px;" title="{{localize 'ffg-star-wars-enhancements.talent-bulk-update.save-preset'}}"><i class="fas fa-save"></i> {{localize "ffg-star-wars-enhancements.talent-bulk-update.save-preset"}}</button>
+        </div>
+    </div>
     <div class="effg-bulk-sources">
         {{#each sourceRows}}
         <div class="effg-bulk-source-row" style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">

@@ -17,6 +17,7 @@ import {
     init as talent_skill_association_init,
     talent_skill_association_hooks,
 } from "./scripts/talentsAutomation/talent_skill_association.js";
+import { init as talent_bulk_update_init } from "./scripts/talentsAutomation/talent_bulk_update.js";
 import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
@@ -38,6 +39,7 @@ Hooks.once("init", async function () {
     shop_generator_init();
     talent_skill_association_init();
     talent_skill_association_hooks();
+    talent_bulk_update_init();
     hyperspace_init();
     quench_tests_init(); // Will have no effect unless Quench is active
 

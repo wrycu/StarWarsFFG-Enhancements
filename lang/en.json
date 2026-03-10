@@ -281,5 +281,17 @@
     "ffg-star-wars-enhancements.talent-bulk-update.no-source": "Please select a source.",
     "ffg-star-wars-enhancements.talent-bulk-update.no-mappings": "Please add at least one talent name.",
     "ffg-star-wars-enhancements.talent-bulk-update.clear-skills": "Clear",
-    "ffg-star-wars-enhancements.talent-bulk-update.success": "{count} talent(s) updated successfully."
+    "ffg-star-wars-enhancements.talent-bulk-update.success": "{count} talent(s) updated successfully.",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label": "Preset Compendium Name",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label-hint": "Label of the compendium used to store bulk editor target presets",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix": "Preset Document Prefix",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix-hint": "Prefix for preset document names in the compendium",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-select": "Select preset",
+    "ffg-star-wars-enhancements.talent-bulk-update.save-preset": "Save as Preset",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-name-label": "Preset Name",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-name-placeholder": "Enter preset name",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-save": "Save",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-cancel": "Cancel",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-name-empty": "Please enter a preset name.",
+    "ffg-star-wars-enhancements.talent-bulk-update.preset-saved": "Preset '{name}' saved successfully."
 }
