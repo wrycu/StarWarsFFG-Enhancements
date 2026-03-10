@@ -5,12 +5,21 @@ const FLAG_SPECIAL_AMMO = "special-ammo";
 const FLAG_AMMO_DATA = "ammo-data";
 
 const SETTING_ENABLE = "special-ammo-enable";
+const SETTING_AUTO_DEPLETE = "special-ammo-auto-deplete";
 
 export function init() {
     log("special_ammo", "Initializing");
     game.settings.register(MODULE_ID, SETTING_ENABLE, {
         name: game.i18n.localize("ffg-star-wars-enhancements.special-ammo.enable"),
         hint: game.i18n.localize("ffg-star-wars-enhancements.special-ammo.enable-hint"),
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
+    });
+    game.settings.register(MODULE_ID, SETTING_AUTO_DEPLETE, {
+        name: game.i18n.localize("ffg-star-wars-enhancements.special-ammo.auto-deplete"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.special-ammo.auto-deplete-hint"),
         scope: "world",
         config: true,
         type: Boolean,
@@ -92,6 +101,24 @@ export function ready() {
                     ammoCurrent: newCurrent,
                 });
                 log("special_ammo", `Used 1 ammo from ${ammoItem.name}. Remaining: ${newCurrent}/${ammoData.ammoMax}`);
+
+                // Auto-deplete: if ammo reached 0, decrease item quantity and clear weapon selection
+                if (newCurrent <= 0 && game.settings.get(MODULE_ID, SETTING_AUTO_DEPLETE)) {
+                    const currentQty = ammoItem.system?.quantity?.value ?? ammoItem.system?.quantity ?? 0;
+                    if (currentQty > 1) {
+                        // Decrease quantity by 1, reset ammo to max
+                        await ammoItem.update({ "system.quantity.value": currentQty - 1 });
+                        await ammoItem.setFlag(MODULE_ID, FLAG_AMMO_DATA, {
+                            ...ammoData,
+                            ammoCurrent: ammoData.ammoMax,
+                        });
+                        log("special_ammo", `Depleted magazine for ${ammoItem.name}. Quantity: ${currentQty - 1}. Ammo reset to ${ammoData.ammoMax}.`);
+                    } else {
+                        // Last one — decrease quantity to 0
+                        await ammoItem.update({ "system.quantity.value": 0 });
+                        log("special_ammo", `Last magazine depleted for ${ammoItem.name}.`);
+                    }
+                }
             } else {
                 newCurrent = ammoData.ammoCurrent;
             }

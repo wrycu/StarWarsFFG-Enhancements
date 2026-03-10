@@ -291,6 +291,8 @@
     "ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-no": "No",
     "ffg-star-wars-enhancements.special-ammo.enable": "Enable Special Ammo",
     "ffg-star-wars-enhancements.special-ammo.enable-hint": "Allows weapons to use gear items as consumable special ammunition. Ammo is tracked and decremented on weapon rolls.",
+    "ffg-star-wars-enhancements.special-ammo.auto-deplete": "Automatically deplete used magazines",
+    "ffg-star-wars-enhancements.special-ammo.auto-deplete-hint": "When a magazine reaches 0 ammo, automatically decrease the item quantity. If more than one remain, ammo resets to max. If it was the last one, quantity goes to 0 and the weapon's ammo selection is cleared.",
     "ffg-star-wars-enhancements.special-ammo.section-title": "Special Ammo",
     "ffg-star-wars-enhancements.special-ammo.has-special-ammo": "Has Special Ammo",
     "ffg-star-wars-enhancements.special-ammo.ammo-filter-placeholder": "ammo1,ammo2,...",
