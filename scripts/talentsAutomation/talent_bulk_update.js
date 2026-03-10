@@ -516,6 +516,8 @@ class TalentBulkUpdateApp extends FormApplication {
                 doc => doc.type === "talent" && doc.name.toLowerCase() === mapping.talentName.toLowerCase()
             );
             if (talent) {
+                // Unset first to fully replace the array (avoids index-based merge)
+                await talent.unsetFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL);
                 await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
                 count++;
                 log(feature_name, `Updated compendium talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
@@ -537,7 +539,8 @@ class TalentBulkUpdateApp extends FormApplication {
 
                 for (const mapping of mappings) {
                     if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
-                        updates[`system.talents.${key}.flags.${MODULE_ID}.${FLAG_ASSOCIATED_SKILL}`] = mapping.skills;
+                        // Override the entire module flags object to avoid index-based array merge
+                        updates[`system.talents.${key}.flags.${MODULE_ID}`] = { [FLAG_ASSOCIATED_SKILL]: mapping.skills };
                         hasUpdates = true;
                         count++;
                         log(feature_name, `Updated compendium specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
@@ -568,6 +571,8 @@ class TalentBulkUpdateApp extends FormApplication {
                 t => t.name.toLowerCase() === mapping.talentName.toLowerCase()
             );
             for (const talent of matchingTalents) {
+                // Unset first to fully replace the array (avoids index-based merge)
+                await talent.unsetFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL);
                 await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
                 count++;
                 log(feature_name, `Updated actor talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
@@ -588,7 +593,8 @@ class TalentBulkUpdateApp extends FormApplication {
 
                 for (const mapping of mappings) {
                     if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
-                        updates[`system.talents.${key}.flags.${MODULE_ID}.${FLAG_ASSOCIATED_SKILL}`] = mapping.skills;
+                        // Override the entire module flags object to avoid index-based array merge
+                        updates[`system.talents.${key}.flags.${MODULE_ID}`] = { [FLAG_ASSOCIATED_SKILL]: mapping.skills };
                         hasUpdates = true;
                         count++;
                         log(feature_name, `Updated specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
