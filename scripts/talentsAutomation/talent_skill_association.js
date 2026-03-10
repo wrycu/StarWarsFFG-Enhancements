@@ -142,7 +142,12 @@ export function talent_skill_association_hooks() {
         if (!speakerActorId) {
             return;
         }
-        const actor = game.actors.get(speakerActorId);
+        // For unlinked tokens, get the synthetic token actor instead of the base prototype
+        const speakerTokenId = message.speaker?.token;
+        let actor = speakerTokenId ? game.actors.tokens[speakerTokenId] : null;
+        if (!actor) {
+            actor = game.actors.get(speakerActorId);
+        }
         if (!actor) {
             return;
         }
