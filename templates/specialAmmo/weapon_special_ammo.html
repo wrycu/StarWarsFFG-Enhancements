@@ -3,41 +3,21 @@
         <div class="resource single">
             <div class="attribute flex-group-center">
                 <div class="block-background">
-                    <div class="block-title">{{localize "ffg-star-wars-enhancements.special-ammo.has-special-ammo"}}</div>
+                    <div class="block-title">{{localize "ffg-star-wars-enhancements.special-ammo.section-title"}}</div>
                     <div class="block-attribute">
-                        <div class="block-value">
-                            <input type="checkbox" name="flags.special-ammo.hasSpecialAmmo" {{#if hasSpecialAmmo}}checked{{/if}} />
+                        <div class="block-value block-single">
+                            <input class="ranked-toggle" style="text-align: center;" type="checkbox" name="flags.special-ammo.hasSpecialAmmo" data-dtype="Boolean" {{#if hasSpecialAmmo}}checked{{/if}} />
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{#if hasSpecialAmmo}}
-    <div class="container flex-group-center weapon-values special">
-        <div class="resource double">
-            <div class="attribute flex-group-center">
-                <div class="block-background">
-                    <div class="block-title">{{localize "ffg-star-wars-enhancements.special-ammo.ammo-filter"}}</div>
+                    {{#if hasSpecialAmmo}}
                     <div class="block-attribute">
-                        <div class="block-value">
-                            <input type="text" name="flags.special-ammo.ammoFilter" value="{{ammoFilter}}" placeholder="{{localize 'ffg-star-wars-enhancements.special-ammo.ammo-filter-placeholder'}}" style="width: 200px; border: 0; font-size: 14px;" />
+                        <div class="block-value block-single">
+                            <input type="text" name="flags.special-ammo.ammoFilter" value="{{ammoFilter}}" placeholder="{{localize 'ffg-star-wars-enhancements.special-ammo.ammo-filter-placeholder'}}" style="border: 0; font-size: 14px;" />
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container flex-group-center weapon-values special">
-        <div class="resource double">
-            <div class="attribute flex-group-center">
-                <div class="block-background">
-                    <div class="block-title">{{localize "ffg-star-wars-enhancements.special-ammo.selected-ammo"}}</div>
                     <div class="block-attribute">
-                        <div class="block-value">
-                            <select name="flags.special-ammo.selectedAmmo" style="border: 0; font-size: 14px; width: 200px;">
+                        <div class="block-value block-single">
+                            <select name="flags.special-ammo.selectedAmmo" style="border: 0; font-size: 14px;">
                                 <option value="">{{localize "ffg-star-wars-enhancements.special-ammo.none"}}</option>
                                 {{#each ammoItems}}
                                 <option value="{{this.id}}" {{#if (eq this.id ../selectedAmmo)}}selected{{/if}}>{{this.name}}</option>
@@ -45,9 +25,9 @@
                             </select>
                         </div>
                     </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
-    {{/if}}
 </div>
