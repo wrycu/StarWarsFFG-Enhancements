@@ -13,6 +13,11 @@
             "lang": "fr",
             "name": "French (Community)",
             "path": "lang/fr.json"
+        },
+        {
+            "lang": "ua",
+            "name": "Ukrainian (Українська)",
+            "path": "lang/ua.json"
         }
     ],
     "authors": [
@@ -21,6 +26,9 @@
         },
         {
             "name": "x0d0a"
+        },
+        {
+            "name": "YeNov"
         }
     ],
     "version": "2.1.2",
