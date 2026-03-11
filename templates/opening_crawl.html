@@ -9,7 +9,7 @@
 
             --intro-crawl-duration-adjust : {{intro_crawl_duration_adjust}}s; /* Can be used to shorten or increase the length of the crawl */
             --intro-crawl-delay: calc({{intro_crawl_delay}}s + var(--intro-text-delay) + var(--intro-text-duration)); /* Time since intro text finished */
-            --intro-crawl-duration: calc({{intro_crawl_duration}}s + var(--intro-crawl-duration-adjust));
+            --intro-crawl-duration: calc(({{intro_crawl_duration}}s + var(--intro-crawl-duration-adjust)) / {{intro_crawl_speed}});
 
             --intro-ending-delay: calc(({{intro_pan_delay}}s + var(--intro-crawl-duration) + var(--intro-crawl-delay))); /* Time since crawl finished */
             --intro-ending-duration: {{intro_pan_duration}}s;
