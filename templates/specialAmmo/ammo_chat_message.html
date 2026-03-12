@@ -1,0 +1,37 @@
+{{#if outOfAmmo}}
+<div class="special-ammo-chat" style="margin-top: 5px; border: 2px solid #8b0000; border-radius: 4px; padding: 5px; background: rgba(139,0,0,0.1);">
+    <div style="display: flex; align-items: center; font-weight: bold; color: #8b0000;">
+        {{#if ammoImg}}
+        <img src="{{ammoImg}}" style="width: 20px; height: 20px; border: none; margin-right: 6px;" />
+        {{/if}}
+        <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>
+        {{ammoName}} — {{localize "ffg-star-wars-enhancements.special-ammo.chat-out-of-ammo"}}
+    </div>
+</div>
+{{else}}
+<details class="special-ammo-chat" style="margin-top: 5px; border: 1px solid #999; border-radius: 4px; padding: 5px;">
+    <summary style="cursor: pointer; font-weight: bold; display: flex; align-items: center;">
+        {{#if ammoImg}}
+        <img src="{{ammoImg}}" style="width: 20px; height: 20px; border: none; margin-right: 6px;" />
+        {{/if}}
+        {{ammoName}} ({{ammoCurrent}}/{{ammoMax}})
+    </summary>
+    <div style="margin-top: 5px;">
+        {{#if description}}
+        <div style="font-size: 12px; margin-bottom: 5px; padding: 3px; background: rgba(0,0,0,0.05); border-radius: 3px;">
+            {{{description}}}
+        </div>
+        {{/if}}
+        {{#if qualities.length}}
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 5px;">
+            {{#each qualities}}
+            <span class="special-ammo-quality-pill" data-quality-id="{{this.qualityId}}" data-ammo-id="{{../ammoItemId}}" data-actor-id="{{../actorId}}" style="display: inline-block; padding: 2px 8px; font-size: 11px; background: rgba(0,0,0,0.12); border-radius: 12px; cursor: default;">{{this.label}}</span>
+            {{/each}}
+        </div>
+        {{/if}}
+        <div style="font-size: 11px; text-align: center; padding: 2px; background: rgba(0,0,0,0.08); border-radius: 3px;">
+            {{localize "ffg-star-wars-enhancements.special-ammo.chat-remaining"}}: {{ammoCurrent}} / {{ammoMax}} | {{localize "ffg-star-wars-enhancements.special-ammo.chat-magazines-left"}}: {{magazinesLeft}}
+        </div>
+    </div>
+</details>
+{{/if}}
