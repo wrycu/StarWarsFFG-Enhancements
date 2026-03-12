@@ -1,5 +1,6 @@
 
 `3.0.0` - ?
+- Improvement: special ammo feature
 - Improvement: Ukrainian localization provided
 - FIX: Dice helper now works with Foundry VTT v13 (thanks `@dukevenator`!)
   - Updated `createChatMessage` hook signature to match v13 API
