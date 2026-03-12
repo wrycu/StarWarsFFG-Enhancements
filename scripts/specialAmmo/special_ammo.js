@@ -28,8 +28,8 @@ export function init() {
     log("special_ammo", "Initialized");
 }
 
-export function ready() {
-    log("special_ammo", "Ready");
+export function hooks() {
+    log("special_ammo", "Registering hooks");
 
     Hooks.on("renderItemSheet", async (app, html, data) => {
         if (!game.settings.get(MODULE_ID, SETTING_ENABLE)) return;
@@ -43,7 +43,6 @@ export function ready() {
         }
     });
 
-    // TODO: fix special ammo text disappearing on reload
     Hooks.on("renderChatMessage", async (message, html, messageData) => {
         if (!game.settings.get(MODULE_ID, SETTING_ENABLE)) return;
         if (!message.rolls || message.rolls.length === 0) return;
@@ -129,6 +128,14 @@ export function ready() {
         }
 
         const magazinesLeft = ammoItem.system?.quantity?.value ?? ammoItem.system?.quantity ?? 0;
+        const qualities = (ammoItem.system?.itemmodifier || []).map((mod) => {
+            const name = mod.name || "";
+            const rank = parseInt(mod.system?.rank) || 0;
+            return {
+                label: rank ? `${name} ${rank}` : name,
+                qualityId: mod._id || "",
+            };
+        });
         const templateData = {
             ammoName: ammoItem.name,
             ammoImg: ammoItem.img,
@@ -138,12 +145,37 @@ export function ready() {
             weaponName: weapon.name,
             outOfAmmo: outOfAmmo,
             magazinesLeft: magazinesLeft,
+            qualities: qualities,
+            ammoItemId: ammoItem.id,
+            actorId: actor.id,
         };
         const ammoHtml = await renderTemplate(
             `modules/${MODULE_ID}/templates/specialAmmo/ammo_chat_message.html`,
             templateData
         );
         html.append(ammoHtml);
+
+        // Lazy-load quality descriptions on hover
+        html.find(".special-ammo-quality-pill").on("mouseenter", async function () {
+            const pill = $(this);
+            if (pill.data("tooltip-loaded")) return;
+            const qualityId = pill.data("quality-id");
+            const ammoId = pill.data("ammo-id");
+            const actId = pill.data("actor-id");
+            const act = game.actors.get(actId);
+            if (!act) return;
+            const ammo = act.items.get(ammoId);
+            if (!ammo) return;
+            const mod = (ammo.system?.itemmodifier || []).find((m) => m._id === qualityId);
+            if (!mod) return;
+            const desc = mod.system?.description || "";
+            if (desc) {
+                const enriched = await TextEditor.enrichHTML(desc);
+                pill.attr("data-tooltip", enriched);
+                pill.attr("data-tooltip-direction", "UP");
+            }
+            pill.data("tooltip-loaded", true);
+        });
     });
 }
 
@@ -303,4 +335,131 @@ async function _injectGearAmmoUI(gear, html) {
             ammoCurrent: value,
         });
     });
+
+    // Inject qualities list when "can be used as ammo" is enabled
+    if (canBeUsedAsAmmo) {
+        await _injectGearQualities(gear, html);
+    }
+}
+
+/**
+ * Build summarized qualities from a gear item's itemmodifier array.
+ */
+function _summarizeQualities(gear) {
+    const modifiers = gear.system?.itemmodifier || [];
+    const qualities = [];
+
+    for (let i = 0; i < modifiers.length; i++) {
+        const mod = modifiers[i];
+        const name = mod.name || "";
+        const rank = parseInt(mod.system?.rank) || 0;
+        const description = mod.system?.description || "";
+
+        const existing = qualities.find((q) => q.name === name);
+        if (existing) {
+            existing.totalRanks += rank;
+            existing.summarizedRanks["mods"] = (existing.summarizedRanks["mods"] || 0) + rank;
+        } else {
+            qualities.push({
+                name: name,
+                description: description,
+                modId: mod._id || i.toString(),
+                itemIndex: i,
+                totalRanks: rank,
+                summarizedRanks: { mods: rank },
+                includeControls: true,
+            });
+        }
+    }
+
+    return qualities;
+}
+
+/**
+ * Inject qualities list into gear item sheet and handle drag-drop + delete.
+ */
+async function _injectGearQualities(gear, html) {
+    const qualities = _summarizeQualities(gear);
+
+    const rendered = await renderTemplate(
+        `modules/${MODULE_ID}/templates/specialAmmo/gear_qualities.html`,
+        { qualities }
+    );
+
+    // Inject into the attributes tab
+    const attributesTab = html.find('.tab[data-tab="attributes"]');
+    if (attributesTab.length) {
+        attributesTab.prepend(rendered);
+    }
+
+    // Handle edit quality
+    html.find(".gear-ammo-quality-edit").on("click", async (ev) => {
+        ev.stopPropagation();
+        const li = $(ev.currentTarget).closest(".item");
+        const clickedId = li.data("item-id");
+        const clickedType = li.data("item-type");
+        const parentObject = await fromUuid(gear.uuid);
+        let clickedObject = parentObject.system[clickedType].find(i => i._id === clickedId);
+        if (!clickedObject) {
+            clickedObject = parentObject.system[clickedType].find(i => i.name === li.data("upgrade-name"));
+        }
+        const { itemEditor } = await import("../../../../systems/starwarsffg/modules/items/item-editor.js"); // TODO: if item-editor can be exported, we could've used less fragile import method, but should work so far
+        const typeChoices = {};
+        for (const key of Object.keys(CONFIG.FFG.itemmodifier_types)) {
+            const entry = CONFIG.FFG.itemmodifier_types[key];
+            typeChoices[entry.value] = game.i18n.localize(entry.label);
+        }
+        const data = {
+            sourceObject: gear,
+            clickedObject: clickedObject,
+            typeChoices: typeChoices,
+        };
+        new itemEditor(data).render(true);
+    });
+
+    // Handle delete quality
+    html.find(".gear-ammo-quality-delete").on("click", async (ev) => {
+        const li = $(ev.currentTarget).closest(".item");
+        const itemIndex = parseInt(li.data("item-index"));
+        if (isNaN(itemIndex)) return;
+
+        const modifiers = [...(gear.system.itemmodifier || [])];
+        modifiers.splice(itemIndex, 1);
+        await gear.update({ "system.itemmodifier": modifiers });
+    });
+
+    // Handle drag-drop for adding qualities
+    const dropTarget = html.find(".gear-ammo-qualities")[0];
+    if (dropTarget) {
+        dropTarget.addEventListener("dragover", (ev) => {
+            ev.preventDefault();
+            ev.dataTransfer.dropEffect = "copy";
+        });
+
+        dropTarget.addEventListener("drop", async (ev) => {
+            ev.preventDefault();
+            let data;
+            try {
+                data = JSON.parse(ev.dataTransfer.getData("text/plain"));
+            } catch (e) {
+                return;
+            }
+
+            const droppedItem = await fromUuid(data.uuid);
+            if (!droppedItem || droppedItem.type !== "itemmodifier") return;
+
+            const modifiers = [...(gear.system.itemmodifier || [])];
+            const existing = modifiers.find((m) => m.name === droppedItem.name);
+            if (existing) {
+                existing.system.rank = (
+                    parseInt(existing.system.rank) + parseInt(droppedItem.system.rank)
+                ).toString();
+            } else {
+                const newMod = droppedItem.toObject();
+                newMod._id = foundry.utils.randomID();
+                modifiers.push(newMod);
+            }
+            await gear.update({ "system.itemmodifier": modifiers });
+        });
+    }
 }

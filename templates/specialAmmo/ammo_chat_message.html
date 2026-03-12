@@ -22,6 +22,13 @@
             {{{description}}}
         </div>
         {{/if}}
+        {{#if qualities.length}}
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 5px;">
+            {{#each qualities}}
+            <span class="special-ammo-quality-pill" data-quality-id="{{this.qualityId}}" data-ammo-id="{{../ammoItemId}}" data-actor-id="{{../actorId}}" style="display: inline-block; padding: 2px 8px; font-size: 11px; background: rgba(0,0,0,0.12); border-radius: 12px; cursor: default;">{{this.label}}</span>
+            {{/each}}
+        </div>
+        {{/if}}
         <div style="font-size: 11px; text-align: center; padding: 2px; background: rgba(0,0,0,0.08); border-radius: 3px;">
             {{localize "ffg-star-wars-enhancements.special-ammo.chat-remaining"}}: {{ammoCurrent}} / {{ammoMax}} | {{localize "ffg-star-wars-enhancements.special-ammo.chat-magazines-left"}}: {{magazinesLeft}}
         </div>
