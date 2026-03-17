@@ -376,6 +376,36 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
+/**
+ * Resolve a wildcard file path (e.g. "modules/jb2a/Library/*.webm") to a random matching file.
+ * If the path contains no wildcard, returns it unchanged.
+ */
+async function resolveWildcard(filePath) {
+    if (!filePath || !filePath.includes("*")) return filePath;
+    var lastSlash = filePath.lastIndexOf("\\");
+    if(lastSlash === -1)
+    {
+        lastSlash = filePath.lastIndexOf("/")
+    }
+    const dir = filePath.substring(0, lastSlash);
+    const pattern = filePath.substring(lastSlash + 1);
+    const regex = new RegExp("^" + pattern.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$");
+    try {
+        const result = await FilePicker.browse("data", dir);
+        const matches = result.files.filter((f) => regex.test(f.split("/").pop()));
+        if (matches.length === 0) {
+            log("attack_animation", `Wildcard '${filePath}' matched no files`);
+            return filePath;
+        }
+        const chosen = matches[Math.floor(Math.random() * matches.length)];
+        log("attack_animation", `Wildcard '${filePath}' resolved to '${chosen}' (${matches.length} candidates)`);
+        return chosen;
+    } catch (e) {
+        log("attack_animation", `Failed to browse for wildcard '${filePath}': ${e}`);
+        return filePath;
+    }
+}
+
 async function play_animation(animation_file, sound_file, skill, source, count, hit, focus_target) {
     const tokens = source;
     let min_miss_offset = 30;
@@ -414,6 +444,9 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             var num_shots = Math.floor(Math.random() * 6 + 1);
         }
         for (var x = lower_bound - 1; x < num_shots; x++) {
+            // resolve wildcard paths per-shot so each shot can use a different file
+            let resolved_animation = await resolveWildcard(animation_file);
+            let resolved_sound = await resolveWildcard(sound_file);
             const center = Array.from(game.user.targets)[i].center;
             // pick a random spot to draw the ray to (based on if the attack hit or not)
             if (hit) {
@@ -454,7 +487,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             if (focus_target) {
                 var animation_config = {
                     position: position,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.5,
                         y: 0.5,
@@ -465,7 +498,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.125, //default = 0.125
                         y: 0.5, //default is 0.5
@@ -480,7 +513,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.4, //default = 0.125
                         y: 0.5, //default is 0.5
@@ -495,7 +528,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             canvas.specials.playVideo(animation_config);
             game.socket.emit("module.fxmaster", animation_config);
 
-            foundry.audio.AudioHelper.play({ src: sound_file, volume: 0.3, autoplay: true, loop: false }, true);
+            foundry.audio.AudioHelper.play({ src: resolved_sound, volume: 0.3, autoplay: true, loop: false }, true);
             await sleepNow(250);
         }
     }
