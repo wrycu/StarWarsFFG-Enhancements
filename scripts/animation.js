@@ -560,7 +560,7 @@ class attack_animation_UISettings extends FormApplication {
         // noinspection JSUnusedLocalSymbols
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if (!setting.key.includes("attack-animation-") || (!canConfigure && setting.scope !== "client")) continue;
+            if (!setting.key.includes("attack-animation-") || setting.key === "attack-animation-custom-entries" || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = foundry.utils.duplicate(setting);
