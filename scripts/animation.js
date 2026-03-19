@@ -168,6 +168,74 @@ export function init() {
     log("attack_animation", "Initialized");
 }
 
+const SKILL_SETTING_KEYS = [
+    "attack-animation-brawl-animation",
+    "attack-animation-brawl-sound",
+    "attack-animation-lightsaber-animation",
+    "attack-animation-lightsaber-sound",
+    "attack-animation-melee-animation",
+    "attack-animation-melee-sound",
+    "attack-animation-gunnery-animation",
+    "attack-animation-gunnery-sound",
+    "attack-animation-ranged-heavy-animation",
+    "attack-animation-ranged-heavy-sound",
+    "attack-animation-ranged-light-animation",
+    "attack-animation-ranged-light-sound",
+    "attack-animation-enable",
+];
+
+function exportAnimationSettings() {
+    const data = {
+        skillSettings: {},
+        customEntries: game.settings.get("ffg-star-wars-enhancements", "attack-animation-custom-entries"),
+    };
+    for (const key of SKILL_SETTING_KEYS) {
+        data.skillSettings[key] = game.settings.get("ffg-star-wars-enhancements", key);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "attack-animation-settings.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    log("attack_animation", "Exported animation settings");
+}
+
+async function importAnimationSettings() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    return new Promise((resolve) => {
+        input.addEventListener("change", async () => {
+            const file = input.files[0];
+            if (!file) return resolve(false);
+            try {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                if (data.skillSettings) {
+                    for (const [key, value] of Object.entries(data.skillSettings)) {
+                        if (SKILL_SETTING_KEYS.includes(key)) {
+                            await game.settings.set("ffg-star-wars-enhancements", key, value);
+                        }
+                    }
+                }
+                if (data.customEntries) {
+                    await game.settings.set("ffg-star-wars-enhancements", "attack-animation-custom-entries", data.customEntries);
+                }
+                ui.notifications.info("Attack animation settings imported successfully");
+                log("attack_animation", "Imported animation settings");
+                resolve(true);
+            } catch (e) {
+                ui.notifications.error("Failed to import animation settings: " + e.message);
+                log("attack_animation", "Failed to import: " + e);
+                resolve(false);
+            }
+        });
+        input.click();
+    });
+}
+
 export function attack_animation_check() {
     if (game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
         if (!game.modules.get("JB2A_DnD5e")?.active && !game.modules.get("jb2a_patreon")?.active && game.user.isGM) {
@@ -584,6 +652,7 @@ class attack_animation_UISettings extends FormApplication {
             canConfigure: canConfigure,
             systemTitle: game.system.title,
             data: data,
+            showAnimationExport: true,
         };
     }
 
@@ -592,6 +661,15 @@ class attack_animation_UISettings extends FormApplication {
         html.find(".submenu button").click(this._onClickSubmenu.bind(this));
         html.find('button[name="reset"]').click(this._onResetDefaults.bind(this));
         html.find("button.filepicker").click(this._onFilePicker.bind(this));
+        html.find('button[name="export-animations"]').click((e) => {
+            e.preventDefault();
+            exportAnimationSettings();
+        });
+        html.find('button[name="import-animations"]').click(async (e) => {
+            e.preventDefault();
+            const imported = await importAnimationSettings();
+            if (imported) this.render(true);
+        });
     }
 
     /**

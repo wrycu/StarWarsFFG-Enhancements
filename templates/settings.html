@@ -67,5 +67,9 @@
     <footer class="sheet-footer flexrow">
         <button name="submit" type="submit"><i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}</button>
         <button name="reset" type="button"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
+        {{#if showAnimationExport}}
+        <button name="export-animations" type="button"><i class="fas fa-file-export"></i> Export</button>
+        <button name="import-animations" type="button"><i class="fas fa-file-import"></i> Import</button>
+        {{/if}}
     </footer>
 </form>
