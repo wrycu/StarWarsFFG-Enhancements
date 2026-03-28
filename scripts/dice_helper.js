@@ -1,4 +1,4 @@
-import { log_msg as log } from "./util.js";
+import { log_msg as log } from "./util.js"; ;
 
 let feature_name = "dice_helper";
 
