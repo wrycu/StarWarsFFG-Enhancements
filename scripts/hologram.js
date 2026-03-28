@@ -6,10 +6,12 @@ export function convert_to_hologram() {
     if (!game.modules.get("tokenmagic")?.active) {
         ui.notifications.warn("You must install and enable Token Magic FX to use this feature");
         log_msg(module_name, "Refusing to convert token to hologram because TokenMagic is not loaded");
+        return;
     }
     if (canvas.tokens.controlled.length < 1) {
         ui.notifications.warn("You must select at least one token");
         log_msg(module_name, "Refusing to convert token to hologram because no token is selected");
+        return;
     }
 
     let filter_id = "hologram";
@@ -41,50 +43,34 @@ export function convert_to_hologram() {
                     },
                 },
                 {
-                    filterType: "wave",
-                    filterId: "myWaves",
-                    time: 0,
-                    anchorX: 0.5,
-                    anchorY: 1000,
-                    strength: 0.005,
-                    frequency: 1000,
-                    color: 0x99ccff,
-                    maxIntensity: 1.1,
-                    minIntensity: 0.9,
-                    padding: 5,
+                    filterType: "crt",
+                    filterId: "myLines",
+                    curvature: 0,
+                    lineWidth: 2.0,
+                    lineContrast: 0.3,
+                    verticalLine: false,
+                    noise: 0,
+                    vignetting: 0,
                     animated: {
-                        time: {
+                        seed: {
                             active: true,
-                            speed: 0.0035,
-                            animType: "move",
-                        },
-                        anchorX: {
-                            active: false,
-                            val1: 0.15,
-                            val2: 0.85,
-                            animType: "syncChaoticOscillation",
-                            loopDuration: 20000,
-                        },
-                        anchorY: {
-                            active: false,
-                            val1: 0.15,
-                            val2: 0.85,
-                            animType: "syncSinOscillation",
-                            loopDuration: 20000,
+                            animType: "randomNumber",
+                            val1: 0,
+                            val2: 1,
                         },
                     },
                 },
                 {
                     filterType: "adjustment",
                     filterId: "myAdjust",
-                    saturation: 1,
-                    brightness: 1,
-                    contrast: 1,
+                    saturation: 1.5,
+                    brightness: 1.5,
+                    contrast: 2,
                     gamma: 1,
-                    red: 1,
-                    green: 1,
-                    blue: 1,
-                    alpha: 0.75,
+                    red: 0,
+                    green: 0.25,
+                    blue: 4,
+                    alpha: 1,
                     animated: {
                         alpha: {
                             active: true,
