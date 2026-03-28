@@ -13,6 +13,7 @@ import {
 import { init as strain_reminder_init, strain_reminder } from "./scripts/strain_reminder.js";
 import { init as talent_checker_init, talent_checker } from "./scripts/talent_checker.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
+import { init as special_ammo_init, hooks as special_ammo_hooks } from "./scripts/specialAmmo/special_ammo.js";
 import {
     init as talent_skill_association_init,
     talent_skill_association_hooks,
@@ -41,6 +42,8 @@ Hooks.once("init", async function () {
     talent_skill_association_hooks();
     talent_bulk_update_init();
     hyperspace_init();
+    special_ammo_init();
+    special_ammo_hooks();
     quench_tests_init(); // Will have no effect unless Quench is active
 
     log("base_module", "registering helpers");
