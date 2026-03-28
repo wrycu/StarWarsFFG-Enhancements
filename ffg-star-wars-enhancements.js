@@ -14,6 +14,11 @@ import { init as strain_reminder_init, strain_reminder } from "./scripts/strain_
 import { init as talent_checker_init, talent_checker } from "./scripts/talent_checker.js";
 import { init as shop_generator_init, ready as shop_sheet_ready } from "./scripts/shop_sheet.js";
 import { init as special_ammo_init, hooks as special_ammo_hooks } from "./scripts/specialAmmo/special_ammo.js";
+import {
+    init as talent_skill_association_init,
+    talent_skill_association_hooks,
+} from "./scripts/talentsAutomation/talent_skill_association.js";
+import { init as talent_bulk_update_init } from "./scripts/talentsAutomation/talent_bulk_update.js";
 import { stim_sync } from "./scripts/stim_sync.js";
 import { minionsize_sync } from "./scripts/minionsize_sync.js";
 import { register_controls } from "./scripts/controls_layer.js";
@@ -33,6 +38,9 @@ Hooks.once("init", async function () {
     opening_crawl_init();
     title_cards_init();
     shop_generator_init();
+    talent_skill_association_init();
+    talent_skill_association_hooks();
+    talent_bulk_update_init();
     hyperspace_init();
     special_ammo_init();
     special_ammo_hooks();

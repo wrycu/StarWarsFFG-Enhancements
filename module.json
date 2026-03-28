@@ -42,8 +42,8 @@
                 "id": "starwarsffg",
                 "manifest": "https://raw.githubusercontent.com/StarWarsFoundryVTT/StarWarsFFG/master/system.json",
                 "compatability": {
-                    "minimum": "1.80-alpha6",
-                    "verified": "1.80-alpha8"
+                    "minimum": "2.0.0",
+                    "verified": "2.0.2"
                 }
             }
         ],
@@ -52,24 +52,24 @@
                 "id": "fxmaster",
                 "type": "module",
                 "compatability": {
-                    "minimum": "3.5.2",
-                    "verified": "3.5.2"
+                    "minimum": "7.4.2",
+                    "verified": "7.4.2"
                 }
             },
             {
                 "id": "lib-wrapper",
                 "type": "module",
                 "compatability": {
-                    "minimum": "1.12.11.0",
-                    "verified": "1.12.11.0"
+                    "minimum": "1.13.4.0",
+                    "verified": "1.13.4.0"
                 }
             },
             {
                 "id": "statuscounter",
                 "type": "module",
                 "compatability": {
-                    "minimum": "2.0.15",
-                    "verified": "2.0.15"
+                    "minimum": "3.0.4",
+                    "verified": "3.0.4"
                 }
             }
         ],
@@ -78,8 +78,16 @@
                 "id": "JB2A_DnD5e",
                 "type": "module",
                 "compatability": {
-                    "minimum": "0.6.3",
-                    "verified": "0.6.3"
+                    "minimum": "0.8.1",
+                    "verified": "0.8.1"
+                }
+            },
+            {
+                "id": "tokenmagic",
+                "type": "module",
+                "compatability": {
+                    "minimum": "0.7.6.3",
+                    "verified": "0.7.6.3"
                 }
             }
         ]

@@ -34,6 +34,7 @@
     - Added GM functionality to show shop to players (they must have access to the actor)
     - Add the ability to require the presence or absense of item tags when generating shop inventory
     - Add minimum and maximum price limits
+- Fix: Added TokenMagic as an optional dependency (it already was, but was not declared)
 
 `2.1.2` - 2025-06-15
 
