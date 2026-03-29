@@ -1,0 +1,686 @@
+import { log_msg as log } from "../util.js";
+import { get_skill_options, get_skill_groups } from "./talent_skill_association.js";
+
+const feature_name = "talent_bulk_update";
+const MODULE_ID = "ffg-star-wars-enhancements";
+const FLAG_ASSOCIATED_SKILL = "associatedSkill";
+const CSS_SOURCE_OPTION = ".effg-bulk-source-option";
+const CSS_SOURCE_HIGHLIGHT = "effg-bulk-source-highlight";
+const DATA_ROW_INDEX = "row-index";
+const DATA_SKILL_INDEX = "skill-index";
+const DATA_SOURCE_INDEX = "source-index";
+const SETTING_PRESET_COMPENDIUM_LABEL = "talent-bulk-update-preset-compendium-label";
+const SETTING_PRESET_DOC_PREFIX = "talent-bulk-update-preset-doc-prefix";
+
+export function init() {
+    log(feature_name, "Initializing");
+    game.settings.register(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL, {
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-compendium-label-hint"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "Talents Automation Data",
+    });
+    game.settings.register(MODULE_ID, SETTING_PRESET_DOC_PREFIX, {
+        name: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix"),
+        hint: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-doc-prefix-hint"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "Talents Bulk Editor Preset:",
+    });
+    log(feature_name, "Initialized");
+}
+
+/**
+ * Get or create the preset compendium.
+ */
+async function _getOrCreatePresetCompendium() {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const compendiumName = label.toLowerCase().replace(/\s+/g, "-");
+
+    // Look for existing compendium by label
+    for (const pack of game.packs) {
+        if (pack.metadata.label === label && pack.metadata.type === "JournalEntry") {
+            return pack;
+        }
+    }
+
+    // Create if not found
+    log(feature_name, "Creating preset compendium: " + label);
+    const pack = await CompendiumCollection.createCompendium({
+        label: label,
+        name: compendiumName,
+        type: "JournalEntry",
+        package: "world",
+    });
+    return pack;
+}
+
+/**
+ * Load presets from the compendium.
+ * Returns an array of { id, name, targets } objects.
+ */
+async function _loadPresets() {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+    const presets = [];
+
+    // Find the compendium by label
+    let pack = null;
+    for (const p of game.packs) {
+        if (p.metadata.label === label && p.metadata.type === "JournalEntry") {
+            pack = p;
+            break;
+        }
+    }
+    if (!pack) return presets;
+
+    const documents = await pack.getDocuments();
+    for (const doc of documents) {
+        if (!doc.name.startsWith(prefix)) continue;
+        const presetName = doc.name.substring(prefix.length);
+        // Read JSON from the first page's text content
+        const page = doc.pages?.contents?.[0];
+        if (!page) continue;
+        try {
+            // Strip HTML tags to get raw JSON
+            const raw = page.text?.content?.replace(/<[^>]*>/g, "") || "";
+            const targets = JSON.parse(raw);
+            presets.push({ id: doc.id, name: presetName, targets: targets });
+        } catch (e) {
+            log(feature_name, "Failed to parse preset '" + doc.name + "': " + e);
+        }
+    }
+    return presets;
+}
+
+/**
+ * Find an existing preset document by name in the compendium.
+ * Returns the document if found, null otherwise.
+ */
+async function _findExistingPreset(presetName) {
+    const label = game.settings.get(MODULE_ID, SETTING_PRESET_COMPENDIUM_LABEL);
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+
+    let pack = null;
+    for (const p of game.packs) {
+        if (p.metadata.label === label && p.metadata.type === "JournalEntry") {
+            pack = p;
+            break;
+        }
+    }
+    if (!pack) return null;
+
+    const documents = await pack.getDocuments();
+    for (const doc of documents) {
+        if (!doc.name.startsWith(prefix)) continue;
+        const existingName = doc.name.substring(prefix.length);
+        if (existingName === presetName) {
+            return doc;
+        }
+    }
+    return null;
+}
+
+/**
+ * Save current targets as a preset to the compendium.
+ * If existingDoc is provided, it will be updated instead of creating a new one.
+ */
+async function _savePreset(presetName, targets, existingDoc) {
+    const prefix = game.settings.get(MODULE_ID, SETTING_PRESET_DOC_PREFIX);
+    const pack = await _getOrCreatePresetCompendium();
+    const docName = prefix + presetName;
+    const jsonContent = JSON.stringify(targets, null, 2);
+
+    if (existingDoc) {
+        const page = existingDoc.pages?.contents?.[0];
+        if (page) {
+            await page.update({ "text.content": jsonContent });
+        }
+        log(feature_name, "Overwritten preset: " + docName);
+    } else {
+        await JournalEntry.create(
+            {
+                name: docName,
+                pages: [
+                    {
+                        name: "data",
+                        type: "text",
+                        text: { content: jsonContent, format: 1 },
+                    },
+                ],
+            },
+            { pack: pack.collection }
+        );
+        log(feature_name, "Saved preset: " + docName);
+    }
+}
+
+/**
+ * Open the bulk talent skill association dialog.
+ */
+export function open_bulk_update_dialog() {
+    new TalentBulkUpdateApp().render(true);
+}
+
+class TalentBulkUpdateApp extends FormApplication {
+    constructor() {
+        super();
+        this.rows = [{ talentNames: [], skills: [""] }];
+        this.selectedSources = [{ value: "", label: "" }];
+        this.targetPresets = [];
+        this._presetsLoaded = false;
+    }
+
+    static get defaultOptions() {
+        return foundry.utils.mergeObject(super.defaultOptions, {
+            id: "effg-talent-bulk-update",
+            title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.title"),
+            template: "modules/ffg-star-wars-enhancements/templates/talentsAutomation/talent_bulk_update.html",
+            width: 600,
+            height: "auto",
+            resizable: true,
+            closeOnSubmit: false,
+        });
+    }
+
+    async getData() {
+        // Load presets on first render
+        if (!this._presetsLoaded) {
+            this.targetPresets = await _loadPresets();
+            this._presetsLoaded = true;
+        }
+
+        const skillOptions = get_skill_options();
+
+        // Build source options list
+        const sourceOptions = [];
+
+        for (const pack of game.packs) {
+            if (pack.metadata.type === "Item") {
+                sourceOptions.push({
+                    value: `compendium:${pack.collection}`,
+                    label: `${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.source-compendium")}: ${pack.metadata.label}`,
+                });
+            }
+        }
+
+        for (const actor of game.actors) {
+            sourceOptions.push({
+                value: `actor:${actor.id}`,
+                label: `${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.source-actor")}: ${actor.name}`,
+            });
+        }
+
+        // Build source rows for template
+        const sourceRows = this.selectedSources.map((src, idx) => ({
+            value: src.value,
+            label: src.label,
+            showRemove: this.selectedSources.length > 1,
+        }));
+
+        // Build template-ready rows with pre-built optionsHtml
+        const templateRows = this.rows.map((row, rowIndex) => {
+            const skillRows = row.skills.map((skillValue, skillIndex) => {
+                let optionsHtml = `<option value="">${game.i18n.localize("ffg-star-wars-enhancements.talent-skill-association-none")}</option>`;
+                for (const skill of skillOptions) {
+                    const selected = skill.value === skillValue ? "selected" : "";
+                    optionsHtml += `<option value="${skill.value}" ${selected}>${skill.label}</option>`;
+                }
+                return {
+                    rowIndex: rowIndex,
+                    skillIndex: skillIndex,
+                    optionsHtml: optionsHtml,
+                    showRemove: row.skills.length > 1,
+                };
+            });
+            return {
+                talentNamesText: row.talentNames.join("\n"),
+                skillRows: skillRows,
+            };
+        });
+
+        // Build skill group presets
+        const skillGroups = get_skill_groups();
+        const presets = Object.keys(skillGroups).sort().map(groupName => ({
+            name: groupName,
+            skills: skillGroups[groupName],
+        }));
+
+        // Build target preset options for the selector
+        const targetPresetOptions = this.targetPresets.map(p => ({
+            value: p.id,
+            label: p.name,
+        }));
+
+        return {
+            rows: templateRows,
+            sourceOptions: sourceOptions,
+            sourceRows: sourceRows,
+            presets: presets,
+            targetPresets: targetPresetOptions,
+        };
+    }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+
+        // Searchable source dropdowns
+        html.on("focus", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            wrapper.find(".effg-bulk-source-list").show();
+            _filterSourceList(wrapper, $(event.target).val());
+        });
+
+        html.on("input", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            wrapper.find(".effg-bulk-source-list").show();
+            _filterSourceList(wrapper, $(event.target).val());
+
+            // Clear the stored value if user edits the text
+            const idx = parseInt($(event.target).data(DATA_SOURCE_INDEX));
+            this.selectedSources[idx].value = "";
+        });
+
+        // Select a source option
+        html.on("click", CSS_SOURCE_OPTION, (event) => {
+            const li = $(event.currentTarget);
+            const value = li.data("value");
+            const label = li.data("label");
+            const wrapper = li.closest(".effg-bulk-source-wrapper");
+            const input = wrapper.find(".effg-bulk-source-search");
+            const idx = parseInt(input.data(DATA_SOURCE_INDEX));
+
+            input.val(label);
+            wrapper.find(".effg-bulk-source-list").hide();
+            this.selectedSources[idx] = { value: value, label: label };
+        });
+
+        // Hide dropdowns when clicking outside
+        $(document).on("mousedown.effg-bulk-source", (event) => {
+            if (!$(event.target).closest(".effg-bulk-source-wrapper").length) {
+                html.find(".effg-bulk-source-list").hide();
+            }
+        });
+
+        // Keyboard navigation for source dropdowns
+        html.on("keydown", ".effg-bulk-source-search", (event) => {
+            const wrapper = $(event.target).closest(".effg-bulk-source-wrapper");
+            const list = wrapper.find(".effg-bulk-source-list");
+            const visible = list.find(CSS_SOURCE_OPTION + ":visible");
+            const highlighted = list.find("." + CSS_SOURCE_HIGHLIGHT);
+
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                if (highlighted.length === 0) {
+                    visible.first().addClass(CSS_SOURCE_HIGHLIGHT);
+                } else {
+                    const next = highlighted.nextAll(CSS_SOURCE_OPTION + ":visible").first();
+                    highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
+                    (next.length ? next : visible.first()).addClass(CSS_SOURCE_HIGHLIGHT);
+                }
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                if (highlighted.length === 0) {
+                    visible.last().addClass(CSS_SOURCE_HIGHLIGHT);
+                } else {
+                    const prev = highlighted.prevAll(CSS_SOURCE_OPTION + ":visible").first();
+                    highlighted.removeClass(CSS_SOURCE_HIGHLIGHT);
+                    (prev.length ? prev : visible.last()).addClass(CSS_SOURCE_HIGHLIGHT);
+                }
+            } else if (event.key === "Enter") {
+                event.preventDefault();
+                if (highlighted.length) {
+                    highlighted.trigger("click");
+                }
+            } else if (event.key === "Escape") {
+                list.hide();
+            }
+        });
+
+        // Add source row
+        html.on("click", ".effg-bulk-add-source", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this.selectedSources.push({ value: "", label: "" });
+            this.render();
+        });
+
+        // Remove source row
+        html.on("click", ".effg-bulk-remove-source", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            const idx = parseInt($(event.currentTarget).data(DATA_SOURCE_INDEX));
+            if (this.selectedSources.length > 1) {
+                this.selectedSources.splice(idx, 1);
+                this.render();
+            }
+        });
+
+        // Skill group preset buttons
+        html.on("click", ".effg-bulk-preset", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            const skills = $(event.currentTarget).data("skills").split(",");
+            this.rows[0].skills = skills;
+            this.render();
+        });
+
+        // Clear all skills
+        html.on("click", ".effg-bulk-clear-skills", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this.rows[0].skills = [""];
+            this.render();
+        });
+
+        // Add skill to a row
+        html.on("click", ".effg-bulk-add-skill", (event) => {
+            event.preventDefault();
+            const rowIndex = parseInt($(event.currentTarget).data(DATA_ROW_INDEX));
+            this.rows[rowIndex].skills.push("");
+            this.render();
+        });
+
+        // Remove skill from a row
+        html.on("click", ".effg-bulk-remove-skill", (event) => {
+            event.preventDefault();
+            const rowIndex = parseInt($(event.currentTarget).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(event.currentTarget).data(DATA_SKILL_INDEX));
+            if (this.rows[rowIndex].skills.length > 1) {
+                this.rows[rowIndex].skills.splice(skillIndex, 1);
+                this.render();
+            }
+        });
+
+        // Sync input changes back to this.rows before re-render
+        html.on("change", ".effg-bulk-talent-names", (event) => {
+            const rowIndex = parseInt($(event.target).data(DATA_ROW_INDEX));
+            this.rows[rowIndex].talentNames = _parseNames(event.target.value);
+        });
+
+        html.on("change", ".effg-bulk-skill-select", (event) => {
+            const rowIndex = parseInt($(event.target).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(event.target).data(DATA_SKILL_INDEX));
+            this.rows[rowIndex].skills[skillIndex] = event.target.value;
+        });
+
+        // Target preset selector
+        html.on("change", ".effg-bulk-target-preset-select", (event) => {
+            const presetId = event.target.value;
+            if (!presetId) return;
+            const preset = this.targetPresets.find(p => p.id === presetId);
+            if (!preset) return;
+            this.selectedSources = preset.targets.map(t => ({ value: t.value, label: t.label }));
+            if (this.selectedSources.length === 0) {
+                this.selectedSources = [{ value: "", label: "" }];
+            }
+            this.render();
+        });
+
+        // Save as preset button
+        html.on("click", ".effg-bulk-save-preset", (event) => {
+            event.preventDefault();
+            this._syncFormData(html);
+            this._showSavePresetDialog();
+        });
+    }
+
+    async _updateObject(event, formData) {
+        this._syncFormData(this.element);
+
+        // Collect valid sources
+        const validSources = this.selectedSources.filter(s => s.value);
+        if (validSources.length === 0) {
+            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.no-source"));
+            return;
+        }
+
+        // Expand rows: each talent name in a row shares the same skills
+        const mappings = [];
+        for (const row of this.rows) {
+            const skills = [...new Set(row.skills.filter(s => s !== ""))];
+            for (const name of row.talentNames) {
+                if (name.trim()) {
+                    mappings.push({ talentName: name.trim(), skills: skills });
+                }
+            }
+        }
+
+        if (mappings.length === 0) {
+            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.no-mappings"));
+            return;
+        }
+
+        let updatedCount = 0;
+
+        for (const source of validSources) {
+            const [sourceType, sourceId] = source.value.split(":", 2);
+            if (sourceType === "compendium") {
+                updatedCount += await this._updateCompendium(sourceId, mappings);
+            } else if (sourceType === "actor") {
+                updatedCount += await this._updateActor(sourceId, mappings);
+            }
+        }
+
+        ui.notifications.info(
+            game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.success")
+                .replace("{count}", updatedCount)
+        );
+    }
+
+    /**
+     * Show a dialog to enter a preset name and save.
+     */
+    _showSavePresetDialog() {
+        const targets = this.selectedSources.filter(s => s.value).map(s => ({ value: s.value, label: s.label }));
+        const app = this;
+
+        const dialogContent = `
+            <form>
+                <div class="form-group">
+                    <label>${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-label")}</label>
+                    <input type="text" name="preset-name" placeholder="${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-placeholder")}" />
+                </div>
+            </form>`;
+
+        new Dialog({
+            title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.save-preset"),
+            content: dialogContent,
+            buttons: {
+                save: {
+                    icon: '<i class="fas fa-save"></i>',
+                    label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-save"),
+                    callback: async (html) => {
+                        const name = html.find('input[name="preset-name"]').val().trim();
+                        if (!name) {
+                            ui.notifications.warn(game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-name-empty"));
+                            return;
+                        }
+
+                        const doSave = async (existingDoc) => {
+                            await _savePreset(name, targets, existingDoc);
+                            ui.notifications.info(
+                                game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-saved")
+                                    .replace("{name}", name)
+                            );
+                            app.targetPresets = await _loadPresets();
+                            app.render();
+                        };
+
+                        const existingDoc = await _findExistingPreset(name);
+                        if (existingDoc) {
+                            new Dialog({
+                                title: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.save-preset"),
+                                content: `<p>${game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite").replace("{name}", name)}</p>`,
+                                buttons: {
+                                    yes: {
+                                        icon: '<i class="fas fa-check"></i>',
+                                        label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-yes"),
+                                        callback: () => doSave(existingDoc),
+                                    },
+                                    no: {
+                                        icon: '<i class="fas fa-times"></i>',
+                                        label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-overwrite-no"),
+                                    },
+                                },
+                                default: "no",
+                            }).render(true);
+                        } else {
+                            await doSave(null);
+                        }
+                    },
+                },
+                cancel: {
+                    icon: '<i class="fas fa-times"></i>',
+                    label: game.i18n.localize("ffg-star-wars-enhancements.talent-bulk-update.preset-cancel"),
+                },
+            },
+            default: "save",
+        }).render(true);
+    }
+
+    /**
+     * Sync form data back to this.rows from the current DOM state.
+     */
+    _syncFormData(html) {
+        html.find(".effg-bulk-talent-names").each((i, el) => {
+            const rowIndex = parseInt($(el).data(DATA_ROW_INDEX));
+            if (this.rows[rowIndex]) {
+                this.rows[rowIndex].talentNames = _parseNames(el.value);
+            }
+        });
+        html.find(".effg-bulk-skill-select").each((i, el) => {
+            const rowIndex = parseInt($(el).data(DATA_ROW_INDEX));
+            const skillIndex = parseInt($(el).data(DATA_SKILL_INDEX));
+            if (this.rows[rowIndex]?.skills) {
+                this.rows[rowIndex].skills[skillIndex] = el.value;
+            }
+        });
+    }
+
+    async _updateCompendium(packId, mappings) {
+        const pack = game.packs.get(packId);
+        if (!pack) {
+            log(feature_name, "Compendium not found: " + packId);
+            return 0;
+        }
+
+        const documents = await pack.getDocuments();
+        let count = 0;
+
+        // Update standalone talent items
+        for (const mapping of mappings) {
+            const talent = documents.find(
+                doc => doc.type === "talent" && doc.name.toLowerCase() === mapping.talentName.toLowerCase()
+            );
+            if (talent) {
+                // Unset first to fully replace the array (avoids index-based merge)
+                await talent.unsetFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL);
+                await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
+                count++;
+                log(feature_name, `Updated compendium talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
+            }
+        }
+
+        // Update talents nested inside specialization items
+        const specializations = documents.filter(doc => doc.type === "specialization");
+        for (const spec of specializations) {
+            if (!spec.system?.talents) continue;
+
+            const talentKeys = Object.keys(spec.system.talents);
+            const updates = {};
+            let hasUpdates = false;
+
+            for (const key of talentKeys) {
+                const specTalent = spec.system.talents[key];
+                if (!specTalent?.name) continue;
+
+                for (const mapping of mappings) {
+                    if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
+                        // Override the entire module flags object to avoid index-based array merge
+                        updates[`system.talents.${key}.flags.${MODULE_ID}`] = { [FLAG_ASSOCIATED_SKILL]: mapping.skills };
+                        hasUpdates = true;
+                        count++;
+                        log(feature_name, `Updated compendium specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
+                    }
+                }
+            }
+
+            if (hasUpdates) {
+                await spec.update(updates);
+            }
+        }
+
+        return count;
+    }
+
+    async _updateActor(actorId, mappings) {
+        const actor = game.actors.get(actorId);
+        if (!actor) {
+            log(feature_name, "Actor not found: " + actorId);
+            return 0;
+        }
+
+        let count = 0;
+
+        const talentItems = actor.items.filter(item => item.type === "talent");
+        for (const mapping of mappings) {
+            const matchingTalents = talentItems.filter(
+                t => t.name.toLowerCase() === mapping.talentName.toLowerCase()
+            );
+            for (const talent of matchingTalents) {
+                // Unset first to fully replace the array (avoids index-based merge)
+                await talent.unsetFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL);
+                await talent.setFlag(MODULE_ID, FLAG_ASSOCIATED_SKILL, mapping.skills);
+                count++;
+                log(feature_name, `Updated actor talent "${talent.name}" with skills: ${mapping.skills.join(", ")}`);
+            }
+        }
+
+        const specializations = actor.items.filter(item => item.type === "specialization");
+        for (const spec of specializations) {
+            if (!spec.system?.talents) continue;
+
+            const talentKeys = Object.keys(spec.system.talents);
+            const updates = {};
+            let hasUpdates = false;
+
+            for (const key of talentKeys) {
+                const specTalent = spec.system.talents[key];
+                if (!specTalent?.name) continue;
+
+                for (const mapping of mappings) {
+                    if (specTalent.name.toLowerCase() === mapping.talentName.toLowerCase()) {
+                        // Override the entire module flags object to avoid index-based array merge
+                        updates[`system.talents.${key}.flags.${MODULE_ID}`] = { [FLAG_ASSOCIATED_SKILL]: mapping.skills };
+                        hasUpdates = true;
+                        count++;
+                        log(feature_name, `Updated specialization "${spec.name}" talent "${specTalent.name}" with skills: ${mapping.skills.join(", ")}`);
+                    }
+                }
+            }
+
+            if (hasUpdates) {
+                await spec.update(updates);
+            }
+        }
+
+        return count;
+    }
+}
+
+function _filterSourceList(wrapper, query) {
+    const lowerQuery = (query || "").toLowerCase();
+    wrapper.find(CSS_SOURCE_OPTION).each((i, el) => {
+        const label = $(el).data("label").toLowerCase();
+        $(el).toggle(!lowerQuery || label.includes(lowerQuery));
+    });
+    wrapper.find("." + CSS_SOURCE_HIGHLIGHT).removeClass(CSS_SOURCE_HIGHLIGHT);
+}
+
+function _parseNames(text) {
+    return (text || "").split("\n").map(s => s.trim()).filter(s => s.length > 0);
+}
