@@ -1,6 +1,7 @@
 
-`3.0.0` - ?
-- Improvement: special ammo feature
+`3.0.0` - 2026-03-28
+- Improvement: [Talent Reminders!](https://github.com/wrycu/StarWarsFFG-Enhancements/pull/232)
+- Improvement: [special ammo feature](https://github.com/wrycu/StarWarsFFG-Enhancements/wiki/Special-Ammo)
 - FIX: Dice helper now works with Foundry VTT v13 (thanks `DukeVenator`!)
 - Improvement: Ukrainian localization provided
   - Updated `createChatMessage` hook signature to match v13 API

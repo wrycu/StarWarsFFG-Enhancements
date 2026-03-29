@@ -31,9 +31,9 @@
             "name": "YeNov"
         }
     ],
-    "version": "2.1.2",
+    "version": "3.0.0",
     "compatibility": {
-        "minimum": 12,
+        "minimum": 13,
         "verified": "13"
     },
     "relationships": {
@@ -95,7 +95,7 @@
     "socket": true,
     "url": "https://github.com/wrycu/StarWarsFFG-Enhancements",
     "manifest": "https://github.com/wrycu/StarWarsFFG-Enhancements/releases/latest/download/module.json",
-    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/releases/download/2.1.2/module.zip",
+    "download": "https://github.com/wrycu/StarWarsFFG-Enhancements/releases/download/3.0.0/module.zip",
     "license": "LICENSE",
     "readme": "README.md",
     "esmodules": ["ffg-star-wars-enhancements.js"],
