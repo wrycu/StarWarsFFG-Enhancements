@@ -168,6 +168,74 @@ export function init() {
     log("attack_animation", "Initialized");
 }
 
+const SKILL_SETTING_KEYS = [
+    "attack-animation-brawl-animation",
+    "attack-animation-brawl-sound",
+    "attack-animation-lightsaber-animation",
+    "attack-animation-lightsaber-sound",
+    "attack-animation-melee-animation",
+    "attack-animation-melee-sound",
+    "attack-animation-gunnery-animation",
+    "attack-animation-gunnery-sound",
+    "attack-animation-ranged-heavy-animation",
+    "attack-animation-ranged-heavy-sound",
+    "attack-animation-ranged-light-animation",
+    "attack-animation-ranged-light-sound",
+    "attack-animation-enable",
+];
+
+function exportAnimationSettings() {
+    const data = {
+        skillSettings: {},
+        customEntries: game.settings.get("ffg-star-wars-enhancements", "attack-animation-custom-entries"),
+    };
+    for (const key of SKILL_SETTING_KEYS) {
+        data.skillSettings[key] = game.settings.get("ffg-star-wars-enhancements", key);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "attack-animation-settings.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    log("attack_animation", "Exported animation settings");
+}
+
+async function importAnimationSettings() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    return new Promise((resolve) => {
+        input.addEventListener("change", async () => {
+            const file = input.files[0];
+            if (!file) return resolve(false);
+            try {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                if (data.skillSettings) {
+                    for (const [key, value] of Object.entries(data.skillSettings)) {
+                        if (SKILL_SETTING_KEYS.includes(key)) {
+                            await game.settings.set("ffg-star-wars-enhancements", key, value);
+                        }
+                    }
+                }
+                if (data.customEntries) {
+                    await game.settings.set("ffg-star-wars-enhancements", "attack-animation-custom-entries", data.customEntries);
+                }
+                ui.notifications.info("Attack animation settings imported successfully");
+                log("attack_animation", "Imported animation settings");
+                resolve(true);
+            } catch (e) {
+                ui.notifications.error("Failed to import animation settings: " + e.message);
+                log("attack_animation", "Failed to import: " + e);
+                resolve(false);
+            }
+        });
+        input.click();
+    });
+}
+
 export function attack_animation_check() {
     if (game.settings.get("ffg-star-wars-enhancements", "attack-animation-enable")) {
         if (!game.modules.get("JB2A_DnD5e")?.active && !game.modules.get("jb2a_patreon")?.active && game.user.isGM) {
@@ -376,6 +444,36 @@ export function attack_animation(...args) {
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
+/**
+ * Resolve a wildcard file path (e.g. "modules/jb2a/Library/*.webm") to a random matching file.
+ * If the path contains no wildcard, returns it unchanged.
+ */
+async function resolveWildcard(filePath) {
+    if (!filePath || !filePath.includes("*")) return filePath;
+    var lastSlash = filePath.lastIndexOf("\\");
+    if(lastSlash === -1)
+    {
+        lastSlash = filePath.lastIndexOf("/")
+    }
+    const dir = filePath.substring(0, lastSlash);
+    const pattern = filePath.substring(lastSlash + 1);
+    const regex = new RegExp("^" + pattern.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$");
+    try {
+        const result = await FilePicker.browse("data", dir);
+        const matches = result.files.filter((f) => regex.test(f.split("/").pop()));
+        if (matches.length === 0) {
+            log("attack_animation", `Wildcard '${filePath}' matched no files`);
+            return filePath;
+        }
+        const chosen = matches[Math.floor(Math.random() * matches.length)];
+        log("attack_animation", `Wildcard '${filePath}' resolved to '${chosen}' (${matches.length} candidates)`);
+        return chosen;
+    } catch (e) {
+        log("attack_animation", `Failed to browse for wildcard '${filePath}': ${e}`);
+        return filePath;
+    }
+}
+
 async function play_animation(animation_file, sound_file, skill, source, count, hit, focus_target) {
     const tokens = source;
     let min_miss_offset = 30;
@@ -414,6 +512,9 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             var num_shots = Math.floor(Math.random() * 6 + 1);
         }
         for (var x = lower_bound - 1; x < num_shots; x++) {
+            // resolve wildcard paths per-shot so each shot can use a different file
+            let resolved_animation = await resolveWildcard(animation_file);
+            let resolved_sound = await resolveWildcard(sound_file);
             const center = Array.from(game.user.targets)[i].center;
             // pick a random spot to draw the ray to (based on if the attack hit or not)
             if (hit) {
@@ -454,7 +555,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             if (focus_target) {
                 var animation_config = {
                     position: position,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.5,
                         y: 0.5,
@@ -465,7 +566,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.125, //default = 0.125
                         y: 0.5, //default is 0.5
@@ -480,7 +581,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
                 var ray = new foundry.canvas.geometry.Ray(tokens[0].center, position);
                 var animation_config = {
                     position: tokens[0].center,
-                    file: animation_file,
+                    file: resolved_animation,
                     anchor: {
                         x: 0.4, //default = 0.125
                         y: 0.5, //default is 0.5
@@ -495,7 +596,7 @@ async function play_animation(animation_file, sound_file, skill, source, count, 
             canvas.specials.playVideo(animation_config);
             game.socket.emit("module.fxmaster", animation_config);
 
-            foundry.audio.AudioHelper.play({ src: sound_file, volume: 0.3, autoplay: true, loop: false }, true);
+            foundry.audio.AudioHelper.play({ src: resolved_sound, volume: 0.3, autoplay: true, loop: false }, true);
             await sleepNow(250);
         }
     }
@@ -527,7 +628,7 @@ class attack_animation_UISettings extends FormApplication {
         // noinspection JSUnusedLocalSymbols
         for (let setting of gs.settings.values()) {
             // Exclude settings the user cannot change
-            if (!setting.key.includes("attack-animation-") || (!canConfigure && setting.scope !== "client")) continue;
+            if (!setting.key.includes("attack-animation-") || setting.key === "attack-animation-custom-entries" || (!canConfigure && setting.scope !== "client")) continue;
 
             // Update setting data
             const s = foundry.utils.duplicate(setting);
@@ -551,6 +652,7 @@ class attack_animation_UISettings extends FormApplication {
             canConfigure: canConfigure,
             systemTitle: game.system.title,
             data: data,
+            showAnimationExport: true,
         };
     }
 
@@ -559,6 +661,15 @@ class attack_animation_UISettings extends FormApplication {
         html.find(".submenu button").click(this._onClickSubmenu.bind(this));
         html.find('button[name="reset"]').click(this._onResetDefaults.bind(this));
         html.find("button.filepicker").click(this._onFilePicker.bind(this));
+        html.find('button[name="export-animations"]').click((e) => {
+            e.preventDefault();
+            exportAnimationSettings();
+        });
+        html.find('button[name="import-animations"]').click(async (e) => {
+            e.preventDefault();
+            const imported = await importAnimationSettings();
+            if (imported) this.render(true);
+        });
     }
 
     /**
